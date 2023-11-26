@@ -1,0 +1,5 @@
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\bin\x86\Release\Services.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\bin\x86\Release\Services.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\x86\Release\Services.csproj.CoreCompileInputs.cache
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\x86\Release\Services.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\x86\Release\Services.pdb

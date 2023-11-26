@@ -1,0 +1,291 @@
+﻿@model Reporting.Service.Web.UI.Models.EmisoresModel
+@{
+    ViewBag.Title = "Facturación recibida";
+}
+
+<section class="content-header">
+    <h1>
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Facturacion recibida</a></li>
+        <li class="active">Facturas</li>
+        <li class="active">v2022.07.15</li>
+    </ol>
+</section>
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Facturas recibidas</h3>
+                    <div class="box-tools ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Tipo comprobante:</span>
+                                    <select name="cbxTipoComprobante" id="cbxTipoComprobante" class="form-control">
+                                        <option value=1>Factura</option>
+                                        <option value=2>Nota de crédito</option>
+                                        <option value=5>Complemento de pago</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Receptor:</span>
+                                    <select name="cbxEmisor" id="cbxEmisor" class="form-control">
+                                        @foreach (var td in this.Model.Emisores)
+                                        {
+                                            <option value="@td">@td </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span>Fecha de timbrado: </span>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input class="form-control" id="DelAl" type="text">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div id="btnFacturas" class="btn btn-success btn-block"><i class="fa fa-binoculars"></i></div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" id="btn-descargaReport-FacRecibidas" class="btn btn-xs pull-right btn-spacing bg-blue" data-toggle="modal" style="display:none;padding:5px; color:white; border-radius:5px;"> Descargar <i class="glyphicon glyphicon-download" style="width:20px"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered" id="Facturas">
+                            <thead>
+                                <tr>
+                                    <td>Tipo</td>
+                                    <td>Uuid</td>
+                                    <td>Rfc Emisor</td>
+                                    <td>Nombre Emisor</td>
+                                    <td>Uso Cfdi</td>
+                                    <td>Metodo Pago</td>
+                                    <td>Forma Pago</td>
+                                    <td>Folio Interno</td>
+                                    <td>Subtotal</td>
+                                    <td>Retenciones</td>
+                                    <td>Traslados</td>
+                                    <td>Total</td>
+                                    <td>Fecha Timbrado</td>
+                                    <td>Estatus</td>
+                                    <td>Repetidos</td>
+                                    <td>SapDoc</td>
+                                    <td>FechaCaptura</td>
+                                    <td>Monto</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="DetalleFacturas"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer">
+
+                </div>
+                <div id="FacturasRefresh" style="display:none;" class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    $('#DelAl').daterangepicker({
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Deciembre"
+            ]
+        }
+
+    });
+
+	$("#btnFacturas").click(function () {
+		$("#FacturasRefresh").show();
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+		var Al = drp.endDate.format('YYYY/MM/DD');
+		var RfcEmisor = $("#cbxEmisor").val();
+		var TipoComprobante = $("#cbxTipoComprobante").val();
+
+        $.post('@Url.Action("Obtener", "FacturacionRecibida")', {
+            Del: Del,
+			Al: Al,
+			RfcEmisor: RfcEmisor,
+			TipoComprobante: TipoComprobante
+		}, function (data) {
+		    if (data.Context != null && $.isArray(data.Context)) {
+
+		        var table = $('#Facturas').DataTable();
+		        table.destroy();
+		        $("#DetalleFacturas").html('');
+
+		        $.each(data.Context, function (index, value) {
+		            var detalle = '';
+		            var fech = '';
+		            if (value.FechaCaptura != null) {
+		                fech = moment(value.FechaCaptura).format('DD/MM/YYYY');
+		            }
+
+		            var Repetidos = '';
+		            if(TipoComprobante == 1){
+				        Repetidos = value.Repetidos;
+		            }
+                    else if(TipoComprobante == 2){
+		                Repetidos = value.NcRepetidos;
+		            }
+
+				    $("#DetalleFacturas").append('<tr>\
+                                                        <td>' + value.Tipo + '</td>\
+                                                        <td>'+ value.Uuid + '</td>\
+                                                        <td>'+ value.RfcEmisor + '</td>\
+                                                        <td>'+ value.NombreEmisor + '</td>\
+                                                        <td>'+ value.UsoCfdi + '</td>\
+                                                        <td>'+ value.MetodoPago + '</td >\
+                                                        <td>'+ value.FormaPago + '</td>\
+                                                        <td>'+ value.Serie + " " + value.Folio + '</td>\
+														<td>'+ formatNumber.new(value.Subtotal.toFixed(2), "$") + '</td>\
+														<td>'+ formatNumber.new(value.Retenciones.toFixed(2), "$") + '</td>\
+														<td>'+ formatNumber.new(value.Traslados.toFixed(2), "$") + '</td>\
+														<td>'+ formatNumber.new(value.Total.toFixed(2), "$") + '</td>\
+														<td>'+ moment(value.FechaTimbrado).format('DD/MM/YYYY') + '</td>\
+														<td>'+ value.Estatus + '</td>\
+                                                        <td>' + Repetidos + '</td>\
+                                                        <td>'+ value.SapDoc + '</td>\
+                                                        <td>'+ fech + '</td>\
+                                                        <td>'+ formatNumber.new(value.Monto.toFixed(2), "$") + '</td>\
+														<td><i onclick="DescargarPdf(\''+ value.Uuid + '\')" class="fa fa-file-pdf-o"></i></td>\
+														<td><i onclick="DescargarXml(\''+ value.Uuid + '\')" class="fa fa-file"></i></td>\
+                                                    </tr >');
+				});
+				$('#Facturas').DataTable({
+					"paging": true,
+					"lengthChange": true,
+					"searching": true,
+					"ordering": true,
+					"info": true,
+					"autoWidth": true,
+					"language": {
+						"url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+					}
+				});
+				$("#FacturasRefresh").hide();
+
+				$("#btn-descargaReport-FacRecibidas").css('display', 'block');
+			} else {
+				$("#btn-descargaReport-FacRecibidas").css('display', 'none');
+			}
+        });
+	});
+
+
+	function DescargarPdf(Uuid) {
+		window.location.href = '@Url.Action("DownloadPdf", "FacturacionRecibida")' + '?Uuid=' + Uuid;
+	};
+
+	function DescargarXml(Uuid) {
+		window.location.href = '@Url.Action("DownloadXml", "FacturacionRecibida")' + '?Uuid=' + Uuid;
+	};
+
+	var formatNumber = {
+		separador: ",", // separador para los miles
+		sepDecimal: '.', // separador para los decimales
+		formatear: function (num) {
+			num += '';
+			var splitStr = num.split('.');
+			var splitLeft = splitStr[0];
+			var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+			var regx = /(\d+)(\d{3})/;
+			while (regx.test(splitLeft)) {
+				splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+			}
+			return this.simbol + splitLeft + splitRight;
+		},
+		new: function (num, simbol) {
+			this.simbol = simbol || '';
+			return this.formatear(num);
+		}
+	}
+
+	$("#btn-descargaReport-FacRecibidas").click(function () {
+
+      //      $.confirm({
+      //          title: '¿Desea generar el reporte?',
+      //          content: 'Esto podría tomar algunos segundos.',
+      //          type: 'blue',
+      //          buttons: {
+      //              cancel: {
+      //                  text: 'Cancelar',
+      //                  action: function () {
+      //                      swal("El proceso ha sido cancelado...");
+      //                  }
+      //              },
+      //              confirm: {
+      //                  text: 'Confirmar',
+						//action: function () {
+							var drp = $('#DelAl').data('daterangepicker');
+							var Del = drp.startDate.format('YYYY/MM/DD');
+							var Al = drp.endDate.format('YYYY/MM/DD');
+							var RfcEmisor = $("#cbxEmisor").val();
+
+                            $.ajax({
+                                contentType: "application/json; charset=utf-8",
+                                type: 'POST',
+                                url: '@Url.Action("ObtenerXls", "FacturacionRecibida")',
+                                async: false,
+								data: '{ RfcEmisor: "' + RfcEmisor + '", Del: "' + Del + '", Al: "' + Al + '"}',
+                                dataType: 'json',
+                                success: function (data) {
+									window.location.href = '@Url.Action("DownloadFacturacionRecibidaXls", "FacturacionRecibida")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+									//$("#FacturasRefresh").hide();
+								},
+								error: function (data) {
+									//$("#FacturasRefresh").hide();
+									swal("Ha ocurrido un error: " + JSON.stringify(data));
+								}
+                            });
+            //            }
+            //        }
+            //    }
+            //});
+    });
+
+</script>

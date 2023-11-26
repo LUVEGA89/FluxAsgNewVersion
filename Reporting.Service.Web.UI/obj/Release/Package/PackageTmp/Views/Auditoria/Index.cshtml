@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content-header">
+    <h1>
+        Iniciar auditoría
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Auditoría</a></li>
+        <li class="active">Administración</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Nuevo</h3>
+                </div>
+                <div class="box box-body">
+                    <div class="form-group">
+                        <label>1.- Selecciona una tienda</label>
+                        <select id="tienda" class="form-control"></select>
+                    </div><br />
+                    <div id="Auditorias" class="row-fluid">
+                    </div>
+                    <div id="AuditoriaRefresh" style="display:none;" class="overlay">
+                        <i class="fa  fa-circle-o-notch fa-spin"></i>
+                    </div>
+                </div>
+                <div class="box box-footer">
+                    <a href="" id="btn-finalizados" class="btn pull-right btn-default"><i class="fa fa-search"></i> Mostrar finalizados</a>
+
+                </div>
+            </div>
+        </div>
+
+        @*<div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Tiendas</h3>
+                    </div>
+                    <div class="box box-body">
+                        <div class="table table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="hide" style="width: 100px">Sequence</th>
+                                        <th>Tienda</th>
+                                        <th>Progreso</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ListaTienda"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>*@
+
+    </div>
+</section>
+
+<script>
+    InitModule();
+
+    function InitModule() {
+        LoadTiendasSIAT();
+        $("#btn-finalizados").hide();
+    };
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+
+
+    @*function ListaTiendas() {
+        $.post('@Url.Action("GetTiendaAuditoria", "Auditoria")', function (data) {
+
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#ListaTienda").html('');
+
+                var NombreTienda = ''
+                console.log(data);
+                $.each(data.Context, function (index, value) {
+                    var CAuditoria = '';
+                    if (value.Nombre != NombreTienda) {
+                        $.each(data.Context, function (index, value2) {
+                            if (value.Nombre == value2.Nombre ) {
+                                CAuditoria = CAuditoria + '<div class="col-sm-6">\
+                                                    <div class="clearfix">\
+                                                        <a href="@Url.Action("Captura", "Auditoria")?Tienda='+ value2.Sequence + '&Tipo=' + value2.Id_Auditoria +'"><span class="pull-left">' + value2.Auditoria + '</span></a>\
+                                                        <small class="pull-right">'+ value2.PorcentajeEvaluacion + '%</small>\
+                                                    </div>\
+                                                    <div class="progress xs">\
+                                                        <div class="progress-bar progress-bar-green" style="width: '+ value2.PorcentajeEvaluacion + '%;"></div>\
+                                                    </div>\
+                                               </div>';
+                            }
+
+                    });
+
+                    $("#ListaTienda").append('<tr>\
+                                                    <td class="hide">'+value.Sequence+'</td>\
+                                                    <td>' + value.Nombre + '</td>\
+                                                    <td>\
+                                                       <div class="row">'+ CAuditoria +'</div>\
+                                                    </td>\
+                                                    <td>\
+                                                       <a href="@Url.Action("finalizados", "Auditoria")?Tienda='+ value.Sequence + '" class="btn btn-small btn-default">Ver finalizados</a>\
+                                                    </td>\
+                                                </tr>');
+                    }
+
+                    NombreTienda = value.Nombre;
+                });
+
+            } else {
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }*@
+    function LoadTiendasSIAT() {
+        $.post('@Url.Action("GetTiendasSIAT", "Auditoria")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#tienda").html('');
+                $("#tienda").append('<option>-- Seleccione una tienda --</option>');
+                $.each(data.Context, function (index, value) {
+                   $("#tienda").append('<option value="' + value.Id_tienda + '">' + value.Nombre + '</option>');
+                });
+                $("#btn-finalizados").attr("href", "")
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+    $("#tienda").change(function () {
+        $("#btn-finalizados").hide();
+        $("#AuditoriaRefresh").show();
+        $.post('@Url.Action("GetTiendaAuditoria", "Auditoria")', {
+            Tienda : $(this).val()
+        }, function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#Auditorias").html('');
+
+                $("#Auditorias").append('<label>2.- Selecciona la auditoría</label></br>');
+                    $.each(data.Context, function (index, value) {
+
+                        $("#Auditorias").append('<div class="col-sm-4">\
+                                                   <div class="info-box bg-green">\
+                                                    <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>\
+                                                    <div class="info-box-content">\
+                                                      <a href="@Url.Action("Captura", "Auditoria")?Tienda='+ value.Sequence + '&Tipo=' + value.Id_Auditoria + '"><span style="color:white;" class="info-box-text">' + value.Auditoria + '</span></a>\
+                                                      <span class="info-box-number">'+ value.PorcentajeEvaluacion + '%</span>\
+                                                      <div class="progress">\
+                                                        <div class="progress-bar" style="width: '+ value.PorcentajeEvaluacion + '%;"></div>\
+                                                      </div>\
+                                                          <span class="progress-description">\
+                                                          </span>\
+                                                    </div>\
+                                                  </div></div>');
+
+                });
+            } else {
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+            }).always(function () {
+                $("#AuditoriaRefresh").hide();
+            });
+        $("#btn-finalizados").attr("href", "@Url.Action("finalizados", "Auditoria")?Tienda=" + $(this).val() + " ");
+        $("#btn-finalizados").show();
+    });
+
+</script>
+
+
+
+
+
+
+

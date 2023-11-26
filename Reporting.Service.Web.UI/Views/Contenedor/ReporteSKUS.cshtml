@@ -1,0 +1,305 @@
+﻿
+@{
+    ViewBag.Title = "ReporteSKUS";
+}
+
+<style>
+    .th-table {
+        background-color: #2bcd89;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Reporte - SKUS
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Contenedor</a></li>
+        <li class="active">Reporte</li>
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        @*Esta no se ocupa*@
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-book"></i>
+
+                    <h3 class="box-title">Reporte - SKUS</h3>
+
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <label>Seleccione tipo de reporte:</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-9">
+                            <div class="radio-inline">
+                                <label style="font-weight: normal">
+                                    <input type="radio" name="optionSearch" id="optionContenedor" value="1">
+                                    Reporte SKUS en contenedor
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label style="font-weight: normal">
+                                    <input type="radio" name="optionSearch" id="optionVencimiento" value="2">
+                                    Reporte SKUS general
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button id="btnSearch" class="btn btn-success btn-block pull-left" disabled><i class="fa fa-search"></i> Buscar</button>
+                        </div>
+                    </div>  
+                </div>
+                <div id="loading" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-5x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="Contenido">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+
+                <h3 class="box-title">SKUS</h3>
+
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="tableSKUS" class="table table-bordered">
+                            <tbody id="tbodySKUS"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    //Habilitamos el botón buscar hasta que seleccione un tipo de reporte
+    $('input[type=radio][name=optionSearch]').change(function () {
+        $('#btnSearch').removeAttr("disabled");
+    });
+
+    //Configuración daterangepicker y datepicker
+    $('#DelAl').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+
+    });
+
+    $('#DelAl').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('#DelAl').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
+    });
+    //Fin configuración daterangepicker
+
+	$("#Contenido").hide();
+
+    $("#btnSearch").click(function () {
+        var tipo = $('input[name=optionSearch]:checked').val();
+        $("#Contenido").hide();
+        swal({
+            title: 'Confirmación',
+            text: "¡Este proceso podría tardar unos segundos!",
+            icon: 'info',
+            buttons: ["Cancelar","Aceptar"],
+        }).then((result) => {
+            if (result) {
+                $('#loading').show();
+                $.post('@Url.Action("getReporteSKUS", "Contenedor")', {
+                    Tipo: tipo,
+                }, function (data) {
+                    if (data != null) {
+
+                        var table = document.getElementById('tableSKUS');
+                        if (($.fn.dataTable.isDataTable('#tableSKUS'))) {
+                            var DatosTabla = $('#tableSKUS').DataTable();
+                            DatosTabla.destroy();
+                        }
+                        table.deleteTHead(); //Se elimina el encabezado anterior
+
+                        $("#tbodySKUS").empty();//Se eliminan los registros
+
+                        //Creamos el THEAD Dependiendo el tipo
+                        if (tipo == 1) {
+                            $('#tableSKUS').append('<thead>\
+                                                        <tr>\
+                                                            <th class="th-table">Status</th>\
+                                                            <th class="th-table">Contenedor</th>\
+											                <th class="th-table">SKU</th>\
+											                <th class="th-table">Nombre</th>\
+											                <th class="th-table">Nom</th>\
+                                                            <th class="th-table">Fecha de Vencimiento\n<small>(DD/MM/YYYY)</small></th>\
+                                                            <th class="th-table">Certificado</th>\
+                                                            <th class="th-table">Fecha Certificado\n<small>(DD/MM/YYYY)</small></th>\
+                                                            <th class="th-table">Orden de Compra</th>\
+                                                            <th class="th-table">Cantidad Orden Compra</th>\
+                                                            <th class="th-table">Envios</th>\
+                                                            <th class="th-table">Cantidad Envios</th>\
+                                                            <th class="th-table">Stock</th>\
+                                                            <th class="th-table">U_Maximo</th>\
+                                                            <th class="th-table">U_Minimo</th>\
+                                                        </tr>\
+                                                    </thead>');
+                        } else {
+                            $('#tableSKUS').append('<thead>\
+                                                        <tr>\
+											                <th class="th-table">SKU</th>\
+											                <th class="th-table">Nombre</th>\
+											                <th class="th-table">Nom</th>\
+                                                            <th class="th-table">Fecha de Vencimiento</th>\
+                                                            <th class="th-table">Certificado</th>\
+                                                            <th class="th-table">Fecha Certificado</th>\
+                                                            <th class="th-table">Orden de Compra</th>\
+                                                            <th class="th-table">Cantidad Orden Compra</th>\
+                                                            <th class="th-table">Envios</th>\
+                                                            <th class="th-table">Cantidad Envios</th>\
+                                                            <th class="th-table">Stock</th>\
+                                                            <th class="th-table">U_Maximo</th>\
+                                                            <th class="th-table">U_Minimo</th>\
+                                                        </tr>\
+                                                    </thead>');
+                        }
+
+                        $.each(data.Context, function (index, value) {
+                            var estilo = "";
+                            var fechaHoy = moment().day(90).format("YYYY-MM-DD");
+                            var fechaVencimiento = moment(value.fechaVencimiento).format("YYYY-MM-DD");
+                            if (fechaHoy > fechaVencimiento && fechaVencimiento != "1999-09-09" && fechaVencimiento != "1999-01-01" && fechaVencimiento !="1899-12-31") {
+                                estilo = "style='background-color:#fc7272'";
+                            }
+                            if (tipo == 1) {//Por contenedor
+                                $("#tbodySKUS").append('<tr ' + estilo + '>\
+                                                            <td>'+ value.status + '</td>\
+                                                            <td align="center">'+ value.contenedor + '</td>\
+												            <td align="center">'+ value.Identifier + '</td>\
+												            <td>' + value.nombre + '</td>\
+												            <td align="center">' + value.nom + '</td>\
+                                                            <td align="center">' + moment(value.fechaVencimiento).format('DD/MM/YYYY') + '</td>\
+                                                            <td align="center">' + value.certificado + '</td>\
+                                                            <td align="center">' + moment(value.fechaCertificado).format('DD/MM/YYYY') + '</td>\
+                                                            <td align="center">'+ value.ordCompra + '</td>\
+												            <td align="center">'+ value.cantidad + '</td>\
+												            <td>' + value.envios + '</td>\
+												            <td align="center">' + value.cantEnvio + '</td>\
+                                                            <td align="center">' + value.stock + '</td>\
+                                                            <td align="center">' + value.U_Maximo + '</td>\
+                                                            <td align="center">' + value.U_Minimo + '</td>\
+                                                        </tr>');
+                            } else {//Sin contenedor
+                                $("#tbodySKUS").append('<tr ' + estilo + '>\
+												            <td align="center">'+ value.Identifier + '</td>\
+												            <td>' + value.nombre + '</td>\
+												            <td align="center">' + value.nom + '</td>\
+                                                            <td align="center">' + moment(value.fechaVencimiento).format('L') + '</td>\
+                                                            <td align="center">' + value.certificado + '</td>\
+                                                            <td align="center">' + moment(value.fechaCertificado).format('L') + '</td>\
+                                                            <td align="center">'+ value.ordCompra + '</td>\
+												            <td align="center">'+ value.cantidad + '</td>\
+												            <td align="center">' + value.envios + '</td>\
+												            <td align="center">' + value.cantEnvio + '</td>\
+                                                            <td align="center">' + value.stock + '</td>\
+                                                            <td align="center">' + value.U_Maximo + '</td>\
+                                                            <td align="center">' + value.U_Minimo + '</td>\
+                                                        </tr>');
+                            }
+                            
+                        });
+
+                        $('#tableSKUS').DataTable({
+                            "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                            dom: 'Bfrtip',
+                            stateSave: true,
+                            "buttons": ['excel'],
+                            "searching": true,
+                            "language": {
+                                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                            }
+                        });
+
+						$("#Contenido").show();
+                    } else {
+                        swal({
+                            title: "Error no hay registros",
+                            text: "No se encontraron registros",
+                            icon: "error",
+                            button: true,
+                            dangerMode: true,
+                        })
+					}
+
+					$('#loading').hide();
+                });
+            } else {
+                swal({
+                    title: '¡Cancelado!',
+                    text: 'Proceso cancelado',
+                    icon: 'warning'
+                })
+            }
+        })
+    });
+
+    //FORMATO DE DINERO
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>
+

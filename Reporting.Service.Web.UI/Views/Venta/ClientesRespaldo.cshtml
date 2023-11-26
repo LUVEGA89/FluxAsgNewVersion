@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "Clientes";
+}
+
+
+<section class="content-header">
+    <h1>
+        Clientes - Sku´s
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Clientes - Sku´s</a></li>
+        <li class="active">Ventas</li>
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <i class="glyphicon glyphicon-search"></i>
+                    <h3 class="box-title">Seleccionar tipo de busqueda</h3>
+                </div>
+                <div class="box-body" id="busquedaBody">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsRadios" id="optionClientes" value="1">
+                                Por cliente
+                            </label>
+                            <label class="radio-inline">
+                                <input  type="radio" name="optionsRadios" id="optionSkus" value="2">
+                                Por SKU
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" id="busqueda" hidden>
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">Busqueda</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group" id="inputCliente">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </div>
+                                <input type="text" class="form-control" id="Cliente" placeholder="Nombre / Codigo">
+                            </div>
+                            <div class="input-group" id="inputSKUS">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </div>
+                                <input type="text" class="form-control" id="SKUS" placeholder="Nombre / SKU">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="DelAl">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="box-footer">
+                    <div class="col-md-12">
+                        <div id="FCF" class="btn btn-default btn-block"><i class="fa  fa-file-excel-o"></i> Descargar Información</div>
+                    </div>
+                </div>
+                <div id="VendedorWait" style="display:none;" class="overlay">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $('#DelAl').daterangepicker({
+
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                 "Enero",
+                 "Febrero",
+                 "Marzo",
+                 "Abril",
+                 "Mayo",
+                 "Junio",
+                 "Julio",
+                 "Agosto",
+                 "Septiembre",
+                 "Octubre",
+                 "Noviembre",
+                 "Deciembre"
+            ]
+        }
+
+    });
+
+    $('input[name="optionsRadios"]').change(function () {
+        $("#busqueda").show();
+
+        if ($(this).val() == 1) {//Option clientes
+            $("#inputCliente").show();
+            $("#inputSKUS").hide();
+            $("#Cliente").easyAutocomplete(optionsCliente);
+        } else {//Option SKUS
+            $("#inputCliente").hide();
+            $("#inputSKUS").show();
+            $("#SKUS").easyAutocomplete(optionsSKU);
+        }
+    });
+
+    $("#FCF").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        var tipo = $('input[name="optionsRadios"]:checked').val();
+        var cliente = "";
+        var sku = "";
+        if (tipo == 1)
+            cliente = $("#Cliente").val()
+        else
+            sku = $("#SKUS").val()
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Descargar el archivo podría tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#VendedorWait').show();
+                        $.post('@Url.Action("ProductosPorCliente", "Venta")', {
+                            Del: Del,
+                            Al: Al,
+                            Cliente: cliente,
+                            SKU: sku
+                        }, function (data) {
+                            if (!data.Context) {
+                                swal({
+                                    title: "Error",
+                                    text: "No se encontraron registros",
+                                    icon: "error",
+                                    button: true,
+                                })
+                            } else {
+                                window.location.href = '@Url.Action("Download", "Venta")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            }
+                            $('#VendedorWait').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+
+    var optionsCliente = {
+        url: function (phrase) {
+            return "@Url.Action("FindClienteVentas", "Venta")";
+        },
+        getValue: function (element) {
+            return element.Coincidencia;
+        },
+        list: {
+            onSelectItemEvent: function () {
+                var Codigo = $("#Cliente").getSelectedItemData().Codigo;
+
+                $("#Cliente").val(Codigo).trigger("change");
+
+            },
+        },
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json",
+            }
+        },
+        preparePostData: function (data) {
+            data.phrase = $("#Cliente").val();
+            return data;
+        },
+        requestDelay: 400
+    };
+
+    var optionsSKU = {
+        url: function (phrase) {
+            return "@Url.Action("FindSKU", "Venta")";
+        },
+        getValue: function (element) {
+            return element.nombre;
+        },
+        list: {
+            onSelectItemEvent: function () {
+                var Identifier = $("#SKUS").getSelectedItemData().Identifier;
+
+                $("#SKUS").val(Identifier).trigger("change");
+
+            },
+        },
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json",
+            }
+        },
+        preparePostData: function (data) {
+            data.phrase = $("#SKUS").val();
+            return data;
+        },
+        requestDelay: 400
+    };
+</script>

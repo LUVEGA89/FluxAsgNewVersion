@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Historial de Garantias de Historial de Compras";
+}
+
+<section class="content-header">
+    <h1>
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Garantias</a></li>
+        <li class="active">Reporte</li>
+        <li class="active">GL</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Detalle de Garantias</h3>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered" id="table-detalle">
+                            <thead>
+                                <tr>
+                                    <th>SKU</th>
+                                    <th style="max-width:250px !important;">Descripcion</th>
+                                    <th>Marca</th>
+                                    <th>Familia</th>
+                                    <th>Categoria</th>
+                                    <th>SubCategoria</th>
+                                    <th>Cantidad</th>
+                                    <th>Fecha</th>
+                                    <th>Orden de Compra</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body-detalle"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer">
+
+                </div>
+                <div id="purchase-overload" style="display:none;" class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+
+    initModule();
+
+    function initModule() {
+        Search();
+        $("#purchase-overload").show();
+    }
+    function Search() {
+        $("#purchase-overload").show();
+
+        $.post('@Url.Action("ReporteGarantiasSku", "Garantias")', {},
+            function (data) {
+            if (data.Context != null && $.isArray(data.Context)) {
+                var table = $('#table-detalle').DataTable();
+                table.destroy();
+                $("#boby-detalle").html('');
+                
+                $.each(data.Context, function (index, value) {
+
+                    $("#body-detalle").append('<tr>\
+                                <td>' + value.Sku + '</td>\
+                                <td>' + value.Descripcion + '</td>\
+                                <td>' + value.Marca + '</td>\
+                                <td>' + value.Familia + '</td>\
+                                <td>' + value.Categoria + '</td>\
+							    <td>' + value.SubCategoria + '</td>\
+                                <td>' + value.Cantidad + '</td>\
+                                <td>' + moment(value.Fecha).format("DD-MM-YYYY") + '</td>\
+                                <td>' + value.ordenCompra + '</td>\
+                           </tr>');
+                });
+
+                $('#table-detalle').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'excel'
+                    ],
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+                $("#purchase-overload").hide();
+            } else {
+            }
+        });
+        $("#purchase-overload").hide();
+    }
+
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>
+

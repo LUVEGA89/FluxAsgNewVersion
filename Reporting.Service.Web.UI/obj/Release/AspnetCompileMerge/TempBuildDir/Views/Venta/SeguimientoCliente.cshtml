@@ -1,0 +1,2197 @@
+﻿@{
+    ViewBag.Title = "Seguimiento Cliente";
+}
+@model Reporting.Service.Web.UI.Models.UserModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css" />
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js">
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+
+<style>
+    /*** Author ***/
+    /*#authorJimeru*/
+    .widget-user .box-footer {
+        padding-top: 100px !Important;
+    }
+
+    .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+        display: block;
+        width: 100%;
+        height: 150px;
+    }
+
+    .btn-spacing {
+        margin-right: 10px;
+    }
+
+    #panelFindFacturas {
+        max-height: 100px;
+        overflow-y: scroll;
+    }
+    /*carga de imagenes, loader de espera*/
+    .loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        opacity: .7;
+        background: url('https://cdn-images-1.medium.com/max/1600/1*6SkerdrNRgKAo0oVHcxcxA.gif') 50% 50% no-repeat rgb(14,30,47);
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Seguimiento de clientes
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Seguimiento de clientes</a></li>
+        <li class="active">Ventas</li>
+        <!------- Seccion del Author JIMERU ------>
+        <li class="active">JJ</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="loader" style="display:none;"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-user"></i>
+                    <h3 class="box-title">Cliente</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @foreach (var item in this.Model.Roles)
+                            {
+                                if (item.ToString() == "Administrador" || item.ToString() == "Direccion" || item.ToString() == "Gerencia")
+                                {
+                                    <h5 id="formBusqueda">Seleccione la forma de busqueda</h5>
+                                    <table id="tbRadios" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"><input type="radio" name="buscar" id="radAgentes" value="1"> Agentes</th>
+                                                <th scope="col"><input type="radio" name="buscar" id="radClientes" value="2" checked> Cliente</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </div>
+                                        <input type="text" class="form-control" id="Cliente" placeholder="Nombre Cliente / Codigo Cliente"
+                                               style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <input type="text" class="form-control" id="Agente" placeholder="Nombre Agente / Codigo Agente"
+                                               style="text-transform:uppercase;display:none;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    </div>
+                                    <br />
+                                    <!--dibuja las opciones de clientes encontradas-->
+                                    <div id="panelClientes" class="panel panel-info">
+                                        <div class="panel-heading">Clientes encontrados</div>
+                                        <div id="panelFind">
+                                            <table class="table table-bordered">
+                                                <tbody id="contentClientes"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!---------------------------------------------->
+                                    <!--dibuja las opciones de Agentes encontradas-->
+                                    <div id="panelAgentes" class="panel panel-info" style="display:none">
+                                        <div class="panel-heading">Agentes encontrados</div>
+                                        <div id="panelFind">
+                                            <table class="table table-bordered">
+                                                <tbody id="contentAgentes"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    break;
+                                }
+                            }
+                            @foreach (var item in this.Model.Roles)
+                            {
+                                if (!(item.ToString() == "Administrador" || item.ToString() == "Direccion" || item.ToString() == "Gerencia"))
+                                {
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </div>
+                                        <input type="text" class="form-control" id="ClienteDeAgente" placeholder="Nombre Cliente/Codigo Cliente"
+                                               style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    </div>
+                                    <br />
+                                    <!--dibuja las opciones de Agentes encontradas-->
+                                    <div id="panelClientesDeAgente" class="panel panel-default">
+                                        <div class="panel-heading">Clientes encontrados</div>
+                                        <div id="panelFind">
+                                            <table class="table table-bordered">
+                                                <tbody id="contentClientesDeAgente"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    break;
+                                }
+                            }
+                            <!------------------------------------->
+                            <br />
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="fechainicial">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="col-md-12">
+                        <div id="btn-Comentarios" class="btn btn-primary btn-block"><i class="fa fa-comments"></i> Ver comentarios</div>
+                    </div>
+                </div>
+                <div id="ClienteRefresh" style="display:none;" class="overlay">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="box box-widget widget-user">
+                <div class="widget-user-header bg-blue" /*style="background: url('../../dist/img/photo1.png') center center;"*/>
+                <h3 class="widget-user-username" id="lblNombre"></h3>
+                <h5 class="widget-user-desc" id="lblCodigo"></h5>
+                <h5 class="widget-user-desc" id="lblDiasCredito"></h5>
+                <h5 class="widget-user-desc" id="lblPhone1"></h5>
+                <h5 class="widget-user-desc" id="lblPhone2" style="color:black;"></h5>
+                <h5 class="widget-user-desc" id="lblAddress" style="color:black;"></h5>
+                <h5 class="widget-user-desc" id="lblEmail" style="color:black;"></h5>
+            </div>
+            <!-----------Carrusel del cliente------------------>
+            <div class="widget-user-image">
+                <div class="row" id="carrousel-dinamic">
+                </div>
+            </div>
+            <!------- auxiliares para gusrdar datos del agente --------->
+            <h5 id="lblCodeAgente" style="display:none"></h5>
+            <h5 id="lblNameAgente" style="display:none"></h5>
+            <!-----------------   descripcion del cliente --------------------->
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-3 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header" id="lblCredito">$0</h5>
+                            <span class="description-text">Monto de crédito</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header" id="lblPorPagar">$0</h5>
+                            <span class="description-text">Por pagar</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="description-block">
+                            <h5 class="description-header" id="lblDisponible">$0</h5>
+                            <span class="description-text">Disponible</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="description-block">
+                            <h5 class="description-header" id="lblUltimaFactura"></h5>
+                            <span class="description-text">Última factura</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-danger" id="div-add-foto">
+                <!-- Agregar fotos al cliente-->
+                <div class="box-header with-border">
+                    <i class="fa fa-plus"></i>
+                    <h3 class="box-title">Opciones</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <!----------- descarga de facturas --------------->
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="fechaFactura">
+                                    <i class="glyphicon glyphicon-file"></i>
+                                    Buscar factura de cliente
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="fechaFactura" name="fechaFactura">
+                                    <span class="input-group-btn">
+                                        <button id="btnBuscarFactura" class="btn btn-success"><i class="glyphicon glyphicon-search"></i></button>
+                                    </span>
+                                    <span class="input-group-btn">
+                                        <button id="btnCancelBusquedaFactura" class="btn btn-danger"><i class="fa fa-ban"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="panelFacturas" class="panel panel-success">
+                                <div class="panel-heading">Facturas encontradas</div>
+                                <div id="panelFindFacturas">
+                                    <table class="table table-bordered">
+                                        <tbody id="contentFacturas"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!----------- Agregar foto de usuario --------------->
+                        <!--<div class="col-sm-5">
+                            <button type="button" id="CobranzaActual" class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Cobranza Actual</button>
+                            <form method="post" id="frmAddRubro" name="frmAddRubro" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="CodigoCliente">
+                                            <i class="glyphicon glyphicon-picture"></i>
+                                             Agregar foto de usuario
+                                        </label>
+                                        <div id="Content" class="row">
+                                            <div class="col-md-12">
+                                                <input class="btn btn-block btn-default" id="Foto" name="Foto" type="file" accept="image/gif, image/jpeg, image/png;capture=camera">
+                                                <input type="hidden" id="CodigoCliente" name="CodigoCliente" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="GuardarImagen" class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Agregar foto</button>
+                            </form>
+                        </div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-----------Cartera vencida del cliente------------------>
+                            <div id="panelCartera" class="panel panel-success">
+                                <div class="panel-heading">Cartera Vencida</div>
+                                <div id="panelFindCartera">
+                                    <table class="table table-bordered" id="table-CarteraVencida">
+                                        <thead>
+                                            <tr>
+                                                <td>DocNum</td>
+                                                <td>Fecha Vencimiento</td>
+                                                <td>Dias Retraso</td>
+                                                <td>Total</td>
+                                                <td>Por Pagar</td>
+                                                <td>Agregar Comentario</td>
+                                                <td>Ver Comentarios</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="contentCartera"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ----------------------------------------------------------------->
+        </div>
+    </div>
+    <!-- seccion seguimiento a clientes, muestra de comentarios -->
+    <div class="col-md-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <i class="fa fa-comments-o"></i>
+                <h3 class="box-title">Seguimiento cliente</h3>
+                <div style="right: 71px;" class="box-tools ">
+                    <div class="form-inline">
+                    </div>
+                </div>
+                <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <div class="col-sm-8"></div>
+                        <div class="input-group col-sm-3" style="margin-left:20%">
+                            <div class="form-group">
+                                <button type="button" id="btn-descargaReport" class="btn btn-xs pull-right btn-spacing bg-blue" data-toggle="modal" style="display:none;padding:5px; color:white; border-radius:5px;"> Descargar reporte <i class="glyphicon glyphicon-download" style="width:20px"></i></button>
+                                <span>  </span>
+                                <button type="button" id="btn-modal-actividad" class="btn btn-xs pull-right btn-spacing bg-blue" data-toggle="modal" style="border-radius:5px;height:30px;color:white;display:none;">Agregar actividad <span></span><i class="fa fa-comment" style="width:20px"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--aqui se genera el arbol de comentarios y respuestas-->
+            <div class="box-body chat" id="chat-box">
+                <div id="cabeceraTree" class="row container-fluid">
+                    <div id="treeview_json">
+                    </div>
+                </div>
+            </div>
+            <!-------------------------------------------------------->
+            <div class="box-footer">
+                <div class="input-group">
+                    <div id="loading" style="display:none" class="overlay">
+                        <i class="fa  fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- seccion ReporteSKU que compró el cliente por ultima vez -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Reporte</h3>
+                    <div class="box-tools ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <span>Fecha: </span>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input class="form-control" id="DelAl" type="text">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div id="btnReport" class="btn btn-success btn-block"><i class="fa fa-binoculars"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered" id="table-Reporte">
+                            <thead>
+                                <tr>
+                                    <td>CardCode</td>
+                                    <td>DocNum</td>
+                                    <td>Fecha</td>
+                                    <td>Sku</td>
+                                    <td>Cantidad</td>
+                                    <td>Precio</td>
+                                </tr>
+                            </thead>
+                            <tbody id="body-Reporte"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer">
+
+                </div>
+                <div id="purchase-overload" style="display:none;" class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal de opciones de clientes, busqueda por agentes-->
+    <div class="modal fade" id="modalClientes">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered; color:azure">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Clientes encontrados</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="ModalRefresh" style="display:none;width:100%;height:100%; position:absolute;" class="overlay">
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <div class="box-body">
+                        <!--dibuja las opciones de clientes encontradas por agentes -->
+                        <div id="panelClientesPorAgentes" class="panel panel-default">
+                            <div class="panel-heading">Agentes encontrados</div>
+                            <div id="panelModalCliente">
+                                <table class="table table-bordered">
+                                    <tbody id="contentClientesPorAgentes"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!------------------------------------->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btnModalClientes" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal de agregar actividad nueva(Nueva conversación(primer nivel)-->
+    <div class="modal fade" id="modal-success">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered; color:azure">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Agregar actividad</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frm-actividad" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <div id="ModalRefresh" style="display:none;width:100%;height:100%; position:absolute;" class="overlay">
+                            <i class="fa fa-circle-o-notch fa-spin"></i>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Titulo</label>
+                                <div class="col-sm-10">
+                                    <select id="txt-titulo" name="txt-titulo" class="form-control">
+                                        <option value="Visita a Cliente">
+                                            Visita a Cliente
+                                        </option>
+                                        <option value="Llamada a Cliente">
+                                            Llamada a Cliente
+                                        </option>
+                                        <option value="Prospeccion de Cliente Nuevo">
+                                            Prospeccion de Cliente Nuevo
+                                        </option>
+                                        <option value="Comunicado de Productos Nuevos">
+                                            Comunicado de Productos Nuevos
+                                        </option>
+                                        <option value="Comunicado de Ofertas">
+                                            Comunicado de Ofertas
+                                        </option>
+                                        <option value="Garantias de Productos">
+                                            Garantias de Productos
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Cliente</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="id-cliente" name="id-cliente" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Fecha</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group date" data-provide="datepicker">
+                                        <input id="dt-fecha" name="dt-fecha" type="text" class="form-control" placeholder="dd/mm/aaaa">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Proxima actividad</label>
+
+                                <div class="col-sm-10">
+                                    <div class="input-group date" data-provide="datepicker">
+                                        <input id="dt-fecha-proxima" name="dt-fecha-proxima" type="text" class="form-control" placeholder="dd/mm/aaaa">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label for="exampleInputFile" style="text-align:left">Evidencia</label>
+                                </div>
+                                <div class="col-md-10 pull-right">
+                                    <div class="form-group">
+                                        <div id="Content-1" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-1" name="Evidencia-1" noEvidencia="1" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="1" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-2" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-2" name="Evidencia-2" noEvidencia="2" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="2" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-3" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-3" name="Evidencia-3" noEvidencia="3" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="3" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-4" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-4" name="Evidencia-4" noEvidencia="4" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="4" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-5" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-5" name="Evidencia-5" noEvidencia="5" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="5" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-6" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-6" name="Evidencia-6" noEvidencia="6" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="6" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-7" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-7" name="Evidencia-7" noEvidencia="7" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="7" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-8" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-8" name="Evidencia-8" noEvidencia="8" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="8" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-9" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-9" name="Evidencia-9" noEvidencia="9" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="9" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                    </div>
+                                    <div id="nota"></div>
+                                    <input type="hidden" id="Requerido" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txt-Comentario" class="col-sm-2 control-label">Comentario</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-Comentario" name="txt-Comentario" class="form-control" placeholder="Agregar descripción de la actividad" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-10">
+                        <div class="row">
+
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-add" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-cancel" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--modal de comentario o respuesta a actividad (segundo nivel)-->
+    <div class="modal  fade" id="modal-AddRespuesta">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" style="color:azure">Agregar comentario</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frm-Respuesta" class="form-horizontal" enctype="multipart/form-data" method="post">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="txt-RespTitulo" class="col-sm-2 control-label">Titulo</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-RespTitulo" name="txt-RespTitulo" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label for="id-ResActividad" class="col-sm-2 control-label">Actividad</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="id-ResActividad" name="id-ResActividad" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label for="" class="col-sm-2 control-label">Id Cliente</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="id-ResCliente" name="id-ResCliente" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txt-RespCliente" class="col-sm-2 control-label">Cliente</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-RespCliente" name="txt-RespCliente" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txt-RespComentario" class="col-sm-2 control-label">Comentario</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-RespComentario" name="txt-RespComentario" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-addComentario" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-cancelComentario" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal de comentario o respuesta a actividad (tercer nivel)-->
+    <div class="modal fade" id="modal-AddCometarioRespuesta">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" style="color:azure">Agregar comentario</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frm-Respuesta" class="form-horizontal" enctype="multipart/form-data" method="post">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="txt-ComenRespTitulo" class="col-sm-2 control-label">Titulo</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-ComenRespTitulo" name="txt-ComenRespTitulo" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label for="id-ComenResActividad" class="col-sm-2 control-label">Actividad</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="id-ComenResActividad" name="id-ComenResActividad" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label for="id-Comen" class="col-sm-2 control-label">idComentario</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="id-Comen" name="id-Comen" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label for="ComenResCliente" class="col-sm-2 control-label">Id Cliente</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="id-ComenResCliente" name="id-ComenResCliente" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txt-ComenRespCliente" class="col-sm-2 control-label">Cliente</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-ComenRespCliente" name="txt-ComenRespCliente" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txt-ComenRespComentario" class="col-sm-2 control-label">Comentario</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-ComenRespComentario" name="txt-ComenRespComentario" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-addComentarioRespuesta" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-cancelComentarioRespuesta" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal de detalles de la actividad-->
+    <div class="modal fade" name="modalDetalle" id="modal-showVerDetalles">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" style="color:azure; margin-right:30px;float:right;"><b>Detalles de actividad</b></h5>
+                    <div class="form-group" style="display:none">
+                        <label for="lblIdActividadDetalle" class="col-sm-2 control-label">Actividad</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="lblIdActividadDetalle" name="lblIdActividadDetalle" readonly>
+                        </div>
+                    </div>
+                    <h4 id="lblActividadDetalle" style="color:azure;"></h4>
+                    <h5 id="lblUsuarioDetalle" style="color:azure;"></h5>
+                    <h5 id="lblClienteDetalle" style="color:azure;display:none;"></h5>
+
+                </div>
+                <div class="modal-body">
+                    <form id="frm-Respuesta" class="form-horizontal" enctype="multipart/form-data" method="post">
+                        <div class="box-body">
+                            <!--manejo de table de detalle de actividades-->
+                            <div class="form-group" id="tb-detall">
+                                <table class="table" style="margin-left:5%;margin-right:5%;width:90%;">
+                                    <thead>
+                                        <tr>
+                                            <th scope='col' style='width:20%;text-align:center;'>
+                                                Fecha de actividad
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:60%;text-align:center;'>
+                                                Descripcion de actividad
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:20%;text-align:center;'>
+                                                Fecha de siguiente actividad
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbDetalleActividad"></tbody>
+                                </table>
+                            </div>
+                            <!--fin de table-->
+                            <!--Manejo de carrucel de imagenes-->
+
+                            <div class="carruselActividad row" id="carrousel-dinamicActividad">
+                            </div>
+                            <!--fin de carrucel de imagenes-->
+                            <div class="form-group" id="AddComentarioGrupo" style="margin-top:10px">
+                                <label for="txt-AddComentario" class="col-sm-2 control-label">Comentario</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-AddComentario" name="txt-AddComentario" class="form-control" placeholder="Añade un comentario" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividadAddComentario" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividadCancelComentario" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal de Comentariocartera-->
+    <div class="modal  fade" id="modal-Comentario">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" style="color:azure">Comentario</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frm-ComentarioCartera" class="form-horizontal" enctype="multipart/form-data" method="post">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="txt-Comentario-Cartera" class="col-sm-2 control-label">Comentario</label>
+                                <div class="col-sm-10">
+                                    <textarea id="txt-Comentario-Cartera" name="txt-Comentario-Cartera" class="form-control" rows="10" cols="50"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-addComentario" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-cancelComentario" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal mostrar Comentarios cartera-->
+    <div class="modal  fade" id="ModalComentariosCarteraVencida">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" style="color:azure">Comentarios</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" id="ComentariosCarteraVencida">
+                        <thead>
+                            <tr>
+                                <td>Comentario</td>
+                                <td>Registrado Por</td>
+                                <td>Registrado El</td>
+                            </tr>
+                        </thead>
+                        <tbody id="DetalleComentariosCarteraVencida"></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-showComentario-ok" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Ok</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style type="text/css">
+    .mostrar {
+        display: block;
+    }
+
+    .esconder {
+        display: none;
+    }
+
+    .carruselActividad .carousel-inner > .item > img {
+        margin-top: 5px;
+    }
+
+    #tb-detall {
+        margin-top: 3px;
+    }
+
+    .table {
+        margin-top: 5px;
+    }
+
+    .table, thead, th {
+        background-color: rgba(121, 119, 121,0.2);
+        color: black;
+        border: 1px solid white;
+    }
+
+    .table, tbody, td {
+        border: 1px solid white;
+    }
+
+    .treeview .list-group-item:hover {
+        background-color: rgba(0,158,224,0.6);
+    }
+
+    .treeview .list-group-item button {
+        color: rgb(8,57,100);
+    }
+
+        .treeview .list-group-item button:hover {
+            color: white;
+        }
+
+    #tbRadios {
+        background-color: rgb(42,131,200);
+        color: white;
+    }
+
+        #tbRadios tr th {
+            color: white;
+            text-align: center;
+            width: 50%;
+        }
+
+    #formBusqueda {
+        margin-top: -20px;
+        text-align: center;
+    }
+
+    #panelFind {
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+
+    #panelModalCliente {
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+    /*cabecera de treeview´s, o h4 clientes*/
+    #treeCodeNameCliente {
+        background-color: rgba(251,77,61,0.9);
+        padding-top: 5px;
+        padding-left: 20px;
+        height: 30px;
+        color: white;
+    }
+
+    #carrousel-dinamicActividad {
+        position: relative;
+        width: 55%;
+        height: auto;
+        margin: 0 5% 0 auto;
+        border: 12px solid #fff;
+        border-radius: 10px;
+        box-shadow: 1px 1px 5px #323232;
+        float: left;
+    }
+</style>
+
+<script type="text/javascript">
+    var FacturaComentarioCartera = 0;
+    $('#DelAl').daterangepicker({
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Deciembre"
+            ]
+        }
+
+    });
+
+    $("#btnReport").click(function () {
+        if($("#Cliente").val() == ''){
+            swal("No se ha elegido cliente.");
+            return;
+        }else{
+            $("#purchase-overload").show();
+
+            var drp = $('#DelAl').data('daterangepicker');
+            var Del = drp.startDate.format('YYYY/MM/DD');
+            var Al = drp.endDate.format('YYYY/MM/DD');
+            var Cliente = $("#Cliente").val();
+
+            $.post('@Url.Action("ObtenerReporte", "Venta")', {
+                Del: Del,
+                Al: Al,
+                Cliente: Cliente
+            }, function (data) {
+                if (data.Context != null && $.isArray(data.Context)) {
+
+                    var table = $('#table-Reporte').DataTable();
+                    table.destroy();
+                    $("#body-Reporte").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        var fech = '';
+                        if (value.DocDate != null) {
+                            fech = moment(value.DocDate).format('DD/MM/YYYY');
+                        }
+                        $("#body-Reporte").append('<tr>\
+                                                        <td>'+ value.CardCode + '</td>\
+                                                        <td>'+ value.DocNum + '</td>\
+                                                        <td>'+ fech + '</td>\
+                                                        <td>'+ value.ItemCode + '</td>\
+                                                        <td>'+  value.Quantity + '</td >\
+                                                        <td>'+ value.Price + '</td>\
+                                                    </tr >');
+                    });
+
+                    $('#table-Reporte').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'excel'
+                        ],
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                    $("#purchase-overload").hide();
+
+                } else {
+
+                }
+            });
+        }
+    });
+ //------------ Manejo de modal comentarios nivel 2 -------------------------------------//
+ //------ funcion de agregar comentario o respuesta a una actividad ---------------------//
+    function showAddComentario(Actividad, Nombre, idUsuario) {
+        //se obtiene el elemento selector
+        var link = $(event.target);
+        //se obtiene el valor del hermano del padre
+        var NCliente = $(link).closest('div.treeJson').siblings('#treeCodeNameCliente').html();
+        var NameCliente = String(NCliente.replace("Cliente:", ""));
+        //console.log("probando busqueda de padre; " + NameCliente);
+        var idCliente = $(link).closest('div.treeJson').siblings('#treeCodeCliente').html();
+        $("#modal-AddRespuesta").modal('show');
+        $("#txt-RespCliente").val(NameCliente);
+        $("#id-ResCliente").val(idCliente);
+        $("#txt-RespTitulo").val(Nombre);
+        $("#id-ResActividad").val(Actividad);
+    }
+    $("#btn-actividad-cancelComentario").click(function () {
+        //se cancela el uso de modal y se limpian las casillas
+        $('#modal-AddRespuesta').modal('hide');
+        $("#txt-RespComentario").val('');
+    });
+
+    $("#btn-cancelComentario").click(function () {
+        //se cancela el uso de modal
+        $('#modal-Comentario').modal('hide');
+    });
+
+    $("#btn-showComentario-ok").click(function () {
+        $('#ModalComentariosCarteraVencida').modal('hide');
+    });
+
+    $("#btn-addComentario").click(function () {
+        if ($("#txt-Comentario-Cartera").val() == '') {
+            swal("Todos los campos son obligatorios.");
+            return;
+        } else {
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("AddComentarioCarteraVencida", "Venta")',
+                async: false,
+                timeout: 3000,
+                type: 'POST',
+                data: '{"CodeCliente":"' + $("#Cliente").val() + '", "DocNum":"' + FacturaComentarioCartera + '","Comentario":"' + $("#txt-Comentario-Cartera").val() + '"}',
+                dataType: "json",
+            }).done(function (data) {
+                swal("Guardado.");
+            }).always(function () {
+                $("#modal-Comentario").modal('hide');
+            }).fail(function () {
+                swal("ERROR: AñadirComentario");
+            });
+        }
+    });
+
+    $("#btn-actividad-addComentario").click(function () {
+        //se verifica que el campo comentario contenga texto
+        if ($("#txt-RespComentario").val() == '') {
+            swal("Debe especificar el comentario.");
+            return;
+        } else {
+            //---rellenar la respuesta o comentario al cliente---//
+            //var formData = new FormData($("#frm-Respuesta")[0]);
+            let Actividad = $("#id-ResActividad").val();
+            let Comentario = $("#txt-RespComentario").val();
+            $(".loader").css('display', 'block');
+            var ruta = "@Url.Action("AñadirComentario", "Venta")";
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                timeout: 3000,
+                url: ruta,
+                type: "POST",
+                data: '{"Actividad":"' + Actividad + '","Comentario":"' + Comentario + '"}',
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        //swal('Comentario agregado');
+                        //Envia via correo electronico la notificacion de un nuevo comentario
+                        //en la actividad
+                        var NameCliente ="Cliente: " + $("#txt-RespCliente").val();
+                        var CodeCliente = $("#id-ResCliente").val();
+                        //console.log("probando nombre cliente: "+ NameCliente);
+                        enviarNotificacionCorreo(Actividad, Comentario, NameCliente);
+                        btnComentarios();
+                        $(".loader").css('display', 'none');
+                    }
+                    else {
+                        $(".loader").css('display', 'none');
+                        swal('Error API: AñadirComentario');
+                    }
+                }
+            });
+            $('#modal-AddRespuesta').modal('hide');
+            $("#txt-RespComentario").val('');
+            $(".loader").css('display', 'none');
+        }
+    });
+// ---------------------------------------------------------------------------------------//
+//------------------------- funcion para agregar una respuesta nivel 3 ------------------//
+//--------------------------------------------------------------------------------------//
+    function showAddRespuestas(Actividad, idComentario, strComentario) {
+        //se obtiene el elemento selector
+        var link = $(event.target);
+        //se obtiene el valor del hermano del padre
+        var NCliente = $(link).closest('div.treeJson').siblings('#treeCodeNameCliente').html();
+        var NameCliente = String(NCliente.replace("Cliente:", ""));
+        //console.log("probando busqueda de padre; " + NameCliente);
+        //var idCliente = $(link).closest('div.treeJson').siblings('#treeCodeCliente').html();
+        $("#modal-AddCometarioRespuesta").modal('show');
+        $("#txt-ComenRespCliente").val(NameCliente);
+        $("#txt-ComenRespTitulo").val(strComentario);
+        $("#id-Comen").val(idComentario);
+        $("#id-ComenResActividad").val(Actividad);
+    }
+    $("#btn-actividad-cancelComentarioRespuesta").click(function () {
+        //se cancela el uso de modal y se limpian las casillas
+        $("#modal-AddCometarioRespuesta").modal('hide');
+        $("#txt-ComenRespComentario").val('');
+    });
+    $("#btn-actividad-addComentarioRespuesta").click(function () {
+        //se verifica que el campo comentario contenga texto
+        let IntComentario= $("#id-Comen").val();
+        let Actividad = $("#id-ComenResActividad").val();
+        let Comentario = $("#txt-ComenRespComentario").val();
+        if ($("#txt-ComenRespComentario").val() == '') {
+            swal("Debe especificar el comentario.");
+            return;
+        } else {
+            $(".loader").css('display', 'block');
+            //---rellenar la respuesta al comentario ---//
+            var ruta = "@Url.Action("añadirComentarioRespuesta", "Venta")";
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                timeout: 3000,
+                url: ruta,
+                type: "POST",
+                data: '{"Actividad":"' + Actividad + '","IntComentario":"' + IntComentario + '","Comentario":"' + Comentario + '"}',
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        //swal('Comentario agregado');
+                        //Envia via correo electronico la notificacion de un nuevo comentario en la actividad
+                        var NameCliente = "Cliente: " + $("#txt-ComenRespCliente").val();
+                        enviarNotificacionCorreo(Actividad, Comentario, NameCliente);
+                        $(".loader").css('display', 'none');
+                    }
+                    else {
+                        $(".loader").css('display', 'none');
+                        swal('Error API: añadirComentarioRespuesta');
+                    }
+                }
+            });
+            //recarga todos los comentarios
+            //Comentarios($("#Cliente").val());
+            btnComentarios();
+            $("#modal-AddCometarioRespuesta").modal('hide');
+            $("#txt-ComenRespComentario").val('');
+            $(".loader").css('display', 'none');
+        }
+    });
+    //Enviar a correo notificcion de comentario a la actividad realizada
+    function enviarNotificacionCorreo(idActividad, Comentario, Cliente,Aux) {
+        var texto;
+        var texto2;
+        if (Aux == 1) {
+            texto = " Ha sido creada! ";
+            texto2 = " Ha comentado: ";
+        } else {
+            texto = " Ha sido comentada! ";
+            texto2 = " Ha comentado: ";
+        }
+        var ruta = "@Url.Action("emailSendSeguimiento", "Venta")";
+        var json = '{"Actividad":"' + idActividad + '","Comentario":"' + Comentario + '","Cliente":"' + Cliente + '","Texto":"' + texto + '","Texto2":"' + texto2 + '"}';
+        $.ajax({
+            contentType:"application/json; charset=utf-8",
+            async: false,
+            timeout: 3000,
+            url: ruta,
+            type: "POST",
+            data: json,
+            dataType: "json",
+            success: function (data) {
+                if (data != null) {
+                    //console.log("enviado con exito");
+                }
+                else {
+                    swal('Error API: envio de notificación a correos');
+                }
+            },
+            error: function ()
+            {
+                alert("error en API: " + json);
+            }
+        });
+    }
+ //------------------------------------------------------------------------------------------//
+    function HideInputFile() {
+        for (var i = 2; i < 10; i++) {
+            var content = $("#Evidencia-" + i).val();
+            if (content == '') {
+                $("#Content-" + i).hide();
+                $("#Evidencia-" + i).val('');
+            }
+        }
+    }
+
+    $(".btn-evidencia").change(function () {
+        HideInputFile();
+        var current = $(this).attr("noEvidencia");
+        var next = Number(current) + 1;
+        //console.log(next);
+        $("#Content-" + next).show();
+    });
+    initModule2();
+
+    function initModule2() {
+        $("#Evidencia-1").val('');
+        $("#Evidencia-2").val('');
+        $("#Evidencia-3").val('');
+        $("#Evidencia-4").val('');
+        $("#Evidencia-5").val('');
+        $("#Evidencia-6").val('');
+        $("#Evidencia-7").val('');
+        $("#Evidencia-8").val('');
+        $("#Evidencia-9").val('');
+        $("#Content-2").hide();
+        $("#Content-3").hide();
+        $("#Content-4").hide();
+        $("#Content-5").hide();
+        $("#Content-6").hide();
+        $("#Content-7").hide();
+        $("#Content-8").hide();
+        $("#Content-9").hide();
+    }
+
+    $("#div-add-foto").hide();
+
+    InitModule();
+    function InitModule() {
+        $('#fechainicial').daterangepicker();
+        $('#dt-fecha').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+        limpiarModalSuccess();
+    }
+
+    function subComentario() {
+
+        let SequencePadre = $("#sequence-comentario").val();
+        let Cliente = $("#Cliente").val();
+        let Comentario = $("#sub-comentario").val();
+        let RegistradoPor = localStorage.getItem("UserEmail");
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("AñadirComentarioSequence", "Venta")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"SequencePadre":"' + SequencePadre + '","Cliente":"' + Cliente + '","Comentario":"' + Comentario + '","RegistradoPor":"' + RegistradoPor + '"}',
+            dataType: "json",
+        }).done(function (data) {
+            $('#modal-success').modal('hide');
+        }).always(function () {
+            $('#loading').hide();
+        }).fail(function () {
+            swal("ERROR: AñadirComentarioSequence");
+        });
+    }
+    $("#btn-modal-actividad").click(function () {
+        //alert($("#lblCodigo").html());
+        var x = $("#lblCodigo").html();
+        if (x == null || x == '') {
+            $('#modal-success').modal('hide');
+            swal("Debe de especificar un cliente");
+            return;
+        }
+        else {
+            $('#modal-success').modal('show');
+            $("#id-cliente").val(x);
+        }
+    });
+    $("#btn-actividad-add").click(function () {
+        if ($("#txt-titulo").val() == null) {
+            swal("Debe seleccionar un título.");
+            return;
+        }
+        if ($("#id-cliente").val() == '') {
+            swal("Debe especificar un cliente.");
+            return;
+        }
+        if ($("#dt-fecha").val() == '') {
+            swal("Debe especificar un fecha de la actividad.");
+            return;
+        }
+        if ($("#txt-Comentario").val() == '') {
+            swal("Debe especificar un comentario.");
+            return;
+        }
+        $(".loader").css('display', 'block');
+        var formData = new FormData($("#frm-actividad")[0]);
+        var ruta = "@Url.Action("GuardarActividad", "Venta")";
+        $("frm-actividad").attr("disabled", true);
+        $.ajax({
+            url: ruta,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                //Envia via correo electronico la notificacion de un nuevo comentario
+                //en la actividad
+                var NameCliente = $("#lblNombre").html();
+                var codeCliente = $("#lblCodigo").html();
+                var Cliente = "Cliente: " + codeCliente + " - " + NameCliente;
+                var Comentario = $("#txt-Comentario").val();
+                var Actividad = data.Context;
+                var aux = 1;
+                enviarNotificacionCorreo(Actividad, Comentario, Cliente, aux);
+                limpiarModalSuccess();
+                //recarga todos los comentarios
+                $('#modal-success').modal('hide');
+                btnComentarios();
+                //$("#ModalRefresh").hide();
+                $(".loader").css('display', 'none');
+            }
+        });
+        $(".loader").css('display', 'none');
+    });
+
+    $("#btn-actividad-cancel").click(function(){
+        $('#modal-success').modal('hide');
+        limpiarModalSuccess();
+    });
+
+    function limpiarModalSuccess() {
+        $("#id-cliente").val('');
+        $("#txt-titulo").val('');
+        $("#dt-fecha").val('');
+        $("#dt-fecha-proxima").val('');
+        $("#txt-Comentario").val('');
+        $("#Evidencia-1").val('');
+        $("#Evidencia-2").val('');
+        $("#Evidencia-3").val('');
+        $("#Evidencia-4").val('');
+        $("#Evidencia-5").val('');
+        $("#Evidencia-6").val('');
+        $("#Evidencia-7").val('');
+        $("#Evidencia-8").val('');
+        $("#Evidencia-9").val('');
+        $("#Content-2").hide();
+        $("#Content-3").hide();
+        $("#Content-4").hide();
+        $("#Content-5").hide();
+        $("#Content-6").hide();
+        $("#Content-7").hide();
+        $("#Content-8").hide();
+        $("#Content-9").hide();
+    }
+
+//------------------------- manejo de Modal de detalles de actividad ------------------------//
+//----------------------------- carga de imagenes de actividades -------------------------------//
+
+    function showVerDetalles(idActividad, actividad, usuarioActividad, registradoEl, detalleActividad, fecha, proximaActividad) {
+        cargarTablaDetallesActividad(fecha, detalleActividad, proximaActividad);
+        $("#lblIdActividadDetalle").val(idActividad);
+        $("#lblActividadDetalle").html(actividad);
+        $("#lblUsuarioDetalle").html(usuarioActividad + " - Registrado: " + registradoEl);
+        $("#modal-showVerDetalles").modal('show');
+        //se obtiene el elemento selector
+        var link = $(event.target);
+        //se obtiene el valor del hermano del padre
+        var NCliente = $(link).closest('div.treeJson').siblings('#treeCodeNameCliente').html();
+        var NameCliente = String(NCliente.replace("Cliente:", ""));
+        //var idCliente = $(link).closest('div.treeJson').siblings('#treeCodeCliente').html();
+        $("#lblClienteDetalle").html(NameCliente);
+        CargarFotosActividades(idActividad);
+    }
+    function cargarTablaDetallesActividad(fecha, detalleActividad, proximaActividad) {
+        $("#tbDetalleActividad").html(
+            "<tr>" +
+                "<td>" + fecha + "<\/td>" +
+                "<td style='text-align:justify;'>" + detalleActividad + "<\/td>" +
+                "<td>" + proximaActividad + "<\/td>" +
+            "<\/tr>"
+        );
+    }
+    function CargarFotosActividades(idActividad) {
+        //se solicita la carga de imagenes y se dibuja el carrusel
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("CargarFotosActividades", "Venta")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"idActividad":"' + idActividad + '"}',
+            dataType: "json",
+            success: function (data) {
+                $("#carrousel-dinamicActividad").html('');
+                var aux = 0;
+                var cabeceras = '';
+                var detalles = '';
+                //llenamos las cabeceras y los detalles..
+                if (data.Context.length <= 0) {
+                    cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="0" class="active"></li>';
+                    detalles = detalles + '<div class="item active"><img src="../dist/img/employee.jpg" /></div>';
+                    aux++;
+                }
+                else {
+                    $.each(data.Context, function (index, value) {
+                        if (aux == 0) {
+                            cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '" class="active"></li>';
+                        } else {
+                            cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '"></li>';
+                        }
+                        if (aux == 0) {
+                            detalles = detalles + '<div class="item active"><img src="data:image/png;base64,' + value.Foto + '" /></div>';
+                        } else {
+                            detalles = detalles + '<div class="item"><img src="data:image/png;base64,' + value.Foto + '" /></div>';
+                        }
+                        aux++;
+                    });
+                }
+                //se dibuja el carrusel
+                $("#carrousel-dinamicActividad").append(
+                    "<div class='col-md-12' >"+
+		                "<div id='carousel-generic1' class='carousel slide' data-ride='carousel' style='width:60%;margin-left:20%;'>"+
+			                "<ol id='contenedor-carousel-cabecera' class='carousel-indicators'>"+
+				                 cabeceras +
+				            "<\/ol>"+
+			                "<div id='carousel-detalles' class='carousel-inner' role='listbox'>"+
+					             detalles +
+			                "<\/div>"+
+				                "<a class='left carousel-control' href='#carousel-generic1' role='button' data-slide='prev'>"+
+				                    "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'><\/span>"+
+                                    "<span class='sr-only'>Previous<\/span>"+
+				                "<\/a>"+
+				                "<a class='right carousel-control' href='#carousel-generic1' role='button' data-slide='next'>"+
+					                "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'><\/span>"+
+					                "<span class='sr-only'>Next<\/span>"+
+				                "<\/a>"+
+			            "<\/div>"+
+                    "<\/div>");
+                $("#modal-showVerDetalles").modal('show');
+            },
+            error: function () {
+                swal("Error en la api: Cargar imagenes actividad");
+            }
+        });
+    }
+    $("#btn-actividadCancelComentario").click(function () {
+        //se cancela el uso de modal y se limpian las casillas
+        $("#modal-showVerDetalles").modal('hide');
+        $("#txt-AddComentario").val('');
+        //vaciarTablaDetallesActividad();
+    });
+
+    $("#btn-actividadAddComentario").click(function () {
+        //se verifica que el campo comentario contenga texto
+        if ($("#txt-AddComentario").val() == '') {
+            swal("Debe especificar el comentario.");
+            return;
+        } else {
+            $(".loader").css('display', 'block');
+            //---rellenar la respuesta o comentario al cliente---//
+            //var formData = new FormData($("#frm-Respuesta")[0]);
+            let Actividad = $("#lblIdActividadDetalle").val();
+            let Comentario = $("#txt-AddComentario").val();
+
+            var ruta = "@Url.Action("AñadirComentario", "Venta")";
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                timeout: 3000,
+                url: ruta,
+                type: "POST",
+                data: '{"Actividad":"' + Actividad + '","Comentario":"' + Comentario + '"}',
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        //swal('Comentario agregado');
+                        var NameCliente= $("#lblClienteDetalle").html();
+                        //Envia via correo electronico la notificacion de un nuevo comentario
+                        //en la actividad
+                        enviarNotificacionCorreo(Actividad, Comentario, NameCliente);
+                        $(".loader").css('display', 'none');
+                    }
+                    else {
+                        $(".loader").css('display', 'none');
+                        swal('Error API: AñadirComentario');
+                    }
+                }
+            });
+            $("#modal-showVerDetalles").modal('hide');
+            $("#txt-AddComentario").val('');
+            //recarga todos los comentarios
+            //Comentarios($("#Cliente").val());
+            btnComentarios();
+            //vaciarTablaDetallesActividad();
+        }
+    });
+//---------------------------------- carga de imagenes al carrusel de cliente-----------------------//
+	function CargarFacturas(CodigoCliente){
+		$.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("CargarCarteraVencida", "Venta")',
+            async: false,
+            timeout: 0,
+            type: 'POST',
+            data: '{"CodigoCliente":"' + CodigoCliente + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data.Context != null && $.isArray(data.Context)) {
+                    var table = $('#table-CarteraVencida').DataTable();
+                    table.destroy();
+                    $("#contentCartera").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        var fech = '';
+                        if (value.DocDueDate != null) {
+                            fech = moment(value.DocDueDate).format('DD/MM/YYYY');
+                        }
+                        $("#contentCartera").append('<tr>\
+                                                        <td>'+ value.DocNum + '</td>\
+                                                        <td>'+ fech + '</td>\
+                                                        <td>' + value.DiasRetraso + '</td>\
+                                                        <td>' + value.DocTotal + '</td>\
+                                                        <td>'+ value.PorPagar + '</td >\
+                            <td style="width:20%"><button class="btn btn-success" type="button" onclick="AgregarComentario('+value.DocNum+')">\
+                            <span class="glyphicon glyphicon-plus"></span > Agregar Comentario\
+                            </button ></td >\
+                            <td style="width:20%"><button class="btn btn-success" type="button" onclick="VerComentarios('+value.DocNum+')">\
+                            <span class="glyphicon glyphicon-eye-open"></span > Ver Comentarios\
+                            </button ></td >\
+                                                    </tr >');
+                    });
+
+                    $('#table-CarteraVencida').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'excel'
+                        ],
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+
+                    $("#div-add-foto").show();
+                }
+            },
+            error: function () {
+				$("#div-add-foto").hide();
+                swal("Error en la api: Cargar fotos clientes");
+            }
+        });
+	}
+    //-------------- Manejo y llamado de comentarios existentes del cliente -----------//
+    $("#btn-Comentarios").click(function () {
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esto podría tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+						$("#div-add-foto").hide();
+                        swal("El proceso ha sido cancelado");
+                    }
+                },
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $(".loader").css('display', 'block');
+                        btnComentarios();
+                        $(".loader").css('display', 'none');
+                    }
+                }
+            }
+        });
+    });
+    function btnComentarios() {
+        //se cargan los comentarios respecto al cliente
+        if ($("#ClienteDeAgente").val() != "") {
+            var codeCliente = $("#lblCodigo").html();
+            $('#ClienteRefresh').show();
+            $('#treeview_json').html('');
+            //se carga el detalle de los clientes
+            DetalleCliente(codeCliente);
+            //vamos a obtener el nombre completo del cliente
+            $.post('@Url.Action("DetalleCliente", "Venta")', {
+                Codigo: codeCliente
+                }, function (data) {
+                    var nameCliente = data.Context.Nombre;
+                    $("#btn-descargaReport").css('display', 'block');
+                    $("#btn-modal-actividad").css('display', 'block');
+                    //se cargan los comentarios
+                    Comentarios(codeCliente, nameCliente);
+                    $('#ClienteRefresh').hide();
+                }
+            );
+        }else
+        //se cargan los comentarios respecto al cliente
+        if ($("#Cliente").val() != "") {
+            var codeCliente = $("#lblCodigo").html();
+            $('#ClienteRefresh').show();
+            $('#treeview_json').html('');
+            //se carga el detalle de los clientes
+            DetalleCliente(codeCliente);
+            //vamos a obtener el nombre completo del cliente
+            $.post('@Url.Action("DetalleCliente", "Venta")', {
+                Codigo: codeCliente
+                }, function (data) {
+                    var nameCliente = data.Context.Nombre;
+                    $("#btn-descargaReport").css('display', 'block');
+                    $("#btn-modal-actividad").css('display', 'block');
+                    //se cargan los comentarios
+                    Comentarios(codeCliente, nameCliente);
+                    $('#ClienteRefresh').hide();
+                }
+            );
+        }else
+        //se cargan los comentarios respecto a los agentes
+        if ($("#Agente").val() != "") {
+            //limpiar los campos de los detalles del cliente
+            $("#lblNombre").html('');
+            $("#lblCodigo").html('');
+            $("#lblCredito").html('');
+            $("#lblPorPagar").html('');
+            $("#lblDisponible").html('');
+            $("#lblUltimaFactura").html('');
+            $("#lblDiasCredito").html('');
+            $("#CodigoCliente").val('');
+            //S$("#carrousel-dinamic").html('');
+            $("#div-add-foto").hide();
+            //---------------------------------------------------
+            $('#ClienteRefresh').show();
+            $("#btn-descargaReport").css('display', 'block');
+            $("#btn-modal-actividad").css('display', 'none');
+            CodeAgente = $("#Agente").val();
+            //se obtienen los clientes respecto al agente seleccionado
+            $.post('@Url.Action("BuscarClientePorAgente", "Venta")', {
+                code: CodeAgente
+            }, function (data) {
+                $("#contentClientesPorAgentes").html('');
+                //se valua que existen clientes
+                if (data.Context.length <= 0) {
+                    $('#treeview_json').html('');
+                    swal("¡Lo sentimos!", "El agente no tiene clientes", "warning");
+                    $('#ClienteRefresh').hide();
+                } else {
+                    $('#treeview_json').html('');
+                    $.each(data.Context, function (index, value) {
+                        //se cargan los comentarios respecto al cliente
+                        Comentarios(value.CodeCliente, value.NameCliente);
+                        $('#ClienteRefresh').hide();
+                    });
+                }
+            });
+        }
+    }
+//----------------------------------------------------------------------------------------------//
+// ----------- Muestra los detalles del cliente y los visualiza --------------------------------//
+    function DetalleCliente(codeCliente,CodeAgente,NameAgente) {
+        limpiarAgente();
+        $('#treeview_json').html('');
+        $("#lblCodeAgente").html(CodeAgente);
+        $("#lblNameAgente").html(NameAgente);
+        $("#radClientes").attr('checked', true);
+        $("#modalClientes").modal('hide');
+        $("#Cliente").val(codeCliente);
+        var Code = String(codeCliente);
+        $.post('@Url.Action("DetalleCliente", "Venta")', {
+            Codigo: Code
+        }, function (data) {
+            let address = data.Context.Address + ", " + data.Context.County + ", " + data.Context.ZipCode + ", " + data.Context.City + ", " + data.Context.Country;
+            $("#lblNombre").html(data.Context.Nombre);
+            $("#lblCodigo").html(data.Context.Codigo);
+
+            $("#lblPhone1").html("Tel: " +data.Context.Phone1);
+            if (data.Context.Phone2 != 0) {
+                $("#lblPhone2").html("Tel: "+ data.Context.Phone2);
+            }
+            $("#lblAddress").html(address);
+            $("#lblEmail").html(data.Context.E_mail);
+
+            $("#lblCredito").html(formatNumber.new(data.Context.Credito.toFixed(2), "$"));
+            $("#lblPorPagar").html(formatNumber.new(data.Context.PorPagar.toFixed(2), "$"));
+            $("#lblDisponible").html(formatNumber.new(data.Context.Disponible.toFixed(2), "$"));
+            //$("#lblUltimaFactura").html(moment(data.Context.FechaUltimaCompra).lang("es").endOf('hours').fromNow());
+            $("#lblUltimaFactura").html(moment(data.Context.FechaUltimaCompra).format('YYYY-MM-DD'));
+            if (data.Context.DiasCredito == 'Contado') {
+                $("#lblDiasCredito").html("Actualmente el cliente no cuenta con crédito");
+            } else {
+                $("#lblDiasCredito").html("Dias de crédito: " + data.Context.DiasCredito);
+            }
+            $("#CodigoCliente").val($("#lblCodigo").html());
+            CargarFacturas($("#Cliente").val());
+        });
+
+        //Se cargarán los comentarios de hace 7 dias por defecto
+
+
+        //
+    }
+//----------------------------------------------------------------------------------------------------
+//--------  carga los comentarios respecto a el codigo de cliente y rango de fecha de comentarios  ---
+    function Comentarios(Codigo, nameCliente) {
+        $(".loader").css('display', 'block');
+        //aqui se genera la informacion acerca de los comentarios
+        //o refierente al armado de arbol de actividad
+        var CodCliente = String(Codigo);
+        var drp = $('#fechainicial').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("GetActividades", "Venta")',
+            async: false,
+            data: '{ CodigoCliente: "' + CodCliente + '", Del: "' + Del + '", Al: "' + Al + '"}',
+            dataType: 'json',
+            success: function (response) {
+                //console.log(response);
+                if (response.Context.length <= 0) {
+                    //console.log("no hay comentarios");
+                    $(".loader").css('display', 'none');
+                } else {
+                    //procesa las actividades, para dibujar estructura
+                    initTree(response, CodCliente, nameCliente);
+                    $(".loader").css('display', 'none');
+                }
+            }
+        });
+        function initTree(treeData, CodCliente, nameCliente) {
+            //console.log("consola: "+nameCliente);
+            $('#treeview_json').append("<div id='treebody-" + CodCliente+"'></div>");
+            $("#treebody-" + CodCliente).append("<h4 id='treeCodeCliente' style='display:none;'>" + CodCliente + "</h4>");
+            $("#treebody-" + CodCliente).append("<h4 id='treeCodeNameCliente' >Cliente: " + CodCliente + " - " + nameCliente + "</h4>");
+            //se genera el treeview de cada cliente
+            $("#treebody-" + CodCliente).append(
+                $("<div class='treeJson'></div>").treeview({
+                data: treeData.Context,
+                })
+            );
+            contraeTree();
+            $(".esconder").hide();
+        }
+        $(".loader").css('display', 'none');
+    }
+    //contrae al padre
+    function contraeTree() {
+        $('div .treeJson').treeview('collapseAll', { silent: true });
+    }
+ //------------------------------ Autocompletado de datos "Clientes"  -----------------------------------------------------//
+    $("#radAgentes").change(function () {
+        limpiarCliente();
+    });
+    function limpiarCliente() {
+        $("#radClientes").attr('checked', false);
+        $("#Cliente").css('display', 'none');
+        $("#Cliente").val('');
+        $("#Agente").css('display', 'inline-block');
+        $("#panelClientes").css('display', 'none');
+        $("#panelAgentes").css('display', 'block');
+        $("#contentAgentes").html('');
+        $("#contentClientes").html('');
+    }
+    $("#radClientes").change(function () {
+        limpiarAgente();
+    });
+    function limpiarAgente() {
+        $("#radAgentes").attr('checked', false);
+        $("#Agente").css('display', 'none');
+        $("#Agente").val('');
+        $("#Cliente").css('display', 'block');
+        $("#panelAgentes").css('display', 'none');
+        $("#panelClientes").css('display', 'block');
+        $("#contentAgentes").html('');
+        $("#contentClientes").html('');
+    }
+
+    $("#ClienteDeAgente").on('keyup', function (e) {
+        FindClienteDeAgente();
+    });
+    function FindClienteDeAgente() {
+        $.post('@Url.Action("BuscarClienteDeAgente", "Venta")', {
+            phrase: $("#ClienteDeAgente").val()
+        }, function (data) {
+            $("#contentClientesDeAgente").html('');
+            if (data.Context.length <= 0) {
+            } else {
+                var cont=0;
+                $.each(data.Context, function (index, value) {
+                    $("#contentClientesDeAgente").append("<tr><td>" +
+                        value.Coincidencia + "</td><td><button type='button'" +
+                        " onclick='DetalleCliente(\"" + value.CodeCliente + "\")' " +
+                        "class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Detalles</button></td></tr >");
+                });
+            }
+        });
+    }
+
+    //$("#Cliente").blur(function () {
+    //    alert("pruebas")
+    //});
+
+    $("#Cliente").on('keyup', function (e) {
+        FindCliente();
+    });
+    function FindCliente() {
+        $.post('@Url.Action("BuscarCliente", "Venta")', {
+            phrase: $("#Cliente").val()
+        }, function (data) {
+            $("#contentClientes").html('');
+            if (data.Context.length <= 0) {
+            } else {
+                var cont=0;
+                $.each(data.Context, function (index, value) {
+                    $("#contentClientes").append("<tr><td>" + value.Coincidencia + "</td><td><button type='button' onclick='DetalleCliente(\"" + value.Codigo + "\")' class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Detalles</button></td></tr >");
+                });
+            }
+        });
+    }
+    $("#Agente").on('keyup', function (e) {
+        FindAgente();
+    });
+    function FindAgente() {
+        $.post('@Url.Action("BuscarAgente", "Venta")', {
+            phrase: $("#Agente").val()
+        }, function (data) {
+            $("#contentAgentes").html('');
+            if (data.Context.length <= 0) {
+            } else {
+                $.each(data.Context, function (index, value) {
+                    $("#contentAgentes").append("<tr><td>" + value.Coincidencia + "</td>" +
+                        "<td> <button onclick='VerAgente(" + value.CodeAgente + ",\"" + value.Coincidencia + "\")' class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Ver </button></td>" +
+                        "<td> <button onclick='VerCliente(" + value.CodeAgente + ")' class='btn btn-info'><span class='glyphicon glyphicon-eye-open'></span> Ver<br>Clientes </button></td>" +
+                        "</tr > ");
+                });
+            }
+        });
+    }
+    function VerCliente(CodeAgente) {
+        $.post('@Url.Action("BuscarClientePorAgente", "Venta")', {
+            code: CodeAgente
+        }, function (data) {
+            if (data.Context.length <= 0) {
+                swal("¡Lo sentimos!", "El agente no tiene clientes","warning");
+            } else {
+                //console.log(data);
+                $("#modalClientes").modal('show');
+                $.each(data.Context, function (index, value) {
+                    $("#contentClientesPorAgentes").append("<tr><td>" + value.Coincidencia + "</td><td><button type='button' onclick='DetalleCliente(\"" + value.CodeCliente + "\")' class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Detalles</button></td></tr >");
+                });
+            }
+        });
+    }
+    $("#btnModalClientes").click(function () {
+        $("#modalClientes").modal('hide');
+        $("#contentClientesPorAgentes").html('');
+    });
+    function VerAgente(CodeAgente, Coincidencia) {
+        $("#Agente").val(CodeAgente);
+    }
+//------------------------ Manejo de la descarga de reporte -----------------------------///
+    InitModuleFechDescarga();
+    function InitModuleFechDescarga() {
+        $('#txt-fechaDescarga').daterangepicker();
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+    }
+    //descarga el reporte de el/los cliente(s) existentes
+    $("#btn-descargaReport").click(function () {
+        if ($("#Cliente").val() != "") {
+            $.confirm({
+                title: '¿Desea generar el reporte?',
+                content: 'Esto podría tomar algunos segundos.',
+                type: 'blue',
+                buttons: {
+                    cancel: {
+                        text: 'Cancelar',
+                        action: function () {
+                            swal("El proceso ha sido cancelado");
+                        }
+                    },
+                    confirm: {
+                        text: 'Confirmar',
+                        action: function () {
+                            $(".loader").css('display', 'block');
+                            var NombreCliente = $("#lblNombre").html();
+                            var CodCliente = $("#Cliente").val();
+                            var drp = $('#fechainicial').data('daterangepicker');
+                            var Del = drp.startDate.format('YYYY/MM/DD');
+                            var Al = drp.endDate.format('YYYY/MM/DD');
+                            $.ajax({
+                                contentType: "application/json; charset=utf-8",
+                                type: 'POST',
+                                url: '@Url.Action("seguimientoClienteXls", "Venta")',
+                                async: false,
+                                data: '{ CodigoCliente: "' + CodCliente + '", Del: "' + Del + '", Al: "' + Al + '",NombreCliente:"' + NombreCliente+'"}',
+                                dataType: 'json',
+                                success: function (data) {
+                                    $(".loader").css('display', 'none');
+                                    window.location.href = '@Url.Action("DownloadSeguimientoClienteXls", "Venta")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                                }
+                            });
+                            $(".loader").css('display', 'none');
+                        }
+                    }
+                }
+            });
+        }
+        if ($("#Agente").val() != "") {
+            $.confirm({
+                title: '¿Desea generar el reporte?',
+                content: 'Esto podría tomar algunos segundos.',
+                type: 'blue',
+                buttons: {
+                    cancel: {
+                        text: 'Cancelar',
+                        action: function () {
+                            swal("El proceso ha sido cancelado");
+                        }
+                    },
+                    confirm: {
+                        text: 'Confirmar',
+                        action: function () {
+                            $(".loader").css('display', 'block');
+                            var drp = $('#fechainicial').data('daterangepicker');
+                            var Del = drp.startDate.format('YYYY/MM/DD HH:mm:ss');
+                            var Al = drp.endDate.format('YYYY/MM/DD HH:mm:ss');
+                            var CodeAgente = $("#Agente").val();
+                             $.post('@Url.Action("BuscarClientePorAgente", "Venta")', {
+                                code: CodeAgente
+                             }, function (data) {
+                                 if (data.Context.length <= 0) {
+                                     $(".loader").css('display', 'none');
+                                    swal("¡Lo sentimos!", "El agente no tiene clientes","warning");
+                                } else {
+                                    var Clientes = { datos: []};
+                                    $.each(data.Context, function (index, value) {
+                                        Clientes.datos.push({
+                                            "CodigoCliente": value.CodeCliente,
+                                            "Del": Del,
+                                            "Al": Al,
+                                            "NombreCliente": value.NameCliente
+                                        });
+                                    });
+                                    //console.log("obj: "+Clientes);
+                                    var jsonClientes = JSON.stringify(Clientes);
+                                    //console.log("json: " + jsonClientes);
+                                    //se envia la informaciona al serv
+                                    $.ajax({
+                                        contentType: "application/json; charset=utf-8",
+                                        type: 'POST',
+                                        url: '@Url.Action("seguimientoClientePorAgenteXls", "Venta")',
+                                        async: false,
+                                        data: jsonClientes,
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            //console.log("vamos a ver la respuesta" + JSON.stringify(response));
+                                            $(".loader").css('display', 'none');
+                                            window.location.href = '@Url.Action("DownloadSeguimientoClienteXls", "Venta")' + '?fileGuid=' + response.FileGuid + '&fileName=' + response.FileName;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>
+<!--------------- Descargas de facturas ---------------->
+<script>
+    InitModuleFechFactura();
+    function InitModuleFechFactura() {
+        $('#fechaFactura').daterangepicker();
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+    }
+    $('#btnCancelBusquedaFactura').click(function () {
+        $("#contentFacturas").html('');
+    });
+    $('#btnBuscarFactura').click(function () {
+        var CodeCliente = $('#lblCodigo').html();
+        var drp = $('#fechaFactura').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $("#contentFacturas").html('');
+        $(".loader").css('display', 'block');
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("BuscarFacturas", "Venta")',
+            async: false,
+            data: '{ CodeCliente: "' + CodeCliente + '", Del: "' + Del + '", Al: "' + Al + '"}',
+            dataType: 'json',
+            success: function (response) {
+                if (response.Context.length > 0) {
+                    $.each(response.Context, function (index, value) {
+                        $("#contentFacturas").append(
+                            "<tr><td  style='width:60%'>Fecha de factura: " + StringCSharpAFecha(value.DocFecha) +
+                            "</td><td  style='width:20%'><button class='btn btn-success' type='button' onclick='DescargaFacturaPDF(" + value.DocKey + "," + value.DocNum + ")'>" +
+                            "<span class='glyphicon glyphicon-download'></span > Descargar PDF" +
+                            "</button ></td >" +
+                            "<td style='width:20%'><button class='btn btn-success'  type='button' onclick='DescargaFacturaXML(" + value.DocKey + "," + value.DocNum + ")'>" +
+                            "<span class='glyphicon glyphicon-download' ></span > Descargar XML" +
+                            "</button ></td ></tr>");
+                    });
+                    $(".loader").css('display', 'none');
+                } else {
+                    $(".loader").css('display', 'none');
+                }
+                $(".loader").css('display', 'none');
+            },
+            error: function (data) {
+                console.log("Error de busqueda de factura:");
+                console.log(data);
+                $(".loader").css('display', 'none');
+            }
+        });
+    });
+    function DescargaFacturaPDF(Key, Id) {
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esto podría tomar algunos segundos.',
+            type: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                    }
+                },
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $(".loader").css('display', 'block');
+                        window.location.href = '@Url.Action("DescargarFactura", "Venta")' +
+                            '?Key=' + Key + '&Id=' + Id;
+                        $(".loader").css('display', 'none');
+                    }
+                }
+            }
+        });
+    }
+    function DescargaFacturaXML(Key, Id) {
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esto podría tomar algunos segundos.',
+            type: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                    }
+                },
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        window.location.href = '@Url.Action("DescargarFacturaXML", "Venta")' +
+                                 '?Key=' + Key + '&Id=' + Id;
+                    }
+                }
+            }
+        });
+    }
+    function AgregarComentario(DocNum) {
+        $("#txt-Comentario-Cartera").val('');
+        $("#modal-Comentario").modal('show');
+        FacturaComentarioCartera = DocNum;
+    }
+    function VerComentarios(DocNum) {
+        let CodeCliente = $("#Cliente").val();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("GetComentariosCarteraVencida", "Venta")',
+            async: false,
+            data: '{ CodeCliente: "' + CodeCliente + '", DocNum: '+DocNum+'}',
+            dataType: 'json',
+            success: function (data) {
+                if (data.Context != null && $.isArray(data.Context)) {
+                    //Se abre el modal
+                    $("#ModalComentariosCarteraVencida").modal('show');
+                    var table = $('#ComentariosCarteraVencida').DataTable();
+                    table.destroy();
+                    $("#DetalleComentariosCarteraVencida").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        var fech = '';
+                        if (value.RegistradoEl != null) {
+                            fech = moment(value.RegistradoEl).format('DD/MM/YYYY');
+                        }
+                        $("#DetalleComentariosCarteraVencida").append('<tr>\
+                                                        <td>'+ value.Comentario + '</td>\
+                                                        <td>'+ value.RegistradoPor + '</td>\
+                                                        <td>'+ fech + '</td>\
+                                                    </tr >');
+                    });
+                    $('#ComentariosCarteraVencida').DataTable({
+                        "paging": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+
+                }
+                else {
+                    swal("No existen comentarios.");
+                }
+            },
+            error: function (data) {
+                console.log("Error de busqueda de Comentarios.");
+            }
+        });
+    }
+    function StringCSharpAFecha(DateC) {
+        var date = new Date(parseInt(DateC.substr(6)));
+        var fecha = (date.getUTCDate()) + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+        return fecha;
+    }
+
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>
+

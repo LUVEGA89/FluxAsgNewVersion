@@ -1,0 +1,394 @@
+﻿@using Reporting.Service.Web.UI.Models
+@model CapturaModel
+
+@{
+    ViewBag.Title = "finalizados";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+<section class="content-header">
+    <h1>
+
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Auditoría</a></li>
+        <li class="active">Captura</li>
+    </ol>
+</section>
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Ultimas auditorias completadas</h3>
+                    <div class="box-tools ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input class="form-control pull-right" id="DelAl" type="text">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div id="btnAuditorias" class="btn btn-success btn-block"><i class="fa fa-binoculars"></i></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        @foreach (var fecha in Model.Fechas)
+                        {
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-calendar-minus-o"></i> Fecha:
+                                    <span class="label label-primary">@fecha</span>
+                                    <ul class="todo-list">
+                                        @foreach (var item in Model.Auditorias)
+                                        {
+                                            if (item.RegistradoEl == fecha)
+                                            {
+                                                <li>
+                                                    <span class="text"><strong># @item.Sequence</strong> -  @item.Nombre [@item.Usuario]</span>
+                                                    <small class="label label-success"><i class="fa fa-calculator"></i> @item.Puntuacion</small>
+                                                    <div class="tools">
+                                                        <i onclick="Descargar(@item.Sequence)" class="fa fa-file-excel-o"></i>
+                                                        <i onclick="Enviar(@item.Sequence)" class="fa fa-send"></i>
+                                                        <i onclick="Mostrar(@item.Sequence)" class="fa fa-eye"></i>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </a>
+
+                            </li>
+                        }
+                    </ul>
+                    <div id="AuditoriaRefresh" style="display:none;" class="overlay">
+                        <i class="fa  fa-circle-o-notch fa-spin"></i>
+                    </div>
+                </div>
+                <div class="box-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<div class="modal fade" id="ModalAuditoria" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 class="page-header">
+                            <i class="fa fa-globe"></i> Auditoría
+                            (<strong id="Auditoria"></strong>)
+                        </h2>
+                    </div>
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <b>Sucursal: </b> <span id="sucursal"></span> <br>
+                        <b>Registrado el: </b> <span id="registradoel"></span> <br>
+                        <b>Finalizado el: </b> <span id="finalizadoel"></span>
+                    </div>
+                    <div class="col-sm-4 invoice-col"></div>
+                    <div class="col-sm-4 invoice-col">
+                        <b>Folio (Documento) #<span id="folio"></span></b><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Segmento</th>
+                                    <th>Rubro</th>
+                                    <th>Descripcion</th>
+                                    <th>Puntos obtenidos</th>
+                                    <th>Aplico</th>
+                                    <th>Observaciones</th>
+                                    <th>Evidencia</th>
+                                    <th>Ubicación</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detalle"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <th style="width:50%">Total:</th>
+                                    <td id="total"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .imagehover:hover {
+        box-shadow: 0px 0px 150px #000000;
+        transform: scale(3);
+        -webkit-transition: 2s; /* Safari */
+        transition: 2s;
+        z-index: 999999999999999999999;
+        position: fixed;
+    }
+</style>
+<script>
+    function UrlExists(url) {
+        var http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        if (http.status != 404)
+            return true;
+        else
+            return false;
+        //return http.status != 404;
+    }
+
+    function Mostrar(sequence) {
+        var datos = null;
+        $.post('@Url.Action("DetalleAuditoria2", "Auditoria")', {
+            Sequence: sequence
+        }, function (data) {
+            datos = data;
+            //console.log(data);
+            $("#AuditoriaRefresh").show();
+            if (data.Context != null && $.isArray(data.Context)) {
+                $("#detalle").html('');
+                var i = 0;
+                $.each(data.Context, function (index, value) {
+                    $("#Auditoria").html(value.Tipo);
+                    $("#sucursal").html(value.Nombre);
+                    $("#registradoel").html(moment(value.RegistradoEl).format('DD/MM/YYYY h:mm:ss a'));
+                    $("#finalizadoel").html(moment(value.FinalizadoEl).format('DD/MM/YYYY h:mm:ss a'));
+                    $("#folio").html(value.Sequence);
+                    $("#total").html('<strong>' + value.TotalPuntuacion + ' %</strong>');
+                    var imagenevidencia = '';
+                    var mapa = '';
+
+                    if ($.isArray(value.Imagenes)) {
+                        $.each(value.Imagenes, function (index, value2) {
+                            //var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(value2.Imagen)));
+                            //console.log(base64String);
+                            imagenevidencia = imagenevidencia + '<div class="col-md-6"><a data-fancybox="gallery" href="data:image/png;base64,' + value2.Imagen64 + '"><img width="100" src="data:image/png;base64,' + value2.Imagen64 + '"></a> </div>';
+
+                        });
+                    }
+
+                        @*if (value.Evidencia != '') {
+                            if (value.Evidencia.includes("Evidencia")) {
+                                for (var j = 1; j <= 10; j++) {
+                                    var currentImagen = "@Url.Content("~/Imagenes")/" + value.Evidencia + "-" + j +".png";
+                                    if (UrlExists(currentImagen))
+                                        imagenevidencia = imagenevidencia + '<div class="col-md-6"><a data-fancybox="gallery" href="' + currentImagen + '"><img width="100" src="' + currentImagen + '"></a> </div>';//
+                                    else
+                                        break;
+                                }
+
+                            } else {
+                                imagenevidencia = '<a class="col-md-12" data-fancybox="images" href="@Url.Content("~/Imagenes")/' + value.Evidencia + '"><img width="200" src="@Url.Content("~/Imagenes")/' + value.Evidencia + '"></a>'; //<img width="200" class="imagehover" src="@Url.Content("~/Imagenes")/' + value.Evidencia + '" />'
+                            }
+                        }*@
+
+
+                    $("#detalle").append('<tr>\
+                                                <td> '+ value.Segmento + '</td>\
+                                                <td>'+ value.Rubro + '</td>\
+                                                <td>'+ value.DescripcionRubro + '</td>\
+                                                <td>'+ value.PuntosAplicados + '</td>\
+                                                <td>'+ value.Aplica + '</td>\
+                                                <td>'+ value.Observaciones + '</td>\
+                                                <td><div style="width:200px"> <div class="row">'+ imagenevidencia + '</div></div></td>\
+                                                <td><div style="height: 200px; width: 200px;" id="mapa-'+ i + '"></div></td>\
+                                            </tr >');
+                    i++;
+                });
+                $('#ModalAuditoria').modal({
+                    backdrop: false,
+                    show: true
+                });
+                $("#AuditoriaRefresh").hide();
+            } else {
+                $.alert("Ocurrio un error al procesar la peticion. Detalles: " + data.Message);
+                $("#AuditoriaRefresh").hide();
+            }
+
+
+            }).done(function () {
+                cargaMapas(datos);
+            });
+    };
+
+    function cargaMapas(data) {
+        @*$.post('@Url.Action("DetalleAuditoria2", "Auditoria")', {
+            Sequence: sequence
+        }, function (data) {*@
+            if (data.Context != null && $.isArray(data.Context)) {
+                var j = 0;
+                $.each(data.Context, function (index, value) {
+                    if (value.Longitud != 0 && value.Latitud != 0) {
+                        var map = new google.maps.Map(document.getElementById('mapa-' + j), {
+                            center: {
+                                lat: Number(value.Latitud),
+                                lng: Number(value.Longitud)
+                            },
+                            zoom: 100
+                        });
+                        var marker = new google.maps.Marker({
+                            position: {
+                                lat: Number(value.Latitud),
+                                lng: Number(value.Longitud)
+                            },
+                            map: map,
+                            title: 'Auditoria'
+                        });
+                    }
+                    j++;
+                })
+            }
+
+        //});
+    };
+
+    function Descargar (sequence) {
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#AuditoriaRefresh').show();
+                        $.post('@Url.Action("DetalleAuditoria", "Auditoria")', {
+                            Sequence: sequence
+                        }, function (data) {
+                            window.location.href = '@Url.Action("Download", "Auditoria")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#AuditoriaRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    };
+    function Enviar (sequence) {
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#AuditoriaRefresh').show();
+                        $.post('@Url.Action("EnviaAuditoria", "Auditoria")', {
+                            Sequence: sequence
+                        }, function (data) {
+                            if (data.Context != null)
+                                $.alert("El correo se envio exitosamente.");
+                            else
+                                $.alert(data.Message)
+                        });
+                        $('#AuditoriaRefresh').hide();
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    };
+
+    $('#btnAuditorias').click(function () {
+        var fol = $('#folio').val();
+        if (fol == null || fol == '')
+            fol = 0;
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esta seguro de buscar este rango de fechas',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                       window.location = "@Url.Action("Finalizados", "Auditoria")?Tienda=@(Model.Tienda)&Del=" + Del + "&Al=" + Al;
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+
+    $('#DelAl').daterangepicker({
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Deciembre"
+            ]
+        }
+
+    });
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd3NDhqAMBpZ8hNcapvVnA6p93sUTXk4I&callback=initMap" async defer></script>

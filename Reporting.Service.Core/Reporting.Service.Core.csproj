@@ -1,0 +1,791 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0194BD15-C901-4BFD-9B14-59345F89AD15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Reporting.Service.Core</RootNamespace>
+    <AssemblyName>Reporting.Service.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BarcodeStandard, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BarcodeLib.2.4.0\lib\netstandard2.0\BarcodeStandard.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Facturacion.Service.Core">
+      <HintPath>..\packages\Facturav33\Facturacion.Service.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interdev.Cfdi.v33">
+      <HintPath>..\packages\Facturav33\Interdev.Cfdi.v33.dll</HintPath>
+    </Reference>
+    <Reference Include="Interdev.Cfdi.v33.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Facturav33\Interdev.Cfdi.v33.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Interdev.Cfdi.v33.NTLink, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Facturav33\Interdev.Cfdi.v33.NTLink.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SAPbobsCOM">
+      <HintPath>..\packages\SAP\Interop.SAPbobsCOM.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.5.0.2\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.5.0.1\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.5.0.2\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WikiCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Common\WikiCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActividadesProductos\ActividadesProductosManager.cs" />
+    <Compile Include="ActividadesProductos\ActividadProductos.cs" />
+    <Compile Include="ActividadesProductos\ActividadProductosComparacion.cs" />
+    <Compile Include="ActividadesProductos\ActividadProductosCriteria.cs" />
+    <Compile Include="ActividadesProductos\ActividadProductosFotos.cs" />
+    <Compile Include="ActividadesProductos\Arbol.cs" />
+    <Compile Include="ActividadesProductos\CategoriasSKUProductos.cs" />
+    <Compile Include="ActividadesProductos\Comentario.cs" />
+    <Compile Include="ActividadesProductos\ComentarioCatalog.cs" />
+    <Compile Include="ActividadesProductos\ComentarioCriteria.cs" />
+    <Compile Include="ActividadesProductos\FotoCatalog.cs" />
+    <Compile Include="ActividadesProductos\FotoCriteria.cs" />
+    <Compile Include="ActividadesProductos\ImagenesNuevoSKU.cs" />
+    <Compile Include="ActividadesProductos\Lista.cs" />
+    <Compile Include="ActividadesProductos\MarcaProductos.cs" />
+    <Compile Include="ActividadesProductos\MarcaProductosCatalog.cs" />
+    <Compile Include="ActividadesProductos\MarcaProductosCriteria.cs" />
+    <Compile Include="ActividadesProductos\NuevoSKUSugerido.cs" />
+    <Compile Include="ActividadesProductos\NuevoSKUSugeridoCatalog.cs" />
+    <Compile Include="ActividadesProductos\NuevoSKUSugeridoCriteria.cs" />
+    <Compile Include="ActividadesProductos\PreciosCompetencia.cs" />
+    <Compile Include="ActividadesProductos\PriceProducto.cs" />
+    <Compile Include="ActividadesProductos\Respuesta.cs" />
+    <Compile Include="ActividadesProductos\RespuestaCatalog.cs" />
+    <Compile Include="ActividadesProductos\RespuestaCriteria.cs" />
+    <Compile Include="ActividadesProductos\SKU.cs" />
+    <Compile Include="ActividadesProductos\SKUComparacionCatalog.cs" />
+    <Compile Include="ActividadesProductos\SKUComparacionCriteria.cs" />
+    <Compile Include="ActividadesProductos\TitulosActividad.cs" />
+    <Compile Include="Actividad\Actividad.cs" />
+    <Compile Include="Actividad\ActividadCriteria.cs" />
+    <Compile Include="Actividad\ActividadFoto.cs" />
+    <Compile Include="Actividad\ActividadManager.cs" />
+    <Compile Include="Actividad\Arbol.cs" />
+    <Compile Include="Actividad\Comentario.cs" />
+    <Compile Include="Actividad\ComentarioCatalog.cs" />
+    <Compile Include="Actividad\ComentarioCriteria.cs" />
+    <Compile Include="Actividad\Facturas.cs" />
+    <Compile Include="Actividad\ImagenActividad.cs" />
+    <Compile Include="Actividad\Respuesta.cs" />
+    <Compile Include="Actividad\RespuestaCatalog.cs" />
+    <Compile Include="Actividad\RespuestaCriteria.cs" />
+    <Compile Include="AdminProyectos\AdminProyecto.cs" />
+    <Compile Include="AdminProyectos\AdminProyectosManager.cs" />
+    <Compile Include="Agentes\Agente.cs" />
+    <Compile Include="Airport\Airport.cs" />
+    <Compile Include="Airport\AirportCriteria.cs" />
+    <Compile Include="Airport\AirportManager.cs" />
+    <Compile Include="Almacen\AlmacenPartida\AlmacenPartida.cs" />
+    <Compile Include="Almacen\AlmacenPartida\AlmacenPartidaCriteria.cs" />
+    <Compile Include="Almacen\AlmacenPartida\AlmacenPartidaManager.cs" />
+    <Compile Include="Almacen\StatusPedidos\StatusPedidos.cs" />
+    <Compile Include="Almacen\StatusPedidos\StatusPedidosCriteria.cs" />
+    <Compile Include="Almacen\StatusPedidos\StatusPedidosManager.cs" />
+    <Compile Include="Anexo\Anexo.cs" />
+    <Compile Include="Anexo\AnexoCriteria.cs" />
+    <Compile Include="Anexo\AnexoManager.cs" />
+    <Compile Include="Anexo\Empresa\Empresa.cs" />
+    <Compile Include="Anexo\Empresa\EmpresaCriteria.cs" />
+    <Compile Include="Anexo\Empresa\EmpresaManager.cs" />
+    <Compile Include="Anexo\Modulo\Modulo.cs" />
+    <Compile Include="Anexo\Modulo\ModuloCriteria.cs" />
+    <Compile Include="Anexo\Modulo\ModuloKind.cs" />
+    <Compile Include="Anexo\Modulo\ModuloManager.cs" />
+    <Compile Include="Anexo\Sucursal\Sucursal.cs" />
+    <Compile Include="Anexo\Sucursal\SucursalCriteria.cs" />
+    <Compile Include="Anexo\Sucursal\SucursalManager.cs" />
+    <Compile Include="ApartadoMercancia\Apartado\Apartado.cs" />
+    <Compile Include="ApartadoMercancia\Apartado\ApartadoCriteria.cs" />
+    <Compile Include="ApartadoMercancia\Apartado\ApartadoManager.cs" />
+    <Compile Include="ApartadoMercancia\Apartado\ApartadoProducto.cs" />
+    <Compile Include="ApartadoMercancia\Apartado\Evidencia.cs" />
+    <Compile Include="ApartadoMercancia\Cliente\Cliente.cs" />
+    <Compile Include="ApartadoMercancia\Cliente\ClienteCriteria.cs" />
+    <Compile Include="ApartadoMercancia\Cliente\ClienteManager.cs" />
+    <Compile Include="ApartadoMercancia\Factura\Factura.cs" />
+    <Compile Include="ApartadoMercancia\Factura\FacturaCriteria.cs" />
+    <Compile Include="ApartadoMercancia\Factura\FacturaManager.cs" />
+    <Compile Include="Api\Response.cs" />
+    <Compile Include="Api\ResponseItem.cs" />
+    <Compile Include="Aprobaciones\AprobacionesKind.cs" />
+    <Compile Include="Auditoria\AuditoriaManager.cs" />
+    <Compile Include="Auditoria\Captura.cs" />
+    <Compile Include="Auditoria\DetalleAuditoria.cs" />
+    <Compile Include="Auditoria\ImagenDetalle.cs" />
+    <Compile Include="Auditoria\Rubros.cs" />
+    <Compile Include="Auditoria\Segmento.cs" />
+    <Compile Include="Auditoria\SeguimientoAuditoria.cs" />
+    <Compile Include="Auditoria\TiendaSIAT.cs" />
+    <Compile Include="Auditoria\TipoAuditoria.cs" />
+    <Compile Include="Autorización\Autorizacion.cs" />
+    <Compile Include="Autorización\AutorizacionCriteria.cs" />
+    <Compile Include="Autorización\AutorizacionManager.cs" />
+    <Compile Include="BardCode\BardCode.cs" />
+    <Compile Include="BardCode\BardCodeCriteria.cs" />
+    <Compile Include="BardCode\BardCodeItem.cs" />
+    <Compile Include="BardCode\BardCodeManager.cs" />
+    <Compile Include="Bitacora\Bitacora.cs" />
+    <Compile Include="Bitacora\BitacoraArea.cs" />
+    <Compile Include="Bitacora\BitacoraDetalle.cs" />
+    <Compile Include="Bitacora\BitacoraManager.cs" />
+    <Compile Include="Bitacora\BitacoraRequerimiento.cs" />
+    <Compile Include="Bitacora\BitacoraUsuario.cs" />
+    <Compile Include="Buzon\Area\Area.cs" />
+    <Compile Include="Buzon\Area\AreaCriteria.cs" />
+    <Compile Include="Buzon\Area\AreaManager.cs" />
+    <Compile Include="Buzon\Buzon.cs" />
+    <Compile Include="Buzon\BuzonCriteria.cs" />
+    <Compile Include="Buzon\BuzonKind.cs" />
+    <Compile Include="Buzon\BuzonManager.cs" />
+    <Compile Include="Buzon\Categoria\Categoria.cs" />
+    <Compile Include="Buzon\Categoria\CategoriaCriteria.cs" />
+    <Compile Include="Buzon\Categoria\CategoriaManager.cs" />
+    <Compile Include="Buzon\Sucusal\Store.cs" />
+    <Compile Include="Buzon\Sucusal\StoreCatalog.cs" />
+    <Compile Include="Buzon\Sucusal\StoreCriteria.cs" />
+    <Compile Include="Canales\Canales.cs" />
+    <Compile Include="Canales\CanalesManager.cs" />
+    <Compile Include="Cartera\Canales.cs" />
+    <Compile Include="Cartera\CarteraManager.cs" />
+    <Compile Include="Cartera\Detalle.cs" />
+    <Compile Include="Cartera\Periodos.cs" />
+    <Compile Include="Categoria\Categoria.cs" />
+    <Compile Include="Categoria\CategoriaCriteria.cs" />
+    <Compile Include="Categoria\CategoriaManager.cs" />
+    <Compile Include="Clasificaciones\Clasificacion.cs" />
+    <Compile Include="Clientes\Cliente.cs" />
+    <Compile Include="Clientes\ClienteManager.cs" />
+    <Compile Include="Clientes\Comentario.cs" />
+    <Compile Include="Cliente\Cliente.cs" />
+    <Compile Include="Cliente\ClienteFilter.cs" />
+    <Compile Include="Cliente\ClienteManager.cs" />
+    <Compile Include="Common\RolManager.cs" />
+    <Compile Include="Common\CommonManager.cs" />
+    <Compile Include="Common\SecurityManager.cs" />
+    <Compile Include="Common\Usuario.cs" />
+    <Compile Include="Common\User.cs" />
+    <Compile Include="Common\Rol.cs" />
+    <Compile Include="CompletarFacturacionRecibida\CompletarFacturacionRecibida.cs" />
+    <Compile Include="CompletarFacturacionRecibida\CompletarFacturacionRecibidaCriteria.cs" />
+    <Compile Include="CompletarFacturacionRecibida\CompletarFacturacionRecibidaManager.cs" />
+    <Compile Include="CompletarFacturacionRecibida\Comprobante.cs" />
+    <Compile Include="CompletarFacturacionRecibida\CuentasGastos\CuentasGastos.cs" />
+    <Compile Include="CompletarFacturacionRecibida\CuentasGastos\CuentasGastosCriteria.cs" />
+    <Compile Include="CompletarFacturacionRecibida\CuentasGastos\CuentasGastosManager.cs" />
+    <Compile Include="CompletarFacturacionRecibida\Factory\Factory.cs" />
+    <Compile Include="CompletarFacturacionRecibida\Factory\FactoryBaseKind.cs" />
+    <Compile Include="CompletarFacturacionRecibida\Factory\ICreadorDB.cs" />
+    <Compile Include="CompletarFacturacionRecibida\Factory\Tipo\ParKoiwa2009.cs" />
+    <Compile Include="CompletarFacturacionRecibida\Factory\Tipo\Steuben2018.cs" />
+    <Compile Include="CompletarFacturacionRecibida\FacturaCompra.cs" />
+    <Compile Include="CompletarFacturacionRecibida\Moneda.cs" />
+    <Compile Include="CompletarFacturacionRecibida\Proveedor.cs" />
+    <Compile Include="CompletarFacturacionRecibida\QR.cs" />
+    <Compile Include="CompletarFacturacionRecibida\SucursalesSAP\SucursalesSAP.cs" />
+    <Compile Include="CompletarFacturacionRecibida\SucursalesSAP\SucursalesSAPCriteria.cs" />
+    <Compile Include="CompletarFacturacionRecibida\SucursalesSAP\SucursalesSAPManager.cs" />
+    <Compile Include="CompletarFacturacionRecibida\TimbreFiscalDigital.cs" />
+    <Compile Include="Consejo\CanalDetalle.cs" />
+    <Compile Include="Consejo\ConsejoManager.cs" />
+    <Compile Include="CreditoCobranza\CobranzaManager.cs" />
+    <Compile Include="CreditoCobranza\CondicionesPago.cs" />
+    <Compile Include="CreditoCobranza\Consultas.cs" />
+    <Compile Include="CreditoCobranza\CuentasPorCobrar.cs" />
+    <Compile Include="CreditoCobranza\DetalleCobranza.cs" />
+    <Compile Include="CreditoCobranza\DetallePorCanal.cs" />
+    <Compile Include="CreditoCobranza\EvaluacionVendedor\DetalleEstado.cs" />
+    <Compile Include="Cumplimiento\Cumplimiento.cs" />
+    <Compile Include="Cumplimiento\CumplimientoManager.cs" />
+    <Compile Include="Data\DataRepository4.cs" />
+    <Compile Include="Data\DataRepository3.cs" />
+    <Compile Include="Data\DataRepository2.cs" />
+    <Compile Include="Data\DataRepository.cs" />
+    <Compile Include="Disclaimers\Disclaimer.cs" />
+    <Compile Include="Disclaimers\DisclaimerCriteria.cs" />
+    <Compile Include="Disclaimers\DisclaimerManager.cs" />
+    <Compile Include="Disenio\Disenio.cs" />
+    <Compile Include="Disenio\DisenioCriteria.cs" />
+    <Compile Include="Disenio\DisenioManager.cs" />
+    <Compile Include="DocumentCategory.cs" />
+    <Compile Include="Ecommerce\DetalleInternet.cs" />
+    <Compile Include="Ecommerce\EcommerceManager.cs" />
+    <Compile Include="Ecommerce\VentasEcommerce.cs" />
+    <Compile Include="CreditoCobranza\EvaluacionVendedor\Cliente.cs" />
+    <Compile Include="CreditoCobranza\EvaluacionVendedor\EvaluacionManager.cs" />
+    <Compile Include="CreditoCobranza\EvaluacionVendedor\Vendedor.cs" />
+    <Compile Include="CreditoCobranza\EvaluacionVendedor\VentasEstado.cs" />
+    <Compile Include="EmpresasSap\EmpresaSap.cs" />
+    <Compile Include="EmpresasSap\EmpresasSapCriteria.cs" />
+    <Compile Include="EmpresasSap\EmpresasSapManager.cs" />
+    <Compile Include="Empresa\Empresa.cs" />
+    <Compile Include="Empresa\EmpresaFilter.cs" />
+    <Compile Include="Empresa\EmpresaManager.cs" />
+    <Compile Include="Estados\BanorteOkku.cs" />
+    <Compile Include="Estados\Banorte.cs" />
+    <Compile Include="Estados\BanorteOkkuManager.cs" />
+    <Compile Include="Estados\BanorteManager.cs" />
+    <Compile Include="Estados\BancomerManager.cs" />
+    <Compile Include="Estados\Bancomer.cs" />
+    <Compile Include="Estados\InbursaManager.cs" />
+    <Compile Include="Estados\BancosManager.cs" />
+    <Compile Include="Estados\CorteGlobal.cs" />
+    <Compile Include="Estados\Inbursa.cs" />
+    <Compile Include="Evidencia\Evidencia.cs" />
+    <Compile Include="Evidencia\EvidenciaKind.cs" />
+    <Compile Include="Evidencia\EvidenciaCriteria.cs" />
+    <Compile Include="Evidencia\EvidenciaManager.cs" />
+    <Compile Include="Evidencia\Modulo\Modulo.cs" />
+    <Compile Include="Evidencia\Modulo\ModuloCriteria.cs" />
+    <Compile Include="Evidencia\Modulo\ModuloManager.cs" />
+    <Compile Include="Exporting\NpoiExport.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioArticulo.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioArticuloCriteria.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioArticuloManager.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioCanal.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioCanalCirteria.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioCanalManager.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioFactor.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioFactorCriteria.cs" />
+    <Compile Include="FactoresPrecios\TipoPrecioFactorManager.cs" />
+    <Compile Include="FacturacionRecibida\FacturacionKind.cs" />
+    <Compile Include="FacturacionRecibida\FacturacionRecibida.cs" />
+    <Compile Include="FacturacionRecibida\FacturacionRecibidaCatalog.cs" />
+    <Compile Include="FacturacionRecibida\FacturacionRecibidaCriteria.cs" />
+    <Compile Include="FacturacionRecibida\TipoComprobanteKind.cs" />
+    <Compile Include="FacturasManager\Correo.cs" />
+    <Compile Include="FacturasManager\FacturaCatalog.cs" />
+    <Compile Include="FacturasManager\FacturaManager.cs" />
+    <Compile Include="Familias\Familia.cs" />
+    <Compile Include="Familias\FamiliaCatalog.cs" />
+    <Compile Include="Familias\FamiliaCriteria.cs" />
+    <Compile Include="Garantias\Garantia.cs" />
+    <Compile Include="Garantias\GarantiaCriteria.cs" />
+    <Compile Include="Garantias\GarantiaManager.cs" />
+    <Compile Include="Image\Imagen.cs" />
+    <Compile Include="DocumentStatus.cs" />
+    <Compile Include="Image\ImagenManager.cs" />
+    <Compile Include="Image\ImagenType.cs" />
+    <Compile Include="Indicadores\8020Compras.cs" />
+    <Compile Include="Indicadores\8020TiendasSAP.cs" />
+    <Compile Include="Indicadores\ComprasNacionales.cs" />
+    <Compile Include="Indicadores\Contenedor.cs" />
+    <Compile Include="Indicadores\Detalle8020.cs" />
+    <Compile Include="Indicadores\DetalleForecast.cs" />
+    <Compile Include="Indicadores\DiasDeEnvio.cs" />
+    <Compile Include="Indicadores\EstadoEnvio.cs" />
+    <Compile Include="Indicadores\IndicadoresManager.cs" />
+    <Compile Include="Indicadores\ReduccionCostosDetalle.cs" />
+    <Compile Include="Inventarios\Facturas.cs" />
+    <Compile Include="Inventarios\FacturasManager.cs" />
+    <Compile Include="ListasPrecios\ListaPrecio.cs" />
+    <Compile Include="ListasPrecios\ListaPrecioCriteria.cs" />
+    <Compile Include="ListasPrecios\ListaPrecioManager.cs" />
+    <Compile Include="MenuByUser\Menu\Menu.cs" />
+    <Compile Include="MenuByUser\Menu\MenuCatalog.cs" />
+    <Compile Include="MenuByUser\Menu\MenuCritria.cs" />
+    <Compile Include="MenuByUser\Modulo\Modulo.cs" />
+    <Compile Include="MenuByUser\Modulo\ModuloCatalog.cs" />
+    <Compile Include="MenuByUser\Modulo\ModuloCriteria.cs" />
+    <Compile Include="MenuByUser\Modulo\ModuloKind.cs" />
+    <Compile Include="MenuByUser\UserAccess.cs" />
+    <Compile Include="MenuByUser\Vistas\Vista.cs" />
+    <Compile Include="MenuByUser\Vistas\VistaCatalog.cs" />
+    <Compile Include="MenuByUser\Vistas\VistaCriteria.cs" />
+    <Compile Include="MetasCobranza\AcumuladosyMetas.cs" />
+    <Compile Include="MetasCobranza\Canal.cs" />
+    <Compile Include="MetasCobranza\FacturaDetalle.cs" />
+    <Compile Include="MetasCobranza\Meta.cs" />
+    <Compile Include="MetasCobranza\MetasCobranzaManager.cs" />
+    <Compile Include="Mobile\Choferes\Chofer.cs" />
+    <Compile Include="Mobile\Choferes\ChoferesCriteria.cs" />
+    <Compile Include="Mobile\Choferes\ChoferesManager.cs" />
+    <Compile Include="Mobile\PedidosChofer\PedidoChoferCriteria.cs" />
+    <Compile Include="Mobile\PedidosChofer\PedidoChofer.cs" />
+    <Compile Include="Mobile\PedidosChofer\PedidosChoferManager.cs" />
+    <Compile Include="Mobile\Pedidos\Items\PedidoItems.cs" />
+    <Compile Include="Mobile\Pedidos\Items\PedidoItemsCriteria.cs" />
+    <Compile Include="Mobile\Pedidos\Items\PedidoItemsManager.cs" />
+    <Compile Include="Mobile\Pedidos\Pedido.cs" />
+    <Compile Include="Mobile\Pedidos\PedidoCriteria.cs" />
+    <Compile Include="Mobile\Pedidos\PedidosManager.cs" />
+    <Compile Include="Mobile\Rutas\DetallesRuta\DetalleRuta.cs" />
+    <Compile Include="Mobile\Rutas\DetallesRuta\DetalleRutaCriteria.cs" />
+    <Compile Include="Mobile\Rutas\DetallesRuta\DetalleRutaManager.cs" />
+    <Compile Include="Mobile\Rutas\DetallesRuta\Evidencias\Evidencia.cs" />
+    <Compile Include="Mobile\Rutas\DetallesRuta\Evidencias\EvidenciaCriteria.cs" />
+    <Compile Include="Mobile\Rutas\DetallesRuta\Evidencias\EvidenciaKind.cs" />
+    <Compile Include="Mobile\Rutas\DetallesRuta\Evidencias\EvidenciaManager.cs" />
+    <Compile Include="Mobile\Rutas\DetallesRuta\StatusDetalleRuta.cs" />
+    <Compile Include="Mobile\Rutas\Ruta.cs" />
+    <Compile Include="Mobile\Rutas\RutaCriteria.cs" />
+    <Compile Include="Mobile\Rutas\RutasManager.cs" />
+    <Compile Include="Mobile\Rutas\StatusRutas.cs" />
+    <Compile Include="Mobile\Seguridad\Seguridad.cs" />
+    <Compile Include="Mobile\Seguridad\SeguridadCriteria.cs" />
+    <Compile Include="Mobile\Seguridad\SeguridadManager.cs" />
+    <Compile Include="News\LastNews.cs" />
+    <Compile Include="News\LastNewsManager.cs" />
+    <Compile Include="News\News.cs" />
+    <Compile Include="News\NewsManager.cs" />
+    <Compile Include="Nomina\DetalleNomina.cs" />
+    <Compile Include="Nomina\Factory\Factory.cs" />
+    <Compile Include="Nomina\Factory\FactoryBaseKind.cs" />
+    <Compile Include="Nomina\Factory\ICreadorDB.cs" />
+    <Compile Include="Nomina\Factory\Tipo\Massriv2007.cs" />
+    <Compile Include="Nomina\Factory\Tipo\Okku_Operaciones.cs" />
+    <Compile Include="Nomina\Factory\Tipo\Steuben2018.cs" />
+    <Compile Include="Nomina\Nomina.cs" />
+    <Compile Include="Nomina\NominaManager.cs" />
+    <Compile Include="NotaCredito\ConceptoDescuento\ConceptoDescuento.cs" />
+    <Compile Include="NotaCredito\EvidenciaKind.cs" />
+    <Compile Include="NotaCredito\NotaCredito.cs" />
+    <Compile Include="NotaCredito\NotaCreditoCriteria.cs" />
+    <Compile Include="NotaCredito\NotaCreditoItem.cs" />
+    <Compile Include="NotaCredito\NotaCreditoLote.cs" />
+    <Compile Include="NotaCredito\NotaCreditoManager.cs" />
+    <Compile Include="NotaCredito\NotaCreditoImagen.cs" />
+    <Compile Include="NotaCredito\UserKind.cs" />
+    <Compile Include="PagosRecibidos\DetallePago.cs" />
+    <Compile Include="PagosRecibidos\PagosManager.cs" />
+    <Compile Include="Pagos\Documentos.cs" />
+    <Compile Include="Pagos\PagosManager.cs" />
+    <Compile Include="Pagos\Parciales.cs" />
+    <Compile Include="Pais\Pais.cs" />
+    <Compile Include="Pais\PaisCriteria.cs" />
+    <Compile Include="Pais\PaisManager.cs" />
+    <Compile Include="Papeleria\Folio.cs" />
+    <Compile Include="Papeleria\Papeleria.cs" />
+    <Compile Include="Papeleria\PapeleriaManager.cs" />
+    <Compile Include="Papeleria\PapeleriaSap.cs" />
+    <Compile Include="PDF\ListasPrecios.cs" />
+    <Compile Include="PDF\ListasPreciosTiendas.cs" />
+    <Compile Include="PDF\PdfManagerD.cs" />
+    <Compile Include="PDF\Precios.cs" />
+    <Compile Include="PDF\Productos.cs" />
+    <Compile Include="Pedidos\Retail\Cliente.cs" />
+    <Compile Include="Pedidos\Retail\ClienteKind.cs" />
+    <Compile Include="Pedidos\Retail\PedidoItem.cs" />
+    <Compile Include="Pedidos\Retail\PedidoSIVE.cs" />
+    <Compile Include="Pedidos\Retail\PedidoSIVEComentario.cs" />
+    <Compile Include="Pedidos\Retail\PedidoSIVECriteria.cs" />
+    <Compile Include="Pedidos\Retail\PedidoSIVEKind.cs" />
+    <Compile Include="Pedidos\Retail\PedidoSIVEManager.cs" />
+    <Compile Include="Pedidos\TiendaWeb\Pedido.cs" />
+    <Compile Include="Pedidos\TiendaWeb\PedidoCriteria.cs" />
+    <Compile Include="Pedidos\TiendaWeb\PedidoManager.cs" />
+    <Compile Include="Pedidos\TiendaWeb\RegistroPedido.cs" />
+    <Compile Include="Precio\TipoPrecio.cs" />
+    <Compile Include="Precio\TipoPrecioCriteria.cs" />
+    <Compile Include="Precio\TipoPrecioManager.cs" />
+    <Compile Include="Productos\ComentarioSkuChina.cs" />
+    <Compile Include="Productos\Email.cs" />
+    <Compile Include="Productos\Envios.cs" />
+    <Compile Include="Productos\Familia.cs" />
+    <Compile Include="Productos\FamiliaManager.cs" />
+    <Compile Include="Productos\ListaPrecio.cs" />
+    <Compile Include="Productos\Llegadas\ProductoLlegada.cs" />
+    <Compile Include="Productos\OrdenesCompra.cs" />
+    <Compile Include="Productos\PreciosSap.cs" />
+    <Compile Include="Productos\PreciosManager.cs" />
+    <Compile Include="Productos\ProductoChina.cs" />
+    <Compile Include="Productos\ProductoManager.cs" />
+    <Compile Include="Productos\Precios.cs" />
+    <Compile Include="Productos\ProductosSap.cs" />
+    <Compile Include="Productos\Productos.cs" />
+    <Compile Include="Productos\TipoPrecioArt.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProveedorAeropuertos\ProveedorAeropuertoAirline.cs" />
+    <Compile Include="ProveedorAeropuertos\ProveedorAeropuertos.cs" />
+    <Compile Include="ProveedorAeropuertos\ProveedorAeropuertosFilter.cs" />
+    <Compile Include="ProveedorAeropuertos\ProveedorManagerAeropuertos.cs" />
+    <Compile Include="ProveedorCarrier\ProveedorCarriers.cs" />
+    <Compile Include="ProveedorCarrier\ProveedorCarriesFilter.cs" />
+    <Compile Include="ProveedorCarrier\ProveedorManagerCarriers.cs" />
+    <Compile Include="Proveedores\Anexo.cs" />
+    <Compile Include="Proveedores\EstatusPagos.cs" />
+    <Compile Include="Proveedores\Pago.cs" />
+    <Compile Include="Proveedores\Proveedor.cs" />
+    <Compile Include="Proveedores\ProveedorCriteria.cs" />
+    <Compile Include="Proveedores\ProveedoresManager.cs" />
+    <Compile Include="Proveedores\ResponsePagos.cs" />
+    <Compile Include="Proveedores\StatusPedido.cs" />
+    <Compile Include="ProveedorServicios\ProveedorServicio.cs" />
+    <Compile Include="ProveedorServicios\ProveedorServicioCriteria.cs" />
+    <Compile Include="ProveedorServicios\ProveedorServicioManager.cs" />
+    <Compile Include="Proveedor\Proveedor.cs" />
+    <Compile Include="Proveedor\ProveedorArchivo.cs" />
+    <Compile Include="Proveedor\ProveedorArchivoFilter.cs" />
+    <Compile Include="Proveedor\ProveedorArchivoManager.cs" />
+    <Compile Include="Proveedor\ProveedorFilter.cs" />
+    <Compile Include="Proveedor\ProveedorManager.cs" />
+    <Compile Include="Provider\Account.cs" />
+    <Compile Include="Provider\ProviderManager.cs" />
+    <Compile Include="Provider\Tipos.cs" />
+    <Compile Include="Purchase\Purchase.cs" />
+    <Compile Include="Purchase\PurchaseCriteria.cs" />
+    <Compile Include="Purchase\PurchaseManager.cs" />
+    <Compile Include="Quotation\Quotation.cs" />
+    <Compile Include="Quotation\QuotationCriteria.cs" />
+    <Compile Include="Quotation\QuotationManager.cs" />
+    <Compile Include="Quotation\QuotationStatus.cs" />
+    <Compile Include="Reportes\CostosKpis\IndicadoresCostosKpis.cs" />
+    <Compile Include="Reportes\DisponibilidadStock\DisponibilidadStock.cs" />
+    <Compile Include="Reportes\Indicadores\Indicadores.cs" />
+    <Compile Include="Reportes\Indicadores\IndicadoresCriteria.cs" />
+    <Compile Include="Reportes\Indicadores\IndicadoresCumplimientoVentaSku.cs" />
+    <Compile Include="Reportes\Indicadores\IndicadoresManager.cs" />
+    <Compile Include="Reportes\Mayoreo\Categoria.cs" />
+    <Compile Include="Reportes\Mayoreo\Cliente.cs" />
+    <Compile Include="Reportes\Mayoreo\Ejecutivo.cs" />
+    <Compile Include="Reportes\Mayoreo\Mayoreo.cs" />
+    <Compile Include="Reportes\Mayoreo\MayoreoCriteria.cs" />
+    <Compile Include="Reportes\Mayoreo\MayoreoManager.cs" />
+    <Compile Include="Reportes\Mayoreo\Meses.cs" />
+    <Compile Include="Reportes\Mayoreo\Pedidos.cs" />
+    <Compile Include="Reportes\Retail\Retail.cs" />
+    <Compile Include="Reportes\Retail\RetailCriteria.cs" />
+    <Compile Include="Reportes\Retail\RetailManager.cs" />
+    <Compile Include="Reportes\RotacionInventario\RotacionInventario.cs" />
+    <Compile Include="Reportes\RotacionInventario\RotacionInventarioCriteria.cs" />
+    <Compile Include="Reportes\RotacionInventario\RotacionInventarioManager.cs" />
+    <Compile Include="Requerimiento\Archivo\Archivo.cs" />
+    <Compile Include="Requerimiento\Archivo\ArchivoCriteria.cs" />
+    <Compile Include="Requerimiento\Archivo\ArchivoManager.cs" />
+    <Compile Include="Requerimiento\Concepto\Concepto.cs" />
+    <Compile Include="Requerimiento\Concepto\ConceptoCritetria.cs" />
+    <Compile Include="Requerimiento\Concepto\ConceptoManager.cs" />
+    <Compile Include="Requerimiento\Estatus.cs" />
+    <Compile Include="Requerimiento\EstatusKind.cs" />
+    <Compile Include="Requerimiento\Solicitud\Solicitud.cs" />
+    <Compile Include="Requerimiento\Solicitud\SolicitudCriteria.cs" />
+    <Compile Include="Requerimiento\Solicitud\SolicitudManager.cs" />
+    <Compile Include="Requerimiento\TipoReq\TipoRequerimiento.cs" />
+    <Compile Include="Requerimiento\TipoReq\TipoRequerimientoCriteria.cs" />
+    <Compile Include="Requerimiento\TipoReq\TipoRequerimientoManager.cs" />
+    <Compile Include="Retail\DatosRetail.cs" />
+    <Compile Include="Retail\Detalles.cs" />
+    <Compile Include="Retail\RetailCatalog.cs" />
+    <Compile Include="Roles\Rol.cs" />
+    <Compile Include="Roles\RolesManager.cs" />
+    <Compile Include="Roles\RolFilter.cs" />
+    <Compile Include="Runtime.cs" />
+    <Compile Include="SAP\Anexo.cs" />
+    <Compile Include="SAP\EnumBaseDatos.cs" />
+    <Compile Include="SAP\Producto.cs" />
+    <Compile Include="SAP\SAPManager.cs" />
+    <Compile Include="SAP\Tipos.cs" />
+    <Compile Include="Seguimiento\Comentario.cs" />
+    <Compile Include="Seguimiento\EstadoCompra.cs" />
+    <Compile Include="Seguimiento\Llegadas.cs" />
+    <Compile Include="Seguimiento\SeguimientoManager.cs" />
+    <Compile Include="Servicio\Servicio.cs" />
+    <Compile Include="Servicio\ServicioCriteria.cs" />
+    <Compile Include="Servicio\ServicioManager.cs" />
+    <Compile Include="Store\Store.cs" />
+    <Compile Include="Store\StoreCatalog.cs" />
+    <Compile Include="Store\StoreCriteria.cs" />
+    <Compile Include="Store\StoreDatosSap.cs" />
+    <Compile Include="Store\StoreDatosSapCatalog.cs" />
+    <Compile Include="Store\StoreDatosSapCriteria.cs" />
+    <Compile Include="Store\StoreDatosSapKind.cs" />
+    <Compile Include="Tarimas\ResumenTarimas.cs" />
+    <Compile Include="Tarimas\Tarima.cs" />
+    <Compile Include="Tarimas\TarimaCriteria.cs" />
+    <Compile Include="Tarimas\TarimasCatalog.cs" />
+    <Compile Include="Tiendas\Boletin.cs" />
+    <Compile Include="Tiendas\Tienda.cs" />
+    <Compile Include="Tiendas\TiendasManager.cs" />
+    <Compile Include="TipoServicio\TipoServicio.cs" />
+    <Compile Include="TipoServicio\TipoServicioCriteria.cs" />
+    <Compile Include="TipoServicio\TipoServicioManager.cs" />
+    <Compile Include="Tipos\Tipo.cs" />
+    <Compile Include="Trafico\Contenedor\Contenedor.cs" />
+    <Compile Include="Trafico\Contenedor\ContenedorAnexo\ContenedorAnexo.cs" />
+    <Compile Include="Trafico\Contenedor\ContenedorAnexo\ContenedorAnexoCriteria.cs" />
+    <Compile Include="Trafico\Contenedor\ContenedorAnexo\ContenedorAnexoManager.cs" />
+    <Compile Include="Trafico\Contenedor\ContenedorCriteria.cs" />
+    <Compile Include="Trafico\Contenedor\ContenedorEnvio\ContenedorEnvio.cs" />
+    <Compile Include="Trafico\Contenedor\ContenedorEnvio\ContenedorEnvioCriteria.cs" />
+    <Compile Include="Trafico\Contenedor\ContenedorEnvio\ContenedorEnvioManager.cs" />
+    <Compile Include="Trafico\Contenedor\ContenedorManager.cs" />
+    <Compile Include="Trafico\Contenedor\Envio\Anexo.cs" />
+    <Compile Include="Trafico\Contenedor\Envio\DetallePedido.cs" />
+    <Compile Include="Trafico\Contenedor\Envio\Envio.cs" />
+    <Compile Include="Trafico\Contenedor\Envio\EnvioCriteria.cs" />
+    <Compile Include="Trafico\Contenedor\Envio\EnvioManager.cs" />
+    <Compile Include="Trafico\Contenedor\Envio\Pedido.cs" />
+    <Compile Include="Trafico\Contenedor\Naviera\Naviera.cs" />
+    <Compile Include="Trafico\Contenedor\Naviera\NavieraCriteria.cs" />
+    <Compile Include="Trafico\Contenedor\Naviera\NavieraManager.cs" />
+    <Compile Include="Trafico\Contenedor\SeguimientoComentario\SeguimientoComentario.cs" />
+    <Compile Include="Trafico\Contenedor\SeguimientoComentario\SeguimientoComentarioCriteria.cs" />
+    <Compile Include="Trafico\Contenedor\SeguimientoComentario\SeguimientoComentarioManager.cs" />
+    <Compile Include="Trafico\Contenedor\Seguimiento\Seguimiento.cs" />
+    <Compile Include="Trafico\Contenedor\Seguimiento\SeguimientoCriteria.cs" />
+    <Compile Include="Trafico\Contenedor\Seguimiento\SeguimientoManager.cs" />
+    <Compile Include="Trafico\Contenedor\StatusContenedor\StatusContenedor.cs" />
+    <Compile Include="Trafico\Contenedor\StatusContenedor\StatusContenedorCriteria.cs" />
+    <Compile Include="Trafico\Contenedor\StatusContenedor\StatusContenedorManager.cs" />
+    <Compile Include="Trafico\TipoDocumentKind.cs" />
+    <Compile Include="Trafico\TipoDocumento.cs" />
+    <Compile Include="Trafico\TipoDocumentoCatalog.cs" />
+    <Compile Include="Trafico\TipoDocumentoCriteria.cs" />
+    <Compile Include="Usuarios\Usuario.cs" />
+    <Compile Include="Usuarios\UsuarioFilter.cs" />
+    <Compile Include="Usuarios\UsuarioManager.cs" />
+    <Compile Include="Venta\Anexo.cs" />
+    <Compile Include="Venta\Articulo.cs" />
+    <Compile Include="Venta\ClienteFotos.cs" />
+    <Compile Include="Venta\ConceptosServicios.cs" />
+    <Compile Include="Venta\NotaCredito.cs" />
+    <Compile Include="Venta\Cliente.cs" />
+    <Compile Include="Venta\DetalleAgente.cs" />
+    <Compile Include="Venta\DetalleVenta.cs" />
+    <Compile Include="Venta\NotaCreditoUsuarioImagen.cs" />
+    <Compile Include="Venta\Producto.cs" />
+    <Compile Include="Venta\ProximasLlegadasManager.cs" />
+    <Compile Include="Venta\SeguimientoClientexls.cs" />
+    <Compile Include="Venta\VentaManager.cs" />
+    <Compile Include="Viaticos\Actividades.cs" />
+    <Compile Include="Viaticos\Cabecera.cs" />
+    <Compile Include="Viaticos\CentroCosto.cs" />
+    <Compile Include="Viaticos\CodigoSAT.cs" />
+    <Compile Include="Viaticos\Departamento.cs" />
+    <Compile Include="Viaticos\DetalleActividad.cs" />
+    <Compile Include="Viaticos\DetalleItemSolicitud.cs" />
+    <Compile Include="Viaticos\DetalleSolicitud.cs" />
+    <Compile Include="Viaticos\Estados.cs" />
+    <Compile Include="Viaticos\Facturas.cs" />
+    <Compile Include="Viaticos\Presupuesto.cs" />
+    <Compile Include="Viaticos\Producto.cs" />
+    <Compile Include="Viaticos\Solicitudes.cs" />
+    <Compile Include="Viaticos\Usuario.cs" />
+    <Compile Include="Viaticos\ViaticosCriteria.cs" />
+    <Compile Include="Viaticos\ViaticosManager.cs" />
+    <Compile Include="Viaticos\Viaticos\ConceptoTraslado.cs" />
+    <Compile Include="Viaticos\Viaticos\FacturaConcepto.cs" />
+    <Compile Include="Viaticos\Viaticos\FormaPagoSAT.cs" />
+    <Compile Include="Viaticos\Viaticos\ProductoServicioSAT.cs" />
+    <Compile Include="Viaticos\Viaticos\Sucursal.cs" />
+    <Compile Include="Viaticos\Viaticos\UsoCFDI.cs" />
+    <Compile Include="Video\Video.cs" />
+    <Compile Include="Video\VideoManager.cs" />
+    <Compile Include="Video\VideoType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

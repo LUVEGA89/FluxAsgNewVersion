@@ -1,0 +1,616 @@
+﻿@model Reporting.Service.Core.Empresa.Empresa[]
+@{
+	ViewBag.Title = "Precarga";
+}
+
+<section class="content-header">
+	<h1>
+		Precarga nómina
+		<small>Panel de control</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="#"><i class="fa fa-dashboard"></i> Precarga nómina</a></li>
+		<li class="active">Nómina</li>
+	</ol>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Registro</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+						<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+					</div>
+				</div>
+				<div class="box-body">
+					<input type="hidden" id="Sequence" />
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<div class="input-group">
+									<span class="input-group-addon">Empresa:</span>
+									<select name="cbxEmpresa" id="cbxEmpresa" class="form-control">
+										@foreach (var td in this.Model)
+										{
+											<option value="@td.Identifier">@td.Nombre </option>
+										}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>TIENDA</label>
+								<input class="form-control " id="Tienda" placeholder="Codigo / Nombre" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>PERIODO</label>
+								<select id="Periodo" onKeyPress="return SoloNumeros(event);" class="form-control"></select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>IMSS</label>
+								<input class="form-control total" id="Imss" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>RCV</label>
+								<input class="form-control total" id="RCU" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>INFONAVIT</label>
+								<input class="form-control total" id="Infonavit" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>SUELDO</label>
+								<input class="form-control total" id="Sueldo" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>BONO DE PUNTUALIDAD</label>
+								<input class="form-control total" id="BonoPuntualidad" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>BONO DE ASISTENCIA</label>
+								<input class="form-control total" id="BonoAsistencia" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>PRIMA VACACIONAL</label>
+								<input class="form-control total" id="PrimaVacacional" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>PRIMA DOMINICAL</label>
+								<input class="form-control total" id="PrimaDominical" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>VACACIONES</label>
+								<input class="form-control total" id="Vacaciones" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>RETROACTIVO</label>
+								<input class="form-control total" id="Retroactivo" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>VALES DE DESPENSA</label>
+								<input class="form-control total" id="ValesDespensa" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>AGUINALDO</label>
+								<input class="form-control total" id="Aguinaldo" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>3% SOBRE NOMINA</label>
+								<input class="form-control total" id="SobreNomina" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>RETENCION POR SALARIO</label>
+								<input class="form-control total" id="RetencionSalario" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>RETENCION AGUINALDO</label>
+								<input class="form-control total" id="RetencionAguinaldo" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>FONDO DE AHORRO</label>
+								<input class="form-control total" id="FondoAhorro" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>FINIQUITO</label>
+								<input class="form-control total" id="Finiquito" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>PTU</label>
+								<input class="form-control total" id="PTU" value="0" onKeyPress="return SoloNumeros(event);" type="text">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>Extras</label>
+										<input class="form-control total" onKeyPress="return SoloNumeros(event);" id="Extras" value="0" type="text">
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>TOTAL</label>
+								<input class="form-control input-lg" disabled id="Total" onKeyPress="return SoloNumeros(event);" value="0" type="text">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<br />
+							<button id="GuardarPreNomina" type="button" class="btn btn-success btn-lg btn-block"><i class="fa fa-plus"></i> Añadir</button>
+							<button id="ActualizarPreNomina" type="button" class="btn btn-success btn-lg btn-block"><i class="fa fa-refresh"></i> Actualizar</button>
+						</div>
+
+					</div>
+				</div>
+				<div class="box-footer clearfix no-border">
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Historial de nómina del cliente</h3>
+					<div class="box-tools pull-right">
+						<button id="BoletinDownload" type="button" class="btn btn-box-tool"><i class="fa fa-file-excel-o"></i></button>
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+						<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="table-responsive">
+						<table id="Nomina" class="table table-bordered">
+							<thead>
+								<tr>
+									<td>Nombre</td>
+									<td>Total</td>
+									<td></td>
+									<td></td>
+								</tr>
+							</thead>
+							<tbody id="DetalleNomina"></tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+    Init();
+    function SoloNumeros(evt) {
+        if (window.event) {//asignamos el valor de la tecla a keynum
+            keynum = evt.keyCode; //IE
+        }
+        else {
+            keynum = evt.which; //FF
+        }
+        //comprobamos si se encuentra en el rango numérico y que teclas no recibirá.
+        if ((keynum > 45 && keynum < 58) || keynum == 8 || keynum == 13 || keynum == 6) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $("#GuardarPreNomina").click(function () {
+        $.post('@Url.Action("RegistrarNomina", "Nomina")', {
+            Cliente: $("#Tienda").val(),
+            Periodo: $("#Periodo").val(),
+            Imss: $("#Imss").val(),
+            RCU: $("#RCU").val(),
+            Infonavit: $("#Infonavit").val(),
+            Sueldo: $("#Sueldo").val(),
+            BonoPuntualidad: $("#BonoPuntualidad").val(),
+            BonoAsistencia: $("#BonoAsistencia").val(),
+            PrimaVacacional: $("#PrimaVacacional").val(),
+            PrimaDominical: $("#PrimaDominical").val(),
+            Vacaciones: $("#Vacaciones").val(),
+            Retroactivo: $("#Retroactivo").val(),
+            ValesDespensa: $("#ValesDespensa").val(),
+            Aguinaldo: $("#Aguinaldo").val(),
+            SobreNomina: $("#SobreNomina").val(),
+            RetencionSalario: $("#RetencionSalario").val(),
+            RetencionAguinaldo: $("#RetencionAguinaldo").val(),
+            FondoAhorro: $("#FondoAhorro").val(),
+            Finiquito: $("#Finiquito").val(),
+            PTU: $("#PTU").val(),
+            Extras: $("#Extras").val(),
+			Total: $("#Total").val(),
+			Empresa: $("#cbxEmpresa").val()
+        }, function (data) {
+            console.log(data);
+            if (data.Context == true) {
+                $.alert("Los datos se registraron correctamente");
+                LimpiarDatos();
+                ObtienePreNominasDisponibles();
+            }
+
+        });
+    });
+
+    $("#ActualizarPreNomina").click(function () {
+        $.post('@Url.Action("ActualizarNomina", "Nomina")', {
+            Sequence: $("#Sequence").val(),
+            Periodo: $("#Periodo").val(),
+            Imss: $("#Imss").val(),
+            RCU: $("#RCU").val(),
+            Infonavit: $("#Infonavit").val(),
+            Sueldo: $("#Sueldo").val(),
+            BonoPuntualidad: $("#BonoPuntualidad").val(),
+            BonoAsistencia: $("#BonoAsistencia").val(),
+            PrimaVacacional: $("#PrimaVacacional").val(),
+            PrimaDominical: $("#PrimaDominical").val(),
+            Vacaciones: $("#Vacaciones").val(),
+            Retroactivo: $("#Retroactivo").val(),
+            ValesDespensa: $("#ValesDespensa").val(),
+            Aguinaldo: $("#Aguinaldo").val(),
+            SobreNomina: $("#SobreNomina").val(),
+            RetencionSalario: $("#RetencionSalario").val(),
+            RetencionAguinaldo: $("#RetencionAguinaldo").val(),
+            FondoAhorro: $("#FondoAhorro").val(),
+            Finiquito: $("#Finiquito").val(),
+            PTU: $("#PTU").val(),
+            Extras: $("#Extras").val(),
+			Total: $("#Total").val(),
+			Empresa: $("#cbxEmpresa").val()
+        }, function (data) {
+            console.log(data);
+            if (data.Context == true) {
+                $.alert("Los datos se actualizaron correctamente");
+                LimpiarDatos();
+                ObtienePeriodosDisponibles();
+                $("#ActualizarPreNomina").hide();
+                $("#GuardarPreNomina").show();
+                ObtienePreNominasDisponibles();
+            }
+
+        });
+    });
+
+    $("#Tienda").blur(function () {
+        ObtienePreNominasDisponibles();
+        ObtienePeriodosDisponibles();
+        LimpiarDatos();
+
+    });
+    $(".total").blur(function () {
+        var total = 0;
+        total = parseFloat($("#Imss").val()) + parseFloat($("#RCU").val()) + parseFloat($("#Infonavit").val()) + parseFloat($("#Sueldo").val()) + parseFloat($("#BonoPuntualidad").val()) + parseFloat($("#BonoAsistencia").val()) + parseFloat($("#PrimaVacacional").val()) + parseFloat($("#PrimaDominical").val()) + parseFloat($("#Vacaciones").val()) + parseFloat($("#Retroactivo").val()) + parseFloat($("#ValesDespensa").val()) + parseFloat($("#Aguinaldo").val()) + parseFloat($("#SobreNomina").val()) + parseFloat($("#RetencionSalario").val()) + parseFloat($("#RetencionAguinaldo").val()) + parseFloat($("#FondoAhorro").val()) + parseFloat($("#Finiquito").val()) + parseFloat($("#PTU").val()) + parseFloat($("#Extras").val());
+
+        $("#Total").val(total);
+    });
+    function ObtienePreNominasDisponibles() {
+        $.post('@Url.Action("NominaTienda", "Nomina")', {
+            Cliente: $("#Tienda").val()
+        }, function (data) {
+            console.log(data)
+            if (data != null && $.isArray(data.Context)) {
+                var table = $('#Nomina').DataTable();
+                table.destroy();
+                $("#DetalleNomina").html('');
+                $.each(data.Context, function (index, value) {
+                    $("#DetalleNomina").append("<tr>\
+                                                    <td>" + value.Nombre + "</td>\
+                                                    <td>" + formatNumber.new(value.Total.toFixed(2), "$") + "</td>\
+                                                    <td><div onclick='DetalleNomina("+ value.Sequence + ")' class='btn btn-default'><i class='fa fa-pencil'></i> Editar</div></td>\
+                                                    <td><div class='btn btn-default' onclick='EnviarAValidacion("+ value.Sequence + ")' ><i class='fa fa-send'></i> Enviar a proceso de validación</div></td>\
+                                                </tr>");
+                });
+                $('#Nomina').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+
+            } else {
+                $.alert("No se encontraron registros");
+            }
+        });
+    };
+    function ObtienePeriodosDisponibles() {
+        $.post('@Url.Action("UltimoPeriodo", "Nomina")', {
+            Cliente: $("#Tienda").val()
+        }, function (data) {
+            //console.log('si')
+            //console.log(data)
+            let date = new Date();
+            var mes_name = date.getMonth();
+            //console.log(mes_name);
+
+            if (data != null) {
+                var Ultimo = data.Context;
+                if (Ultimo == 25 || Ultimo <= 0)
+                    Ultimo = 1;
+
+                $("#Periodo").html("");
+                for (var i = Ultimo; i <= 24; i++) {
+
+                    console.log(i)
+                    var Mes = '';
+                    switch (i) {
+                        case 1:
+                            Mes = 'ENERO1';
+                            break;
+                        case 2:
+                            Mes = 'ENERO2';
+                            break;
+                        case 3:
+                            Mes = 'FEBRERO1';
+                            break;
+                        case 4:
+                            Mes = 'FEBRERO2';
+                            break;
+                        case 5:
+                            Mes = 'MARZO1';
+                            break;
+                        case 6:
+                            Mes = 'MARZO2';
+                            break;
+                        case 7:
+                            Mes = 'ABRIL1';
+                            break;
+                        case 8:
+                            Mes = 'ABRIL2';
+                            break;
+                        case 9:
+                            Mes = 'MAYO';
+                            break;
+                        case 10:
+                            Mes = 'MAYO 2';
+                            break;
+                        case 11:
+                            Mes = 'JUNIO 1';
+                            break;
+                        case 12:
+                            Mes = 'JUNIO 2';
+                            break;
+                        case 13:
+                            Mes = 'JULIO 1';
+                            break;
+                        case 14:
+                            Mes = 'JULIO 2';
+                            break;
+                        case 15:
+                            Mes = 'AGOSTO 1';
+                            break;
+                        case 16:
+                            Mes = 'AGOSTO 2';
+                            break;
+                        case 17:
+                            Mes = 'SEPTIEMBRE 1';
+                            break;
+                        case 18:
+                            Mes = 'SEPTIEMBRE 2';
+                            break;
+                        case 19:
+                            Mes = 'OCTUBRE 1';
+                            break;
+                        case 20:
+                            Mes = 'OCTUBRE 2';
+                            break;
+                        case 21:
+                            Mes = 'NOVIEMBRE 1';
+                            break;
+                        case 22:
+                            Mes = 'NOVIEMBRE 2';
+                            break;
+                        case 23:
+                            Mes = 'DICIEMBRE 1';
+                            break;
+                        case 24:
+                            Mes = 'DICIEMBRE 2';
+                            break;
+
+                    }
+                    $("#Periodo").append(' <option value="' + i + '">' + Mes + '</option>');
+                }
+            } else {
+                $.alert("No se encontraron registros");
+            }
+        });
+    };
+    function EnviarAValidacion(Sequence) {
+        $.post('@Url.Action("EnviarAValidacion", "Nomina")', {
+            Sequence: Sequence
+        }, function (data) {
+            if (data != null) {
+                $.alert("El registro a sido enviado al proceso de aprobación.");
+                ObtienePreNominasDisponibles();
+            } else {
+                $.alert("No se encontraron registros");
+            }
+        });
+    };
+
+    function DetalleNomina(Sequence) {
+        $.post('@Url.Action("DetalleNominaBySequence", "Nomina")', {
+            Sequence: Sequence
+        }, function (data) {
+            if (data != null) {
+                $("#Periodo").html("");
+                for (var i = 1; i < 25; i++) {
+                    $("#Periodo").append(' <option value="' + i + '">' + i + '</option>');
+                }
+                $("#Sequence").val(Sequence);
+                $("#Tienda").val(data.Context.Codigo)
+                $("#Periodo").val(data.Context.Periodo)
+                $("#Imss").val(data.Context.IMSS)
+                $("#RCU").val(data.Context.RCU)
+                $("#Infonavit").val(data.Context.Infonavit)
+                $("#Sueldo").val(data.Context.Sueldo)
+                $("#BonoPuntualidad").val(data.Context.BonoPuntualidad)
+                $("#BonoAsistencia").val(data.Context.BonoAsistencia)
+                $("#PrimaVacacional").val(data.Context.PrimaVacacional)
+                $("#PrimaDominical").val(data.Context.PrimaDominical)
+                $("#Vacaciones").val(data.Context.Vacaciones)
+                $("#Retroactivo").val(data.Context.Retroactivo)
+                $("#ValesDespensa").val(data.Context.ValesDespensa)
+                $("#Aguinaldo").val(data.Context.Aguinaldo)
+                $("#SobreNomina").val(data.Context.SobreNomina)
+                $("#RetencionSalario").val(data.Context.RetencionSalario)
+                $("#RetencionAguinaldo").val(data.Context.RetencionAguinaldo)
+                $("#FondoAhorro").val(data.Context.FondoAhorro)
+                $("#Finiquito").val(data.Context.Finiquito)
+                $("#PTU").val(data.Context.PTU)
+                $("#Extras").val(data.Context.Extras)
+                $("#Total").val(data.Context.Total)
+                $("#ActualizarPreNomina").show();
+                $("#GuardarPreNomina").hide();
+
+            } else {
+                $.alert("No se encontraron registros");
+            }
+        });
+    }
+
+    function Init() {
+        $("#ActualizarPreNomina").hide();
+        $("#GuardarPreNomina").show();
+        LimpiarDatos();
+
+    }
+
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    };
+
+    var options = {
+        url: function (phrase) {
+            return "@Url.Action("FindTienda", "Nomina")";
+        },
+        getValue: function (element) {
+            return element.Nombre;
+        },
+        list: {
+            onSelectItemEvent: function () {
+                var Codigo = $("#Tienda").getSelectedItemData().Codigo;
+
+                $("#Tienda").val(Codigo).trigger("change");
+
+            },
+            //onHideListEvent: function() {
+            //    $("#inputTwo").val("").trigger("change");
+            //}
+        },
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json",
+            }
+        },
+        preparePostData: function (data) {
+            data.phrase = $("#Tienda").val();
+            return data;
+        },
+        requestDelay: 400
+    };
+
+    $("#Tienda").easyAutocomplete(options);
+
+    function LimpiarDatos() {
+        $("#Sequence").val("");
+        $("#Periodo").val(0);
+        $("#Imss").val(0);
+        $("#RCU").val(0);
+        $("#Infonavit").val(0);
+        $("#Sueldo").val(0);
+        $("#BonoPuntualidad").val(0);
+        $("#BonoAsistencia").val(0);
+        $("#PrimaVacacional").val(0);
+        $("#PrimaDominical").val(0);
+        $("#Vacaciones").val(0);
+        $("#Retroactivo").val(0);
+        $("#ValesDespensa").val(0);
+        $("#Aguinaldo").val(0);
+        $("#SobreNomina").val(0);
+        $("#RetencionSalario").val(0);
+        $("#RetencionAguinaldo").val(0);
+        $("#FondoAhorro").val(0);
+        $("#Finiquito").val(0);
+        $("#PTU").val(0);
+        $("#Extras").val(0);
+        $("#Total").val(0);
+    }
+
+</script>

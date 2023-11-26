@@ -1,0 +1,215 @@
+﻿
+@{
+    ViewBag.Title = "Sincronización";
+}
+
+<style>
+	.btn-app {
+		font-size: 18px !important;
+	}
+
+	.btn-success {
+		color: #fff !important;
+		background-color: #5cb85c !important;
+		border-color: #4cae4c !important;
+	}
+	.btn-app > .badge {
+		font-size: 15px !important;
+		font-weight: 800 !important;
+	}
+</style>
+<section class="content-header">
+    <h1>
+        Sincronización de nómina
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Nómina</a></li>
+        <li class="active">Sincronización nómina</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+		<div class="col-md-1">
+		</div>
+        <div class="col-md-10">
+			<div class="box box-danger">
+				<div class="box-header with-border" style="padding-right: 30px;">
+					<h3 class="box-title">Pendientes <small id="Pendientes"></small></h3>
+					<a class="btn btn-app btn-success btn-lg btn-block" id="btn-sincronizar-nomina">
+						<span class="badge bg-red" id="pendientes-por-sincronizar"></span>
+						<i class="fa fa-send"></i> Sincronización de nómina pendiente a SAP 
+					</a>
+					<!--<div class="overlay">
+						<i class="fa fa-refresh fa-spin"></i>
+					</div>-->
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="alert alert-danger" role="alert">
+								Nómina pendiente
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<table id="nomina-pendiente" class="table table-bordered">
+									<thead>
+										<tr>
+											<td>Empresa</td>
+											<td>Sequence</td>
+											<td>Código</td>
+											<td>Periodo</td>
+											<td>Total</td>
+											<td>Sueldo para porcentaje</td>
+											<td>Porcentaje</td>
+											<td>Descripción</td>
+											<td>Tipo</td>
+										</tr>
+									</thead>
+									<tbody id="nomina-pendiente-items"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="alert alert-danger" role="alert">
+								Nómina procesada
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<table id="nomina-procesada" class="table table-bordered">
+									<thead>
+										<tr>
+											<td>Filio SAP</td>
+											<td>Código</td>
+											<td>Periodo</td>
+											<td>Total</td>
+											<td>Sueldo para porcentaje</td>
+											<td>Porcentaje</td>
+											<td>Descripción</td>
+											<td>Tipo</td>
+										</tr>
+									</thead>
+									<tbody id="nomina-procesada-items"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+                    <div class="callout callout-warning">
+						<p>Nota: Datos son en tiempo de ejecución</p>
+					</div>
+                </div>
+			</div>
+        </div>
+		<div class="col-md-1">
+		</div>
+    </div>
+</section>
+
+<script>
+   
+   $("#pendientes-por-sincronizar").hide();
+
+   $("#btn-sincronizar-nomina").click(function(){
+		$.confirm({
+			title: 'Advertencia',
+			content: '¿Esta seguro(a) que la nómina es correcta y deseas sincronizarla con SAP?',
+            autoClose: 'cancelar|8000',
+			buttons: {
+				sincronizar: {
+					btnClass: 'btn-warning',
+					text: 'Sincronizar',
+					action: function () {
+						$.post('@Url.Action("ProcesarNomina", "Nomina")', function (data) {
+							if (data != null) {
+
+								if(data.Code == -1){//Si no hay conexion con SAP
+									$.alert({
+										title: 'Error',
+										content: data.Message,
+										rtl: true,
+										closeIcon: true,
+										buttons: {
+											confirm: {
+												text: 'ok',
+												btnClass: 'btn-blue',
+												action: function () {
+													$.alert("por favor intente mas tarde");
+												}
+											}
+										}
+									});
+								} else {
+									alert(JSON.stringify(data.Context.facturasAgregadasCorrectamente));	
+								}
+							}
+						});
+					}
+				},
+				cancelar: function () {
+					$.alert('La Sincronización fue cancelada automáticamente.');
+				}
+			}
+		});
+   });
+
+   $.post('@Url.Action("GetNomina", "Nomina")', 
+		function (data) {
+			if(data != null){
+				if ($.isArray(data.Context)) {
+					$("#pendientes-por-sincronizar").html(data.Context.length);
+					$("#pendientes-por-sincronizar").show();
+                    var VP = $('#nomina-pendiente').DataTable();
+                    VP.destroy();
+                    $("#nomina-pendiente-items").html('');
+									
+                    $.each(data.Context, function (index, value) {
+						$("#nomina-pendiente-items").append('<tr>\
+								<td>'+ value.Empresa.Nombre +'</td>\
+								<td>'+ value.Sequence+'</td>\
+								<td>'+ value.Codigo+'</td>\
+								<td>'+ value.Periodo+'</td>\
+								<td>'+ value.Total+ '</td>\
+								<td>'+ value.Sueldoparaporcentaje+ '</td>\
+								<td>'+ value.Porcentaje+'</td>\
+								<td>'+ value.Descripcion + '</td>\
+								<td>'+ value.Tipo + '</td>\
+							</tr>');
+						
+                    });
+
+                    $('#nomina-pendiente').DataTable({
+                        //order: [[4, "desc"]],
+                        "lengthMenu": [[12, 24, 48, -1], [12, 24, 48, "All"]],
+						dom: 'Bfrtip',
+						buttons: [
+							'excel', 'pdf'
+						],
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+				else {
+					$("#pendientes-por-sincronizar").hide();
+				}
+			}
+        });
+
+</script>

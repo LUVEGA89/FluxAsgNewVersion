@@ -1,0 +1,1003 @@
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\csc.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\vbc.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll.config
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\sqlcese40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\sqlceqp40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\sqlceme40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\sqlceer40EN.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\sqlcecompact40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\sqlceca40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\sqlcese40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\sqlceqp40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\sqlceme40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\sqlceer40EN.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\sqlcecompact40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\sqlceca40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Antlr3.Runtime.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.Shared.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\EntityFramework.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\EPPlus.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Newtonsoft.Json.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\NPOI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\NPOI.OOXML.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\NPOI.OpenXml4Net.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\NPOI.OpenXmlFormats.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Data.SqlServerCe.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.Helpers.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.Mvc.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.Optimization.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.Razor.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.WebPages.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\WebGrease.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\WikiCore.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\stdole.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Reporting.Service.Core.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll.config
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Services.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\EPPlus.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\NPOI.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.Helpers.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.Mvc.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.Optimization.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.Razor.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.WebPages.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Antlr3.Runtime.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Newtonsoft.Json.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\EntityFramework.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\System.Web.Razor.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\EntityFramework.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Facebook.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Google.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csprojResolveAssemblyReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.ResolveComReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\Repo\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\csc.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\vbc.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll.config
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\sqlcese40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\sqlceqp40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\sqlceme40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\sqlceer40EN.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\sqlcecompact40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\sqlceca40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\sqlcese40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\sqlceqp40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\sqlceme40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\sqlceer40EN.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\sqlcecompact40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\sqlceca40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Antlr3.Runtime.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.Shared.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\EntityFramework.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\EPPlus.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Newtonsoft.Json.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\NPOI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\NPOI.OOXML.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\NPOI.OpenXml4Net.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\NPOI.OpenXmlFormats.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Data.SqlServerCe.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.Helpers.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.Mvc.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.Optimization.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.Razor.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.WebPages.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\WebGrease.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\WikiCore.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\stdole.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Reporting.Service.Core.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll.config
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Services.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\EPPlus.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\NPOI.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.Helpers.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.Mvc.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.Optimization.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.Razor.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.WebPages.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Antlr3.Runtime.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Newtonsoft.Json.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\EntityFramework.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\System.Web.Razor.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\EntityFramework.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Facebook.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Google.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csprojResolveAssemblyReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.ResolveComReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\csc.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\vbc.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll.config
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\sqlcese40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\sqlceqp40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\sqlceme40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\sqlceer40EN.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\sqlcecompact40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\sqlceca40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\sqlcese40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceqp40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceme40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceer40EN.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\sqlcecompact40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceca40.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Antlr3.Runtime.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.Shared.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\EntityFramework.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\EPPlus.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Newtonsoft.Json.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\NPOI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\NPOI.OOXML.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\NPOI.OpenXml4Net.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\NPOI.OpenXmlFormats.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Owin.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Data.SqlServerCe.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.Helpers.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.Mvc.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.Optimization.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.Razor.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\WebGrease.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\WikiCore.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\stdole.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll.config
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Services.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\EPPlus.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\NPOI.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.Helpers.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.Mvc.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.Optimization.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.Razor.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Antlr3.Runtime.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Newtonsoft.Json.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\EntityFramework.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Razor.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\EntityFramework.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Facebook.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Google.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csprojAssemblyReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.ResolveComReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CopyComplete
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\csc.exe
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\vbc.exe
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll.config
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\sqlcese40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\sqlceqp40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\sqlceme40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\sqlceer40EN.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\sqlcecompact40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\sqlceca40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\sqlcese40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceqp40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceme40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceer40EN.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\sqlcecompact40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceca40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Antlr3.Runtime.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CommonServiceLocator.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportSource.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.Shared.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\EntityFramework.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\EPPlus.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\HtmlAgilityPack.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.Core.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.NTLink.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Interdev.Sat.Connector.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Newtonsoft.Json.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\NPOI.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\NPOI.OOXML.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\NPOI.OpenXml4Net.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\NPOI.OpenXmlFormats.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Owin.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Services.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Data.SqlServerCe.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Net.Http.Formatting.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Helpers.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Http.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Http.WebHost.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Mvc.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Optimization.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Razor.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\WebGrease.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\WikiCore.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Interdev.Core.Validators.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\BouncyCastle.Crypto.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\zxing.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\stdole.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll.config
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Services.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Antlr3.Runtime.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\EntityFramework.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\EPPlus.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.dll.config
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.Core.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Logging.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Newtonsoft.Json.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\NPOI.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Net.Http.Formatting.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Helpers.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Http.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Http.WebHost.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Mvc.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Optimization.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.Razor.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Interdev.Core.Validators.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\zxing.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\zxing.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\EntityFramework.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Facebook.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Google.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Http.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Razor.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csprojAssemblyReference.cache
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.ResolveComReference.cache
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CoreCompileInputs.cache
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CopyComplete
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\BarcodeStandard.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\netstandard.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Drawing.Common.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Memory.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Numerics.Vectors.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Buffers.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Memory.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Numerics.Vectors.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\System.Buffers.xml
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.Sat.v40.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.Sat.v40.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\csc.exe
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\vbc.exe
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll.config
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\sqlcese40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\sqlceqp40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\sqlceme40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\sqlceer40EN.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\sqlcecompact40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\sqlceca40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\sqlcese40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceqp40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceme40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceer40EN.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\sqlcecompact40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\sqlceca40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\README_ENU.txt
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\msvcr90.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Antlr3.Runtime.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CommonServiceLocator.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportSource.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.Shared.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\EntityFramework.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\EPPlus.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\HtmlAgilityPack.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.Core.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.NTLink.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Interdev.Sat.Connector.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Newtonsoft.Json.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\NPOI.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\NPOI.OOXML.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\NPOI.OpenXml4Net.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\NPOI.OpenXmlFormats.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Owin.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.Sat.v40.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Services.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Data.SqlServerCe.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Net.Http.Formatting.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Helpers.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Http.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Http.WebHost.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Mvc.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Optimization.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Razor.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\WebGrease.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\WikiCore.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\BarcodeStandard.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Interdev.Core.Validators.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\BouncyCastle.Crypto.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\zxing.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\netstandard.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Drawing.Common.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Memory.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Numerics.Vectors.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Buffers.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\stdole.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.Sat.v40.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll.config
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Services.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Antlr3.Runtime.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\EntityFramework.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\EPPlus.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.dll.config
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.Core.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Logging.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Newtonsoft.Json.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\NPOI.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Net.Http.Formatting.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Helpers.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Http.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Http.WebHost.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Mvc.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Optimization.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.Razor.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\Interdev.Core.Validators.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\zxing.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\zxing.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Memory.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Numerics.Vectors.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\System.Buffers.xml
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\EntityFramework.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Facebook.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Google.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Helpers.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Http.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Mvc.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Optimization.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.Razor.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csprojAssemblyReference.cache
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.ResolveComReference.cache
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CoreCompileInputs.cache
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CopyComplete
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\csc.exe
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\System.Collections.Immutable.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\System.Reflection.Metadata.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\vbc.exe
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\roslyn\VBCSCompiler.exe.config
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll.config
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Reporting.Service.Web.UI.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\sqlcese40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\sqlceqp40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\sqlceme40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\sqlceer40EN.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\sqlcecompact40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\sqlceca40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\README_ENU.txt
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\msvcr90.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\sqlcese40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\sqlceqp40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\sqlceme40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\sqlceer40EN.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\sqlcecompact40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\sqlceca40.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\README_ENU.txt
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\msvcr90.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Antlr3.Runtime.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CommonServiceLocator.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.CrystalReports.Engine.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportSource.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.Shared.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\EntityFramework.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\EPPlus.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\HtmlAgilityPack.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\ICSharpCode.SharpZipLib.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.Core.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.NTLink.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Interdev.Sat.Connector.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Web.Infrastructure.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Newtonsoft.Json.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\NPOI.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\NPOI.OOXML.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\NPOI.OpenXml4Net.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\NPOI.OpenXmlFormats.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Owin.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Services.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Data.SqlServerCe.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Net.Http.Formatting.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Helpers.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Http.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Http.WebHost.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Mvc.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Optimization.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Razor.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.WebPages.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\WebGrease.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\WikiCore.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\BarcodeStandard.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Interdev.Core.Validators.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\BouncyCastle.Crypto.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\zxing.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\netstandard.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Drawing.Common.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Memory.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\stdole.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Numerics.Vectors.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Buffers.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Reporting.Service.Core.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Reporting.Service.Core.dll.config
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Services.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Antlr3.Runtime.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\EntityFramework.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\EntityFramework.SqlServer.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\EntityFramework.SqlServerCompact.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\EPPlus.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Facturacion.Service.Core.dll.config
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Interdev.Cfdi.v33.Core.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Core.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Cookies.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Facebook.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Google.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.OAuth.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Owin.Security.Twitter.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Logging.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Newtonsoft.Json.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\NPOI.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Net.Http.Formatting.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Helpers.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Http.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Http.WebHost.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Mvc.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Optimization.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.Razor.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.WebPages.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.WebPages.Deployment.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Web.WebPages.Razor.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Microsoft.Practices.EnterpriseLibrary.Validation.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\Interdev.Core.Validators.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\zxing.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\zxing.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Memory.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Numerics.Vectors.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\System.Buffers.xml
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\EntityFramework.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\EntityFramework.SqlServer.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Facebook.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Google.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Net.Http.Formatting.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.Helpers.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.Http.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.Http.WebHost.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.Mvc.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.Optimization.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.Razor.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Deployment.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\bin\es\System.Web.WebPages.Razor.resources.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.AssemblyReference.cache
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.ResolveComReference.cache
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CoreCompileInputs.cache
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.csproj.CopyComplete
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\obj\Debug\Reporting.Service.Web.UI.pdb

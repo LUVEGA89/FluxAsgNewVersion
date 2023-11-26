@@ -1,0 +1,170 @@
+﻿@{
+    ViewBag.Title = "SKU POR DISEÑO";
+}
+
+
+<section class="content-header">
+    <h1>
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Productos</a></li>
+        <li class="active">SKU POR DISEÑO</li>
+        <li class="active">LVV</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">SKU POR DISEÑO</h3>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered" id="table-purchase">
+                            <thead>
+                                <tr>
+                                    <td>SKU</td>
+                                    <td>Marca</td>
+                                    <td>Familia</td>
+                                    <td>Categoria</td>
+                                    <td>Clasificación</td>
+                                    <td>Tipo</td>
+                                    <td>Descripción</td>
+                                    <td>Estatus</td>
+                                    <td>Empaque</td>
+                                    <td>Largo Master (cm)</td>
+                                    <td>Ancho Master (cm)</td>
+                                    <td>Altura Master (cm)</td>
+                                    <td>Peso Master (kg)</td>
+                                    <td>Cantidad Master (pcs)</td>
+                                    <td>Largo Inner (cm)</td>
+                                    <td>Ancho Inner (cm)</td>
+                                    <td>Altura Inner (cm)</td>
+                                    <td>Peso Inner (kg)</td>
+                                    <td>Cantidad Inner (pcs)</td>
+                                    <td>Largo Individual (cm)</td>
+                                    <td>Ancho Individual (cm)</td>
+                                    <td>Altura Individual (cm)</td>
+                                    <td>Peso Individual (grms)</td>
+                                    <td>Cb Sku</td>
+                                    <td>Cb Inner</td>
+                                    <td>Cb Master</td>
+                                    <td>Stock Actual</td>
+                                </tr>
+                            </thead>
+                            <tbody id="body-purchase"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer">
+
+                </div>
+                <div id="purchase-overload" style="display:none;" class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    
+    initModule();
+
+    function initModule() {
+        Search();
+    }
+
+    function Search() {
+        $("#purchase-overload").show();
+
+        $.post('@Url.Action("ReporteDisenio", "Purchase")', {
+        }, function (data) {
+            if (data.Context != null && $.isArray(data.Context)) {
+                var VP = $('#table-purchase').DataTable();
+                VP.destroy();
+
+                $("#boby-purchase").empty();
+
+                $.each(data.Context, function (index, value) {
+                            $("#body-purchase").append('<tr>\
+                                <td>' + value.sku + '</td>\
+                                <td>' + value.marca + '</td>\
+                                <td>' + value.familia + '</td>\
+                                <td>' + value.categoria + '</td>\
+                                <td>' + value.subcategoria + '</td>\
+                                <td>' + value.tipo + '</td>\
+                                <td>' + value.descripcion + '</td>\
+                                <td>' + value.estatus + '</td>\
+                                <td>' + value.empaque + '</td>\
+                                <td>' + parseFloat(value.largomaster).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.anchomaster).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.alturamaster).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.pesomaster).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.cantidadmaster).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.largoinner).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.anchoinner).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.alturainner).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.pesoinner).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.cantidadinner).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.largoindividual).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.anchoindividual).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.alturaindividual).toFixed(2) + '</td>\
+                                <td>' + parseFloat(value.pesoindividual).toFixed(2) + '</td>\
+                                <td>' + value.cbsku + '</td>\
+                                <td>' + value.cbinner + '</td>\
+                                <td>' + value.cbmaster + '</td>\
+                                <td>' + value.stockactual + '</td>\
+                           </tr>');
+                });
+
+                $('#table-purchase').DataTable({
+                    dom: 'Bfrtip',
+                    stateSave: true,
+                    buttons: [
+                        'excel', 'pageLength'
+                    ],
+                    "paging": true,
+                    lengthMenu: [
+                        [ 10, 25, 50, -1 ],
+                        [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                    ],
+                    "searching": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+                $("#purchase-overload").hide();
+            } else {
+                $("#purchase-overload").hide();
+            }
+        }).always(function() {
+            $("#purchase-overload").hide();
+        });
+    }
+
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>

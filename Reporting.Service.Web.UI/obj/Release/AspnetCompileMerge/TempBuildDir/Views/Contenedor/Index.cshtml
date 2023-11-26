@@ -1,0 +1,1077 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .th-envios {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+    }
+
+    .th-SKUS {
+        background-color: #bcfa62;
+        color: black;
+        text-align: center;
+    }
+
+    .th-SKU {
+        background-color: #4ad89c;
+        color: white;
+        text-align: center;
+    }
+
+    .th-contenedores {
+        background-color: #5263c4;
+        color: white;
+        text-align: center;
+    }
+
+    #modalTam {
+        width: 80% !important;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Contenedores
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Contenedor </a></li>
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h1 class="box-title">Buscar Contenedor por: </h1>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Nombre del contenedor:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                                <input id="nomContenedor" type="text" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Seleccione el rango de fecha de puerto:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="DelAl" value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="row">
+                                <label></label>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div id="ShowDetails" class="btn btn-success btn-block pull-left">
+                                        <span class="fa fa-search"></span> Buscar
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cargando" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="DetalleSeguimentoPrincipal">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table id="Contenedores" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="th-contenedores">CONTENEDOR</th>
+                                    <th class="th-contenedores">NAVIERA</th>
+                                    <th class="th-contenedores">ESTADO</th>
+                                    <th class="th-contenedores">TIPO CAMBIO</th>
+                                    <th class="th-contenedores">FECHA PUERTO</th>
+                                    <th class="th-contenedores">FECHA PANTACO</th>
+                                    <th class="th-contenedores">FECHA CEDIS</th>
+                                    <th class="th-contenedores">SEGUIMIENTO</th>
+                                    <th class="th-contenedores">ANEXOS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ContenedoresDetalle"></tbody>
+                        </table>
+                    </div>
+                    <div id="cargando2" style="display:none;" class="overlay">
+                        <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Envios-->
+    <div class="modal fade" id="modalEnvios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <h5 class="modal-title">Envíos del contenedor</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="box-header" id="modalEnviosHeader">
+                        <i class="fa fa-level-down"></i>
+                        <h3 class="box-title">Envios</h3>
+                    </div>
+                    <div class="box-body" style="display: block;">
+                        <div class="table-responsive table-responsive-custom">
+                            <table class="table table-bordered" id="tablaEnvios">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="th-envios">DocNum</th>
+                                        <th class="th-envios">Proveedor</th>
+                                        <th class="th-envios">Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyEnvios"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL TABLA DETALLE-->
+    <div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" id="modalTam">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <h5 class="modal-title">Pedidos</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="box-header">
+                        <i class="fa fa-level-down"></i>
+                        <h3 class="box-title">Envio con DocNum: <span id="EnvioDocNum"></span></h3>
+                        <a class="btn btn-lg pull-right" data-target="#modalAnexos" data-toggle="modal" data-id="1" align="center"><i class="fa fa-folder-open"></i>  Anexos</a>
+                    </div>
+                    <div class="box-body" style="display: block;">
+                        <div class="table-responsive table-responsive-custom">
+                            <table class="table table-bordered" id="tablaPed">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="th-SKUS">SKU</th>
+                                        <th class="th-SKUS">Nombre</th>
+                                        <th class="th-SKUS">Cantidad</th>
+                                        <th class="th-SKUS">Precio</th>
+                                        <th class="th-SKUS">Importe Total</th>
+                                        <th class="th-SKUS">Nom</th>
+                                        <th class="th-SKUS">VencimientoNom</th>
+                                        <th class="th-SKUS">Arancel</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyPed"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Detalle SKU-->
+    <div class="modal fade" id="modalSku" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <h5 class="modal-title">Detalle del SKU</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="box-header">
+                        <i class="fa fa-level-down"></i>
+                        <h3 class="box-title">Especificaciones SKU: <span id="SKUNom"></span></h3>
+                        <a class="btn btn-lg pull-right" data-target="#modalAnexos" data-toggle="modal" data-id="2" align="center"><i class="fa fa-folder-open"></i>  Anexos</a>
+                    </div>
+                    <div class="box-body" style="display: block;">
+                        <div class="table-responsive table-responsive-custom">
+                            <table class="table table-bordered" id="tablaSku">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="th-stationery">Descripción</th>
+                                        <th class="th-stationery">Familia</th>
+                                        <th class="th-stationery">Subfamilias</th>
+                                        <th class="th-stationery">Empaque</th>
+                                        <th class="th-stationery">Master</th>
+                                        <th class="th-stationery">Inner</th>
+                                        <th class="th-stationery">Accesorios</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodySku"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Anexos-->
+    <div class="modal fade" id="modalAnexos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <h5 class="modal-title">Detalle de los anexos</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="box-header">
+                        <i class="fa fa-level-down"></i>
+                        <h3 class="box-title">Anexos</h3>
+                        <a id="btnAddAnexo" class="btn btn-lg pull-right" data-target="#modalAddAnexo" data-toggle="modal" align="center"><i class="fa fa-folder-open"></i>  Agregar Anexo</a>
+                    </div>
+                    <div class="box-body" style="display: block;">
+                        <div class="table-responsive table-responsive-custom">
+                            <table class="table table-bordered" id="tablaAnex">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="th-stationery">Archivo</th>
+                                        <th class="th-stationery">Descargar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyAnex"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Agregar Anexo-->
+    <div class="modal fade" id="modalAddAnexo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="box box-danger">
+                        <div class="box-header">
+                            <div class="col-md-6">
+                                <h5 class="box-title">Agregar Anexo</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <form id="formAnexos" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <input type="hidden" id="idCont" name="idCont" />
+                                    <div class="col-md-6">
+                                        <label>Seleccionar Archivos</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="Files" class="btn btn-block btn-default" id="lblFiles">
+                                            <i class="fa fa-cloud-upload"></i>
+                                        </label>
+                                        <span class="errorMsg " id="spanArchivo" hidden="hidden"> Debes seleccionar un archivo al menos</span>
+                                        <input type="file" id="Files" name="Files" accept=".pdf, .PDF, .xlsx, .xls" style='display: none;' multiple />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div id="archivosSeleccionados" class="files"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="box-footer">
+                            <div class="input-group-btn">
+                                <button type="button" id="btnAddAnexo" onclick="AgregarAnexo()" class="btn btn-success pull-right"><i class="fa fa-folder-open"></i>Agregar Anexo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+
+<script>
+
+    //Configuración daterangepicker y datepicker
+    $('#DelAl').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+
+    });
+
+    $('#DelAl').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('#DelAl').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
+    });
+    //Fin configuración daterangepicker
+
+    //FORMATO DINERO
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+
+    //Desplegar envios del contenedor
+    function getEnviosContenedor(idContenedor) {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("getEnviosContenedor", "Contenedor")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"idContenedor":'+ idContenedor +'}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+
+                    $("#tbodyEnvios").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        $("#tbodyEnvios").append(
+                            "<tr>\
+                                <td align='center'><a class='btn btn-lg' data-target='#modalDetalle' data-toggle='modal' data-id='" + value.Envio.Identifier + "' align='center'><i class='glyphicon glyphicon-list-alt'></i> " + value.Envio.Identifier + "</a></td>\
+                                <td>" + value.Envio.Proveedor + "</td>\
+                                <td>" + formatNumber.new(value.Envio.Importe, "$ ") + "</td></tr>");
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: getEnviosContenedor",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    }
+
+    //Modal Detalle
+    $('#modalDetalle').on('show.bs.modal', function (e) {
+        var DocNum = $(e.relatedTarget).data().id;
+        $('#EnvioDocNum').html(DocNum);
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("getEnvioPedidos", "Contenedor")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"DocNum":' + DocNum + '}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+                    $("#tbodyPed").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        var estilo = "";
+                        if (value.tipoCambio == "USD") {
+                            value.precio = formatNumber.new(value.precio, "$ ") + " USD";
+                            value.TotalImporte = formatNumber.new(value.TotalImporte, "$ ") + " USD";
+                        } else {
+                            value.precio = formatNumber.new(value.precio, "$ ") + " MXN";
+                            value.TotalImporte = formatNumber.new(value.TotalImporte, "$ ") + " MXN";
+                        }
+                        if (value.nom == "N/A") {
+                            value.fechaVencimiento = "N/A";
+                            value.arancel = "N/A";
+                        }
+                        else {
+                            var fechaHoy = moment().day(90).format("YYYY-MM-DD");
+                            var fechaVencimiento = moment(value.fechaVencimiento).format("YYYY-MM-DD");
+                            value.fechaVencimiento = moment(value.fechaVencimiento).format('L');
+                            if (fechaHoy > fechaVencimiento) {
+                                estilo = "style='background-color:#fc7272'";
+                            }
+                            
+                        }
+                            
+                        $("#tbodyPed").append(
+                            "<tr " + estilo + ">\
+                                <td><a class='btn btn-lg' data-target='#modalSku' data-toggle='modal' data-id='" + value.Identifier + "' href='#' align='center'><i class='glyphicon glyphicon-list-alt'></i> " + value.Identifier + "</a></td>\
+                                <td>" + value.nombre + "</td>\
+                                <td align='center'>" + value.cantidad + "</td>\
+                                <td>" + value.precio + "</td>\
+                                <td>" + value.TotalImporte + "</td>\
+                                <td align='center'>" + value.nom + "</td>\
+                                <td align='center'>" + value.fechaVencimiento + "</td>\
+                                <td align='center'>" + value.arancel + "</td></tr>");
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: getEnvioPedidos",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    });
+
+    //Modal SKU
+    $('#modalSku').on('show.bs.modal', function (e) {
+        var SKU = $(e.relatedTarget).data().id;
+        $('#SKUNom').html(SKU);
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("getSKU", "Contenedor")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"SKU":"' + SKU + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null) {
+                    $("#tbodySku").html('');
+                    $("#tbodySku").append(
+                        "<tr>\
+                                <td>" + data.Context.Identifier + "</td>\
+                                <td>" + data.Context.familia + "</td>\
+                                <td>" + data.Context.subfamilias + "</td>\
+                                <td>" + data.Context.empaque + "</td>\
+                                <td>" + data.Context.master + "</td>\
+                                <td>" + data.Context.inner + "</td>\
+                                <td>" + data.Context.accesorios + "</td></tr>");
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: getSKU",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    });
+
+    //Funcion para descargar el archivo que se le pasa como parametro
+    function descargar(fullpath,tipo) {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("ComprobarArchivo", "Contenedor")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"fullpath":"' + fullpath + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data.Context) {
+                    window.location.href = '@Url.Action("Descargar", "Contenedor")' + '?fullpath=' + fullpath;
+                } else {
+                    swal({
+                        title: "Archivo no encontrado",
+                        text: "Error: el archivo que se busca no se encuentra en el servidor",
+                        icon: "error",
+                        button: true,
+                        dangerMode: true,
+                    })
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: ComprobarArchivo",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });  
+    };
+
+    //Modal Anexos
+    $('#modalAnexos').on('show.bs.modal', function (e) {
+        var tipo = $(e.relatedTarget).data().id;
+        if (tipo == 3) {//Por contenedor
+
+            var idCont = $(e.relatedTarget).data('index-id');
+            $('#idCont').val(idCont);
+            //Se muestra el botón agregar Anexo
+            $("#btnAddAnexo").css('visibility', 'visible');
+        } else {
+            //Se esconde el botón agregar Anexo
+            $("#btnAddAnexo").css('visibility', 'hidden');
+
+        }
+        obtenerAnexos(tipo)
+    });
+
+    function obtenerAnexos(tipo) {
+        var DocNum = 0;
+        var SKU = "";
+        var idCont = 0;
+        if (tipo == 3) {
+            idCont = $('#idCont').val();
+        }
+        else
+        {
+            if (tipo == 1) {//Por envio
+                DocNum = $('#EnvioDocNum').text();
+            } else {//Por SKU
+                SKU = $('#SKUNom').text();
+            }
+        }
+        
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("getAnexosEnvio", "Contenedor")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"DocNum":' + DocNum + ', "SKU":"' + SKU + '", "idContenedor":' + idCont + '}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+                    $("#tbodyAnex").html('');
+                    $.each(data.Context, function (index, value) {
+                        var path = "";
+                        if (value.subPath != "") {
+                            path = value.path + "\\" + value.subPath;
+                        } else {
+                            path = value.path;
+                        }
+                        path = path.split("\\").join("\\\\\\\\"); 
+                        $("#tbodyAnex").append(
+                            '<tr>\
+                                <td>' + value.archivo + '</td>\
+                                <td align="center"><a class="btn btn-lg" onclick="descargar(\''+ path + '\\\\\\\\' + value.archivo + '.' + value.ext +'\', ' + tipo + ')" align="center"><i class="glyphicon glyphicon-download"></i> CLICK AQUÍ</a></td></tr>');
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: getAnexosEnvio",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    }
+
+    //Modal Agregar Anexos
+    $('#modalAddAnexo').on('show.bs.modal', function (e) {
+        //Reseteamos el form cada que se abra de nuevo el modal de agregar anexo
+        $('#formAnexos')[0].reset(); 
+        $('#archivosSeleccionados').empty();
+        $("#Files").val('');
+    });
+
+    //Función para mostrar los archivos seleccionados y validar la extension y tamaño del archivo
+    $("#Files").change(function () {
+        var idCont = $('#idCont').val();
+        var duplicados = "";
+        var primero = true;
+        $('#archivosSeleccionados').empty();
+        var GetFiles = this.files;
+        $.each(GetFiles, function (index, file) {
+            if (file.size > 41947304) {//Si el archivo pesa mas de 4MB
+                swal({
+                    title: "Error tamaño",
+                    text: "Tu archivo" + file.name + " sobrepasa el tamaño permitido de 4MB",
+                    icon: "warning",
+                    button: true,
+                    dangerMode: true,
+                }).then((fin) => {
+                    $("#Files").val('');
+                    $('#archivosSeleccionados').empty();
+                    return false;
+                });
+            } else {
+                //Verificamos las extensiones
+                let ext = file.name.substr(-4);
+                if (ext !== ".pdf" && ext !== ".PDF" && ext !== ".xls" && ext !== "xlsx") {
+                    swal({
+                        title: "Error formato",
+                        text: "Solo se permiten archivos PDF",
+                        icon: "warning",
+                        button: true,
+                        dangerMode: true,
+                    }).then((fin) => {
+                        $("#Files").val('');
+                        $('#archivosSeleccionados').empty();
+
+                    });
+                    return false;
+                }
+                //Comprobamos para ver si el archivo existe y si se desea sobreescribir
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("ComprobarArchivoContenedor", "Contenedor")',
+                    async: false,
+                    timeout: 3000,
+                    type: 'POST',
+                    data: '{"idContenedor":' + idCont + ', "filename":"' + file.name + '"}',
+                    dataType: "json",
+                    success: function (data) {
+                        $('<p/>').text(file.name).appendTo('#archivosSeleccionados');
+                        if (data.Context != "") {//Existe
+                            if (primero) {
+                                duplicados = duplicados + data.Context;
+                                primero = false;
+                            }
+                            else
+                                duplicados = duplicados + "\n" + data.Context;
+                        }
+                    },
+                    error: function (error) {
+                        swal({
+                            title: "Error",
+                            text: "Error en la api: ComprobarArchivo" + "\n" + error,
+                            icon: "error",
+                            button: true,
+                            dangerMode: true,
+                        })
+                    }
+                })  
+            }
+        }); 
+        //Si hay duplicados
+        if (duplicados != "") {
+            swal({
+                title: 'Archivos duplicados',
+                text: "Los archivos:\n " + duplicados + " \n¡Ya existen!\n¿Desea sobreescribirlos?",
+                icon: 'warning',
+                buttons: ["No", "Si, Sobreescribir"],
+            }).then((result) => {
+                if (!result) {//No sobreescribir
+                    $("#Files").val('');
+                    $('#archivosSeleccionados').empty();
+                    return false;
+                }
+            })
+        } 
+    })
+
+    //Funcion para agregar un nuevo anexo
+    function AgregarAnexo() {
+        var formData = new FormData($("#formAnexos")[0]);
+
+        $.ajax({
+            url: '@Url.Action("AgregarAnexo", "Contenedor")',
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                swal({
+                    title: "Registro Exitoso",
+                    text: "Los archivos se han agregado correctamente",
+                    icon: "success",
+                    button: true,
+                }).then((fin) => {
+                    $("#modalAddAnexo").modal('hide');//ocultamos el modal
+                    $("#modalAnexos").modal("hide");//Agregamos el foco
+                });
+            },
+            error: function (error) {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: AgregarAnexo" + "\n" + error,
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        })
+    }
+    //Botón Buscar
+
+    function verSeguimiento(nomContenedor) {
+        localStorage.setItem('nomContenedor', nomContenedor);
+        window.location.href = '@Url.Action("Seguimiento", "Contenedor")';
+    }
+
+    //Ver contenedores
+    $('#ShowDetails').click(function () {
+        var nombreContenedor = $('#nomContenedor').val();
+
+        var fecInicio = "0001/01/01";
+        var fecFin = "0001/01/01";
+        var fecPuertoIni = "0001/01/01";
+        var fecPuertoFin = "0001/01/01";
+        if ($('#DelAl').val() != "") {
+            var rango = $('#DelAl').data('daterangepicker');
+            fecPuertoIni = rango.startDate.format('YYYY/MM/DD');
+            fecPuertoFin = rango.endDate.format('YYYY/MM/DD');
+        }
+        var table = $('#Contenedores').DataTable();
+        table.destroy();
+        $("#ContenedoresDetalle").html("");
+        
+        swal({
+            title: 'Confirmación',
+            text: "¡Esta seguro de buscar este rango de fechas!",
+            icon: 'info',
+            buttons: ["Cancelar", "Si, Seguro"],
+        }).then((result) => {
+            if (result) {
+                $('#cargando').show();
+                $('#cargando2').show();
+                //Si la busqueda es por fecha de puerto
+                if (fecPuertoIni != "0001/01/01" && fecPuertoFin != "0001/01/01") {
+                    $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        url: '@Url.Action("getSeguimientoFecha", "Contenedor")',
+                        async: false,
+                        timeout: 3000,
+                        type: 'POST',
+                        data: '{"Inicio":"' + fecPuertoIni + '", "Fin":"' + fecPuertoFin + '"}',
+                        dataType: "json",
+                        success: function (data) {
+                            //Si hay registros de llegada a puerto en ese rango de fechas
+                            if (data.Context.length > 0) {
+                                $.each(data.Context, function (index, value) {
+                                    var Puerto = moment(value.llegadaPuerto).format('YYYY/MM/DD');
+                                    var Pantaco = moment(value.llegadaPantaco).format('YYYY/MM/DD');
+                                    var Cedis = moment(value.salidaPantaco).format('YYYY/MM/DD');
+
+                                    if (Puerto == "0000/12/31")
+                                        Puerto = "No tiene registro";
+                                    
+                                    if (Pantaco == "0000/12/31")
+                                        Pantaco = "No tiene registro";
+
+                                    if (Cedis == "0000/12/31")
+                                        Cedis = "No tiene registro";
+                                    $.ajax({
+                                        contentType: "application/json; charset=utf-8",
+                                        url: '@Url.Action("getContenedor", "Contenedor")',
+                                        async: false,
+                                        timeout: 3000,
+                                        type: 'POST',
+                                        data: '{"FecInicio":"' + fecInicio + '", "FecFin":"' + fecFin + '", "NombreCont":"' + nombreContenedor + '", "Seguimiento":' + value.Identifier + '}',
+                                        dataType: "json",
+                                        success: function (dataCont) {
+                                            if (dataCont != null && $.isArray(dataCont.Context)) {
+                                                /* Recorremos tu respuesta con each */
+                                                $.each(dataCont.Context, function (index, valueCont) {
+                                                    var Estado = "";
+                                                    //Obtenemos el estado
+                                                    $.ajax({
+                                                        contentType: "application/json; charset=utf-8",
+                                                        url: '@Url.Action("findContenedorStatus", "Contenedor")',
+                                                        async: false,
+                                                        timeout: 3000,
+                                                        type: 'POST',
+                                                        data: '{"idStatus":' + valueCont.statusContenedor_id + '}',
+                                                        dataType: "json",
+                                                        success: function (dataStatus) {
+                                                            if (dataStatus != null) {
+                                                                Estado = dataStatus.Context.nomStatus;
+                                                            }
+                                                        },
+                                                        error: function () {
+                                                            swal({
+                                                                title: "Error",
+                                                                text: "Error en la api: findContenedorStatus",
+                                                                icon: "error",
+                                                                button: true,
+                                                                dangerMode: true,
+                                                            })
+                                                        }
+                                                    });
+                                                    $('#ContenedoresDetalle').append("<tr>\
+                                                                                        <td align='center'><a class='btn btn-lg' data-toggle='modal' onclick='getEnviosContenedor(" + valueCont.Identifier + ")' data-target='#modalEnvios' align='center'><i class='fa fa-ship'></i> " + valueCont.nomContenedor + "</a></td>\
+                                                                                        <td>"+ valueCont.naviera.nombreNaviera + "</td>\
+                                                                                        <td>" + Estado + "</td>\
+                                                                                        <td>" + formatNumber.new(valueCont.tipoCambio, "$ ") + "</td>\
+                                                                                        <td align='center'>" + Puerto + "</td>\
+                                                                                        <td align='center'>" + Pantaco + "</td>\
+                                                                                        <td align='center'>" + Cedis + "</td>\
+                                                                                        <td align='center'><a class='btn btn-lg' onclick=' return verSeguimiento(\""+ value.nomContenedor +"\")' align='center'><i class='fa fa-search'></i> Ver Seguimiento</a></td>\
+                                                                                        <td align='center'><a class='btn btn-lg' data-toggle='modal' data-target='#modalAnexos' data-id='3' data-index-id='" + valueCont.Identifier + "' align='center'><i class='fa fa-folder-open'></i> Ver Anexos</a></td>\
+                                                                                    </tr>");
+                                                });
+
+
+                                                
+                                            }
+                                            else {
+                                                swal({
+                                                    title: "No hay registros",
+                                                    text: "No se encontraron registros de contenedor con esos criterios de búsqueda",
+                                                    icon: "warning",
+                                                    button: true,
+                                                })
+                                            }
+                                        },
+                                        error: function () {
+                                            swal({
+                                                title: "Error",
+                                                text: "Error en la api: getContenedor",
+                                                icon: "error",
+                                                button: true,
+                                                dangerMode: true,
+                                            })
+                                        }
+                                    });
+                                });
+                                $('#DetalleSeguimentoPrincipal').show();
+                                $('#Contenedores').DataTable({
+                                    "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                                    dom: 'frtip',
+                                    stateSave: true,
+                                    "searching": true,
+                                    "language": {
+                                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                    }
+                                });
+                            } else {//Si no hay registros entre esas fechas
+                                swal({
+                                    title: "No hay registros",
+                                    text: "¡No se encontraron registros de contenedores con esa llegada a puerto!",
+                                    icon: "warning",
+                                    button: true,
+                                })
+                            }
+                        },
+                        error: function () {
+                            swal({
+                                title: "Error",
+                                text: "Error en la api: getContenedor",
+                                icon: "error",
+                                button: true,
+                                dangerMode: true,
+                            })
+                        }
+                    });
+                } else {//Busqueda por nombre
+                    $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        url: '@Url.Action("getContenedor", "Contenedor")',
+                        async: false,
+                        timeout: 3000,
+                        type: 'POST',
+                        data: '{"FecInicio":"' + fecInicio + '", "FecFin":"' + fecFin + '", "NombreCont":"' + nombreContenedor + '"}',
+                        dataType: "json",
+                        success: function (data) {
+                            if (data != null && $.isArray(data.Context)) {
+                                /* Recorremos tu respuesta con each */
+                                $.each(data.Context, function (index, value) {
+                                    var Estado = "";
+                                    var Puerto = "";
+                                    var Pantaco = "";
+                                    var Cedis = "";
+                                    //Obtenemos el estado
+                                    $.ajax({
+                                        contentType: "application/json; charset=utf-8",
+                                        url: '@Url.Action("findContenedorStatus", "Contenedor")',
+                                        async: false,
+                                        timeout: 3000,
+                                        type: 'POST',
+                                        data: '{"idStatus":' + value.statusContenedor_id + '}',
+                                        dataType: "json",
+                                        success: function (dataStatus) {
+                                            if (dataStatus != null) {
+                                                Estado = dataStatus.Context.nomStatus;
+                                            }
+                                        },
+                                        error: function () {
+                                            swal({
+                                                title: "Error",
+                                                text: "Error en la api: findContenedorStatus",
+                                                icon: "error",
+                                                button: true,
+                                                dangerMode: true,
+                                            })
+                                        }
+                                    });
+
+                                    //Obtenemos la fecha de pantaco y puerto
+                                    $.ajax({
+                                        contentType: "application/json; charset=utf-8",
+                                        url: '@Url.Action("getSeguimiento", "Contenedor")',
+                                        async: false,
+                                        timeout: 3000,
+                                        type: 'POST',
+                                        data: '{"idSeguimiento":' + value.seguimiento_id + '}',
+                                        dataType: "json",
+                                        success: function (dataSeg) {
+                                            if (dataSeg != null) {
+                                            
+                                                Puerto = moment(dataSeg.Context.llegadaPuerto).format('YYYY/MM/DD');
+                                                if (Puerto == "0000/12/31")
+                                                    Puerto = "No tiene registro";
+                                                Pantaco = moment(dataSeg.Context.llegadaPantaco).format('YYYY/MM/DD');
+                                                if (Pantaco == "0000/12/31")
+                                                    Pantaco = "No tiene registro";
+                                                Cedis = moment(dataSeg.Context.salidaPantaco).format('YYYY/MM/DD');
+                                                if (Cedis == "0000/12/31")
+                                                    Cedis = "No tiene registro";
+
+                                            }
+                                        },
+                                        error: function () {
+                                            swal({
+                                                title: "Error",
+                                                text: "Error en la api: getSeguimiento",
+                                                icon: "error",
+                                                button: true,
+                                                dangerMode: true,
+                                            })
+                                        }
+                                    });
+                                    $('#ContenedoresDetalle').append("<tr>\
+                                                                        <td align='center'><a class='btn btn-lg' data-toggle='modal' onclick='getEnviosContenedor(" + value.Identifier + ")' data-target='#modalEnvios' align='center'><i class='fa fa-ship'></i>  " + value.nomContenedor + "</a></td>\
+                                                                        <td>"+ value.naviera.nombreNaviera + "</td>\
+                                                                        <td>" + Estado + "</td>\
+                                                                        <td>" + formatNumber.new(value.tipoCambio, "$ ") + "</td>\
+                                                                        <td align='center'>" + Puerto + "</td>\
+                                                                        <td align='center'>" + Pantaco + "</td>\
+                                                                        <td align='center'>" + Cedis + "</td>\
+                                                                        <td align='center'><a class='btn btn-lg' onclick='verSeguimiento(\"" + value.nomContenedor + "\")' align='center'><i class='fa fa-search'></i> Ver Seguimiento</a></td>\
+                                                                        <td align='center'><a class='btn btn-lg' data-toggle='modal' data-target='#modalAnexos' data-id='3' data-index-id='" + value.Identifier + "' align='center'><i class='fa fa-folder-open'></i> Ver Anexos</a></td>\
+                                                                    </tr>");
+                                });
+
+                                $('#Contenedores').DataTable({
+                                    "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                                    dom: 'frtip',
+                                    stateSave: true,
+                                    "searching": true,
+                                    "language": {
+                                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                    }
+                                });
+                                $('#DetalleSeguimentoPrincipal').show();
+                            }
+                            else
+                            {
+                                swal({
+                                    title: "No hay registros",
+                                    text: "No se encontraron registros de contenedor con esos criterios de búsqueda",
+                                    icon: "warning",
+                                    button: true,
+                                })
+                            }
+                        },
+                        error: function () {
+                            swal({
+                                title: "Error",
+                                text: "Error en la api: getContenedor",
+                                icon: "error",
+                                button: true,
+                                dangerMode: true,
+                            })
+                        }
+                    });
+                } 
+                $('#cargando').hide();
+                $('#cargando2').hide();
+            } else {
+                swal({
+                    title: '¡Cancelado!',
+                    text: 'Proceso cancelado',
+                    icon: 'warning'
+                })
+            }
+        })
+    });
+    //Fin boton Buscar
+</script>
+

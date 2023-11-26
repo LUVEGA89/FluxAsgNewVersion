@@ -1,0 +1,781 @@
+﻿
+@{
+    ViewBag.Title = "Reporte Papeleria";
+}
+<style>
+    .th-SKUS {
+        background-color: #bcfa62;
+        color: black;
+        text-align: center;
+    }
+
+    .text-wrap {
+        white-space: normal;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Papelería Reporte
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Papelería</a></li>
+        <li class="active"> Reporte</li>
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        @*Seleccionar tipo de reporte*@
+        <div class="col-md-6">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <h3 class="box-title">Reportes papelería</h3>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <div class="radio">
+                            <label>
+                                <input name="optionsRadios" id="radio-one" value="1" type="radio">
+                                CENTRO COSTOS
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input name="optionsRadios" id="radio-two" value="2" type="radio">
+                                SKU
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input name="optionsRadios" id="radio-three" value="3" type="radio">
+                                GENERAL
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*Reportes*@
+        <div class="col-md-6">
+            @*Reporte por centro de costos*@
+            <div class="row" id="row-custom-one">
+
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <h3 class="box-title">Consumo papelería por centro de costos</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>Rango de fechas:</label>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="daterangepicker-report-one">
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="col-md-3">
+                                <label>Seleccionar tipo:</label>
+                            </div>
+                            <div class="col-md-5">
+                                <select class="form-control" id="cmbTipo1">
+                                    <option value="0"> Seleccionar tipo búsqueda... </option>
+                                    <option value="PAPELERIA"> PAPELERÍA </option>
+                                    <option value="LIMPIEZA"> LIMPIEZA </option>
+                                    <option value="UNIFORMES"> UNIFORMES </option>
+                                    <option value="REFACC"> REFACC </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a class="btn pull-right btn-primary" id="btn-report-one">
+                                    <i class="fa fa-play"></i> Generar Reporte
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box box-danger" id="tablaReporteCostos">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Centro costos</h3>
+                        <div id="loading-1" style="display:none;" class="overlay">
+                            <i class="fa  fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-12">
+                            <div id="totalCostos"></div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <div class="table-responsive table-responsive-custom">
+                                <table id="table-report-one" class="table table-bordered" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-stationery" style="width:20%">Centro de costos</th>
+                                            <th class="th-stationery" style="width:60%">Area</th>
+                                            <th class="th-stationery" style="width:20%">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyCostos"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Reporte por SKU*@
+            <div class="row" id="row-custom-two">
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <h3 class="box-title">Consumo papelería por Sku</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>Rango de fechas:</label>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="daterangepicker-report-two">
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="col-md-3">
+                                <label>Seleccionar tipo:</label>
+                            </div>
+                            <div class="col-md-5">
+                                <select class="form-control" id="cmbTipo2">
+                                    <option value="0"> Seleccionar tipo búsqueda... </option>
+                                    <option value="PAPELERIA"> PAPELERÍA </option>
+                                    <option value="LIMPIEZA"> LIMPIEZA </option>
+                                    <option value="UNIFORMES"> UNIFORMES </option>
+                                    <option value="REFACC"> REFACC </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a class="btn btn-primary pull-right" id="btn-report-two">
+                                    <i class="fa fa-play"></i> Generar Reporte
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-danger" id="tablaReporteSKUS">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Sku</h3>
+                        <div id="loading-2" style="display:none;" class="overlay">
+                            <i class="fa  fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-12">
+                            <div id="totalSKUS"></div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <div class="table-responsive table-responsive-custom">
+                                <table id="table-report-two" class="table table-bordered" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-stationery" style="width:25%">Sku</th>
+                                            <th class="th-stationery" style="width:15%">Tipo</th>
+                                            <th class="th-stationery" style="width:15%">Area</th>
+                                            <th class="th-stationery" style="width:40%">Articulo</th>
+                                            <th class="th-stationery" style="width:5%">Cantidad</th>
+                                            <th class="th-stationery" style="width:15%">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodySKUS"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Reporte GENERAL*@
+            <div class="row" id="row-custom-three">
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <h3 class="box-title">Consumo general de SKUS</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>Rango de fechas:</label>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="daterangepicker-report-three">
+                                </div>
+                            </div>
+                            @*<div class="col-md-3">
+                                <label>Seleccionar tipo:</label>
+                            </div>*@
+                            @*<div class="col-md-5">
+                                <select class="form-control" id="cmbTipo3">
+                                    <option value="0"> Seleccionar tipo búsqueda... </option>
+                                    <option value="PAPELERIA"> PAPELERÍA </option>
+                                    <option value="LIMPIEZA"> LIMPIEZA </option>
+                                    <option value="UNIFORMES"> UNIFORMES </option>
+                                </select>
+                            </div>*@
+
+                            <div class="col-md-4">
+                                <a class="btn btn-primary pull-right" id="btn-report-three">
+                                    <i class="fa fa-play"></i> Generar Reporte
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-danger" id="tablaReporteGeneral">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Reporte General</h3>
+                        <div id="loading-3" style="display:none;" class="overlay">
+                            <i class="fa  fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-12">
+                            <div id="totalSKUSGeneral"></div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <div class="table-responsive table-responsive-custom">
+                                <table id="table-report-three" class="table table-bordered" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-stationery" style="width:25%">CentroCostos</th>
+                                            <th class="th-stationery" style="width:25%">Sku</th>
+                                            <th class="th-stationery" style="width:40%">Articulo</th>
+                                            <th class="th-stationery" style="width:15%">Tipo</th>
+                                            <th class="th-stationery" style="width:15%">Area</th>
+                                            <th class="th-stationery" style="width:25%">Usuario</th>
+                                            <th class="th-stationery" style="width:5%">Cantidad</th>
+                                            <th class="th-stationery" style="width:15%">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodySKUSGeneral"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--Modal SKUS-->
+    <div class="modal fade" id="modalSKUS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <h5 class="modal-title">SKUS del Centro de Costo</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="box-header">
+                        <i class="fa fa-level-down"></i>
+                        <h3 class="box-title">SKUS</h3>
+                    </div>
+                    <div class="box-body" style="display: block;">
+                        <div class="table-responsive table-responsive-custom">
+                            <table class="table table-bordered" id="tablaSKUS">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="th-SKUS">Sku</th>
+                                        <th class="th-SKUS">Tipo</th>
+                                        <th class="th-SKUS">Area</th>
+                                        <th class="th-SKUS">Articulo</th>
+                                        <th class="th-SKUS">Cantidad</th>
+                                        <th class="th-SKUS">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodySKUS2"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    $("#row-custom-one").hide();
+    $("#row-custom-two").hide();
+    $("#row-custom-three").hide();
+
+    $('input[type=radio][name=optionsRadios]').change(function () {
+        if (this.value == 1) {
+            $("#row-custom-one").show();
+            $("#row-custom-two").hide();
+            $("#row-custom-three").hide();
+        }
+        else {
+            if (this.value == 2) {
+                $("#row-custom-two").show();
+                $("#row-custom-one").hide();
+                $("#row-custom-three").hide();
+            }
+            else {
+                $("#row-custom-two").hide();
+                $("#row-custom-one").hide();
+                $("#row-custom-three").show();
+            }
+        }
+    });
+
+
+    //Función que se dispara cuando se cambia el tipo de busqueda del reporte 1
+    $("#cmbTipo1").change(function (event) {
+        $("#tablaReporteCostos").hide();
+        $("#tbodyCostos").empty();
+    });
+
+    //Función que se dispara cuando se cambia el tipo de busqueda del reporte 2
+    $("#cmbTipo2").change(function (event) {
+        $("#tablaReporteSKUS").hide();
+        $("#tbodySKUS").empty();
+    });
+
+    //Desplegar SKUS por centro de costos
+    function getSKUS(CentroCostos) {
+        var fechas = $('#daterangepicker-report-one').data('daterangepicker');
+        var Inicio = fechas.startDate.format('MM/DD/YYYY');
+        var Fin = fechas.endDate.format('MM/DD/YYYY');
+        var tipo = $("#cmbTipo1").val();
+        console.log("El centro de costos es: " + CentroCostos);
+        $.post('@Url.Action("ReportePapeleriaUno", "Papeleria")', {
+            FecIni: Inicio,
+            FecFin: Fin,
+            Tipo: tipo,
+            centroCosto: CentroCostos
+        }, function (data) {            
+            if (data != null && $.isArray(data.Context)) {
+                var table = $('#tablaSKUS').DataTable();
+                table.destroy();
+                $("#tbodySKUS2").html('');
+                var totalGastado = 0;
+                var totalCantidad = 0;
+                $.each(data.Context, function (index, value) {
+                    totalGastado = totalGastado + value.Total;
+                    totalCantidad = totalCantidad + value.CantidadReporte;
+                    $("#tbodySKUS2").append(
+                        "<tr>\
+                                <td><div class='text-wrap' style='width: 90px'>" + value.ItemCode + "</div></td>\
+                                <td align='center'><div class='text-wrap' style='width: 90px'>" + value.Area + "</div></td>\
+                                <td align='center'><div class='text-wrap' style='width: 80px'>" + value.SubArea + "</div></td>\
+                                <td><div class='text-wrap' style='width: 100px'>" + value.ItemName + "</div></td>\
+                                <td align='center'><div class='text-wrap' style='width: 50px'>" + value.CantidadReporte + "</div></td>\
+                                <td align='center'><div class='text-wrap' style='width: 80px'>" + formatNumber.new(value.Total.toFixed(2), "$ ") + "</div></td></tr>");
+                });
+                //Agregamos el total a la tabla
+                totalGastado = totalGastado.toFixed(2);
+                $("#tbodySKUS2").append(
+                    "<tr>\
+                                <td>Total</td>\
+                                <td></td>\
+                                <td></td>\
+                                <td></td>\
+                                <td align='center'><div class='text-wrap' style='width: 50px'>" + totalCantidad + "</div></td>\
+                                <td align='center'><div class='text-wrap' style='width: 80px'>" + formatNumber.new(totalGastado, "$ ") + "</div></td></tr>");
+                $('#tablaSKUS').DataTable({
+                    "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                    "dom": 'Bfrtip',
+                    stateSave: true,
+                    "buttons": ['copy', 'excel', 'pdf', 'print'],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    },
+                    "order": false,
+                });
+            } else {
+                swal("Error en la api: ReportePapeleriaUno");
+            }
+        });
+    }
+
+    //Centro de costos reporte
+    document.querySelector('#btn-report-one').addEventListener('click', function (e) {
+        e.preventDefault();
+        $('#totalCostos').html('');
+        var rep_one = $('#daterangepicker-report-one').data('daterangepicker');
+        var Inicio = rep_one.startDate.format('MM/DD/YYYY');
+        var Fin = rep_one.endDate.format('MM/DD/YYYY');
+        var tipo = $("#cmbTipo1").val();
+        if (tipo == "0") {
+            swal({
+                title: 'Faltan campos',
+                text: 'Debe seleccionar un tipo de artículo',
+                icon: 'error'
+            })
+        } else {
+            $('#loading-1').show();
+            $.post('@Url.Action("ReportePapeleriaDos", "Papeleria")', {
+                FecIni: Inicio,
+                FecFin: Fin,
+                Tipo: tipo
+            }, function (data) {
+                if (data != null && $.isArray(data.Context)) {
+                    var table = $('#table-report-one').DataTable();
+                    table.destroy();
+                    $("#tbodyCostos").html('');
+                    var totalGastado = 0;
+                    $.each(data.Context, function (index, value) {
+                        totalGastado = totalGastado + value.Total;
+                        $("#tbodyCostos").append(
+                            "<tr>\
+                                <td align='center'>" + value.CentroCosto + "</td>\
+                                <td><a class='btn btn-lg' data-toggle='modal' onclick='getSKUS(\"" + value.Area + "\")' data-target='#modalSKUS' align='center'><i class='fa fa-list'></i>  " + value.Area + "</a ></td>\
+                                <td>" + formatNumber.new(value.Total.toFixed(2), "$ ") + "</td></tr>");
+                    });
+                    //Agregamos el total a la tabla
+                    totalGastado = totalGastado.toFixed(2);
+                    $("#tbodyCostos").append(
+                        "<tr>\
+                                <td align='center'>TOTAL</td>\
+                                <td></td>\
+                                <td>" + formatNumber.new(totalGastado, "$ ") + "</td></tr>");
+                    $('#totalCostos').append('<div class="col-md-12 bg-gray disabled color-palette">\
+                                                        <div class="col-md-6">\
+                                                            <h5>Total Gastado: </h5>\
+                                                        </div >\
+                                                        <div class="col-md-6">\
+                                                            <h5>' + formatNumber.new(totalGastado, "$ ") + '</h5>\
+                                                        </div >\
+                                                    </div >');
+                    $('#table-report-one').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        "dom": 'Bfrtip',
+                        stateSave: true,
+                        "buttons": ['copy', 'excel', 'pdf', 'print'],
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        },
+                        "order": false,
+                    });
+                    $('#loading-1').hide();
+                    $("#tablaReporteCostos").show();
+                } else {
+                    swal("Error en la api: ReportePapeleriaUno");
+                }
+            });
+        }
+    });
+
+    //Sku reporte
+    document.querySelector('#btn-report-two').addEventListener('click', function (e) {
+        $('#totalSKUS').html('');
+        e.preventDefault();
+        var rep_two = $('#daterangepicker-report-two').data('daterangepicker');
+        var Inicio = rep_two.startDate.format('MM/DD/YYYY');
+        var Fin = rep_two.endDate.format('MM/DD/YYYY');
+        var tipo = $("#cmbTipo2").val();
+        if (tipo == "0") {
+            swal({
+                title: 'Faltan campos',
+                text: 'Debe seleccionar un tipo de artículo',
+                icon: 'error'
+            })
+        } else {//Ejecutamos el procedimiento
+            $('#loading-2').show();
+            $.post('@Url.Action("ReportePapeleriaUno", "Papeleria")', {
+                FecIni: Inicio,
+                FecFin: Fin,
+                Tipo: tipo
+            }, function (data) {            
+                if (data != null && $.isArray(data.Context)) {
+                    var table = $('#table-report-two').DataTable();
+                    table.destroy();
+                    $("#tbodySKUS").html('');
+                    var totalCantidad = 0;
+                    var totalGastado = 0;
+                    $.each(data.Context, function (index, value) {
+                        totalCantidad = totalCantidad + value.CantidadReporte;
+                        totalGastado = totalGastado + value.Total;
+                        $("#tbodySKUS").append(
+                            "<tr>\
+                                <td>" + value.ItemCode + "</td>\
+                                <td align='center'>" + value.Area + "</td>\
+                                <td align='center'>" + value.SubArea + "</td>\
+                                <td>" + value.ItemName + "</td>\
+                                <td align='center'>" + value.CantidadReporte + "</td>\
+                                <td>" + formatNumber.new(value.Total.toFixed(2), "$ ") + "</td></tr>");
+                    });
+                    //Agregamos el total a la tabla
+                    totalGastado = totalGastado.toFixed(2);
+                    $("#tbodySKUS").append(
+                        "<tr>\
+                                <td>Total</td>\
+                                <td></td>\
+                                <td></td>\
+                                <td></td>\
+                                <td align='center'>" + totalCantidad + "</td>\
+                                <td>" + formatNumber.new(totalGastado, "$ ") + "</td></tr>");
+                    $('#totalSKUS').append('<div class="col-md-12 bg-gray disabled color-palette">\
+                                                <div class="col-md-6">\
+                                                    <div class="col-md-6">\
+                                                        <h5>Total Cantidad: </h5>\
+                                                    </div >\
+                                                    <div class="col-md-6">\
+                                                        <h5>' + totalCantidad + '</h5>\
+                                                    </div >\
+                                                </div>\
+                                                <div class="col-md-6">\
+                                                    <div class="col-md-6">\
+                                                        <h5>Total Gastado: </h5>\
+                                                    </div >\
+                                                    <div class="col-md-6">\
+                                                        <h5>' + formatNumber.new(totalGastado, "$ ") + '</h5>\
+                                                    </div >\
+                                                </div>\
+                                            </div >');
+
+                    $('#table-report-two').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        "dom": 'Bfrtip',
+                        stateSave: true,
+                        "buttons": ['copy', 'excel', 'pdf', 'print'],
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        },
+                        "order": false,
+                    });
+                    $('#loading-2').hide();
+                    $("#tablaReporteSKUS").show();
+                } else {
+                    swal("Error en la api: ReportePapeleriaUno");
+                }
+            });
+        }
+    });
+
+    //Reporte General
+    document.querySelector('#btn-report-three').addEventListener('click', function (e) {
+        $('#totalSKUSGeneral').html('');
+        e.preventDefault();
+        var rep_three = $('#daterangepicker-report-three').data('daterangepicker');
+        var Inicio = rep_three.startDate.format('MM/DD/YYYY');
+        var Fin = rep_three.endDate.format('MM/DD/YYYY');
+
+        $('#loading-3').show();
+        $.post('@Url.Action("ReportePapeleriaTres", "Papeleria")', {
+            FecIni: Inicio,
+            FecFin: Fin
+        }, function (data) {            
+            if (data != null && $.isArray(data.Context)) {
+                var table = $('#table-report-three').DataTable();
+                table.destroy();
+                $("#tbodySKUSGeneral").html('');
+                var totalCantidad = 0;
+                var totalGastado = 0;
+                $.each(data.Context, function (index, value) {
+                    totalCantidad = totalCantidad + value.CantidadReporte;
+                    totalGastado = totalGastado + value.Total;
+                    $("#tbodySKUSGeneral").append(
+                        "<tr>\
+                            <td>" + value.Marca + "</td>\
+                            <td>" + value.ItemCode + "</td>\
+                            <td>" + value.ItemName + "</td>\
+                            <td align='center'>" + value.Area + "</td>\
+                            <td align='center'>" + value.SubArea + "</td>\
+                            <td>" + value.UsuarioFolio + "</td>\
+                            <td align='center'>" + value.CantidadReporte + "</td>\
+                            <td>" + formatNumber.new(value.Total.toFixed(2), "$ ") + "</td></tr>");
+                });
+                //Agregamos el total a la tabla
+                totalGastado = totalGastado.toFixed(2);
+                $("#tbodySKUSGeneral").append(
+                    "<tr>\
+                            <td>Total</td>\
+                            <td></td>\
+                            <td></td>\
+                            <td></td>\
+                            <td></td>\
+                            <td></td>\
+                            <td align='center'>" + totalCantidad + "</td>\
+                            <td>" + formatNumber.new(totalGastado, "$ ") + "</td></tr>");
+                $('#totalSKUSGeneral').append('<div class="col-md-12 bg-gray disabled color-palette">\
+                                            <div class="col-md-6">\
+                                                <div class="col-md-6">\
+                                                    <h5>Total Cantidad: </h5>\
+                                                </div >\
+                                                <div class="col-md-6">\
+                                                    <h5>' + totalCantidad + '</h5>\
+                                                </div >\
+                                            </div>\
+                                            <div class="col-md-6">\
+                                                <div class="col-md-6">\
+                                                    <h5>Total Gastado: </h5>\
+                                                </div >\
+                                                <div class="col-md-6">\
+                                                    <h5>' + formatNumber.new(totalGastado, "$ ") + '</h5>\
+                                                </div >\
+                                            </div>\
+                                        </div >');
+
+                $('#table-report-three').DataTable({
+                    "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                    "dom": 'Bfrtip',
+                    stateSave: true,
+                    "buttons": ['copy', 'excel', 'pdf', 'print'],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    },
+                    "order": false,
+                });
+                $('#loading-3').hide();
+                $("#tablaReporteGeneral").show();
+            } else {
+                swal("Error en la api: ReportePapeleriaUno");
+            }
+        });
+    });
+
+    $('#daterangepicker-report-one').daterangepicker({
+        locale: {
+            cancelLabel: 'Limpiar',
+            applyLabel: 'Aplicar',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+    });
+
+    $('#daterangepicker-report-two').daterangepicker({
+        locale: {
+            cancelLabel: 'Limpiar',
+            applyLabel: 'Aplicar',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+    });
+
+    $('#daterangepicker-report-three').daterangepicker({
+        locale: {
+            cancelLabel: 'Limpiar',
+            applyLabel: 'Aplicar',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+    });
+
+    //Formato de dinero
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>

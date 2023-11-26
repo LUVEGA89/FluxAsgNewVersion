@@ -1,0 +1,340 @@
+﻿@using Reporting.Service.Web.UI.Models
+@model CapturaModel
+
+@{
+    ViewBag.Title = "Captura";
+}
+
+<section class="content-header">
+    <h1>
+
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Auditoría</a></li>
+        <li class="active">Captura</li>
+    </ol>
+</section>
+<section class="content">
+    <h4 class="page-header" id="TitleAuditoria">OPERATIVA REGIONAL > RECURSOS HUMANOS</h4>
+    <div class="row">
+        <div class="col-md-12" id="content-captura">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title" id="lblRubroNombre">Plantilla Completa</h3>
+                    <div class="pull-right box-tools">
+                        <a href="@Url.Action("Index", "Auditoria")" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form method="post" id="frmAddRubro" name="frmAddRubro" enctype="multipart/form-data">
+                        <div class="box-body">
+                            <div class="callout">
+                                <h5><strong class="center" id="lblDescripcionRubro">Se revisa que tengan plantilla Completa y Autorizada por la Dirección.</strong></h5>
+                            </div>
+                            <div id="form-captura">
+                                <input type="hidden" id="Tipo" name="Tipo" value="@Model.Tipo" />
+                                <input type="hidden" id="Tienda" name="Tienda" value="@Model.Tienda" />
+                                <input type="hidden" id="Segmento" name="Segmento" />
+                                <input type="hidden" id="Rubro" name="Rubro" />
+
+                                <div class="form-group">
+                                    <label>¿Califica?</label>
+                                    <select class="form-control" id="Califica" name="Califica">
+                                        <option value="0">NO</option>
+                                        <option value="1">SI</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Observaciones:</label>
+                                    <input class="form-control" id="Observacion" name="Observacion" placeholder="" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Evidencia</label>
+                                    <div class="form-group">
+                                        <div id="Content-1" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-1" name="Evidencia-1" noEvidencia="1" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="1" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-2" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-2" name="Evidencia-2" noEvidencia="2" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="2" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-3" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-3" name="Evidencia-3" noEvidencia="3" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="3" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-4" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-4" name="Evidencia-4" noEvidencia="4" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="4" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-5" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-5" name="Evidencia-5" noEvidencia="5" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="5" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-6" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-6" name="Evidencia-6" noEvidencia="6" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="6" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-7" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-7" name="Evidencia-7" noEvidencia="7" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="7" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-8" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-8" name="Evidencia-8" noEvidencia="8" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="8" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+                                        <div id="Content-9" class="row"><div class="col-md-11"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-9" name="Evidencia-9" noEvidencia="9" type="file" accept="image/*;capture=camera"></div><div class="col-md-1"><div Noinput="9" class="btn btn-danger btn-block btn-evidencia">X</div></div></div>
+
+                                    </div>
+                                    <div id="nota"></div>
+                                    <input type="hidden" id="Requerido" />
+                                    <input id="Longitud" name="Longitud" type="hidden">
+                                    <input id="Latitud" name="Latitud" type="hidden">
+                                    <input id="Exactitud" name="Exactitud" type="hidden">
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" id="Guardar" class="btn btn-block btn-primary"><i class="fa fa-send"></i> Guardar</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="box-footer">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" id="content-finalizacion">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <i class="ion ion-clipboard"></i>
+                    <h3 class="box-title">Finalizar</h3>
+                </div>
+                <div class="box-body">
+                    <div class="callout">
+                        <h5><strong class="center">Usted ha finalizado con exito la auditoría, acontinuación usted podra continuar con otra o volver a realizar la misma.</strong></h5>
+                    </div>
+                    <label for="inputEmail3" class="control-label">A continuación se muestran los pendientes o acuerdos:</label>
+                    <ul class="todo-list" id="todo-list"></ul>
+                    <br />
+                </div>
+                <div class="box-footer clearfix no-border">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="inputEmail3" class="control-label">Añadir fecha compromiso y comentario:</label><br />
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="datepicker">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input id="txt-comment" class="form-control" placeholder="Escriba un comentario...">
+                                    <div class="input-group-btn">
+                                        <button type="button" id="btn-addComment" class="btn btn-info"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><br />
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id="finalizar" class="btn btn-block btn-success"><i class="fa fa-send"></i> Finalizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    $('#datepicker').datepicker({
+        autoclose: true,
+        format: 'yyyy/mm/dd'
+    });
+
+    InitModule();
+
+    function InitModule() {
+        LoadRubroCaptura();
+        //SeguimientoUsuario();
+    }
+    $("#btn-addComment").click(function () {
+        if ($("#txt-comment").val() == '') {
+            $.alert("Debe escribir un comentario.");
+            return;
+        }
+        $.post('@Url.Action("AgregarComentario", "Auditoria")', {
+            Tienda: $("#Tienda").val(),
+            Tipo: $("#Tipo").val(),
+            mensaje: $("#txt-comment").val(),
+            fecha: $("#datepicker").val()
+        }, function (data) {
+            if (data.Context != null) {
+                $("#todo-list").append('<li>\
+                                        <span class= "handle">\
+                                        <i class="fa fa-ellipsis-v"></i>\
+                                        <i class="fa fa-ellipsis-v"></i>\
+                                        </span>\
+                                        <span class="text">'+ $("#txt-comment").val() + '</span>\
+                                    </li>');
+                $("#txt-comment").val('');
+                $("#datepicker").val('');
+            }
+            else
+                $.alert("Ocurrio un error al procesar la solicitud");
+
+        });
+
+
+
+
+    });
+    function gestionarErrores(error) {
+        alert('Error: ' + error.code + ' ' + error.message + '\n\nPor favor compruebe que está conectado a internet y habilite la opción permitir compartir ubicación física');
+    }
+    function HideInputFile() {
+        for (var i = 2; i < 10; i++) {
+            var content = $("#Evidencia-" + i).val();
+            if (content == '') {
+                $("#Content-" + i).hide();
+                $("#Evidencia-" + i).val('');
+            }
+        }
+    }
+    $(".btn-evidencia").click(function () {
+        var id = Number($(this).attr("Noinput"));
+        var inputValue = $("#Evidencia-" + id).val();
+        if (typeof inputValue === 'undefined')
+            return;
+        if (inputValue == '')
+            return;
+        if (inputValue == null)
+            return;
+
+        $("#Evidencia-" + id).val('');
+        $("#Content-" + id).hide();
+
+    });
+    $(".btn-evidencia").change(function () {
+        HideInputFile();
+        var current = $(this).attr("noEvidencia");
+        var next = Number(current) + 1;
+        console.log(next);
+        $("#Content-" + next).show();
+    });
+
+    function LoadRubroCaptura() {
+
+        $.post('@Url.Action("RubroCaptura", "Auditoria")', {
+            Tienda: $("#Tienda").val(),
+            Tipo: $("#Tipo").val()
+        }, function (data) {
+            if (data.Context.Id_Rubro == 0 && data.Context.Id_Segmento == 0 && data.Context.Id_TipoAuditoria == 0) {
+                $("#TitleAuditoria").html("Auditoría");
+                $("#content-finalizacion").show();
+                $("#content-captura").hide();
+            } else if (data.Context == null) {
+                $.alert("Ocurrio un error al procesar la solicitud");
+            } else {
+
+                $("#TitleAuditoria").html(data.Context.TipoAuditoria + " > " + data.Context.Segmento);
+                $("#lblRubroNombre").html(data.Context.Rubro)
+                $("#lblDescripcionRubro").html(data.Context.RubroDescripcion)
+                $("#Segmento").val(data.Context.Id_Segmento);
+                $("#Rubro").val(data.Context.Id_Rubro);
+                if (data.Context.Nota != '')
+                    $("#nota").html('<div class="alert alert-warning alert-dismissible">\
+                                        <button type = "button" class= "close" data-dismiss="alert" aria-hidden="true" >×</button >\
+                                        <h4><i class="icon fa fa-warning"></i> Nota</h4> '+ data.Context.Nota +' \
+                                    </div >');
+                else
+                    $("#nota").html('');
+                $("#Requerido").val(data.Context.Requerido);
+                $("#content-finalizacion").hide();
+                $("#form-captura").show();
+                $("#Guardar").show();
+                //HideInputFile();
+                $("#Evidencia-1").val('');
+                $("#Evidencia-2").val('');
+                $("#Evidencia-3").val('');
+                $("#Evidencia-4").val('');
+                $("#Evidencia-5").val('');
+                $("#Evidencia-6").val('');
+                $("#Evidencia-7").val('');
+                $("#Evidencia-8").val('');
+                $("#Evidencia-9").val('');
+
+                $("#Content-2").hide();
+                $("#Content-3").hide();
+                $("#Content-4").hide();
+                $("#Content-5").hide();
+                $("#Content-6").hide();
+                $("#Content-7").hide();
+                $("#Content-8").hide();
+                $("#Content-9").hide();
+
+                navigator.geolocation.getCurrentPosition(function (result) {
+                    $("#Longitud").val(result.coords.longitude);
+                    $("#Latitud").val(result.coords.latitude);
+                    $("#Exactitud").val(result.coords.accuracy);
+                }, gestionarErrores);
+
+                $("#Guardar").removeAttr("disabled");
+            }
+        });
+    }
+    $("#finalizar").click(function () {
+        $("#finalizar").attr("disabled", true);
+        $.post('@Url.Action("Finalizar", "Auditoria")', {
+            Tienda: $("#Tienda").val(),
+            Tipo: $("#Tipo").val()
+        }, function (data) {
+            if (data != null)
+                $(location).attr('href', '@Url.Action("Index", "Auditoria")')
+            else
+                $.alert("Ocurrio un error al procesar la solicitud");
+
+        });
+    });
+
+</script>
+
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script>
+    $(function () {
+        $("#Guardar").click(function () {
+
+            var formData = new FormData($("#frmAddRubro")[0]);
+            var ruta = "@Url.Action("GuardarRubro", "Auditoria")";
+
+            if ($("#Requerido").val() == 1)
+                if ($("#Evidencia-1").val() == '') {
+                    $.alert('La evidencia es requerida.')
+                    return;
+                }
+            $("#Guardar").attr("disabled", true);
+            $.ajax({
+                url: ruta,
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#Respuesta").html(data.Context);
+                    if (data != null) {
+                        $("#Segmento").val('');
+                        $("#Rubro").val('');
+                        $("#Califica").val('');
+                        $("#Observacion").val('');
+                        $("#Evidencia").val('');
+
+                        LoadRubroCaptura();
+                    }
+                    console.log(data.Context);
+
+                }
+            });
+        });
+
+     });
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd3NDhqAMBpZ8hNcapvVnA6p93sUTXk4I&callback=initMap" async defer></script>
+
+
+

@@ -1,0 +1,580 @@
+﻿@{
+    ViewBag.Title = "Mayoreo familia por mes SKU";
+}
+<style>
+
+    tfoot th, tfoot td {
+        border-top: 2px solid #666;
+        color: #363;
+    }
+
+    .text-white {
+        color: white !important;
+    }
+
+    .bg-primary {
+        background-color: #007bff !important;
+    }
+
+    .bg-secondary {
+        background-color: #6c757d !important;
+    }
+
+    .bg-success {
+        background-color: #28a745 !important;
+    }
+
+    .bg-dark {
+        background-color: #343a40 !important;
+    }
+
+    .modal-lg {
+        width: 95% !important;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Reportes Retail
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Reportes</a></li>
+        <li class="active">Retail</li>
+        <li class="active">Familia categorias cliente</li>
+        <li class="active">GZ</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="box box-danger">
+
+            <div id="overlay-load" class="overlay" style="display:none;">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
+
+            <div class="box-header with-border">
+                <div class="box-title">
+                    <i class="fa fa-file"></i>
+                    Detalle de Familia - Categorias - Cliente
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="box-body">
+                            <div class="col-md-10">
+                                <label>Rango de fechas:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="DelAl">
+                                </div>
+                                <button id="btn-buscar" type="button" class="btn btn-block btn-primary">
+                                    <i class="fa fa-spin"></i>
+                                    Buscar
+                                </button>
+
+                                <span id="spam-load-detalle">Cargando...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="div-root" class="box-body">
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+
+                </div>
+
+            </div>
+
+            <div class="box-footer">
+
+            </div>
+        </div>
+    </div>
+    @* MUESTRA LA CATEGORIA DE LA FAMILIA SELECCIONADO (FAMILIA -CATEGORIA)*@
+    <div class="modal fade" id="modal-categoria" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalle de familia seleccionado</h4>
+                    <ol id="nodos" class="breadcrumb"></ol>
+                    <span id="family-name" class="modal-title"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <span id="load-modal" class="modal-title"></span>
+                    <div id="div-table-root" class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* MUESTRA FAMILIA - CATEGORIA1 - CATEGORIA2 *@
+    <div class="modal fade" id="modal-categoria1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalle de la categoria1 seleccionado</h4>
+                    <ol id="nodos-categoria1" class="breadcrumb"></ol>
+                    <span id="family-name-categoria1" class="modal-title"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="load-modal-categoria1" class="modal-title"></span>
+                    <div id="div-table-root-categoria1" class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* MUESTRA FAMILIA - CATEGORIA1- CATEGORIA2 - CLASIFICACION *@
+    <div class="modal fade" id="modal-clasificado" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalle de categoria 2 seleccionado</h4>
+                    <ol id="nodos-clasificado" class="breadcrumb"></ol>
+                    <span id="family-name-clasificado" class="modal-title"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="load-modal-clasificado" class="modal-title"></span>
+                    <div id="div-table-clasificado" class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* MUESTRA FAMILIA - CATEGORIA1- CATEGORIA2 - CLASIFICACION - CLIENTE *@
+    <div class="modal fade" id="modal-cliente" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalle de categoria 2 seleccionado de la clasificación.</h4>
+                    <ol id="nodos-cliente" class="breadcrumb"></ol>
+                    <span id="family-name-cliente" class="modal-title"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="load-modal-cliente" class="modal-title"></span>
+                    <div id="div-table-root-cliente" class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-sku" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalle de cliente seleccionado SKU</h4>
+                    <ol id="nodos-cliente-sku" class="breadcrumb"></ol>
+                    <span id="family-name-sku" class="modal-title"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="load-modal-sku" class="modal-title"></span>
+                    <div id="div-table-root-sku" class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+<script>
+    initModule();
+    function initModule() {
+        $('#DelAl').daterangepicker();
+
+        $('#div-table-root11').html('');
+        $('#nodos').html('');
+    }
+
+
+    @* APLICA PARA MOSTRAR LAS CATEGORIAS DE LA FAMILIA SELECCIONADO*@
+    function myFunction(value, valueMes) {
+
+        $('#nodos').html('');
+        $('#load-modal').removeClass('text-danger');
+
+        $('#div-table-root').html('');
+
+        let Familia = value.replace(/_/g, ' ')
+
+        $("#nodos").append('<li>' + Familia + '</li>');
+
+        $('#family-name').html('Familia: ' + Familia);
+        $('#load-modal').text('Cargando datos por favor espere...');
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("GetReporteRetailXMesItemCategoria", "Reportes")',
+        {
+            Del: Inicio,
+            Al: Termino,
+            Familia: Familia,
+            Mes: valueMes,
+            Tipo: 3 @*mostrar lista de CATEGORIA*@
+        }, function (data) {
+            if (data != null) {
+                $("#div-table-root").append(data.Context);
+                $('#load-modal').text('');
+            }
+            else {
+                $('#load-modal').text('Ocurrio un error al cargar la información');
+                $('#modal-extra-large').modal('hide');
+            }
+            if (data.Message != 'Success') {
+                alert('Error generado: ' + data.Message);
+            }
+        });
+    }
+
+    @* APLICA PARA MOSTRAR Los Clientes - categoria - FAMILIA SELECCIONADO*@
+    function myFunctionCategoria(valueFamilia, valueCategoria, valueMes) {
+        $('#load-modal-categoria1').removeClass('text-danger');
+        $("#nodos-categoria1").html('');
+        $('#div-table-root-categoria1').html('');
+
+        let Categoria = valueCategoria.replace(/_/g, ' ');
+        let Familia = valueFamilia.replace(/_/g, ' ');
+
+        $("#nodos-categoria1").append('<li>' + Familia + '</li>');
+        $("#nodos-categoria1").append('<li>' + Categoria + '</li>');
+
+        $('#family-name-categoria1').html('Categoria 1: ' + Categoria);
+        $('#load-modal-categoria1').text('Cargando datos por favor espere...');
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("GetReporteRetailXMesItemCategoria1", "Reportes")',
+        {
+            Del: Inicio,
+            Al: Termino,
+            Familia: Familia,
+            Categoria: Categoria,
+            Mes: valueMes,
+            Tipo: 4 @* CATEGORIA1*@
+        }, function (data) {
+            if (data != null) {
+                $("#div-table-root-categoria1").append(data.Context);
+                $('#load-modal-categoria1').text('');
+            }
+            else {
+                $('#load-modal-categoria1').text('Ocurrio un error al cargar la información');
+            }
+            if (data.Message != 'Success') {
+                $('#load-modal-categoria1').text('Error generado: ' + data.Message);
+                $('#load-modal-categoria1').addClass('text-danger');
+            }
+        });
+
+    }
+    @* FUNCION PARA MOSTRAR LOS CLASIFICADOS *@
+    function myFunctionCategoria1(valueFamilia, valueCategoria, valueCategoria1, valueMes) {
+        $("#nodos-clasificado").html('');
+        $('#div-table-clasificado').html('');
+        $('#load-modal-clasificado').removeClass('text-danger');
+
+        let Familia = valueFamilia.replace(/_/g, ' ');
+        let Categoria = valueCategoria.replace(/_/g, ' ');
+        let Categoria1 = valueCategoria1.replace(/_/g, ' ');
+
+        $("#nodos-clasificado").append('<li>' + Familia + '</li>');
+        $("#nodos-clasificado").append('<li>' + Categoria + '</li>');
+        $("#nodos-clasificado").append('<li>' + Categoria1 + '</li>');
+
+        $('#family-name-clasificado').html('Categoria 2: ' +Categoria1);
+        $('#load-modal-clasificado').text('Cargando datos por favor espere...');
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("GetReporteRetailXMesItemCategoria2", "Reportes")',
+        {
+            Del: Inicio,
+            Al: Termino,
+            Familia: Familia,
+            Categoria: Categoria,
+            Categoria1: Categoria1,
+            Mes: valueMes,
+            Tipo: 5 @* VALOR CLASIFICADO*@
+        }, function (data) {
+            if (data != null) {
+                $("#div-table-clasificado").append(data.Context);
+                $('#load-modal-clasificado').text('');
+            }
+            else {
+                $('#load-modal-clasificado').text('Ocurrio un error al cargar la información');
+            }
+            if (data.Message != 'Success') {
+                $('#load-modal-clasificado').text('Ocurrio un error, Mensaje: ' + data.Message);
+                $('#load-modal-clasificado').addClass('text-danger');
+            }
+        });
+    }
+
+
+    @* FUNCION PARA MOSTRAR LOS CLIENTES *@
+    function myLVClasificadoCliente(valueFamilia, valueCategoria,valueCategoria1,valueClasificado, valueMes) {
+        $('#div-table-root-cliente').html('');
+        $('#load-modal-cliente').removeClass('text-danger');
+
+        let Familia = valueFamilia.replace(/_/g, ' ');
+        let Categoria = valueCategoria.replace(/_/g, ' ');
+        let Categoria1 = valueCategoria1.replace(/_/g, ' ');
+        let Clasificado = valueClasificado.replace(/_/g, ' ');
+
+        $("#nodos-cliente").html('');
+
+        $("#nodos-cliente").append('<li>' + Familia + '</li>');
+        $("#nodos-cliente").append('<li>' + Categoria + '</li>');
+        $("#nodos-cliente").append('<li>' + Categoria1 + '</li>');
+        $("#nodos-cliente").append('<li>' + Clasificado + '</li>');
+
+        $('#family-name-cliente').html('Clasificación: ' +Clasificado);
+        $('#load-modal-cliente').text('Cargando datos por favor espere...');
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("GetReporteRetailXMesItemCategoria2Cliente", "Reportes")',
+        {
+            Del: Inicio,
+            Al: Termino,
+            Familia: Familia,
+            Categoria: Categoria,
+            Categoria1: Categoria1,
+            Clasificado: Clasificado,
+            Mes: valueMes,
+            Tipo: 6 @* CLIENTE*@
+        }, function (data) {
+            if (data != null) {
+                $("#div-table-root-cliente").append(data.Context);
+                $('#load-modal-cliente').text('');
+            }
+            else {
+                $('#load-modal-cliente').text('Ocurrio un error al cargar la información');
+            }
+            if (data.Message != 'Success') {
+                $('#load-modal-cliente').text('Ocurrio un error al cargar la información: Error ' + data.Message);
+                $('#load-modal-cliente').addClass('text-danger');
+            }
+        });
+    }
+
+    @* FUNCION PARA MOSTRAR LOS CLIENTES - SKU *@
+    function myLVClasificadoClienteSKU(valueFamilia, valueCategoria,valueCategoria1,valueClasificado, valueCliente, valueClienteName, valueMes) {
+        $('#div-table-root-sku').html('');
+        $('#load-modal-sku').removeClass('text-danger');
+
+        let Familia = valueFamilia.replace(/_/g, ' ');
+
+        let Categoria = valueCategoria.replace(/_/g, ' ');
+
+        let Categoria1 = valueCategoria1.replace(/_/g, ' ');
+
+        let Clasificado = valueClasificado.replace(/_/g, ' ');
+
+        let Cliente = valueCliente.replace(/_/g, ' ');
+
+        let ClienteName = valueClienteName.replace(/_/g, ' ');
+
+
+        $("#nodos-cliente-sku").html('');
+
+        $("#nodos-cliente-sku").append('<li>' + Familia + '</li>');
+        $("#nodos-cliente-sku").append('<li>' + Categoria + '</li>');
+        $("#nodos-cliente-sku").append('<li>' + Categoria1 + '</li>');
+        $("#nodos-cliente-sku").append('<li>' + Clasificado + '</li>');
+        $("#nodos-cliente-sku").append('<li>' + Cliente+ ' - '+ ClienteName + '</li>');
+
+        $('#family-name-sku').html('Cliente: ' +Cliente+ ' - '+ ClienteName);
+        $('#load-modal-sku').text('Cargando datos por favor espere...');
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("GetReporteRetailXMesItemCategoria2ClienteSKU", "Reportes")',
+        {
+            Del: Inicio,
+            Al: Termino,
+            Familia: Familia,
+            Categoria: Categoria,
+            Categoria1: Categoria1,
+            Clasificado: Clasificado,
+            Cliente: Cliente,
+            ClienteName: ClienteName,
+            Mes: valueMes,
+            Tipo: 2 @* SKU*@
+        }, function (data) {
+            if (data != null) {
+                $("#div-table-root-sku").append(data.Context);
+                $('#load-modal-sku').text('');
+            }
+            else {
+                $('#load-modal-sku').text('Ocurrio un error al cargar la información');
+            }
+            if (data.Message != 'Success') {
+                $('#load-modal-sku').text('Ocurrio un error al cargar la información: Mensaje: ' + data.Message);
+                $('#load-modal-sku').addClass('text-danger');
+            }
+        });
+    }
+
+
+
+    $('#btn-buscar').click(function (e) {
+        $('#div-root').html('');
+        $('#overlay-load').show();
+
+        $('#spam-load-detalle').text('Cargando información espere un momento...');
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("GetReporteRetailXMes1", "Reportes")',
+        {
+            Del: Inicio,
+            Al: Termino,
+            Tipo: 0@*CARGAR EL DETALLE DE LAS FAMILIAS*@
+        }, function (data) {
+            if (data != null) {
+                $("#div-root").append(data.Context);
+                $('#spam-load-detalle').text('');
+                $('#overlay-load').hide();
+            }
+            else {
+                $('#spam-load-detalle').text('Ocurrio un error inesperado al procesar la solicitud.');
+                $('#overlay-load').hide();
+            }
+            if (data.Message != 'Success') {
+                alert('Error generado ' + JSON.stringify(data.Message));
+                $('#overlay-load').hide();
+            }
+        });
+    });
+
+
+
+
+</script>
+
+<script>
+
+    $('#DelAl').daterangepicker({
+        "locale": {
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "Desde",
+            "toLabel": "Hasta",
+            "customRangeLabel": "Personalizar",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agusto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+            "firstDay": 1
+        },
+        "opens": "center"
+    });
+
+
+    var modal_counter = 0;
+    $(document).ready(function () {
+        $('.modal').on('shown.bs.modal', function () {
+            modal_counter++;
+        });
+        $('.modal').on('hidden.bs.modal', function () {
+            modal_counter--;
+            if (modal_counter) {
+                $('body').addClass('modal-open');
+            }
+            else {
+                $('body').removeClass('modal-open');
+            }
+        });
+    })
+</script>

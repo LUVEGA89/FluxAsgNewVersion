@@ -1,0 +1,473 @@
+﻿
+@{
+    ViewBag.Title = "Reporte";
+}
+
+<style>
+    .th-apartados {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+    }
+
+    .th-registros {
+        background-color: #4ad89c;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Reporte apartados mercancía
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-cubes"></i> Apartados Mercancía </a>
+        </li>
+        <li class="active"> Reporte </li>
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h1 class="box-title">Buscar Apartados: </h1>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Seleccione el rango de fecha de apartados:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="DelAl" value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="row">
+                                <label></label>
+                            </div>
+
+                            <div class="row">
+                                <div id="ShowDetails" class="btn btn-success btn-block pull-left">
+                                    <span class="fa fa-search"></span> Buscar
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cargando" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="DetalleApartados">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table id="tablaApartados" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="th-apartados">FOLIO</th>
+                                    <th class="th-apartados">FOLIO SAP</th>
+                                    <th class="th-apartados">VENDEDOR</th>
+                                    <th class="th-apartados">FECHA SOLICITUD</th>
+                                    <th class="th-apartados">FECHA LIBERACIÓN</th>
+                                    <th class="th-apartados">CANAL</th>
+                                    <th class="th-apartados">APROBÓ</th>
+                                    <th class="th-apartados">PRODUCTOS</th>
+                                    <th class="th-apartados">EVIDENCIAS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyApartados"></tbody>
+                        </table>
+                    </div>
+                    <div id="cargando2" style="display:none;" class="overlay">
+                        <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL TABLA REGISTROS-->
+    <div class="modal fade" id="modalRegistros" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <h5 class="modal-title">Mercancia apartada</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="box-header">
+                        <i class="fa fa-level-down"></i>
+                        <h3 class="box-title">Productos</h3>
+                        <span id="countPedidos"></span>
+                    </div>
+                    <div class="box-body" style="display: block;">
+                        <div class="table-responsive table-responsive-custom">
+                            <table class="table table-bordered" id="tablaProductos">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="th-registros">SKU</th>
+                                        <th class="th-registros">Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyProductos"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Anexos-->
+    <div class="modal fade" id="modalAnexos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <h5 class="modal-title">Detalle de las evidencias</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="box-header">
+                        <i class="fa fa-level-down"></i>
+                        <h3 class="box-title">Evidencias</h3>
+                    </div>
+                    <div class="box-body" style="display: block;">
+
+                        <div class="table-responsive table-responsive-custom">
+                            <table class="table table-bordered" id="tablaAnex">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="th-stationery">Archivo</th>
+                                        <th class="th-stationery">Descargar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyAnex"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    //Configuración daterangepicker y datepicker
+    $('#DelAl').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+
+    });
+
+    $('#DelAl').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('#DelAl').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
+    });
+    //Fin configuración daterangepicker
+
+    //FORMATO DINERO
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+
+    //Función que se ejecuta cuando se muestra el modal de productos
+    $('#modalRegistros').on('show.bs.modal', function (e) {
+        var idApartado = $(e.relatedTarget).data().id;
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("findMercancia", "ApartadoMercancia")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"idApartado":"' + idApartado + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+                    var VP = $('#tablaProductos').DataTable();
+                    VP.destroy();
+
+                    $("#tbodyProductos").html('');
+                    $.each(data.Context, function (index, value) {
+                        $("#tbodyProductos").append(
+                            "<tr>\
+                                <td>" + value.SKU + "</td>\
+                                <td>" + value.piezas + "</td>\</tr>");
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: findMercancia",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    });
+
+    //Modal Anexos
+    $('#modalAnexos').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('index-id');
+        obtenerAnexos(id)
+    });
+
+    function obtenerAnexos(id) {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("getEvidencias", "ApartadoMercancia")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"ID":' + id + '}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+                    $("#tbodyAnex").html('');
+                    $.each(data.Context, function (index, value) {
+                        var path = "";
+                        if (value.subPath != "") {
+                            path = value.path + "\\" + value.subPath;
+                        } else {
+                            path = value.path;
+                        }
+                        path = path.split("\\").join("\\\\\\\\"); 
+                        $("#tbodyAnex").append(
+                            '<tr>\
+                                <td>' + value.fileName + '</td>\
+                                <td align="center"><a class="btn btn-lg" onclick="descargar(\''+ path + '\\\\\\\\' + value.fileName + '.' + value.fileExt +'\')" align="center"><i class="glyphicon glyphicon-download"></i> CLICK AQUÍ</a></td></tr>');
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: getEvidencias",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    }
+
+    //Funcion para descargar el archivo que se le pasa como parametro
+    function descargar(fullpath) {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("ComprobarArchivo", "ApartadoMercancia")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"fullpath":"' + fullpath + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data.Context) {
+                    window.location.href = '@Url.Action("Descargar", "ApartadoMercancia")' + '?fullpath=' + fullpath;
+                } else {
+                    swal({
+                        title: "Archivo no encontrado",
+                        text: "Error: el archivo que se busca no se encuentra en el servidor",
+                        icon: "error",
+                        button: true,
+                        dangerMode: true,
+                    })
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: ComprobarArchivo",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });  
+    };
+
+    //Botón Buscar
+
+    //Ver apartados
+    $('#ShowDetails').click(function () {
+
+        if ($('#DelAl').val() != "") {
+            var rango = $('#DelAl').data('daterangepicker');
+            var fecIni = rango.startDate.format('YYYY/MM/DD');
+            var fecFin = rango.endDate.format('YYYY/MM/DD');
+
+            var table = $('#tablaApartados').DataTable();
+            table.destroy();
+            $("#tbodyApartados").html("");
+
+            swal({
+                title: 'Confirmación',
+                text: "¡Esta seguro de buscar este rango de fechas!",
+                icon: 'info',
+                buttons: ["Cancelar", "Si, Seguro"],
+            }).then((result) => {
+                if (result) {
+                    $('#cargando').show();
+                    $('#cargando2').show();
+                    //Si la busqueda es por fecha de apartado
+                    $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        url: '@Url.Action("getApartados", "ApartadoMercancia")',
+                        async: false,
+                        timeout: 3000,
+                        type: 'POST',
+                        data: '{"Inicio":"' + fecIni + '", "Fin":"' + fecFin + '"}',
+                        dataType: "json",
+                        success: function (data) {
+                            if (data != null && $.isArray(data.Context)) {
+                                var VP = $('#tablaApartados').DataTable();
+                                VP.destroy();
+
+                                $("#tbodyApartados").html('');
+                                $.each(data.Context, function (index, value) {
+                                    var botones = ""
+                                    var aprobo = "";
+                                    if (value.canal.includes("Mayoreo")) {
+                                        aprobo = "Eduardo Masso";//Eduardo
+                                    }
+                                    if (value.canal.includes("Tienda")) {
+                                        aprobo = "Rafael Masso(Hijo)";//Rafa
+                                    }
+                                    if (value.canal.includes("Retail")) {
+                                        aprobo = "Adrian Rivera";//Adrian
+                                    }
+                                    if (value.folioSAP == 0)
+                                        value.folioSAP = '';
+
+                                    $("#tbodyApartados").append(
+                                        "<tr>\
+                                            <td>" + value.Identifier + "</td>\
+                                            <td>" + value.folioSAP + "</td>\
+                                            <td>" + value.agente + "</td>\
+                                            <td align='center'>" + moment(value.fechaApartado).format('L') + "</td>\
+                                            <td align='center'>" + moment(value.fechaLiberacion).format('L') + "</td>\
+                                            <td align='center'>" + value.canal + "</td>\
+                                            <td> " + aprobo + "</td >\
+                                            <td align='center'><a class='btn' data-target='#modalRegistros' data-toggle='modal' data-id='" + value.Identifier + "' href='#' align='center'><i class='fa fa-cubes'></i></a></td>\
+                                            <td align='center'><a class='btn btn-lg' data-toggle='modal' data-target='#modalAnexos' data-index-id='" + value.Identifier + "' align='center'><i class='fa fa-folder-open'></i></a></td></tr>");
+                                });
+
+                                $('#tablaApartados').DataTable({
+                                    "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                                    dom: 'frtip',
+                                    stateSave: true,
+                                    "searching": true,
+                                    "language": {
+                                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                    }
+                                });
+                            }
+                        },
+                        error: function () {
+                            swal({
+                                title: "Error",
+                                text: "Error en la api: getApartados",
+                                icon: "error",
+                                button: true,
+                                dangerMode: true,
+                            })
+                        }
+                    });
+                    $('#cargando').hide();
+                    $('#cargando2').hide();
+                } else {
+                    swal({
+                        title: '¡Cancelado!',
+                        text: 'Proceso cancelado',
+                        icon: 'warning'
+                    })
+                }
+            })
+        } else {
+            swal({
+                title: "Rango fecha no encontrado",
+                text: "Seleccione un rango de fechas para realizar la búsqueda",
+                icon: "error",
+                button: true,
+            })
+        }
+        
+    });
+    //Fin boton Buscar
+</script>
+

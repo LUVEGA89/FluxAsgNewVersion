@@ -1,0 +1,277 @@
+﻿@{
+    ViewBag.Title = "Retail CLI-SKU-PZS";
+}
+
+<style>
+
+    tfoot th, tfoot td {
+        border-top: 2px solid #666;
+        color: #363;
+    }
+
+    .text-white {
+        color: white !important;
+    }
+
+    .bg-primary {
+        background-color: #007bff !important;
+    }
+
+    .bg-secondary {
+        background-color: #6c757d !important;
+    }
+
+    .bg-success {
+        background-color: #28a745 !important;
+    }
+
+    .bg-dark {
+        background-color: #343a40 !important;
+    }
+
+    .modal-lg {
+        width: 95% !important;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Reportes Retail
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Reportes</a></li>
+        <li class="active">Retail</li>
+        <li class="active">Cliente-SKU-Piezas</li>
+        <li class="active">GZ</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="box box-danger">
+
+            <div id="overlay-load" class="overlay" style="display:none;">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
+
+            <div class="box-header with-border">
+                <div class="box-title">
+                    <i class="fa fa-file"></i>
+                    Detalle por Cliente - SKU - Piezas
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="box-body">
+                            <div class="col-md-10">
+                                <label>Rango de fechas:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="DelAl">
+                                </div>
+                                <button id="btn-buscar" type="button" class="btn btn-block btn-primary">
+                                    <i class="fa fa-spin"></i>
+                                    Buscar
+                                </button>
+
+                                <span id="spam-load-detalle">Cargando...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="div-root" class="box-body">
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+
+                </div>
+
+            </div>
+
+            <div class="box-footer">
+
+            </div>
+        </div>
+    </div>    
+
+    @* MUESTRA CLIENTE (CLIENTE - SKU) *@
+    <div class="modal fade" id="modal-SKU" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Detalle de vendedor seleccionado</h4>
+                    <ol id="nodos" class="breadcrumb"></ol>
+                    <span id="family-name" class="modal-title"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="load-modal" class="modal-title"></span>
+                    <div id="div-table-root" class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+<script>
+
+    initModule();
+
+    function initModule() {
+        $('#DelAl').daterangepicker();
+        $('#div-table-root').html('');
+        $('#family-name').html('');
+    }
+
+    $('#btn-buscar').click(function (e) { // lista de clientes
+        $('#spam-load-detalle').removeClass('text-danger');
+
+        $('#div-root').html('');
+        $('#overlay-load').show();
+
+        $('#spam-load-detalle').text('Cargando información espere un momento...');
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("GetReporteRetailClientePzsXMes", "Reportes")',
+        {
+            Del: Inicio,
+            Al: Termino,
+            Tipo: 100,
+        }, function (data) {
+            if (data != null) {
+                $("#div-root").append(data.Context);
+                $('#spam-load-detalle').text('');
+                $('#overlay-load').hide();
+            }
+            else {
+                $('#spam-load-detalle').text('Ocurrio un error inesperado al procesar la solicitud.');
+                $('#overlay-load').hide();
+            }
+            if (data.Message != 'Success') {
+                $('#spam-load-detalle').text('Ocurrio un error inesperado al procesar la solicitud. Mensaje: ' + data.Message);
+                $('#spam-load-detalle').addClass('text-danger');
+            }
+        });
+    });
+
+    function myFunction(valueCliente, valueClienteName, valueMes) { // lista de skus
+        $('#nodos').html('');
+        $('#load-modal').removeClass('text-danger');
+
+        $('#div-table-root').html('');
+        let Cliente = valueCliente.replace(/_/g, ' ');
+        let ClienteName = valueClienteName.replace(/_/g, ' ');
+
+        $("#nodos").append('<li>' + Cliente + ' - '+ ClienteName + '</li>');
+
+        $('#family-name').html('Cliente: ' +Cliente + ' - '+ ClienteName);
+        $('#load-modal').text('Cargando datos por favor espere...');
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("GetReporteRetailClientePzsXMesItem", "Reportes")',
+        {
+            Del: Inicio,
+            Al: Termino,
+            Cliente: Cliente,
+            Mes: valueMes,
+            Tipo:200 @* VALOR SKUS*@
+        }, function (data) {
+            if (data != null) {
+                $("#div-table-root").append(data.Context);
+                $('#load-modal').text('');
+            }
+            else {
+                $('#load-modal').text('Ocurrio un error al cargar la información ');                
+            }
+            if (data.Message != 'Success') {
+                $('#load-modal').text(data.Message);
+                $('#load-modal').addClass('text-danger');
+            }
+        });
+    }
+
+</script>
+
+<script>
+
+    var modal_counter = 0;
+    $(document).ready(function () {
+        $('.modal').on('shown.bs.modal', function () {
+            modal_counter++;
+        });
+        $('.modal').on('hidden.bs.modal', function () {
+            modal_counter--;
+            if (modal_counter) {
+                $('body').addClass('modal-open');
+            }
+            else {
+                $('body').removeClass('modal-open');
+            }
+        });
+    })    
+
+    $('#DelAl').daterangepicker({
+        "locale": {
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "Desde",
+            "toLabel": "Hasta",
+            "customRangeLabel": "Personalizar",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agusto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+            "firstDay": 1
+        },
+        "opens": "center"
+    });
+</script>

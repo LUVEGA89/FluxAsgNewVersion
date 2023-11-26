@@ -1,0 +1,716 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    #panelFindFacturas {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+    @@media screen and (max-width: 600px) {
+        #btnCancelBusquedaFactura {
+            display: none;
+        }
+        #btnCancelBusquedaFacturaXCliente {
+            display: none;
+        }
+    }
+</style>
+<section class="content-header">
+    <h1>
+        Facturas
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb pull-right">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Facturas</a></li>
+        <li class="active">Ventas</li>
+        <!------- Seccion del Author JIMERU ------>
+        <li class="active">JJ</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <!---------------  Seleccion de forma de busqueda de facturas ----------------------------->
+                    <div class="box-title">
+                        Seleccione la forma de búsqueda:
+                        <ul class="nav nav-tabs center">
+                            <li role="presentation">
+                                <button id="btnFacturaFecha" class="btn btn-link">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                    Búsqueda por fecha
+                                </button>
+                            </li>
+                            <li role="presentation">
+                                <button id="btnFacturaCliente" class="btn btn-link">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    Búsqueda por cliente
+                                </button>
+                            </li>
+                            <li role="presentation">
+                                <button id="btnFacturaNumeroFactura" class="btn btn-link">
+                                    <i class="glyphicon glyphicon-file"></i>
+                                    Búsqueda por número de factura
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <!---------------  busqueda de facturas por Fecha ----------------------------->
+                    <div id="DivFacturaFecha" class="box">
+                        <div class="box-header">
+                            <div class="box-title">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                Búsqueda de factura por fecha
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <span class="col-sm-3 col-xs-12">
+                                            <i class="fa fa-search"></i>
+                                            <label for="fechaFactura"> Seleccione rango de fechas</label>
+                                        </span>
+                                        <div class="input-group col-sm-4 col-xs-12">
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </span>
+                                            <input type="text" class="form-control pull-right" id="fechaFactura" name="fechaFactura">
+                                            <span class="input-group-btn">
+                                                <button id="btnBuscarFactura" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button id="btnCancelBusquedaFactura" class="btn btn-danger"><i class="fa fa-ban"></i> Borrar panel</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------------  busqueda de facturas por Codigo de clente y Fecha ----------------------------->
+                    <div id="DivFacturaCliente" class="box" style="display:none;">
+                        <div class="box-header">
+                            <div class="box-title">
+                                <i class="fa fa-user"></i>
+                                Búsqueda de facturas por cliente
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12">
+                                    <div class="form-group col-sm-5 col-xs-12">
+                                        <span class="col-sm-5 col-xs-12">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                            <label for="txtCodeCliente"> Ingrese código de cliente</label>
+                                        </span>
+                                        <div class="input-group col-sm-7 col-xs-12">
+                                            <div class="input-group-addon">
+                                                <i class="glyphicon glyphicon-user"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" id="txtCodeCliente"
+                                                   name="txtCodeCliente" placeholder="Ejemplo: C000000"
+                                                   style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                            <span class="input-group-btn">
+                                                <button id="btnClearCliente" class="btn btn-danger"><i class="fa fa-ban"></i> Limpiar</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-7 col-xs-12">
+                                        <span class="col-sm-4 col-xs-12">
+                                            <i class="fa fa-search"></i>
+                                            <label for="fechaFacturaXCliente"> Seleccione rango de fechas</label>
+                                        </span>
+                                        <div class="input-group col-sm-8 col-xs-12">
+                                            <div class="input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" id="fechaFacturaXCliente" name="fechaFacturaXCliente">
+                                            <span class="input-group-btn">
+                                                <button id="btnBuscarFacturaXCliente" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button id="btnCancelBusquedaFacturaXCliente" class="btn btn-danger"><i class="fa fa-ban"></i> Borrar panel</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------------  busqueda de facturas por numero ----------------------------->
+                    <div id="DivFacturaNumeroFactura" class="box" style="display:none;">
+                        <div class="box-header">
+                            <div class="box-title">
+                                <i class="glyphicon glyphicon-file"></i>
+                                Búsqueda por número de factura
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12">
+                                    <div class="form-group col-sm-6 col-xs-12">
+                                        <span class="col-sm-5 col-xs-12">
+                                            <i class="glyphicon glyphicon-file"></i>
+                                            <label for="txtNumFactura"> Ingrese el número de factura</label>
+                                        </span>
+                                        <div class="input-group col-sm-7 col-xs-12">
+                                            <div class="input-group-addon">
+                                                <i class="glyphicon glyphicon-file"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" id="txtNumFactura"
+                                                   name="txtNumFactura" placeholder="Ejemplo: 000000"
+                                                   style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                            <span class="input-group-btn">
+                                                <button id="btnClearFactura" class="btn btn-danger"><i class="fa fa-ban"></i> Limpiar</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="col-sm-2 col-xs-12">
+                                        <button id="btnBuscarFacturaXNum" class="btn btn-success btn-block"><i class="fa fa-search"></i> Buscar</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------------  Panel de Facturas encontradas ----------------------------->
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div id="panelFacturas" class="panel panel-success">
+                                <!-------- Menu de opciones --------->
+                                <ul class="nav nav-tabs pull-right">
+                                    <li role="presentation">
+                                        <button id="btnPanelDescargaPDF" class="btn btn-link" onclick="DescargaFactura();">
+                                            <i class="glyphicon glyphicon-download"></i>
+                                            Descargar facturas
+                                        </button>
+                                    </li>
+                                    <li role="presentation">
+                                        <button id="btnPanelEmail" class="btn btn-link" onclick="AbrirModalCorreo();">
+                                            <i class="glyphicon glyphicon-envelope"></i>
+                                            Enviar Correo
+                                        </button>
+                                    </li>
+                                    <li role="presentation">
+                                        <button id="btnPanelEmail" class="btn btn-link" onclick="SeleccionarInputAll();">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                            Seleccionar todo
+                                        </button>
+                                    </li>
+                                    <li role="presentation">
+                                        <button id="btnPanelEmail" class="btn btn-link" onclick="DeseleccionarInputAll();">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                            Deseleccionar
+                                        </button>
+                                    </li>
+                                </ul>
+                                <!---------------- Panel de facturas encontradas ------------------>
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        Facturas encontradas :
+                                        <span id="NumFacturas"></span>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="panelFindFacturas" class="table-responsive">
+                                        <table id="tbFacturas" class="table table-bordered">
+                                            <thead class="bg-success">
+                                                <tr>
+                                                    <th style="width:20%;">Numero de Factura</th>
+                                                    <th style="width:40%;">Factura</th>
+                                                    <th style="width:20%;">Elegir</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="contentFacturas"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="Refresh" style="display:none;" class="overlay">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------------- modal de envio de correos ---------------------------------------->
+    <div class="modal fade" name="modalEmail" id="modalEmail">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><span class='glyphicon glyphicon-envelope'></span> Envio de factura y correo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <h3 id="Key" style="display:none;"></h3>
+                        <h3 id="Id" style="display:none;"></h3>
+                        <form id="frm-Respuesta" class="form-horizontal" enctype="multipart/form-data" method="post">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="txtPara" class="col-sm-2 control-label">Para:</label>
+                                    <div class="input-group col-sm-10">
+                                        <input type="text" id="txtPara" name="txtPara" class="form-control" placeholder="Ejemplo: correo@dominio.ext" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtCC" class="col-sm-2 control-label">CC:</label>
+                                    <div class="input-group col-sm-10">
+                                        <input type="text" id="txtCC" name="txtCC" class="form-control" />
+                                    </div>
+                                    <span class="pull-right col-sm-10 ">Los correos agregados, se separan por punto y coma ";"</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtComentarios" class="col-sm-2 control-label">Comentarios</label>
+                                    <div class="input-group col-sm-10">
+                                        <textarea type="text" id="txtComentarios" name="txtComentarios" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="RefreshModal" style="display:none;" class="overlay">
+                            <i class="fa fa-circle-o-notch fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btnEnviarCorreo" class="btn btn-default btn-block"><span class='glyphicon glyphicon-envelope'></span>Enviar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btnCancelarCorreo" class="btn btn-default btn-block"><i class="fa fa-ban"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!------------------- Carga de inicio de sesion --------------->
+<script>
+    $(document).ready(function () {
+        InitModuleFechFacturaCliente();
+        InitModuleFechFactura();
+        FacturasDiaria();
+    });
+</script>
+<!------------------- Manejo de buttons para Seleccion de forma de busqueda y funciones globales de seleccion --------------->
+<script>
+    function LoadingHide() {
+        $("#Refresh").hide();
+        $("#RefreshModal").hide();
+    }
+    function LoadingShow() {
+        $("#Refresh").show();
+        $("#RefreshModal").show();
+    }
+    $('#btnFacturaNumeroFactura').click(function () {
+        $('#DivFacturaFecha').css("display", "none");
+        $('#btnFacturaFecha').attr("active", false);
+
+        $('#DivFacturaCliente').css("display", "none");
+        $('#btnFacturaCliente').attr("active", false);
+
+        $('#DivFacturaNumeroFactura').css("display", "block");
+        $('#btnFacturaNumeroFactura').attr("active", true);
+
+        $("#txtNumFactura").val('');
+        $("#contentFacturas").html('');
+        $('#txtCodeCliente').val('');
+        $("#NumFacturas").html('');
+    });
+    $('#btnFacturaFecha').click(function () {
+        $('#DivFacturaFecha').css("display", "block");
+        $('#btnFacturaFecha').attr("active", true);
+
+        $('#DivFacturaCliente').css("display", "none");
+        $('#btnFacturaCliente').attr("active", false);
+
+        $('#DivFacturaNumeroFactura').css("display", "none");
+        $('#btnFacturaNumeroFactura').attr("active", false);
+
+        $("#txtNumFactura").val('');
+        $("#contentFacturas").html('');
+        $('#txtCodeCliente').val('');
+        $("#NumFacturas").html('');
+    });
+    $('#btnFacturaCliente').click(function () {
+        $('#DivFacturaFecha').css("display", "none");
+        $('#btnFacturaFecha').attr("active", false);
+
+        $('#DivFacturaCliente').css("display", "block");
+        $('#btnFacturaCliente').attr("active", true);
+
+        $('#DivFacturaNumeroFactura').css("display", "none");
+        $('#btnFacturaNumeroFactura').attr("active", false);
+
+        $("#txtNumFactura").val('');
+        $("#NumFacturas").html('');
+        $('#txtCodeCliente').val('');
+        $("#contentFacturas").html('');
+    });
+    function SeleccionarFacturas() {
+        let tamaño = $("#contentFacturas input[type='checkbox']").toArray().length;
+        if (tamaño == 0) {
+            swal("Alerta!", "Debe de seleccionar una factura", "warning");
+            return;
+        }
+        var elemnt = { Facturas: [], correo: [] };
+        var input = $("#contentFacturas input[type='checkbox']").toArray();
+        for (var i = 0; i < tamaño; i++) {
+            if (input[i].checked == true) {
+                let DocKey = input[i].attributes.value;
+                let DocNum = input[i].attributes.name;
+                elemnt.Facturas.push({
+                    "DocKey": DocKey.value,
+                    "DocNum": DocNum.value
+                });
+            }
+        }
+        return elemnt;
+    }
+    function DeseleccionarInputAll() {
+        var input = $("#contentFacturas input[type='checkbox']").toArray();
+        for (var i = 0; i < input.length; i++) {
+            input[i].checked = false;
+        }
+    }
+    function SeleccionarInputAll() {
+        var input = $("#contentFacturas input[type='checkbox']").toArray();
+        for (var i = 0; i < input.length; i++) {
+            input[i].checked = true;
+        }
+    }
+    //********** Manejo de conversion de fechas **********//
+    function StringCSharpAFecha(DateC) {
+        var date = new Date(parseInt(DateC.substr(6)));
+        var fecha = (date.getUTCDate()) + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+        return fecha;
+    }
+</script>
+<!--------------- Busqueda de facturas por cliente y rango de fecha ---------------->
+<script>
+    function InitModuleFechFacturaCliente() {
+        $('#fechaFacturaXCliente').daterangepicker();
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+    }
+    $('#btnClearCliente').click(function () {
+        $('#txtCodeCliente').val('');
+    });
+    $('#btnCancelBusquedaFacturaXCliente').click(function () {
+        $("#contentFacturasXCliente").html('');
+    });
+    $('#btnBuscarFacturaXCliente').click(function () {
+        var CodeCliente = $('#txtCodeCliente').val();
+        if (CodeCliente=="") {
+            swal("Alerta!", "Debe de ingresar el código de cliente a buscar.", "warning");
+            return;
+        }
+        var drp = $('#fechaFacturaXCliente').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $("#contentFacturas").html('');
+        LoadingShow();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("BuscarFacturasXCliente", "Facturas")',
+            async: false,
+            data: '{ CodeCliente: "' + CodeCliente + '", Del: "' + Del + '", Al: "' + Al + '"}',
+            dataType: 'json',
+            success: function (response) {
+                $("#NumFacturas").html('');
+                $("#NumFacturas").html(response.Context.length);
+                if (response.Context.length > 0) {
+                    $.each(response.Context, function (index, value) {
+                        $("#contentFacturas").append(
+                            "<tr style='border:solid 2px;border-color: rgb(143,196,44);'>" +
+                            "<td >" +
+                            "<b> Número de factura: </b>" + value.DocNum +
+                            "<br/><b>U_UUID: </b>" + value.U_UUID +
+                            "<br/><b> Código de Cliente: </b>" + value.CodeCliente +
+                            "<br/><b> Cliente: </b>" + value.NameCliente +
+                            "<br/><b> Fecha de creación: </b>" + StringCSharpAFecha(value.DocFecha) +
+                            "<br/><b> Fecha de timbrado: </b>" + StringCSharpAFecha(value.FechaTimbrado) +
+                            "</td>" +
+                            "<td >" +
+                            "<div class='checkbox'>" +
+                            "<label>" +
+                            "<input type='checkbox' name='" + value.DocNum + "' value='" + value.DocKey + "'/> Seleccionar" +
+                            "</label>" +
+                            "</div>" +
+                            "</td >" +
+                            "</tr > ");
+                    });
+                    LoadingHide();
+                } else {
+                    LoadingHide();
+                }
+                LoadingHide();
+            },
+            error: function (data) {
+                console.log("Error de busqueda de factura por cliente:");
+                console.log(data);
+                LoadingHide();
+            }
+        });
+    });
+</script>
+<!--------------- Busqueda de facturas por fecha ---------------->
+<script>
+    function InitModuleFechFactura() {
+        $('#fechaFactura').daterangepicker();
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+    }
+    $('#btnCancelBusquedaFactura').click(function () {
+        $("#contentFacturas").html('');
+    });
+    $('#btnBuscarFactura').click(function () {
+        var drp = $('#fechaFactura').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $("#contentFacturas").html('');
+        LoadingShow();
+        facturaXFecha(Del, Al);
+        LoadingHide();
+    });
+</script>
+<!--------------------------- Facturas del dia -------------------------- ---->
+<script>
+    function FacturasDiaria() {
+        var drp = $('#fechaFactura').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        facturaXFecha(Del, Al);
+    }
+    function facturaXFecha(Del, Al) {
+        $("#contentFacturas").html('');
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("BuscarFacturas", "Facturas")',
+            async: false,
+            data: '{ Del: "' + Del + '", Al: "' + Al + '"}',
+            dataType: 'json',
+            success: function (response) {
+                $("#NumFacturas").html('');
+                $("#NumFacturas").html(response.Context.length);
+                if (response.Context.length > 0) {
+                    $.each(response.Context, function (index, value) {
+                        $("#contentFacturas").append(
+                            "<tr style='border:solid 2px;border-color: rgb(143,196,44);'>" +
+                            "<td>" +
+                            "<b>" + value.DocNum +"</b>"+
+                            "</td>" +
+                            "<td>"+
+                            "<b> Número de factura: </b>" + value.DocNum +
+                            "<br/><b>U_UUID: </b>" + value.U_UUID +
+                            "<br/><b> Código de Cliente: </b>" + value.CodeCliente +
+                            "<br/><b> Cliente: </b>" + value.NameCliente +
+                            "<br/><b> Fecha de creación: </b>" + StringCSharpAFecha(value.DocFecha) +
+                            "<br/><b> Fecha de timbrado: </b>" + StringCSharpAFecha(value.FechaTimbrado) +
+                            "</td>" +
+                            "<td>" +
+                            "<div class='checkbox'>" +
+                            "<label>"+
+                            "<input type='checkbox' name='" + value.DocNum + "' value='" + value.DocKey + "'/> Seleccionar" +
+                            "</label>" +
+                            "</div>" +
+                            "</td>" +
+                            "</tr > ");
+                    });
+                } else {
+                    swal("Notificacion!","No se encontraron facturas","info");
+                }
+            },
+            error: function (data) {
+                console.log("Error de busqueda de factura diaria:");
+                console.log(data);
+            }
+        });
+    }
+</script>
+<!--------------- Busqueda de facturas por numero de factura ---------------->
+<script>
+    //BuscarFacturasXNumero
+    $("#btnClearFactura").click(function () {
+        $("#txtNumFactura").val("");
+    });
+    $('#btnBuscarFacturaXNum').click(function () {
+        var DocNum = $("#txtNumFactura").val();
+        $("#contentFacturas").html('');
+        LoadingShow();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("BuscarFacturasXNumero", "Facturas")',
+            async: false,
+            data: '{ DocNum: "' + DocNum +'"}',
+            dataType: 'json',
+            success: function (response) {
+                $("#NumFacturas").html('');
+                $("#NumFacturas").html(response.Context.length);
+                if (response.Context.length > 0) {
+                    $.each(response.Context, function (index, value) {
+                        $("#contentFacturas").append(
+                            "<tr style='border:solid 2px;border-color: rgb(143,196,44);'>" +
+                            "<td>" +
+                            "<b>" + value.DocNum +"</b>"+
+                            "</td>" +
+                            "<td>"+
+                            "<b> Número de factura: </b>" + value.DocNum +
+                            "<br/><b>U_UUID: </b>" + value.U_UUID +
+                            "<br/><b> Código de Cliente: </b>" + value.CodeCliente +
+                            "<br/><b> Cliente: </b>" + value.NameCliente +
+                            "<br/><b> Fecha de creación: </b>" + StringCSharpAFecha(value.DocFecha) +
+                            "<br/><b> Fecha de timbrado: </b>" + StringCSharpAFecha(value.FechaTimbrado) +
+                            "</td>" +
+                            "<td>" +
+                            "<div class='checkbox'>" +
+                            "<label>"+
+                            "<input type='checkbox' name='" + value.DocNum + "' value='" + value.DocKey + "'/> Seleccionar" +
+                            "</label>" +
+                            "</div>" +
+                            "</td>" +
+                            "</tr > ");
+                    });
+                } else {
+                    swal("Notificacion!","No se encontraron facturas","info");
+                }
+            },
+            error: function (data) {
+                console.log("Error de busqueda de factura diaria:");
+                console.log(data);
+            }
+        });
+        LoadingHide();
+    });
+</script>
+<!--------------- Envio de Correo---------------->
+<script>
+    function AbrirModalCorreo() {
+        var elemnt = SeleccionarFacturas();
+        if (elemnt.Facturas.length == 0) {
+            swal("Alerta!", "Seleccione la o las facturas a enviar", "warning");
+            return;
+        }
+        limpiarCorreo();
+        $('#modalEmail').modal('show');
+    }
+    function limpiarCorreo() {
+        $("#txtPara").val('');
+        $("#txtCC").val('');
+        $("#txtComentarios").val('');
+    }
+    $("#btnCancelarCorreo").click(function () {
+        limpiarCorreo();
+        $('#modalEmail').modal('hide');
+    });
+    //***************** Envio de correo electrónico ***************//
+    $("#btnEnviarCorreo").click(function () {
+        var Para = $("#txtPara").val();
+        var CC = $("#txtCC").val();
+        var Comentario = $("#txtComentarios").val();
+        var elemnt = SeleccionarFacturas();
+        if (Para == "") {
+            swal("Alerta!", "Debe de agregar una dirección de destino.", "warning");
+            return;
+        }
+        if (!validarEmail(Para)) {
+            swal("Alerta!", "Debe de agregar una dirección de correo electrónico válido.", "warning");
+            return;
+        }
+        LoadingShow();
+        elemnt.correo.push({
+            "Para": Para,
+            "CC": CC,
+            "Comentario": Comentario
+        });
+        $.ajax({
+            type: 'post',
+            url: '@Url.Action("EnviarEmail", "Facturas")',
+            data: JSON.stringify(elemnt),
+            dataType: 'json',
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                limpiarCorreo();
+                $('#modalEmail').modal('hide');
+                LoadingHide();
+                if (response.Context == "Enviado") {
+                    swal(response.Context + "!", "", "success");
+                    DeseleccionarInputAll();
+                } else {
+                    swal("Información!", response.Context, "info");
+                    DeseleccionarInputAll();
+                }
+            },
+            error: function (data) {
+                console.log("Error validar email: ");
+                console.log(data);
+                limpiarCorreo()
+                DeseleccionarInputAll();
+                $('#modalEmail').modal('hide');
+                LoadingHide();
+            }
+        });
+    });
+    function validarEmail(email) {
+        var regex = /^[-\w.%+]{1,64}@@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+        return regex.test(email) ? true : false;
+    }
+
+</script>
+<!----------------- Descargas de facturas PDF y XML  ------------------------>
+<script>
+    function DescargaFactura() {
+        var elemnt = SeleccionarFacturas();
+        if (elemnt.Facturas.length == 0) {
+            swal("Alerta!", "Seleccione la o las facturas a enviar", "warning");
+            return;
+        }
+        LoadingShow();
+         $.ajax({
+            type: 'post',
+            url: '@Url.Action("DescargarFacturas", "Facturas")',
+            data: JSON.stringify(elemnt),
+            dataType: 'json',
+            async: true,
+             contentType: "application/json; charset=utf-8",
+             success: function (response) {
+                 console.log("response");
+                 console.log(response);
+                 if (response.Context == null && response.FileGuid == null) {
+                     LoadingHide();
+                     swal("Alerta!", "Favor de esperar 10 minutos", "warning");
+                     return;
+                 }
+                window.location.href = '@Url.Action("DownloadFactura", "Facturas")' +
+                        '?fileGuid=' + response.FileGuid + '&fileName=' + response.FileName;
+                 LoadingHide();
+             },
+             error: function (data) {
+                 console.log("data");
+                 console.log(data);
+                 LoadingHide();
+             }
+        });
+    }
+</script>
+
+

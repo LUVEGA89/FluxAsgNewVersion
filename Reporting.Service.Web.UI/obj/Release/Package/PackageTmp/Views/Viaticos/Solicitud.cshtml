@@ -1,0 +1,731 @@
+﻿
+@{
+    ViewBag.Title = "Solicitud";
+}
+<section class="content-header">
+    <h1>
+        Solicitud
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Solicitud</a></li>
+        <li class="active">Administración</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Registro de solicitud</h3>
+                </div>
+                <div class="box box-body">
+                    <div class="row-fluid">
+                        <input type="hidden" id="folioSolicitud" value="0" />
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>Sucursal:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-bank"></i>
+                                    </div>
+                                    <select class="form-control pull-right tienda" id="tienda"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>Fecha necesaria de viaticos:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="fechaSolicitud">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>Fecha de viaje:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="fecha">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>Departamento:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-users"></i>
+                                    </div>
+                                    <select class="form-control pull-right departamento" id="departamento"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>Centro de costos:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-users"></i>
+                                    </div>
+                                    <select class="form-control pull-right departamento" id="centroCostos"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>Categoria:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-archive"></i>
+                                    </div>
+                                    <select class="form-control pull-right producto" id="producto"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>Monto:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-money"></i>
+                                    </div>
+                                    <input type="text" id="monto" onKeyPress="return SoloNumeros(event);" class="form-control pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <br />
+                                <div id="btn-add" class="btn btn-success btn-block"><i class="fa fa-save"></i> Agregar</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Detalle solicitud</h3>
+                </div>
+                <div class="box box-body">
+                    <div class="row">
+                        <div id="htmlDetalle" class="col-md-12">
+                            <table id="tablaDetalleConceptos" class="table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <td>Sucursal</td>
+                                        <td>Departamento</td>
+                                        <td>Fecha solicitud</td>
+                                        <td>Fecha viaje</td>
+                                        <td>Centro de costo</td>
+                                        <td>Descripción viatico</td>
+                                        <td>Monto</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="detalle"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="box box-footer">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6"></div>
+                        <div class="col-sm-3 col-xs-6"></div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block">
+                                <h5 class="description-header" id="disponibleLabel">$0.00</h5>
+                                <span class="description-text">Presupuesto disponible</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block">
+
+                                <input type="hidden" id="total" />
+                                <input type="hidden" id="presupuesto" />
+                                <input type="hidden" id="montoActual" />
+                                <input type="hidden" id="disponible" />
+
+                                <h5 class="description-header" id="totalLabel">$0.00</h5>
+                                <span class="description-text">Total</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Bitacora de actividades</h3>
+                </div>
+                <div class="box box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Fecha:</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" id="fechaActividad">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Horario de trabajo:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="hora">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Actividad:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-bank"></i>
+                                            </div>
+                                            <select class="form-control pull-right" id="actividades"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <br />
+                                        <div id="btn-añadir" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Añadir</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>Fecha</td>
+                                        <td>Hora inicio</td>
+                                        <td>Hora fin</td>
+                                        <td>Actividad</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="detalleActividad"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-footer">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6">
+                            <div onclick="ActualizaSolicitud(4)" class="btn btn-block btn-danger"><i class="fa fa-trash-o"></i> Cancelar</div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div onclick="ActualizaSolicitud(1)" class="btn btn-block btn-success"><i class="fa fa-send"></i> Solicitar autorización</div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6"></div>
+                        <div class="col-sm-3 col-xs-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<script>
+
+    InitModule();
+
+    function InitModule() {
+        $("#folioSolicitud").val("0");
+        $("#fechaSolicitud").datepicker({ autoclose: true, format: 'yyyy/mm/dd', startDate : "-1d" });
+        $("#fechaActividad").datepicker({ autoclose: true, format: 'yyyy/mm/dd', startDate : "-1d" });
+        $('#fecha').daterangepicker(
+            {
+                timePicker: false,
+                timePickerIncrement: 30,
+                startDate: moment().format('L'),
+                endDate: moment().format('L'),
+                format: 'YYYY/MM/DD'
+            });
+        $('#hora').daterangepicker({
+            timePicker: true,
+            timePicker24Hour: false,
+            timePickerIncrement: 15,
+            timePickerSeconds: false,
+            locale: {
+                format: 'HH:mm A'
+            }
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+
+
+        LoadTiendasSIAT();
+        LoadEstados();
+        LoadDepartamento();
+        LoadProductos();
+        LoadCentroCostos();
+        LoadUltimaSolicitud();
+        LoadActividades();
+
+    }
+
+    $("#departamento").change(function () {
+
+        $.post('@Url.Action("GetProductos", "Viaticos")', {
+                Departamento: $("#departamento").val()
+            }, function (data) {
+
+                if (data != null && $.isArray(data.Context)) {
+
+                    $("#producto").html('');
+                    $("#producto").append('<option>-- Seleccione --</option>');
+                    $.each(data.Context, function (index, value) {
+                        $("#producto").append('<option value="' + value.Sku + '">' + value.Sku + '</option>');
+                    });
+                }else{
+                    $.alert("Ocurrio un error al procesar la solicitud");
+                }
+            });
+
+        $.post('@Url.Action("GetCentroCostos", "Viaticos")', {
+                Departamento: $("#departamento").val()
+            }, function (data) {
+                if (data != null && $.isArray(data.Context)) {
+
+                    $("#centroCostos").html('');
+                    $("#centroCostos").append('<option>-- Seleccione --</option>');
+                    $.each(data.Context, function (index, value) {
+                        $("#centroCostos").append('<option value="' + value.Codigo + '">' + value.Codigo + '</option>');
+                    });
+                }else{
+                    $.alert("Ocurrio un error al procesar la solicitud");
+                }
+            });
+
+
+    });
+
+    function LoadUltimaSolicitud() {
+
+        $.post('@Url.Action("GetUltimaSolicitud", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#detalle").html('');
+                var total = 0;
+                $.each(data.Context, function (index, value) {
+                    $("#detalle").append('<tr>\
+                                          <td>'+ value.Sucursal + '</td>\
+                                          <td>'+ value.Departamento + '</td>\
+                                          <td>'+ moment(value.FechaSolicitud).format('DD/MM/YYYY') + '</td>\
+                                          <td>'+ moment(value.FechaInicio).format('DD/MM/YYYY') + ' - ' + moment(value.FechaFin).format('DD/MM/YYYY') + ' </td >\
+                                          <td>'+ value.CentroCosto + '</td>\
+                                          <td>'+ value.Sku_Producto + '</td>\
+                                          <td>'+ formatNumber.new(value.Monto, "$") + '</td>\
+                                          <td><div onclick="EliminaDetalle('+ value.SequenceItem + ')" class="btn btn-default"><i class="fa fa-remove"></i></div></td>\
+                                      </tr >');
+
+                    $("#tienda").val(value.Id_Sucursal);
+                    $("#departamento").val(value.Id_Departamento);
+                    $("#folioSolicitud").val(value.Sequence);
+
+                    $("#disponibleLabel").html(formatNumber.new(value.Disponible, "$"));
+                    $("#presupuesto").val(value.Presupuesto);
+                    $("#montoActual").val(value.MontoActual);
+                    $("#disponible").val(value.Disponible);
+
+
+                    $("#fechaSolicitud").val(moment(value.FechaSolicitud).format('YYYY/MM/DD'));
+                    $("#fecha").val(moment(value.FechaInicio).format('DD/MM/YYYY') + ' - ' + moment(value.FechaFin).format('DD/MM/YYYY'));
+                    total = total + value.Monto;
+
+
+                    $("#tienda").prop('disabled', 'disabled');
+                    $("#fechaSolicitud").prop('disabled', 'disabled');
+                    $("#fecha").prop('disabled', 'disabled');
+                    $("#departamento").prop('disabled', 'disabled');
+                    $("#centroCostos").prop('disabled', 'disabled');
+                    $("#departamento").change();
+
+                    setTimeout(function () {
+                        $('#centroCostos option[value="' + value.CentroCosto + '"]').attr("selected", "selected");
+
+                    }, 3000);
+                });
+
+                $("#total").val(total);
+                $("#totalLabel").html(formatNumber.new(total, "$"));
+                //LoadActividadesSolicitud();
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+
+    }
+    function LoadActividadesSolicitud() {
+        let FolioSolicitud = $('#folioSolicitud').val();
+        if (FolioSolicitud == 0 || FolioSolicitud == '') {
+            $.alert("Ocurrio un error al desglose de actividades, El folio de solicitud no se ha especificado.");
+            return false;
+        }
+
+        $.post('@Url.Action("GetActividadesSolicitud", "Viaticos")',
+            {
+                Folio : FolioSolicitud
+            },
+            function (data) {
+                if (data.Context != null) {
+                    $("#detalleActividad").html("");
+                    $.each(data.Context, function (index, value) {
+                        $("#detalleActividad").append('<tr>\
+                            <td>'+ moment(value.Fecha).format('DD/MM/YYYY') + '</td>\
+                            <td>'+ value.HoraInicial + '</td>\
+                            <td>'+ value.HoraFinal + '</td>\
+                            <td>'+ value.Actividad + ' </td >\
+                            <td><div onclick="EliminaDetalleActividad('+ value.Sequence + ')" class="btn btn-default"><i class="fa fa-remove"></i></div></td>\
+                        </tr >');
+                    });
+                }
+                else {
+                    if (data.Message != 'Success') {
+                        swal('Error', 'Mensaje: ' + data.Message, 'error');                        
+                    }                    
+                }
+        });
+
+    }
+    
+    function LoadTiendasSIAT() {
+        $.post('@Url.Action("GetTiendasSAP", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#tienda").html('');
+                $("#tienda").append('<option>-- Seleccione una tienda --</option>');
+                $.each(data.Context, function (index, value) {
+                   $("#tienda").append('<option value="' + value.Sequence + '">' + value.Nombre + '</option>');
+                });
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+    function LoadActividades() {
+        $.post('@Url.Action("GetActividades", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#actividades").html('');
+                $("#actividades").append('<option>-- Seleccione una actividad --</option>');
+                $.each(data.Context, function (index, value) {
+                    $("#actividades").append('<option value="' + value.Id + '">' + value.Nombre + '</option>');
+                });
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+    function LoadEstados() {
+        $.post('@Url.Action("GetEstados", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#estado").html('');
+                $("#estado").append('<option>-- Seleccione un estado --</option>');
+                $.each(data.Context, function (index, value) {
+                    $("#estado").append('<option value="' + value.Sequence + '">' + value.Nombre + '</option>');
+                });
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+    function LoadDepartamento() {
+        $.post('@Url.Action("GetDepartamento", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#departamento").html('');
+                $("#departamento").append('<option>-- Seleccione un departamento --</option>');
+                $.each(data.Context, function (index, value) {
+                    $("#departamento").append('<option value="' + value.Sequence + '">' + value.Nombre + '</option>');
+                });
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+    function LoadProductos() {
+        $.post('@Url.Action("GetProductos", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#producto").html('');
+                $("#producto").append('<option>-- Seleccione --</option>');
+                $.each(data.Context, function (index, value) {
+                    $("#producto").append('<option value="' + value.Sku + '">' + value.Sku + '</option>');
+                });
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+    function LoadCentroCostos() {
+        $.post('@Url.Action("GetCentroCostos", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#centroCostos").html('');
+                $("#centroCostos").append('<option>-- Seleccione --</option>');
+                $.each(data.Context, function (index, value) {
+                    $("#centroCostos").append('<option value="' + value.Codigo + '">' + value.Codigo + '</option>');
+                });
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+    function ActualizaSolicitud(estado) {
+        var disponible = $("#disponible").val();
+        var total = $("#total").val();
+        var aprobacion = 0;
+        disponible = Number(disponible) + 1;
+
+
+        if (Number(total) >= Number(disponible)) {
+            aprobacion = 1;
+        }
+
+        if (estado == 1) {
+
+            var drp = $('#fecha').data('daterangepicker');
+            var Del = drp.startDate.format('DD/MM/YYYY');
+            var Al = drp.endDate.format('DD/MM/YYYY');
+            var FechaSolicitud = $("#fechaSolicitud").val();
+            var detalle = $("#htmlDetalle").html();
+
+            $.post('@Url.Action("UpdateSolicitud", "Viaticos")', {
+                Folio : $("#folioSolicitud").val(),
+                Estado: estado,
+                Aprobacion: aprobacion,
+                FechaNecesaria: FechaSolicitud,
+                FechaDel: Del,
+                FechaAl: Al,
+                Sucursal: $("#tienda").val(),
+                Detalles: detalle
+            }, function (data) {
+                if (data != null) {
+                    location.reload();
+                }else{
+                    $.alert("Ocurrio un error al procesar la solicitud");
+                }
+            });
+        } else {
+            $.post('@Url.Action("UpdateSolicitud", "Viaticos")', {
+                Folio : $("#folioSolicitud").val(),
+                Estado: estado,
+                Aprobacion: aprobacion
+            }, function (data) {
+                if (data != null) {
+                    location.reload();
+                }else{
+                    $.alert("Ocurrio un error al procesar la solicitud");
+                }
+            });
+        }
+        
+    }
+
+    function EliminaDetalle(Sequence) {
+        $.post('@Url.Action("EliminarDetalle", "Viaticos")', {
+            Sequence: Sequence
+        }, function (data) {
+            if (data != null) {
+                location.reload();
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+
+    function EliminaDetalleActividad(Sequence) {
+        $.post('@Url.Action("EliminarDetalleActividad", "Viaticos")', {
+            Sequence: Sequence
+        }, function (data) {
+            if (data != null) {
+                LoadActividadesSolicitud();
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+
+   
+
+    $("#btn-add").click(function () {
+        var drp = $('#fecha').data('daterangepicker');
+        var Del = drp.startDate.format('DD/MM/YYYY');
+        var Al = drp.endDate.format('DD/MM/YYYY');
+        var FechaSolicitud = $("#fechaSolicitud").val();
+
+        
+        if ($("#tienda").val() == "-- Seleccione una tienda --")
+        {
+            swal("Error", "No se ha seleccionado la tienda", "error");
+            return;
+        }
+        if ($("#centroCostos").val() == "-- Seleccione --")
+        {
+            swal("Error", "No se ha seleccionado el centro de costos", "error");
+            return;
+        }
+
+        $.post('@Url.Action("AddSolicitud", "Viaticos")', {
+            Sequence: $("#folioSolicitud").val(),
+            FechaSolicitud: FechaSolicitud,
+            FechaInicio: Del,
+            FechaFin: Al,
+            Departamento: $("#departamento").val(),
+            Sucursal: $("#tienda").val(),
+            Producto: $("#producto").val(),
+            CentroCosto: $("#centroCostos").val(),
+            Monto: $("#monto").val()
+        }, function (data) {
+
+            if (data.Context != 0) {
+                console.log(data.Context);
+                $("#folioSolicitud").val(data.Context.Folio);
+
+                var IdTienda = $("#tienda").val();
+                var Tienda = $("#tienda option[value='" + IdTienda + "']").text()
+
+                var IdDepartamento = $("#departamento").val();
+                var Departamento = $("#departamento option[value='" + IdDepartamento + "']").text()
+
+                var IdProducto = $("#producto").val();
+                var Producto = $("#producto option[value='" + IdProducto + "']").text()
+
+                var Fecha = $("#fecha").val();
+                var Monto = $("#monto").val();
+
+                $("#detalle").append('<tr>\
+                    <td>'+ Tienda + '</td>\
+                    <td> '+ Departamento + '</td>\
+                    <td>'+ $("#fechaSolicitud").val() + '</td>\
+                    <td>'+ Fecha + '</td>\
+                    <td>'+ $("#centroCostos").val() + '</td>\
+                    <td>'+ Producto + '</td>\
+                    <td>'+ formatNumber.new(Monto, "$") + '</td>\
+                    <td><div onclick="EliminaDetalle('+ data.Context.Item+')" class="btn btn-default"><i class="fa fa-remove"></i></div></td>\
+                </tr >');
+                var total = Number($("#total").val()) + Number(Monto);
+
+                $("#total").val(total);
+
+                $("#disponibleLabel").html(formatNumber.new(data.Context.Disponible, "$"));
+                $("#presupuesto").val(data.Context.Presupuesto);
+                $("#montoActual").val(data.Context.MontoActual);
+                $("#disponible").val(data.Context.Disponible);
+
+                $("#totalLabel").html(formatNumber.new(total, "$"));
+
+                $("#producto").val(0);
+                $("#monto").val('');
+
+                $("#tienda").prop('disabled', 'disabled')
+                $("#fecha").prop('disabled', 'disabled')
+                $("#fechaSolicitud").prop('disabled', 'disabled');
+                $("#departamento").prop('disabled', 'disabled')
+                $("#centroCostos").prop('disabled', 'disabled')
+            }
+
+        });
+    });
+
+    $("#btn-añadir").click(function () {
+        var drp = $('#hora').data('daterangepicker');
+        var Del = drp.startDate.format('HH:mm A');
+        var Al = drp.endDate.format('HH:mm A');
+
+        if ($("#folioSolicitud").val() == 0) {
+            $.alert("Debe agregar gastos previos antes de agregar actividades.");
+            return;s
+        }
+
+        $.post('@Url.Action("AddActividadSolicitud", "Viaticos")', {
+            Solicitud: $("#folioSolicitud").val(),
+            Fecha: $("#fechaActividad").val(),
+            HoraInicial: Del,
+            HoraFinal: Al,
+            Actividad: $("#actividades").val()
+        }, function (data) {
+            console.log(data);
+            if (data.Code == 0) {
+                console.log("Actividades");
+                LoadActividadesSolicitud();
+
+            }
+
+        });
+    });
+</script>
+
+
+<script>
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    };
+
+    function SoloNumeros(evt) {
+        if (window.event) {//asignamos el valor de la tecla a keynum
+            keynum = evt.keyCode; //IE
+        }
+        else {
+            keynum = evt.which; //FF
+        }
+        //comprobamos si se encuentra en el rango numérico y que teclas no recibirá.
+        if ((keynum > 45 && keynum < 58) || keynum == 8 || keynum == 13 || keynum == 6) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+</script>

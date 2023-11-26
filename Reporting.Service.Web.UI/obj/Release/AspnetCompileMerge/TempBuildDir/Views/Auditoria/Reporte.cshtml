@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "Reporte";
+}
+
+<section class="content-header">
+    <h1>
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Auditoría</a></li>
+        <li class="active">Reportes</li>
+    </ol>
+</section>
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Auditorias realizadas</h3>
+                    <div class="box-tools ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input class="form-control pull-right" id="DelAl" type="text">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div id="btnAuditorias" class="btn btn-success btn-block"><i class="fa fa-binoculars"></i></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered" id="Auditorias">
+                            <thead>
+                                <tr>
+                                    <td>Tienda</td>
+                                    <td>Auditoria</td>
+                                    <td>Finalizados en el periodo</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="DetalleAplicados"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer">
+                    <div id="AuditoriaRefresh" style="display:none;" class="overlay">
+                        <i class="fa  fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <button onclick="Descargar()" class="btn btn-default pull-right"><i class="fa fa-cloud-download"></i> Descargar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    $('#DelAl').daterangepicker({
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Deciembre"
+            ]
+        }
+
+    });
+    function Descargar() {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#AuditoriaRefresh').show();
+                        $.post('@Url.Action("DetalleAuditoriasFechas", "Auditoria")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            window.location.href = '@Url.Action("Download", "Auditoria")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#AuditoriaRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    };
+
+    $("#btnAuditorias").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("ObtenerTodos", "Auditoria")', {
+            Del: Del,
+            Al: Al
+        },function (data) {
+            if (data.Context != null && $.isArray(data.Context)) {
+                var table = $('#Auditorias').DataTable();
+                table.destroy();
+                    $("#DetalleAplicados").html('');
+
+                $.each(data.Context, function (index, value) {
+                    var detalle = '';
+                    if (value.Aplicados > 0) {
+                        detalle = '<a href="@Url.Action("finalizados", "Auditoria")?Tienda=' + value.Id_Tienda + '&Del=' + Del + '&Al=' + Al + '&Tipo=' + value.Sequence + ' " class="btn btn-default"><i class="fa fa-eye"></i></a>';
+                    }
+                        $("#DetalleAplicados").append('<tr>\
+                                                        <td> '+ value.Tienda + '</td>\
+                                                        <td>'+ value.Nombre + '</td>\
+                                                        <td>'+ value.Aplicados + '</td>\
+                                                        <td>'+ detalle + '</td>\
+                                                    </tr >');
+
+                });
+                $('#Auditorias').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+
+            }
+
+        });
+    });
+</script>

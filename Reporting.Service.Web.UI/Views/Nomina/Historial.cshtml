@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "Historial";
+}
+
+<section class="content-header">
+    <h1>
+        Historial nómina
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Historial nómina</a></li>
+        <li class="active">Nómina</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Historial de nómina del cliente</h3>
+                    <div class="box-tools pull-right">
+                        <button id="BoletinDownload" type="button" class="btn btn-box-tool"><i class="fa fa-file-excel-o"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="Nomina" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td># Registro</td>
+                                    <td># Aprobación</td>
+                                    <td>Empresa</td>
+                                    <td>Codigo</td>
+                                    <td>Nombre</td>
+                                    <td>IMSS</td>
+                                    <td>RCU</td>
+                                    <td>Infonavit</td>
+                                    <td>Sueldo</td>
+                                    <td>BonoPuntualidad</td>
+                                    <td>BonoAsistencia</td>
+                                    <td>PrimaVacacional</td>
+                                    <td>PrimaDominical</td>
+                                    <td>Vacaciones</td>
+                                    <td>Retroactivo</td>
+                                    <td>ValesDespensa</td>
+                                    <td>Aguinaldo</td>
+                                    <td>SobreNomina</td>
+                                    <td>RetencionSalario</td>
+                                    <td>RetencionAguinaldo</td>
+                                    <td>FondoAhorro</td>
+                                    <td>Finiquito</td>
+                                    <td>PTU</td>
+                                    <td>Extras</td>
+                                    <td>Total</td>
+                                    <td>Periodo</td>
+                                </tr>
+                            </thead>
+                            <tbody id="DetalleHistorial"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    InitModule();
+
+    function InitModule() {
+        HistorialCapturas();
+    }
+
+    function HistorialCapturas() {
+        $.post('@Url.Action("HistorialCapturas", "Nomina")', function (data) {
+            console.log(data)
+            if (data != null && $.isArray(data.Context)) {
+                var table = $('#Nomina').DataTable();
+                table.destroy();
+                $("#DetalleHistorial").html('');
+                $.each(data.Context, function (index, value) {
+                    $("#DetalleHistorial").append("<tr>\
+                                                    <td>" + value.Sequence + "</td>\
+                                                    <td>" + value.FolioNomina + "</td>\
+                                                    <td>" + value.Empresa.Nombre + "</td>\
+                                                    <td>" + value.Codigo + "</td>\
+                                                    <td>" + value.Nombre + "</td>\
+                                                    <td>" + formatNumber.new(value.IMSS.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.RCU.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.Infonavit.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.Sueldo.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.BonoPuntualidad.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.BonoAsistencia.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.PrimaVacacional.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.PrimaDominical.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.Vacaciones.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.Retroactivo.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.ValesDespensa.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.Aguinaldo.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.SobreNomina.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.RetencionSalario.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.RetencionAguinaldo.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.FondoAhorro.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.Finiquito.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.PTU.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.Extras.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.Total.toFixed(2), "$") + "</td>\
+                                                    <td>" + value.Periodo + "</td>\
+                                                </tr>");
+                });
+                $('#Nomina').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+
+            } else {
+                $.alert("No se encontraron registros");
+            }
+        });
+    };
+
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    };
+</script>

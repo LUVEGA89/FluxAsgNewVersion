@@ -1,0 +1,442 @@
+﻿@{
+    ViewBag.Title = "Seguimiento";
+}
+
+<style>
+    .th-pedidos {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Seguimiento
+        <small>(Seguimiento de Pedidos)</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Business Intelligence</a></li>
+        <li class="active"> Seguimiento
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Tienda: <span id="idcliente"></span> - <span id="nomCliente"></span></h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-3">
+                        <label class="pull-right">Selecciona el rango de fechas:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="rangoFechas">
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="pull-right">Folio:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control pull-right" id="txtFolio">
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn pull-right btn-primary" id="btnSearch" onclick="obtenerPedidos()">
+                            Ver Seguimiento <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+                <div id="cargandoBusqueda" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--Pedidos-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Lista de Pedidos</h3>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive table-responsive-custom">
+                        <table class="table table-bordered" id="tablePed">
+                            <thead>
+                                <tr>
+                                    <th class="th-pedidos">Folio</th>
+                                    <th class="th-pedidos">Fecha Pedido</th>
+                                    <th class="th-pedidos">Entrega</th>
+                                    <th class="th-pedidos">Fecha surtido</th>
+                                    <th class="th-pedidos">Número Factura</th>
+                                    <th class="th-pedidos">Fecha Factura</th>
+                                    <th class="th-pedidos">Número de Guía</th>
+                                    <th class="th-pedidos">Ruta</th>
+                                    <th class="th-pedidos">Fecha Salida</th>
+                                    <th class="th-pedidos">PDF</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyPedidos"></tbody>
+                        </table>
+                        <table class="table table-bordered" id="tablePed1">
+                            <thead>
+                                <tr>
+                                    <th class="th-pedidos">Cliente</th>
+                                    <th class="th-pedidos">Folio</th>
+                                    <th class="th-pedidos">Fecha Pedido</th>
+                                    <th class="th-pedidos">Entrega</th>
+                                    <th class="th-pedidos">Fecha surtido</th>
+                                    <th class="th-pedidos">Número Factura</th>
+                                    <th class="th-pedidos">Fecha Factura</th>
+                                    <th class="th-pedidos">Número de Guía</th>
+                                    <th class="th-pedidos">Ruta</th>
+                                    <th class="th-pedidos">Fecha Salida</th>
+                                    <th class="th-pedidos">PDF</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyPedidos1"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="cargandoTabla" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+<script>
+    var PermiteVer;
+    var Cliente;
+    @if (User.IsInRole("Administrador") || User.IsInRole("Direccion")) {
+        <text>
+            PermiteVer = true;
+        Cliente = "Admin";
+        $("#tablePed1").show();
+        $("#tablePed").hide();
+        </text>
+    } else if (User.IsInRole("Ventas") ) {
+        <text>
+            PermiteVer = true;
+        Cliente = "Ventas";
+        $("#tablePed1").show();
+        $("#tablePed").hide();
+        </text>
+    }
+    else {
+        <text>
+            PermiteVer = false;
+        $("#tablePed").show();
+        $("#tablePed1").hide();
+        </text>
+    }
+
+    initModule()
+
+    function initModule() {
+        //Cargar datos tienda
+        $.ajax({
+	        contentType: "application/json; charset=utf-8",
+	        url: '@Url.Action("obtenerTienda", "Tienda")',
+	        async: false,
+	        timeout: 3000,
+	        type: 'POST',
+	        data: '{ }',
+	        dataType: "json",
+            success: function (data) {
+                if (data.Context != null && data.Context.CardCode != null) {
+                    $('#idcliente').text(data.Context.CardCode);
+                    $('#nomCliente').text(data.Context.Nombre);
+                    PermiteVer = true;
+                } else {
+                    if(PermiteVer){
+                        $('#idcliente').text(Cliente);
+                        $('#nomCliente').text(Cliente);
+
+                    }
+                    else{
+                        swal({
+                            title: "Tienda no encontrada",
+                            text: "Se necesita iniciar sesión con usuario de tienda",
+                            icon: "error",
+                            button: true,
+                        });
+                    }
+                }
+
+	        },
+	        error: function () {
+
+	        }
+        });
+    }
+
+    //Funcion para descargar el archivo que se le pasa como parametro
+    function descargar(folioFactura) {
+        $('#cargandoTabla').show();
+        $('#cargandoBusqueda').show();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("ComprobarArchivo", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"Factura":' + folioFactura + '}',
+            dataType: "json",
+            success: function (data) {
+                if (data.Context == "Descargar") {
+                    window.location.href = '@Url.Action("Descargar", "Tienda")' + '?Factura=' + folioFactura;
+                    $('#cargandoTabla').hide();
+                    $('#cargandoBusqueda').hide();
+                } else {
+
+                    if (data.Context == "Proceso")
+                        swal({
+                            title: "Archivo en proceso",
+                            text: "Vuelva a intentarlo en 10 minutos",
+                            icon: "warning",
+                            button: true,
+                            dangerMode: true,
+                        })
+                    else
+                        swal({
+                            title: "Archivo no encontrado",
+                            text: "Error: el archivo que se busca no se encuentra en el servidor",
+                            icon: "error",
+                            button: true,
+                            dangerMode: true,
+                        })
+                    $('#cargandoTabla').hide();
+                    $('#cargandoBusqueda').hide();
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: ComprobarArchivo",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+
+    };
+
+    function obtenerPedidos() {
+
+        var expEntero = "^([0-9])*$";
+        var cliente = $('#idcliente').text();
+        var folioPedido = 0;
+        var Error = ""
+        var FecIni = "0001/01/01";
+        var FecFin = "0001/01/01";
+        if (cliente == "") {
+            Error = "Solo las tiendas pueden realizar seguimiento de pedidos\nInicia sesión con una cuenta de tienda"
+        }
+        else {
+            if ($('#txtFolio').val() != "") {//Si no esta vacío el campo
+                folioPedido = $('#txtFolio').val();
+                if (!folioPedido.match(expEntero)) {
+                    Error = "El folio solo permite numeros";
+                }
+            }
+            if ($('#rangoFechas').val() == "" && folioPedido == 0) {//Campos vacíos
+                Error = "Se debe seleccionar un rango de fechas o escribir un folio de pedido para realizar un seguimiento"
+            } else {
+                if ($('#rangoFechas').val() != "") {//Si no esta vacío el campo
+                    var rango = $('#rangoFechas').data('daterangepicker');
+                    FecIni = rango.startDate.format('YYYY/MM/DD');
+                    FecFin = rango.endDate.format('YYYY/MM/DD');
+                }
+            }
+        }
+
+        if (Error == "") {
+            $('#cargandoTabla').show();
+            $('#cargandoBusqueda').show();
+            $.ajax({
+	            contentType: "application/json; charset=utf-8",
+	            url: '@Url.Action("ObtenerPedidos", "Tienda")',
+	            async: false,
+	            timeout: 3000,
+	            type: 'POST',
+                data: '{"Inicio":"' + FecIni + '", "Fin":"' + FecFin + '", "Folio":' + folioPedido + ', "Cliente":"' + cliente + '"}',
+	            dataType: "json",
+	            success: function (data) {
+	                if (data.Context != null) {
+	                    if(Cliente == 'Admin' || Cliente == 'Ventas'){
+	                        var table = $('#tablePed1').DataTable();
+	                        table.destroy();
+	                        $("#tbodyPedidos1").html('');
+	                    }else{
+	                        var table = $('#tablePed').DataTable();
+	                        table.destroy();
+	                        $("#tbodyPedidos").html('');
+	                    }
+
+	                    $.each(data.Context, function (index, value) {
+	                        var fechasurtido;
+	                        if (moment(value.fechaSurtido).format('L') == '01/01/2000') {
+	                            fechasurtido = 'Sin fecha de surtido';
+	                        }
+	                        else{
+	                            fechasurtido = moment(value.fechaSurtido).format('L');
+	                        }
+
+                            if (Cliente == 'Admin' || Cliente == 'Ventas') {
+	                            console.log(value.CardCode);
+	                            $("#tbodyPedidos1").append("<tr>\
+                                    <td align='center'>" + value.CardCode + "</td>\
+									<td align='center'>" + value.Identifier + "</td>\
+									<td align='center'>" + moment(value.fecha).format('L') + "</td>\
+									<td align='center'>" + value.folioEntrega + "</td>\
+									<td align='center'>" + fechasurtido + "</td>\
+									<td align='center'>" + value.folioFactura + "</td>\
+									<td align='center'>" + moment(value.fechaFactura).format('L') + "</td>\
+									<td align='center'>" + value.numGuia + "</td>\
+									<td align='center'>" + value.ruta + "</td>\
+									<td align='center'>" + moment(value.fechaSalida).format('L') + "</td>\
+									<td><a class='btn btn-lg' onclick='descargar(" + value.folioFactura + ")' align='center'><i class='fa fa-file-pdf-o' style='color: red;'></i></a></td>\
+								</tr>");
+	                        }
+	                        else{
+	                            $("#tbodyPedidos").append("<tr>\
+									<td align='center'>" + value.Identifier + "</td>\
+									<td align='center'>" + moment(value.fecha).format('L') + "</td>\
+									<td align='center'>" + value.folioEntrega + "</td>\
+									<td align='center'>" + fechasurtido + "</td>\
+									<td align='center'>" + value.folioFactura + "</td>\
+									<td align='center'>" + moment(value.fechaFactura).format('L') + "</td>\
+									<td align='center'>" + value.numGuia + "</td>\
+									<td align='center'>" + value.ruta + "</td>\
+									<td align='center'>" + moment(value.fechaSalida).format('L') + "</td>\
+									<td><a class='btn btn-lg' onclick='descargar(" + value.folioFactura + ")' align='center'><i class='fa fa-file-pdf-o' style='color: red;'></i></a></td>\
+								</tr>");
+	                        }
+	                    });
+
+                        if (Cliente == 'Admin' || Cliente == 'Ventas') {
+	                        $('#tablePed1').DataTable({
+	                            "dom": "Bfrtip",
+	                            "buttons": [
+                                    "excel", "pdf"
+	                            ],
+	                            "paging": true,
+	                            "pageLength": 100,
+	                            "lengthChange": true,
+	                            "searching": true,
+	                            "ordering": true,
+	                            "info": true,
+	                            "autoWidth": true,
+	                            "language": {
+	                                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+	                            }
+	                        });
+	                    }else{
+	                        $('#tablePed').DataTable({
+	                            "dom": "Bfrtip",
+	                            "buttons": [
+                                    "excel", "pdf"
+	                            ],
+	                            "paging": true,
+	                            "pageLength": 100,
+	                            "lengthChange": true,
+	                            "searching": true,
+	                            "ordering": true,
+	                            "info": true,
+	                            "autoWidth": true,
+	                            "language": {
+	                                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+	                            }
+	                        });
+	                    }
+	                } else {
+	                    swal({
+	                        title: "Error",
+	                        text: "Error en la API: ObtenerPedidos, " + data.Message,
+	                        icon: "error",
+	                        button: true,
+	                    })
+	                }
+	            },
+	            error: function () {
+                    swal({
+                        title: "Error",
+                        text: "Error en la API: ObtenerPedidos",
+                        icon: "error",
+                        button: true,
+                    })
+	            }
+            });
+            $('#cargandoTabla').hide();
+            $('#cargandoBusqueda').hide();
+        } else {
+            swal({
+                title: "No se puede realizar la búsqueda",
+                text: Error,
+                icon: "error",
+                button: true,
+            })
+        }
+    }
+
+    //Configuración daterangepicker
+    $('#rangoFechas').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+
+    });
+
+    //La forma en que despliega los datos en el input cuando da click en aplicar
+    $('#rangoFechas').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    //Borrar los datos del input cuando se da clic en limpiar
+    $('#rangoFechas').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
+    });
+
+</script>
+
+

@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "Sincronizar";
+}
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+<section class="content-header">
+    <h1>
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Cuenta</a></li>
+        <li class="active">Sincronización</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Listado de Cuentas</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table table-responsive">
+                                <table id="Account" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Folio</th>
+                                            <th>Empresa</th>
+                                            <th>Tipo</th>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th>RFC</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-Accounts">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div id="AprobacionRefresh" style="display:none;" class="overlay">
+                        <i class="fa  fa-circle-o-notch fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    InitModule();
+
+    function InitModule() {
+        console.log("INIT ");
+        GetCuentas();
+    }
+
+    function GetCuentas() {
+        $.post('@Url.Action("GetCuentas", "Provider")', function (data) {
+            console.log(data);
+            if (data.Context != null && $.isArray(data.Context)) {
+
+
+                $("#table-Accounts").html('');
+                $.each(data.Context, function (index, value) {
+
+
+                    $("#table-Accounts").append('<tr>\
+                                                        <td>'+ value.Sequence+'</td>\
+                                                        <td>'+ value.Empresa +'</td>\
+                                                        <td>'+ value.Tipo +'</td>\
+                                                        <td>'+ value.Codigo +'</td>\
+                                                        <td>'+ value.Nombre +'</td>\
+                                                        <td>'+ value.RFC +'</td>\
+                                                        <td>\
+                                                            <div onclick="Sincronizar('+ value.Sequence +')" class="btn btn-block btn-info"><i class="fa fa-exchange"></i> Enviar a SAP</div>\
+                                                        </td>\
+                                                    </tr>');
+                });
+
+            }
+        });
+
+    }
+
+    function Sincronizar(Sequence) {
+        $.LoadingOverlay("show");
+        $.post('@Url.Action("SincronizarData", "Provider")', {
+            Sequence: Sequence
+        }, function (data) {
+                console.log(data);
+                if (data.Code == 0) {
+                    $.alert(data.Context);
+                    //GetProductos();
+                    $.LoadingOverlay("hide");
+                } else {
+                    $.alert(data.Message);
+                    $.LoadingOverlay("hide");
+                }
+                
+        });
+    }
+
+</script>

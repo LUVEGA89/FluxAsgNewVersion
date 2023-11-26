@@ -1,0 +1,3232 @@
+﻿Usua@model Reporting.Service.Web.UI.Models.UserModel
+@using Microsoft.AspNet.Identity
+@using Reporting.Service.Core.Common
+@{
+    ViewBag.Title = "Notas de Credito";
+}
+<style>  
+
+    .span-help-block-monto-ocupado {
+        color: #FF0000 !important;
+    }
+
+    .span-help-block-monto-disponible {
+        color: #0000cc !important;
+    }
+
+    #estatus-rechazado {
+        text-align: center;
+        color: red;
+    }
+
+    #select-concepto-descuento option[value="37"] {
+        background: yellow;
+    }
+
+    #select-concepto-descuento option[value="39"] {
+        background: yellow;
+    }
+
+    .meta-date-gestion {
+        background: #F2635F !important
+    }
+
+</style>
+
+<section class="content-header">
+    <h1>
+        Solicitud de Nota de Crédito
+        <small id="span-cliente"></small>
+        <small id="span-cliente-canal"></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Nota de Crédito</a></li>
+        <li class="active">Solicitud</li>
+        <li class="active">GZ</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-4" id="cabecera">
+            <div class="box box-danger">
+
+                <div id="overlay-creditnote-solicitud" class="overlay" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+
+                <div class="box-header">
+                    <div class="box-title">
+                        <i class="fa fa-search"></i>
+                        Motór de busqueda
+                    </div>
+                </div>
+
+                <div class="box-body">
+
+                    <form role="form">
+
+                        <div class="form-group">
+                            <label for="">Cliente</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <span class="fa fa-search"></span>
+                                </div>
+                                <input type="text" class="form-control" id="input-cliente" placeholder="Nombre / Codigo" data-behavior="autocomplete" value="" required>
+                            </div>
+                        </div>
+
+                        <div id="div-factura-origen" class="form-group">
+                            <label>Factura origen</label>
+                            <input id="input-factura-origen" placeholder="Factura origen" type="text" onkeypress="return isNumber(event)" class="form-control">
+                            <span id="spam-factura-origen" class="help-block"></span>
+                        </div>
+
+                        <div id="div-factura-destino" class="form-group">
+                            <label>Factura destino</label>
+                            <input id="input-factura-destino" placeholder="Factura destino" onkeypress="return isNumber(event)" type="text" class="form-control">
+
+                            <span id="spam-factura-destino" class="help-block"></span>
+                            <span id="spam-factura-destino-ocupado" class="help-block span-help-block-monto-ocupado"></span>
+                            <span id="spam-factura-destino-disponible" class="help-block span-help-block-monto-disponible"></span>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tipo de documento</label>
+                            <select class="form-control" id="select-tipo-documento">
+                                <option value="0" selected="selected">Seleccionar...</option>
+                                <option value="I">Inventario</option>
+                                <option value="S">Servicio</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="div-concepto-descuento">
+                            <label>Concepto de descuento</label>
+                            <select class="form-control" id="select-concepto-descuento"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Comentario</label>
+                            <textarea class="form-control" rows="2" id="comentario"></textarea>
+                        </div>
+
+
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-8" id="nota-credito-inventario">
+            <div class="box box-danger">
+
+                <div id="loading-inventario" style="display:none;" class="overlay">
+                    <i class="fa fa fa-refresh fa-spin"></i>
+                </div>
+                @*Monto permitido de la factura*@
+                <input type="text" id="factura-inventario-destino-monto-permitido" disabled style="display:none;" />
+                <input type="text" id="factura-inventario-destino-monto-disponible" disabled style="display:none;">
+
+                <div class="box-header with-border">
+
+                    <div class="box-title">
+                        <i class="fa fa-credit-card"></i>
+                        Nota de Crédito Inventario
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="table table-responsive center-block">
+                            <!-- TABLA FACTURA ORIGEN INVENTARIO -->
+                            <table class="table table-bordered" id="tabla-inventario">
+                                <thead>
+                                    <tr>
+                                        <th class="th-stationery">Sku</th>
+                                        <th class="th-stationery">Solicitar</th>
+                                        <th class="th-stationery">Cantidad</th>
+                                        <th class="th-stationery">Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-inventario"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-body" id="box-inventario-clonado">
+                    <div class="box-header with-border">
+
+                        <div class="box-title">
+                            <i class="fa fa-credit-card"></i>
+                            Nota de Crédito Inventario Seleccionado
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table table-responsive center-block">
+                            <!-- TABLA FACTURA ORIGEN INVENTARIO -->
+                            <table class="table table-bordered" id="tabla-inventario-clone">
+                                <thead>
+                                    <tr>
+                                        <th class="th-stationery">Sku</th>
+                                        <th class="th-stationery">Cantidad</th>
+                                        <th class="th-stationery">Precio</th>
+                                        <th class="th-stationery">SubTotal</th>
+                                        <th class="th-stationery">Remover</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-inventario-clone"></tbody>
+                                <tfoot id="tfoot-inventario-clone">
+                                    <tr style="text-align:right">
+                                        <td colspan="3"><b>SubTotal:</b></td>
+                                        <td><span id="subtotal-inventario-clonado"></span></td>
+                                    </tr>
+                                    <tr style="text-align:right">
+                                        <td colspan="3"><b>IVA:</b></td>
+                                        <td><span id="iva-inventario-clonado"></span></td>
+                                    </tr>
+                                    <tr style="text-align:right">
+                                        <td colspan="3">
+                                            <b>Total:</b>
+                                        </td>
+                                        <td>
+                                            <span id="total-inventario-clonado"></span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <div class="col-md-12">
+                        <button id="button-cancelar-nota-credito-inventario" type="button" class="btn btn-warning">
+                            <i class="fa fa-times"></i>
+                        </button>
+
+                        <button id="button-guardar-nota-credito-inventario" type="button" class="btn btn-success pull-right">
+                            <i class="fa fa-save"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-8" id="nota-credito-servicio-otro-descuento">
+            <div class="box box-danger">
+
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        <i class="fa fa-credit-card"></i>
+                        Nota de Crédito Servicio Otro Descuento (100%)
+                    </div>
+                </div>
+                <input id="factura-servicio-descuento-destino-monto-permitido" type="text" disabled style="display:none;" />
+                <input id="factura-servicio-descuento-destino-monto-disponible" type="text" disabled style="display:none;" />
+                <input id="input-factura-destino-cuenta-servicio-descuento" type="text" disabled style="display:none;" />
+
+                <div class="box-body">
+
+                    <div class="col-md-12">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="tabla-servicio-descuento">
+                                <thead>
+                                    <tr>
+                                        <th class="th-stationery">Sku</th>
+                                        <th class="th-stationery">Solicitar</th>
+                                        <th class="th-stationery">Cantidad</th>
+                                        <th class="th-stationery">Precio</th>
+                                        <th class="th-stationery">Descuento</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-servicio-descuento"></tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="box-body" id="box-servicio-descuento-clonado">
+                    <div class="box-header with-border">
+
+                        <div class="box-title">
+                            <i class="fa fa-credit-card"></i>
+                            Nota de Crédito Servicio descuento 100% Seleccionado
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table table-responsive center-block">
+                            <!-- TABLA FACTURA ORIGEN INVENTARIO -->
+                            <table class="table table-bordered" id="tabla-servicio-descuento-clone">
+                                <thead>
+                                    <tr>
+                                        <th class="th-stationery">Sku</th>
+                                        <th class="th-stationery">Cantidad</th>
+                                        <th class="th-stationery">Precio</th>
+                                        <th class="th-stationery">SubTotal</th>
+                                        <th class="th-stationery">Descuento</th>
+                                        <th class="th-stationery">Descuento Total</th>
+                                        <th class="th-stationery">Remover</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-servicio-descuento-clone"></tbody>
+                                <tfoot>
+                                    <tr style="text-align:right">
+                                        <td colspan="5"><b>Subtotal:</b></td>
+                                        <td><span id="subtotal-servicio-descuento-clonado"></span></td>
+                                    </tr>
+                                    <tr style="text-align:right">
+                                        <td colspan="5"><b>IVA:</b></td>
+                                        <td><span id="iva-servicio-descuento-clonado"></span></td>
+                                    </tr>
+                                    <tr style="text-align:right">
+                                        <td colspan="5">
+                                            <b>Total:</b>
+                                        </td>
+                                        <td>
+                                            <span id="total-servicio-descuento-clonado"></span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <div class="col-md-12">
+
+                    </div>
+
+                    <button id="button-cancelar-nota-credito-servicio-descuento" type="button" class="btn btn-warning">
+                        <i class="fa fa-times"></i>
+                    </button>
+
+                    <button id="button-guardar-nota-credito-servicio-descuento" type="button" class="btn btn-success pull-right">
+                        <i class="fa fa-save"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-8" id="nota-credito-servicio">
+
+            <div class="box box-danger">
+
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        <i class="fa fa-credit-card"></i>
+                        Nota de Crédito Servicio
+                    </div>
+                </div>
+
+                <!-- FORMULARIO NOTA DE CREDITO SERVICIO-->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <input id="input-factura-destino-monto-permitido-servicio-hidden" type="text" disabled style="display:none;" />
+                            <input id="input-factura-destino-monto-permitido-servicio-disponible-hidden" disabled type="text" style="display:none;" />
+
+                            <input id="input-factura-destino-monto-permitido-servicio-descuento-hidden" disabled type="text" style="display:none;" />
+                            <input id="input-cuenta-contable-servicio-descuento-hidden" disabled type="text" style="display:none;" />
+
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Monto destino: </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-factura-destino-monto-permitido-servicio" disabled="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Monto solicitado sin IVA: </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-factura-destino-monto-solicitado-servicio"
+                                               placeholder="0.00" title="Monto disponible acepta numeros y un punto decimal"
+                                               onkeyup="validarCantidadPermitidaNotaCreditoServicioOtroDescuento()">
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="box-footer">
+
+                    <button id="button-cancelar-nota-credito-servicio" type="button" class="btn btn-warning">
+                        <i class="fa fa-times"></i>
+                    </button>
+
+                    <button id="button-guardar-nota-credito-servicio" type="button" class="btn btn-success pull-right">
+                        <i class="fa fa-save"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="box box-danger">
+
+                <div id="overlay-historial-nota-credito" style="display:none;" class="overlay">
+                    <i class="fa fa fa-refresh fa-spin"></i>
+                </div>
+
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        <i class="fa fa-history"></i>
+                        Notas de crédito generadas
+                    </div>
+                </div>
+
+                <div class="box-body">
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped" style="width:100%;" id="factura-origen">
+                                <thead>
+                                    <tr>
+                                        <th class="th-stationery">Folio SIE</th>
+                                        <th class="th-stationery">Cliente</th>
+                                        <th class="th-stationery">Folio Origen</th>
+                                        <th class="th-stationery">Folio Destino</th>
+                                        <th class="th-stationery">Tipo Documento</th>
+                                        <th class="th-stationery">Concepto</th>
+                                        <th style="min-width: 150px !important;" class="th-stationery">Comentario</th>
+                                        <th class="th-stationery">Usuario</th>
+                                        <th class="th-stationery">Estatus</th>
+                                        <th class="th-stationery">Fecha</th>
+                                        <th class="th-stationery">Folio SAP</th>
+                                        <th class="th-stationery">Folio Pago SAP</th>
+                                        <th class="th-stationery">Detalle</th>
+                                        <th class="th-stationery">Comentarios</th>
+                                        <th class="th-stationery">Evidencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-invoice-history"></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="modal-nota-credito-detalle" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <br />
+                    <h4 class="modal-title">
+                        <i class="fa fa-file-text"></i>&nbsp;&nbsp;&nbsp;Detalle de nota de crédito
+                        <small class="pull-right" id="set-Fecha"></small>
+                    </h4>                    
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-sm-6 invoice-col">
+                                <address>
+                                    <small id="set-Sequence"></small><br>
+                                    <small id="set-Cliente"></small><br>
+                                </address>
+                            </div>
+                            <div class="col-sm-6 invoice-col">
+                                <address>
+                                    <small id="set-FolioOrigen"></small><br>
+                                    <small id="set-FolioDestino">6</small><br>
+                                    <small id="set-TipoDocumento"></small><br>
+                                    <small id="set-Comentario"></small>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="th-stationery">Sku</th>
+                                        <th class="th-stationery">Cantidad</th>
+                                        <th class="th-stationery" id="modal-precio">Precio</th>
+                                        <th class="th-stationery" id="modal-descuento">Descuento</th>
+                                        <th class="th-stationery" id="modal-descuento-total">Descuento total sin IVA</th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody id="table-invoice-detail"></tbody>
+                                <tfoot align="right">
+
+                                    <tr style="text-align:right">
+                                        <td colspan="4">
+                                            <b>Total sin IVA:</b>
+                                        </td>
+                                        <td><span id="total-detail"></span></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <h1 id="estatus-rechazado"></h1>
+                    <section class="main-timeline-section">
+                        <div class="timeline-start"></div>
+                        <div class="conference-center-line"></div>
+                        <div class="conference-timeline-content">
+
+                            <div class="timeline-article timeline-article-bottom">
+                                <div id="div-gestion-direccion" class="content-date">
+                                    <small>Aprobación</small><br>
+                                    <small>dirección</small>
+                                </div>
+                                <div class="meta-date" id="estatus-direccion"></div>
+                            </div>
+
+                            <div class="timeline-article timeline-article-bottom">
+                                <div id="div-gestion-credito" class="content-date">
+                                    <small>Aprobación</small><br />
+                                    <small>credito</small>
+                                </div>
+                                <div class="meta-date" id="estatus-credito"></div>
+                            </div>
+
+                            <div class="timeline-article timeline-article-bottom gestor-timeline-change">
+                                <div id="div-gestion-almacen" class="content-date">
+                                    <small>Aprobación</small><br>
+                                    <small>almacén</small>
+                                </div>
+                                <div class="meta-date" id="estatus-almacen"></div>
+                            </div>
+
+                            <div class="timeline-article timeline-article-bottom">
+                                <div id="div-gestion-gerencia" class="content-date">
+                                    <small>Aprobación</small><br>
+                                    <small>gerencia</small>
+                                </div>
+                                <div class="meta-date" id="estatus-gerencia"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="timeline-end"></div>
+                    </section>
+                    <br>
+                    <br>
+                    <hr>
+                    <button type="button" class="btn btn-info pull-right" onclick="javascript:genScreenshot();"><i class="fa fa-fw fa-cloud-download"></i></button>
+                    <a id="test"></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @* MODAL COMENTARIOS SOBRE LA NOTA DE CREDITO *@
+    <div id="verComentarios" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2 class="page-header">
+                                    <i class="fa fa-file-text"></i>&nbsp;&nbsp;&nbsp;Comentarios nota de crédito
+                                    <small class="pull-right" id="set-comentario"></small>
+                                </h2>
+                            </div>
+                        </div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="th-stationery">Departamento</th>
+                                    <th class="th-stationery">Usuario</th>
+                                    <th class="th-stationery">Comentario</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-comentarios"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="verImagenes" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <i class="fa fa-file-text"></i>&nbsp;&nbsp;&nbsp;Evidencias de nota de crédito
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="col-sm-6 invoice-col">
+                                <address>
+                                    <small id="set-FolioNC"></small><br>
+                                    <small id="set-ClienteNC"></small><br>
+                                </address>
+                            </div>
+
+                            <div class="col-sm-6 invoice-col">
+                                <address>
+                                    <small id="set-FolioOrigenNC"></small><br>
+                                    <small id="set-FolioDestinoNC"></small><br>
+                                    <small id="set-TipoDocumentoNC"></small><br>
+                                </address>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="box box-widget widget-user">
+                                <div class="widget-user-image">
+                                </div>
+                                <div class="widget-user-header bg-blue">
+                                    <div class="row" id="carrousel-dinamic">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <h4 class="modal-title">
+                                <i class="fa fa-file-text"></i>&nbsp;&nbsp;&nbsp;Agregar evidencia de nota de crédito
+                            </h4>
+                            <small style="color:red !important">*Nota: Archivos admitido (Imagen y archivo PDF) con un tamaño maximo de 2 MB por archivo.</small>
+                            <input type="hidden" id="NotaCreditoId" name="NotaCreditoId">
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <form id="frm-addImagenes" method="post" class="form-horizontal" enctype="multipart/form-data">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <input id="NotaCreditoIdentifier" type="hidden" name="NotaCreditoIdentifier">
+
+                                        <input name="filesToUpload[]" id="filesToUpload" type="file" multiple="" />
+
+                                        <ul id="fileList"></ul>
+                                        <small style="color:red !important; display:none;">*Nota: Archivos maximo permitido 10.</small>
+
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="btn-addevidencia" type="button" class="btn btn-primary btn-lg rigth-block">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!--Nota de Credito inventario-->
+
+<script>
+
+    $("#btn-addevidencia").click(function (e) {
+        e.preventDefault();
+
+        if ($("#NotaCreditoId").val() != "") {
+            var formData = new FormData($("#frm-addImagenes")[0]);
+            $("#btn-addevidencia").attr("disabled", true);
+            $.ajax({
+                url: '@Url.Action("AddCreditNoteEvidence", "NotaCredito")',
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data != null) {
+
+                        if (data.Context != null) {
+                            if (data.Context) {
+                                swal({
+                                    title: 'OK',
+                                    text: 'La evidencia se guardo correctamente',
+                                    icon: 'success'
+                                });
+                                initModule2();
+                                $('#verImagenes').modal('hide');
+                            }
+                            else {
+                                swal({
+                                    title: 'Error',
+                                    text: 'Ha fallado al guardar la evidencia.',
+                                    icon: 'Error'
+                                });
+                            }
+                        }
+                        else {
+                            swal({
+                                title: 'Error!',
+                                text: 'Ocurrio un error al intentar guardar la evidencia. ' + data.Message,
+                                icon: 'Error'
+                            });
+                        }
+                    }
+                }
+            });
+        }
+        else {
+            alert("No se ha seleccionado la nota de crédito a evidenciar.");
+        }
+    });
+
+
+
+    $('#filesToUpload').change(function (e) {
+        e.preventDefault();
+
+        var $fileUpload = $("input[type='file']");
+        if (parseInt($fileUpload.get(0).files.length) > 5) {            
+            //You can only upload a maximum of 2 files
+            alert("Ha superado el número maximo permitido de 5 archivos");
+            $('#filesToUpload').val('');
+            $('#fileList').html('');
+            return false;
+        }
+
+        var input = document.getElementById("filesToUpload");
+        var ul = document.getElementById("fileList");
+        while (ul.hasChildNodes()) {
+            ul.removeChild(ul.firstChild);
+        }
+        for (var i = 0; i < input.files.length; i++) {
+            var li = document.createElement("li");
+            li.innerHTML = input.files[i].name;
+            ul.appendChild(li);
+        }
+        if (!ul.hasChildNodes()) {
+            var li = document.createElement("li");
+            li.innerHTML = 'No Files Selected';
+            ul.appendChild(li);
+        }
+
+    });
+    
+
+    function genScreenshot() {
+        html2canvas(document.getElementById('modal-nota-credito-detalle'), {
+            onrendered: function (canvas) {
+                $('#box1').html("");
+                $('#box1').append(canvas);
+
+                if (navigator.userAgent.indexOf("MSIE ") > 0 ||
+                    navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                    var blob = canvas.msToBlob();
+                    window.navigator.msSaveBlob(blob, 'Test file.png');
+                }
+                else {
+                    $('#test').attr('href', canvas.toDataURL("image/png"));
+                    $('#test').attr('download', 'Test file.png');
+                    $('#test')[0].click();
+                }
+            }
+        });
+    }
+
+
+    @* CANCELANDO LA NOTA DE CREDITO INVENTARIO*@
+    $('#button-cancelar-nota-credito-inventario').click(function () {
+        initModule();
+
+    });
+    @* GUARDAR LA NOTA DE CREDITO INVENTARIO*@
+    $('#button-guardar-nota-credito-inventario').click(function (e) {
+        e.preventDefault();
+        @* VERIFICAR EL ARREGO SI NO VIENE VACIO*@
+        if (NotaCreditoItems.length == 0) {
+            swal("Partida vacia", "Debe de seleccionar una partida de la nota de credito", "warning");
+            return false;
+        }
+
+        let Cliente = $('#input-cliente').val();
+        if (Cliente == '') {
+            swal('Cliente', 'Debe de especificar un cliente para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let FolioOrigen = $('#input-factura-origen').val();
+        if (FolioOrigen == '') {
+            swal('Factura origen', 'Debe de especificar la factura origen para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let FolioDestino = $('#input-factura-destino').val();
+        if (FolioDestino == '') {
+            swal('Factura destino', 'Debe de especificar la factura destino para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let Canal = $('#span-cliente-canal').text();
+        if (Canal == '') {
+            swal('Canal', 'No se ha definido el canal del cliente actual', 'warning');
+            return false;
+        }
+        if (Canal == 'NO') {
+            swal('Cliente', 'El cliente no tiene definido un canal para generar la nota de crédito', 'warning');
+            return false;
+        }
+        let tipo_documento = $("#select-tipo-documento option:selected").val();
+
+        let concepto_descuento = 38;@* CONCEPTO DESCUENTO  INVENTARIO*@
+        let Descuento = 0;
+        let Comentario = $('#comentario').val();
+
+
+
+        swal({
+            title: "¿Solicitar nota de credito?",
+            text: "Se mandara solicitud de la nota de credito (inventario).",
+            icon: "warning",
+            buttons: [
+              'No, cancelar esta operación',
+              'Si, estoy seguro'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                swal({
+                    title: 'Operación confirmada',
+                    text: 'Enviando datos',
+                    icon: 'success'
+                }).then(function () {
+                    let EmailUser = localStorage.getItem('UserEmail');
+                    let ConceptoDescuentoText = "Inventario";
+                    //alert("Concepto descuento " + ConceptoDescuentoText);
+
+                    $.post('@Url.Action("AddNotaCredito", "NotaCredito")',
+                    {
+                        Cliente: Cliente,
+                        FolioOrigen: FolioOrigen,
+                        FolioDestino: FolioDestino,
+                        FolioDestino: FolioDestino,
+                        TipoDocumento: tipo_documento,
+                        Comentario : Comentario,
+                        Usuario: EmailUser,
+                        ConceptoDescuento: concepto_descuento,
+                        Canal: Canal,
+                        ClienteName: $('#span-cliente').text(),
+                        ConceptoDescuentoDetalle : ConceptoDescuentoText,
+                        Items: NotaCreditoItems
+                    }, function (data) {
+
+                        if (data.Context != null) {
+                            if (data.Code == "-1" || concepto_descuento == '0') {
+                                initModule();
+                                getHistoricoNotaCredito();
+                                swal("Nota de crédito","Favor de verificar la logistica del descuento.", "warning");
+                            }
+                            else {
+                                swal("Nota de crédito", "Nota de crédito agregado", "success");
+                                @* ENVIA EL CORREO AL USUARIO QUE GENERO LA NOTA DE CREDITO*@
+                                initModule();
+                                getHistoricoNotaCredito();
+                            }
+
+                        }
+
+                    }).done(function (data) {
+                        //console.log("second success");
+                    }).fail(function (data) {
+                        //console.log("error");
+                    }).always(function (data) {
+                        //console.log("finished");
+                    });
+
+
+                });
+            } else {
+                initModule();
+                swal("Cancelado", "Operación cancelada", "error");
+            }
+        });
+
+    });
+
+
+    var NotaCreditoItems = [];
+    function AddNotaCreditoItem(_SKU, _Cantidad, _Precio,_Descuento, _CuentaContable) {
+        var res = {
+            ItemCode: _SKU,
+            Cantidad: _Cantidad,
+            Precio: _Precio,
+            Descuento: _Descuento,
+            CuentaContable: _CuentaContable
+        }
+        NotaCreditoItems.splice(0, 0, res);
+    }
+
+    function LoadDetalleNotaCreditoInventario() {
+        let FolioOrigen = $('#input-factura-origen').val();
+        let Cliente = $('#input-cliente').val();
+
+        if (FolioOrigen == '') {
+            swal('Factura origen', 'Debe de especificar la factura origen para el desglose de los productos', 'warning');
+            $("#select-tipo-documento option:eq(0)").prop("selected", true);
+            return false;
+        }
+
+        let FolioDestino = $('#input-factura-destino').val();
+        if (FolioDestino == '') {
+            swal('Factura destino', 'Debe de especificar la factura destino para el desglose del deatelle del inventario', 'warning');
+            $("#select-tipo-documento option:eq(0)").prop("selected", true);
+            return false;
+        }
+
+        let Canal = $('#span-cliente-canal').text();
+        if (Canal == '') {
+            swal('Canal', 'No se ha definido el canal del cliente actual', 'warning');
+            $("#select-tipo-documento option:eq(0)").prop("selected", true);
+            return false;
+        }
+        if (Canal == 'NO') {
+            swal('Cliente', 'El cliente no tiene definido un canal para generar la nota de crédito', 'warning');
+            $("#select-tipo-documento option:eq(0)").prop("selected", true);
+            return false;
+        }
+        let concepto_descuento = $('#select-concepto-descuento').val();
+        if (concepto_descuento == '') {
+            swal('Nota de crédito', 'Debe de seleccionar un concepto descuento para continuar.', 'warning');
+            $("#select-tipo-documento option:eq(0)").prop("selected", true);
+            return false;
+        }
+
+        $.post('@Url.Action("GetFacturaNC", "Venta")',
+        {
+            CardCode: Cliente,
+            DocNum: FolioOrigen,
+        }, function (data) {
+            if (data.Context != null) {
+                $('#tbody-inventario').empty();
+                if ($.isArray(data.Context)) {
+
+                    if (JSON.stringify(data.Context) == "[]") {
+                        $("#div-factura-origen").removeClass("has-success").addClass("has-error");
+                        $("#spam-factura-origen").text("Folio origen no disponible");
+
+                    }
+                    else {
+                        $('#loading-inventario').show();
+
+                        $("#div-factura-origen").removeClass("has-error").addClass("has-success");
+                        $("#spam-factura-origen").text("Folio origen disponible");
+
+                        $.each(data.Context, function (index, value) {
+                            $("#tbody-inventario").append(
+                                "<tr id='tr-invoice-" + index + "'>\
+                                    <td ondblclick='return clonarTablaNotaDeCreditoInventario(\"" + value.Codigo + "\",\"" + value.Precio + "\",\"" + index + "\",\"" + value.AcctCode + "\",\"" + value.Cantidad + "\")'>" + value.Codigo + "</td>\
+                                    <td><input type='text 'id='cantidad-inventario-"+ index + "' min='1' value='" + value.Cantidad + "' onkeyup='validarCantidadPermitidaNotaCreditoInventario(" + index + ")' onkeypress='return isNumber(event)' style='width: 70px'/></td>\
+                                    <td><input type='text' id='cantidad-inventario-default-"+ index + "' value='" + value.Cantidad + "' style='width: 60px' disabled></td >\
+                                    <td id='td-concepto-descuento-fijo-"+ index + "'>" + formatNumber.new(value.Precio.toFixed(3), "$ ") + "</td>\
+                                    <td id='td-concepto-descuento-"+ index + "'><input type='text' id='input-concepto-" + index + "' style='width: 70px'/></td>\
+                                    <td style='display:none'><input type='text' id='input-cuenta-contable-inventario-"+ index + "' value='" + value.AcctCode + "'/></td>\
+                                    </tr>");
+                            $("#td-concepto-descuento-" + index).hide();
+                        });
+                        $('#loading-inventario').hide();
+
+                    }
+                }
+
+            }
+
+        }).done(function (data) {
+            //console.log("second success");
+        }).fail(function (data) {
+            //console.log("error");
+        }).always(function (data) {
+            //console.log("finished");
+        });
+
+
+        @* VALIDAR LOS MONTOS DE LA NOTA DE CREDITO DE INVENTARIO*@
+
+        @* CANAL RETAIL TOMA EL VALOR SOBRE LA FACTURA ORIGEN*@
+        @* CANAL MAYOREO Y PRONTO PAGO  TOMAN EL DATO DE LA FACTURA ORIGEN*@
+        @* CANAL DE GARANTIAS TOMA EL VALOR DE LA FACTURA ORIGEN *@
+
+        @*
+           CONCEPTO DESCUENTO 39 = PRONTO PAGO
+           CONCEPTO DESCUENTO 93 = DESCUENTO DE NO GARANTIAS
+        *@
+
+
+        if ((Canal == 'RETAIL') || (Canal == 'MAYOREO' && concepto_descuento == 39) || (Canal == 'MAYOREO' && concepto_descuento == 93)) {
+            $.post('@Url.Action("GetFacturaOrigenNC", "Venta")',
+            {
+                CardCode: Cliente,
+                DocNum: FolioOrigen,
+            }, function (data) {
+                if (data.Context != null && $.isArray(data.Context)) {
+                    if (JSON.stringify(data.Context) == "[]") {
+                        $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                        $("#spam-factura-destino").text("Folio destino no disponible");
+                        alert("!Favor de validar el folio destino. ya que no se encuentraron referencias del folio destino¡");
+                        return false;
+                    }
+                    else {
+                        let MontoOrigen = data.Context[0].MontoFacturaOrigen;
+                        $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                        $("#spam-factura-destino").text("Monto destino con iva: " + formatNumber.new(MontoOrigen.toFixed(2), "$ "));
+                        $('#factura-inventario-destino-monto-permitido').val(MontoOrigen);
+                        return false;
+                    }
+                }
+
+            }).done(function (data) {
+                //console.log("second success");
+            }).fail(function (data) {
+                //console.log("error");
+            }).always(function (data) {
+                //console.log("finished");
+            });
+        }
+        else {
+            $.post('@Url.Action("GetFacturaDestino", "Venta")',
+            {
+                CardCode: Cliente,
+                DocNum: FolioDestino,
+            }, function (data) {
+                if (data.Context != null && $.isArray(data.Context)) {
+                    if (JSON.stringify(data.Context) == "[]") {
+                        $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                        $("#spam-factura-destino").text("Folio destino no disponible");
+                        alert("!Favor de validar el folio destino. ya que no se encuentraron referencias del folio destino¡");
+                        return false;
+                    }
+                    else {
+                        let MontoFacturado = data.Context[0].MontoFactura;
+                        $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                        $("#spam-factura-destino").text("Monto destino con iva: " + formatNumber.new(MontoFacturado.toFixed(2), "$ "));
+                        $('#factura-inventario-destino-monto-permitido').val(MontoFacturado);
+
+                    }
+                }
+
+            }).done(function (data) {
+                //console.log("second success");
+            }).fail(function (data) {
+                //console.log("error");
+            }).always(function (data) {
+                //console.log("finished");
+            });
+        }
+
+        @* VALIDA LIMITE DE DINERO DISPONIBLE DE LA FACTURA ORIGEN*@
+
+        $.post('@Url.Action("GetFacturaNCValidacionLimiteDinero", "Venta")',
+            {
+                CardCode: Cliente,
+                FolioOrigen: FolioOrigen,
+                FolioDestino: FolioDestino
+            }, function (data) {
+                if (data.Context != null && $.isArray(data.Context)) {
+                    if (JSON.stringify(data.Context) == "[]") {
+                        $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                        $("#spam-factura-destino").text("Folio destino no disponible");
+                        alert("!Limite de dinero de la factura null");
+                        return false;
+                    }
+                    else {
+                        let MontoOrigen = $('#factura-inventario-destino-monto-permitido').val();
+
+                        let Subtotal = data.Context[0].Subtotal;
+                        let Resta = MontoOrigen - Subtotal;
+                        if (Resta <= 0) {
+                            Resta = 0.00;
+                        }
+                        console.log("Array limit dinero" + JSON.stringify(data.Context));
+                        $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                        $("#spam-factura-destino-ocupado").text("Monto ocupado: " + formatNumber.new(Subtotal.toFixed(2), "$ "));
+                        $("#spam-factura-destino-disponible").text("Monto disponible: " + formatNumber.new(Resta.toFixed(2), "$ "));
+                        $("#factura-inventario-destino-monto-disponible").val(Resta.toFixed(2));
+                    }
+                }
+
+            }).done(function (data) {
+                //console.log("second success");
+            }).fail(function (data) {
+                //console.log("error");
+            }).always(function (data) {
+                //console.log("finished");
+            });
+
+        @* MOSTRAR REFERENCIAS DE NOTAS DE CREDITO CREADAS ANTEIORMENTE CON EL MISMO FOLIO Y CLIENTE*@
+        if ($('#tbody-inventario').length > 0) {
+            GetNotaCreditoInventario();
+        }
+
+    }
+    function GetNotaCreditoInventario() {
+        // folio de la factura origen
+        let FOrigen = $('#input-factura-origen').val();
+        let count = 0;
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetNotaCreditoInventario", "NotaCredito")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"FacturaOrigen":"' + FOrigen + '","TipoDocumento":"I"}',
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null && $.isArray(data.Context)) {
+
+                    // "#table-invoice-history"
+                    var VP = $('#factura-origen').DataTable();
+                    VP.destroy();
+                    $("#table-invoice-history").html('');
+
+                    count = data.Context.length;
+
+                    //console.log("Notas de credito encontradas " + count);
+
+                    $.each(data.Context, function (index, value) {
+                        let EstadoAprobacion = '';
+
+                        if (value.TipoDocumento == 'S') {
+                            if (value.Valor == 1 && value.Canal == 'RETAIL') {
+
+                                EstadoAprobacion = 'Aprobación pendiente por credito y cobranza';
+                            }
+                            else {
+                                EstadoAprobacion = 'Aprobación pendiente por dirección';
+                            }
+                            value.TipoDocumento = 'Servicio';
+                        }
+
+                        if (value.TipoDocumento == 'I') {
+                            value.TipoDocumento = 'Inventario';
+                            if (value.Estatus == 1) {
+                                value.Estatus = 'Aprobación pendiente por el almacén'
+                            }
+                        }
+
+                        if (value.Valor == 0) {
+                            if (value.ConceptoDescuento == 39) {
+
+                                EstadoAprobacion = 'Aprobación pendiente por credito y cobranza';
+                            }
+                            else {
+                                EstadoAprobacion = 'Aprobación pendiente por gerencia';
+                            }
+                        }
+
+                        if (value.Valor == 2) {
+                            EstadoAprobacion = 'Aprobación pendiente por la dirección'
+                        }
+                        if (value.Valor == 3) {
+                            EstadoAprobacion = 'Autorizada'
+                        }
+                        if (value.Valor == 4) {
+                            EstadoAprobacion = 'SAP'
+                        }
+                        if (value.Valor == 5) {
+                            EstadoAprobacion = 'Rechazada';
+                        }
+                        if (value.Valor == 10) {
+                            EstadoAprobacion = 'No especificado';
+                        }
+                        $("#table-invoice-history").append(
+                            "<tr>\
+                                <td>" + value.Identifier + "</td>\
+                                <td>" + value.ClienteName + "</td>\
+                                <td>" + value.FolioOrigen + "</td>\
+                                <td>" + value.FolioDestino + "</td>\
+                                <td>" + value.TipoDocumento + "</td>\
+                                <td>" + value.ConceptoDescuentoDetalle + "</td>\
+                                <td>" + value.Comentario + "</td>\
+                                <td>" + value.Usuario + "</td>\
+                                <td>" + EstadoAprobacion + "</td>\
+                                <td>" + moment(value.Fecha).format("YYYY-MM-DD HH:mm:ss") + "</td>\
+                                <td>" + value.FolioSap + "</td>\
+                                <td>" + value.FolioPagoSAP + "</td>\
+                                <td align='center'>\
+                                    <a class='btn btn-primary' data-target='#modal-nota-credito-inventario' data-toggle='modal' onclick='getHistoricoNotaCreditoDetail("+ value.Identifier + ")' href= '#'>\
+                                        <i class='fa fa-file-text'></i>\
+                                    </a>\
+                                </td>\
+                                <td align='center'>\
+                                    <a class='btn btn-info' data-target='#verComentarios' data-toggle='modal' onclick='verComentarios("+ value.Identifier + ")' data-id='" + value.Identifier + "' href= '#'>\
+                                        <i class='fa fa-comment'></i>\
+                                    </a>\
+                                </td>\
+                                <td align='center'>\
+                                    <a class='btn btn-info' data-target='#verImagenes' data-toggle='modal' onclick='verImagenesNC("+ value.Identifier + ")' data-id='" + value.Identifier + "' href= '#'>\
+                                        <i class='fa fa-eye'></i>\
+                                    </a>\
+                                </td>\
+                                </tr>");
+                    });
+
+                    $('#factura-origen').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        dom: 'Bfrtip',
+                        stateSave: true,
+                        buttons: [
+                            'excel'
+                        ],
+                        order: [[1, 'desc']],
+                        "paging": true,
+                        "searching": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+                if (count > 0) {
+                    swal("Verificar notas de credito aplicadas en el historial a la factura actual: " + FOrigen + "");
+                }
+
+            },
+            error: function () {
+                swal("Error en la api: GetNotaCreditoInventario");
+            }
+        });
+    }
+
+
+    let count1 = 1;
+    @*CLONA EN TABLA VALORES DE LA NOTA DE CREDITO TIPO INVENTARIO*@
+    function clonarTablaNotaDeCreditoInventario(Codigo, Precio, index, AcctCode, Cantidad){
+
+        let exist = 0;
+        // count list
+        let count = $(".sku_inventario");
+
+        if (count.length > 0) {
+            var aux = 0;
+
+            $(".sku_inventario").each(function () {
+                let sku = this.value;                
+                let cant1 = $("#cantidad-inventario-" + aux).val();
+
+                if (Codigo == sku && cant1 == Cantidad) {
+                    exist = 1;
+                    swal("Registro duplicado", "El SKU " + Codigo + " ya se ha agregado anteriormente.", "warning");
+                    return false;
+                }
+                aux++;
+            });
+        }
+        if (exist == 0) {
+            $('#box-inventario-clonado').show();
+
+            $("#tr-invoice-" + index).css("background-color", "#e6ffe6");
+
+            $("#tabla-inventario-clone").show();
+            // add array item credit note
+
+            Cantidad = $("#cantidad-inventario-" + index).val();
+
+            let SubTotal = Cantidad * Precio;
+
+            let subFormat = formatNumber.new(SubTotal.toFixed(3), "$ ");
+            let preFormat = formatNumber.new(parseFloat(Precio).toFixed(3), "$ ");
+
+            count1 = count1 + 1;
+            var html_code = "";
+            html_code += "<tr id='row" + count1 + "'>";
+            html_code += "<td><input class='sku_inventario' type='text' value='" + Codigo + "' disabled/></td>";
+            html_code += "<td><input class='cantidad-inventario' type='text' style='width: 100px;' value='" + Cantidad + "' disabled/></td>";
+            html_code += "<td><input type='text' style='width: 100px;' value='" + preFormat + "' disabled/></td>";
+            html_code += "<td><input type='text' value='" + subFormat + "' disabled/></td>";
+            html_code += "<td style='display:none'><input type='hidden' class='subtotal-hidden' value='" + SubTotal + "'/></td>";
+            html_code += "<td><button type='button' name='remove' data-row='row" + count1 + "' onclick='test(\"" + index + "\",\"" + Codigo + "\")' class='btn btn-danger btn-sm remove'><i class='fa fa-trash'></i></button></td>";
+            html_code += "</tr>";
+
+            $("#tabla-inventario-clone").append(html_code);
+
+            @* MONTO SOLICITADO *@
+            let monto_permitido = $("#factura-inventario-destino-monto-permitido").val();
+
+            let Sum = 0;
+            $(".subtotal-hidden").each(function () {
+                let sumado = parseFloat(this.value);
+                if (!isNaN(sumado) && sumado.length != 0) {
+                    Sum += sumado;
+                }
+            });
+            let IVA = Sum * 0.16;
+            let Total = Sum + IVA;
+            let code = "";
+
+            //$('#tabla-inventario-clone').append(code);
+
+            $('#subtotal-inventario-clonado').text(formatNumber.new(Sum.toFixed(3), "$ "));
+            $('#iva-inventario-clonado').text(formatNumber.new(IVA.toFixed(3), "$ "));
+            $('#total-inventario-clonado').text(formatNumber.new(Total.toFixed(3), "$ "));
+
+
+            if (parseFloat(Total) > parseFloat(monto_permitido) + 5) {
+                swal({
+                    title: "Solicitud",
+                    text: "El monto de la nota de credito original no puede ser superado.",
+                    icon: "error",
+                    button: "OK",
+                });
+                $('#row' + count).remove();
+
+                @* REMOVE ITEM DE LA NOTA DE CREDITO *@
+                RemoveItemCreditNote(Codigo);
+
+                Sum = 0; IVA = 0; Total = 0;
+
+                $(".subtotal-hidden").each(function () {
+                    let sumado = parseFloat(this.value);
+                    if (!isNaN(sumado) && sumado.length != 0) {
+                        Sum += sumado;
+                    }
+                });
+                IVA = Sum * 0.16;
+                Total = Sum + IVA;
+                $('#subtotal-inventario-clonado').text(formatNumber.new(Sum.toFixed(3), "$ "));
+                $('#iva-inventario-clonado').text(formatNumber.new(IVA.toFixed(3), "$ "));
+                $('#total-inventario-clonado').text(formatNumber.new(Total.toFixed(3), "$ "));
+                return false;
+            }
+            else if (Total == monto_permitido) {
+                swal({
+                    title: "Solicitud",
+                    text: "Nota de credito (inventario) completada.",
+                    icon: "success",
+                    button: "OK",
+                });
+            }
+
+            AddNotaCreditoItem(Codigo, Cantidad, Precio, "0", AcctCode);
+            console.log("Array add item: " + JSON.stringify(NotaCreditoItems));
+
+
+        }
+
+    }
+
+    initModule();
+
+    function initModule() {
+
+        // Combos
+        $("#select-tipo-documento option:eq(0)").prop("selected", true);
+        $("#select-concepto-descuento option:eq(0)").prop("selected", true);
+
+        // divs
+        $('#nota-credito-inventario').hide();
+        $('#nota-credito-servicio-otro-descuento').hide();
+        $('#nota-credito-servicio').hide();
+
+        // div concepto descuento
+        $('#div-concepto-descuento').hide();
+
+        // detalle nota de credito
+        $('#input-cliente').val('');
+
+        //$("#div-factura-destino").removeClass("has-success").addClass("has-error");
+        $('#div-factura-origen').removeClass('has-error');
+        $('#div-factura-origen').removeClass('has-success');
+        $('#input-factura-origen').val('');
+        $('#spam-factura-origen').text('');
+
+        $('#div-factura-destino').removeClass('has-error');
+        $('#div-factura-destino').removeClass('has-success');
+        $('#input-factura-destino').val('');
+        $('#spam-factura-destino').text('');
+
+        @* MONTOS DE LAS FACTURAS*@
+        $('#spam-factura-destino').text('');
+        $('#spam-factura-destino-ocupado').text('');
+        $('#spam-factura-destino-disponible').text('');
+
+        $('#comentario').val('');
+
+        $('#spam-cliente').text('');        
+        $('#spam-cliente-canal').text('');
+
+        @* TABLAS DE NOTA DE CREDITO*@
+        $('#tbody-inventario').html('');
+
+        @* RESET ARRAY VALUE NULL *@
+        NotaCreditoItems = [];
+
+        @* LIMIPIAR CANTIDADES TABLA CLONADA DE LA NOTA DE CRÉDITO*@
+        $('#subtotal-inventario-clonado').text('');
+        $('#iva-inventario-clonado').text('');
+        $('#total-inventario-clonado').text('');
+
+        @* NOTA DE CREDITO DIFERIENCIA EN PRECIO 100% *@
+        $('#tbody-servicio-descuento-clone').html('');
+
+        $('#subtotal-servicio-descuento-clonado').text('');
+        $('#iva-servicio-descuento-clonado').text('');
+        $('#total-servicio-descuento-clonado').text('');
+
+
+        @* REINICIAR LA NOTA DE CREDITO *@
+        countsd = 0;
+
+        $('#box-servicio-descuento-clonado').hide();
+        $('#nota-credito-servicio').hide();
+
+        @* NOTA DE CREDITO OTRO DESCUENTO *@
+        $('#input-factura-destino-monto-solicitado-servicio').val('');
+        $('#input-factura-destino-monto-permitido-servicio').val('');
+        $('#input-factura-destino-monto-permitido-servicio-hidden').val('');
+        $('#input-factura-destino-monto-permitido-servicio-descuento-hidden').val('');
+        $('#input-factura-destino-monto-permitido-servicio-disponible-hidden').val('');
+        $('#input-cuenta-contable-servicio-descuento-hidden').val('');
+
+        @* evidencias *@
+        
+        
+
+    }
+    
+
+    $("#select-tipo-documento").change(function () {
+        let tipo_documento = $("#select-tipo-documento option:selected").val();
+        let Cliente = $('#input-cliente').val();
+        if (Cliente == '') {
+            swal('Nota de Crédito', 'Debe de especificar un cliente para el desglose del detalle de la nota de crédito para continuar.', 'warning');
+            $("#select-tipo-documento option:eq(0)").prop("selected", true);
+            $("#select-concepto-descuento option:eq(0)").prop("selected", true);
+            return false;
+        }
+
+        switch (tipo_documento) {
+            case 'I':
+                $('#div-concepto-descuento').hide();
+                $('#nota-credito-inventario').show();
+                $('#box-inventario-clonado').hide();
+                LoadDetalleNotaCreditoInventario();
+                break;
+            case 'S':
+                $('#nota-credito-inventario').hide();
+                getConceptosServicios()
+                break;
+            default:
+        }
+
+    });
+
+    //BUSCA CLIENTE
+    var options = {
+        adjustWidth: true,
+        url: function (phrase) {
+            return "@Url.Action("FindCliente", "Venta")";
+        },
+        getValue: function (element) {
+
+            // $("#span-cliente").text(element.Coincidencia);
+            return element.Coincidencia;
+        },
+        list: {
+            onSelectItemEvent: function () {
+                var Codigo = $("#input-cliente").getSelectedItemData().Codigo;
+                $("#input-cliente").val(Codigo).trigger("change");
+
+                var Codigo1 = $("#input-cliente").getSelectedItemData().Coincidencia;
+                var Canal = $("#input-cliente").getSelectedItemData().Canal;
+                $("#span-cliente").text(Codigo1);
+                $("#span-cliente-canal").text(Canal);
+
+            },
+            onHideListEvent: function (data) {
+                //$("#input-cliente").val(Codigo).trigger("change");
+            }
+        },
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: { dataType: "json" }
+        },
+        preparePostData: function (data) {
+            data.phrase = $("#input-cliente").val();
+            return data;
+        },
+        requestDelay: 400
+    };
+
+    $("#input-cliente").easyAutocomplete(options);
+
+    $("#input-cliente").click(function () {
+        @* LIMPIA TODO LO SELECCIONADO*@
+        initModule();
+        NotaCreditoItems = [];
+    });
+
+
+    @* VALIDA LA CANTIDAD A SOLICITAR VS CANTIDAD PERMITIDA INVENTARIO *@
+
+    function validarCantidadPermitidaNotaCreditoInventario(index) {
+        var cantidad_solicitada = $("#cantidad-inventario-" + index).val();
+        var cantidad_default = $("#cantidad-inventario-default-" + index).val();
+        let cant_s = parseInt(cantidad_solicitada);
+        let cant_d = parseInt(cantidad_default);
+        if (cant_s > cant_d) {
+            $('#cantidad-inventario-' + index).val(cant_d);
+            swal({
+                title: "Solicitud",
+                text: "Supera la cantidad limite.",
+                icon: "error",
+                button: "OK",
+            });
+        }
+    }
+
+
+    @* Remove item nota de credito *@
+
+    function RemoveItemCreditNote(val, _Cantidad) {
+
+        console.log('Array before removing the element = ' + JSON.stringify(NotaCreditoItems));
+        NotaCreditoItems = jQuery.grep(NotaCreditoItems, function (value, i) {
+            return (value.ItemCode != val && value.Cantidad != _Cantidad);
+        },false);
+        console.log('Array after removing the element = ' + JSON.stringify(NotaCreditoItems));
+    }
+
+    @* CALCULA MONTO PERMITIDO NOTA DE CREDITO INVENTARIO *@
+
+
+    function test(index, _sku) {
+        $("#tr-invoice-" + index).css("background-color", "#FFFFFF !important;");
+        RemoveItemCreditNote(_sku);
+    }
+
+    @* CALCULA RESTA MONTO PERMITIDO VS MONTO SOLICITADO NOTA DE CREDITO INVENTARIO *@
+    @**@
+    $(document).on('click', '.remove', function () {
+        var delete_row = $(this).data("row");
+        $('#' + delete_row).remove();
+        if ($(".sku_inventario").length == 0) {
+            $('#tabla-inventario-clone').hide();
+            $('#box-inventario-clonado').hide();
+        }
+
+        let Sum = 0;
+        $(".subtotal-hidden").each(function () {
+            let sumado = parseFloat(this.value);
+            if (!isNaN(sumado) && sumado.length != 0) {
+                Sum += sumado;
+            }
+        });
+        let IVA = Sum * 0.16;
+        let Total = Sum + IVA;
+        $('#subtotal-inventario-clonado').text(formatNumber.new(Sum.toFixed(3), "$ "));
+        $('#iva-inventario-clonado').text(formatNumber.new(IVA.toFixed(3), "$ "));
+        $('#total-inventario-clonado').text(formatNumber.new(Total.toFixed(3), "$ "));
+    });
+
+</script>
+
+
+
+<script>
+
+    function showLoad() {
+        $('#overlay-historial-nota-credito').show();
+        $('#overlay-creditnote-solicitud').show();
+    }
+    function hideLoad() {
+        $('#overlay-historial-nota-credito').hide();
+        $('#overlay-creditnote-solicitud').hide();
+    }
+
+    @* FORMATO DINERO *@
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+
+    @* VALIDA INT *@
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }    
+
+</script>
+
+@* <!--Nota de Credito Servicio--> *@
+<script>
+
+    $('#button-cancelar-nota-credito-servicio-descuento').click(function () {
+        initModule();
+    });
+
+    @* GUARDAR LA NOTA DE CREDITO DESCUENTO 100%*@
+    $('#button-guardar-nota-credito-servicio-descuento').click(function (e) {
+        e.preventDefault();
+        @* VERIFICAR EL ARREGO SI NO VIENE VACIO*@
+
+        if (NotaCreditoItems.length == 0) {
+            swal("Partida vacia", "Debe de seleccionar una partida de la nota de credito", "warning");
+            return false;
+        }
+
+        let Cliente = $('#input-cliente').val();
+        if (Cliente == '') {
+            swal('Cliente', 'Debe de especificar un cliente para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let FolioOrigen = $('#input-factura-origen').val();
+        if (FolioOrigen == '') {
+            swal('Factura origen', 'Debe de especificar la factura origen para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let FolioDestino = $('#input-factura-destino').val();
+        if (FolioDestino == '') {
+            swal('Factura destino', 'Debe de especificar la factura destino para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let Canal = $('#span-cliente-canal').text();
+        if (Canal == '') {
+            swal('Canal', 'No se ha definido el canal del cliente actual', 'warning');
+            return false;
+        }
+        if (Canal == 'NO') {
+            swal('Cliente', 'El cliente no tiene definido un canal para generar la nota de crédito', 'warning');
+            return false;
+        }
+        let tipo_documento = $("#select-tipo-documento option:selected").val();
+        if (tipo_documento == 0) {
+            swal('Tipo de documento', 'El tipo de documento seleccionado no es valido para generar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let concepto_descuento = $('#select-concepto-descuento').val();
+        if (concepto_descuento == '0') {
+            swal('Concepto de descuento', 'El concepto de descuento seleccionado no es valido para generar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let Comentario = $('#comentario').val();
+
+        swal({
+            title: "¿Solicitar nota de credito?",
+            text: "Se mandara solicitud de la nota de credito Servicio (Descuento 100%).",
+            icon: "warning",
+            buttons: [
+              'No, cancelar esta operación',
+              'Si, estoy seguro'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                swal({
+                    title: 'Operación confirmada',
+                    text: 'Enviando datos',
+                    icon: 'success'
+                }).then(function () {
+                    let EmailUser = localStorage.getItem('UserEmail');
+
+                    let ConceptoDescuentoText = $("#select-concepto-descuento option:selected").text();
+                    //alert("Concepto descuento " + ConceptoDescuentoText);
+
+                    $.post('@Url.Action("AddNotaCredito", "NotaCredito")',
+                    {
+                        Cliente: Cliente,
+                        FolioOrigen: FolioOrigen,
+                        FolioDestino: FolioDestino,
+                        FolioDestino: FolioDestino,
+                        TipoDocumento: tipo_documento,
+                        Comentario : Comentario,
+                        Usuario: EmailUser,
+                        ConceptoDescuento: concepto_descuento,
+                        Canal: Canal,
+                        ClienteName: $('#span-cliente').text(),
+                        ConceptoDescuentoDetalle : ConceptoDescuentoText,
+                        Items: NotaCreditoItems
+                    }, function (data) {
+
+                        if (data.Context != null) {
+                            if (data.Code == "-1" || concepto_descuento == '0') {
+                                initModule();
+                                getHistoricoNotaCredito();
+                                swal("Nota de crédito","Favor de verificar la logistica del descuento.", "warning");
+                            }
+                            else {
+                                swal("Nota de crédito", "Nota de crédito agregado", "success");
+                                @* ENVIA EL CORREO AL USUARIO QUE GENERO LA NOTA DE CREDITO*@
+                                initModule();
+                                getHistoricoNotaCredito();
+                            }
+
+                        }
+
+                    }).done(function (data) {
+                        //console.log("second success");
+                    }).fail(function (data) {
+                        swal("Nota de crédito", "Mensaje "+ JSON.stringify(data.Context), "error");
+                    }).always(function (data) {
+                        //console.log("finished");
+                    });
+
+
+                });
+            } else {
+                swal("Cancelado", "Operación cancelada", "error");
+            }
+        });
+
+
+
+
+    });
+
+
+
+    @*EVENTO CHANGE DE CONCEPTO DESCUENTO*@
+    $('#select-concepto-descuento').change(function (e) {
+        e.preventDefault();
+        let Cliente = $('#input-cliente').val();
+        if (Cliente == '') {
+            swal('Cliente', 'Debe de especificar un cliente para el desglose de conceptos', 'warning');
+            return false;
+        }
+
+        let FolioOrigen = $('#input-factura-origen').val();
+        if (FolioOrigen == '') {
+            swal('Factura origen', 'Debe de especificar la factura origen para el desglose de conceptos', 'warning');
+            return false;
+        }
+
+        let FolioDestino = $('#input-factura-destino').val();
+        if (FolioDestino == '') {
+            swal('Factura destino', 'Debe de especificar la factura destino para el desglose de conceptos', 'warning');
+            return false;
+        }
+        let Canal = $('#span-cliente-canal').text();
+        if (Canal == '') {
+            swal('Canal', 'No se ha definido el canal del cliente actual', 'warning');
+            return false;
+        }
+        let ConceptoDescuento = $('#select-concepto-descuento').val();
+        if (ConceptoDescuento == 0) {
+            swal('Concepto de descuento', 'El concepto de descuento seleccionado no es valido intente de nuevo.', 'warning');
+            return false;
+        }
+
+        $.post('@Url.Action("GetValidaConceptoDescuentoNC", "Venta")',
+        {
+            Cliente: Cliente,
+            FolioOrigen: FolioOrigen,
+            FolioDestino: FolioDestino,
+            Concepto: ConceptoDescuento
+        }, function (data) {
+            if (data.Context != null) {
+                let exist = data.Context;
+                if (exist > 0) {
+                    swal("!Advertencia¡", "La nota de crédito que desea registrar ya se ha registrado anteriormente.", "warning");
+                    return false;
+                }
+                else {
+                    switch (ConceptoDescuento) {
+                        @* DIFERIENCIA EN PRECIO 100% *@
+                        case '37':
+                            $('#nota-credito-servicio').hide();
+                            $('#nota-credito-servicio-otro-descuento').show();
+                            $.post('@Url.Action("GetFacturaNC", "Venta")',
+                            {
+                                CardCode: Cliente,
+                                DocNum: FolioOrigen,
+                            }, function (data) {
+                                if (data.Context != null) {
+                                    $('#tbody-servicio-descuento').empty();
+                                    if ($.isArray(data.Context)) {
+
+                                        if (JSON.stringify(data.Context) == "[]") {
+                                            $("#div-factura-origen").removeClass("has-success").addClass("has-error");
+                                            $("#spam-factura-origen").text("Folio origen no disponible");
+                                            $('#nota-credito-servicio-otro-descuento').hide();
+                                        }
+                                        else {
+
+                                            $("#div-factura-origen").removeClass("has-error").addClass("has-success");
+                                            $("#spam-factura-origen").text("Folio origen disponible");
+                                            console.log(JSON.stringify(data.Context));
+
+                                            $.each(data.Context, function (index, value) {
+
+                                                let descuento_fijo = 1 * value.Precio;
+                                                $("#tbody-servicio-descuento").append(
+                                                    "<tr id='tr-servicio-descuento-" + index + "'>\
+                                                    <td ondblclick='return clonarTablaNotaDeCreditoServicioDescuento(\"" + value.Codigo + "\",\"" + value.Precio + "\",\"" + index + "\")'>" + value.Codigo + "</td>\
+                                                    <td><input type='text' id='cantidad-servicio-descuento-" + index + "' min='1' value='" + value.Cantidad + "' onkeyup='validarCantidadPermitidaNotaCreditoServicioDescuento(\"" + index + "\",\"" + value.Cantidad + "\")' onkeypress='return isNumber(event)'/></td>\
+                                                    <td><input type='text' value='" + value.Cantidad + "' disabled></td>\
+                                                    <td>" + formatNumber.new(value.Precio.toFixed(2), "$ ") + "</td>\
+                                                    <td><input type='text' id='input-descuento-solicitado-servicio-descuento-" + index + "' onclick='validarDescuentoPermitidoServicioDescuento(\"" + index + "\",\"" + value.Precio + "\")' onkeyup='validarDescuentoPermitidoServicioDescuento(\"" + index + "\",\"" + value.Precio + "\")' value='0'/></td>\
+                                                </tr>");
+                                            });
+
+                                        }
+                                    }
+
+                                }
+
+                            }).done(function (data) {
+                            }).fail(function (data) {
+                            }).always(function (data) {
+                            });
+
+                            @* REGRESA LOS MONTOS DISPONIBLES DE LA NOTA DE CREDITO*@
+                            @* CONCEPTO 39 PRONTO PAGO 3%*@
+                            @* CONCEPTO 93 DESCUENTO DE NO GARANTIAS 2%*@
+
+                            if ((Canal == 'RETAIL') || (Canal == 'MAYOREO' && ConceptoDescuento == 39) || (Canal == 'MAYOREO' && ConceptoDescuento == 93)) {
+                                $.post('@Url.Action("GetFacturaOrigenNC", "Venta")',
+                                {
+                                    CardCode: Cliente,
+                                    DocNum: FolioOrigen,
+                                }, function (data) {
+                                    if (data.Context != null && $.isArray(data.Context)) {
+                                        if (JSON.stringify(data.Context) == "[]") {
+                                            $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                                            $("#spam-factura-destino").text("Folio destino no disponible");
+                                            alert("!Favor de validar el folio destino. ya que no se encuentraron referencias del folio destino¡");
+                                            return false;
+                                        }
+                                        else {
+                                            let MontoOrigen = data.Context[0].MontoFacturaOrigen;
+                                            $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                                            $("#spam-factura-destino").text("Monto destino con iva: " + formatNumber.new(MontoOrigen.toFixed(2), "$ "));
+                                            $('#factura-servicio-descuento-destino-monto-permitido').val(MontoOrigen);
+                                            return false;
+                                        }
+                                    }
+
+                                }).done(function (data) {
+                                }).fail(function (data) {
+                                }).always(function (data) {
+                                });
+                            }
+                            else {
+                                $.post('@Url.Action("GetFacturaDestino", "Venta")',
+                                {
+                                    CardCode: Cliente,
+                                    DocNum: FolioDestino,
+                                }, function (data) {
+                                    if (data.Context != null && $.isArray(data.Context)) {
+                                        if (JSON.stringify(data.Context) == "[]") {
+                                            $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                                            $("#spam-factura-destino").text("Folio destino no disponible");
+                                            alert("!Favor de validar el folio destino. ya que no se encuentraron referencias del folio destino¡");
+                                            return false;
+                                        }
+                                        else {
+                                            let MontoFacturado = data.Context[0].MontoFactura;
+                                            $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                                            $("#spam-factura-destino").text("Monto destino con iva: " + formatNumber.new(MontoFacturado.toFixed(2), "$ "));
+                                            $('#factura-servicio-descuento-destino-monto-permitido').val(MontoFacturado);
+
+                                        }
+                                    }
+
+                                }).done(function (data) {
+                                }).fail(function (data) {
+                                }).always(function (data) {
+                                });
+                            }
+
+                            @*  CALCULA EL PORCENTAJE DEL DESCUENTO *@
+                            $.ajax({
+                                contentType: "application/json; charset=utf-8",
+                                url: '@Url.Action("GetPorcentajePorIdConceptoServicio", "Venta")',
+                                async: false,
+                                timeout: 3000,
+                                type: 'POST',
+                                data: '{"Sequence":"' + ConceptoDescuento + '"}',
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data != null && $.isArray(data.Context)) {
+                                        let Cuenta = data.Context[0].Cuenta;
+                                        @*CUENTA CONTABLE*@
+                                        $("#input-factura-destino-cuenta-servicio-descuento").val(Cuenta);
+                                    }
+                                },
+                                error: function (data) {
+                                    alert("Error en la api: GetPorcentajePorIdConceptoServicio "+ JSON.stringify(data) );
+                                }
+                            });
+
+                            @* VALIDA LIMITE DE DINERO DISPONIBLE DE LA NOTA DE CREDITO*@
+                            $.post('@Url.Action("GetFacturaNCValidacionLimiteDinero", "Venta")',
+                            {
+                                CardCode: Cliente,
+                                FolioOrigen: FolioOrigen,
+                                FolioDestino: FolioDestino
+                            }, function (data) {
+                                if (data.Context != null && $.isArray(data.Context)) {
+                                    if (JSON.stringify(data.Context) == "[]") {
+                                        $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                                        $("#spam-factura-destino").text("Folio destino no disponible");
+                                        return false;
+                                    }
+                                    else {
+                                        let MontoOrigen = $('#factura-servicio-descuento-destino-monto-permitido').val();
+
+                                        let Subtotal = data.Context[0].Subtotal;
+                                        let Resta = MontoOrigen - Subtotal;
+                                        if (Resta <= 0) {
+                                            Resta = 0.00;
+                                        }
+                                        //console.log("Array limit dinero" + JSON.stringify(data.Context));
+                                        $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                                        $("#spam-factura-destino-ocupado").text("Monto ocupado: " + formatNumber.new(Subtotal.toFixed(2), "$ "));
+                                        $("#spam-factura-destino-disponible").text("Monto disponible: " + formatNumber.new(Resta.toFixed(2), "$ "));
+                                        $("#factura-servicio-descuento-destino-monto-disponible").val(Resta.toFixed(2));
+                                    }
+                                }
+
+                            }).done(function (data) {
+                            }).fail(function (data) {
+                            }).always(function (data) {
+                            });
+
+                            break;
+                        default:
+                            @*// otro tipo de descuento*@
+
+                            $('#nota-credito-servicio-otro-descuento').hide();
+                            $('#nota-credito-servicio').show();
+
+                            $.post('@Url.Action("GetFacturaNC", "Venta")',
+                            {
+                                CardCode: Cliente,
+                                DocNum: FolioOrigen,
+                            }, function (data) {
+                                if (data.Context != null) {
+                                    if ($.isArray(data.Context)) {
+
+                                        if (JSON.stringify(data.Context) == "[]") {
+                                            $("#div-factura-origen").removeClass("has-success").addClass("has-error");
+                                            $("#spam-factura-origen").text("Folio origen no disponible");
+                                            $('#nota-credito-servicio').hide();
+                                        }
+                                        else {
+                                            $("#div-factura-origen").removeClass("has-error").addClass("has-success");
+                                            $("#spam-factura-origen").text("Folio origen disponible");
+                                        }
+                                    }
+                                }
+
+                            }).done(function (data) {
+                            }).fail(function (data) {
+                            }).always(function (data) {
+                            });
+
+                            let MontoOrigen_Aux = 0;
+                            let MontoFacturado_Aux = 0;
+
+                            @* MONTOS DISPONIBLES DE LA FACTURA ORIGEN *@
+
+                            if ((Canal == 'RETAIL') || (Canal == 'MAYOREO' && ConceptoDescuento == 39) || (Canal == 'MAYOREO' && ConceptoDescuento == 93)) {
+                                $.post('@Url.Action("GetFacturaOrigenNC", "Venta")',
+                                {
+                                    CardCode: Cliente,
+                                    DocNum: FolioOrigen,
+                                }, function (data) {
+                                    if (data.Context != null && $.isArray(data.Context)) {
+                                        if (JSON.stringify(data.Context) == "[]") {
+                                            $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                                            $("#spam-factura-destino").text("Folio destino no disponible");
+                                            alert("!Favor de validar el folio destino. ya que no se encuentraron referencias del folio destino¡");
+                                            return false;
+                                        }
+                                        else {
+                                            let MontoOrigen = data.Context[0].MontoFacturaOrigen;
+
+                                            $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                                            $("#spam-factura-destino").text("Monto destino con iva: " + formatNumber.new(MontoOrigen.toFixed(2), "$ "));
+                                            $('#input-factura-destino-monto-permitido-servicio-hidden').val(MontoOrigen);
+                                            $('#input-factura-destino-monto-permitido-servicio').val(formatNumber.new(MontoOrigen.toFixed(2), "$ "));
+
+
+                                            @* PORCENTAJE POR EL CONCEPTO DE DESCUENTO DE LA NOTA DE CREDITO*@
+                                            $.post('@Url.Action("GetPorcentajePorIdConceptoServicio", "Venta")',
+                                            {
+                                                Sequence: ConceptoDescuento
+                                            }, function (data) {
+                                                if (data.Context != null && $.isArray(data.Context)) {
+                                                    if (JSON.stringify(data.Context) == "[]") {
+                                                        return false;
+                                                    }
+                                                    else {
+                                                        let CuentaContable = data.Context[0].Cuenta;
+                                                        $('#input-cuenta-contable-servicio-descuento-hidden').val(CuentaContable);
+
+                                                        let Descuento = data.Context[0].Descuento;
+
+                                                       // alert('Descuento ' + Descuento);
+
+
+                                                        let MontoOrigenDescuento = 0;
+                                                        if (Descuento == 0 || Descuento == 0.00) {
+                                                            $('#input-factura-destino-monto-permitido-servicio-descuento-hidden').val(MontoOrigen.toFixed(2));
+                                                            $('#input-factura-destino-monto-solicitado-servicio').val(MontoOrigen.toFixed(2));
+                                                        }
+                                                        else {
+                                                            @* AL MONTO DESTINO SE LE RESTA EL IVA DEL MONTO DESTINO *@
+                                                            MontoOrigenDescuento = MontoOrigen * Descuento;
+                                                            //alert('MontoOrigenDescuento ' + MontoOrigenDescuento);
+                                                            $('#input-factura-destino-monto-permitido-servicio-descuento-hidden').val(MontoOrigenDescuento.toFixed(2));
+                                                            $('#input-factura-destino-monto-solicitado-servicio').val(MontoOrigenDescuento.toFixed(2));
+                                                        }
+
+                                                    }
+                                                }
+
+                                            }).done(function (data) {
+                                            }).fail(function (data) {
+                                            }).always(function (data) {
+                                            });
+
+                                        }
+                                    }
+
+                                }).done(function (data) {
+                                }).fail(function (data) {
+                                }).always(function (data) {
+                                });
+                            }
+                            else {
+                                $.post('@Url.Action("GetFacturaDestino", "Venta")',
+                                {
+                                    CardCode: Cliente,
+                                    DocNum: FolioDestino,
+                                }, function (data) {
+                                    if (data.Context != null && $.isArray(data.Context)) {
+                                        if (JSON.stringify(data.Context) == "[]") {
+                                            $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                                            $("#spam-factura-destino").text("Folio destino no disponible");
+                                            alert("!Favor de validar el folio destino. ya que no se encuentraron referencias del folio destino¡");
+                                            return false;
+                                        }
+                                        else {
+                                            let MontoFacturado = data.Context[0].MontoFactura;
+
+                                            $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                                            $("#spam-factura-destino").text("Monto destino con iva: " + formatNumber.new(MontoFacturado.toFixed(2), "$ "));
+                                            $('#input-factura-destino-monto-permitido-servicio-hidden').val(MontoFacturado);
+                                            $('#input-factura-destino-monto-permitido-servicio').val(formatNumber.new(MontoFacturado.toFixed(2), "$ "));
+
+                                            @* PORCENTAJE POR EL CONCEPTO DE DESCUENTO DE LA NOTA DE CREDITO*@
+                                            $.post('@Url.Action("GetPorcentajePorIdConceptoServicio", "Venta")',
+                                            {
+                                                Sequence: ConceptoDescuento
+                                            }, function (data) {
+                                                if (data.Context != null && $.isArray(data.Context)) {
+                                                    if (JSON.stringify(data.Context) == "[]") {
+                                                        return false;
+                                                    }
+                                                    else {
+                                                        let CuentaContable = data.Context[0].Cuenta;
+                                                        $('#input-cuenta-contable-servicio-descuento-hidden').val(CuentaContable);
+
+                                                        let Descuento = data.Context[0].Descuento;
+
+                                                       // console.log('Descuento facturado ' + Descuento);
+
+                                                        let MontoOrigenDescuento = 0;
+                                                        if (Descuento == 0 || Descuento == 0.00) {
+                                                            $('#input-factura-destino-monto-permitido-servicio-descuento-hidden').val(MontoFacturado.toFixed(2));
+                                                            $('#input-factura-destino-monto-solicitado-servicio').val(MontoFacturado.toFixed(2));
+                                                        }
+                                                        else {
+                                                            @* AL MONTO DESTINO SE LE RESTA EL IVA DEL MONTO DESTINO *@
+                                                            MontoOrigenFacturadoDescuento = MontoFacturado * Descuento;
+
+                                                            //console.log('MontoOrigenFacturadoDescuento ' + MontoOrigenFacturadoDescuento);
+                                                            $('#input-factura-destino-monto-permitido-servicio-descuento-hidden').val(MontoOrigenFacturadoDescuento.toFixed(2));
+                                                            $('#input-factura-destino-monto-solicitado-servicio').val(MontoOrigenFacturadoDescuento.toFixed(2));
+                                                        }
+
+                                                    }
+                                                }
+
+                                            }).done(function (data) {
+                                            }).fail(function (data) {
+                                            }).always(function (data) {
+                                            });
+                                        }
+                                    }
+
+                                }).done(function (data) {
+                                }).fail(function (data) {
+                                    alert("Error" + JSON.stringify(data));
+                                }).always(function (data) {
+                                });
+                            }
+
+                            @* VALIDA EL LIMITE DE DINERO DISPONIBLE DE LA NOTA DE CRÉDITO*@
+
+                            $.post('@Url.Action("GetFacturaNCValidacionLimiteDinero", "Venta")',
+                            {
+                                CardCode: Cliente,
+                                FolioOrigen: FolioOrigen,
+                                FolioDestino: FolioDestino
+                            }, function (data) {
+                                if (data.Context != null && $.isArray(data.Context)) {
+                                    if (JSON.stringify(data.Context) == "[]") {
+                                        $("#div-factura-destino").removeClass("has-success").addClass("has-error");
+                                        $("#spam-factura-destino").text("Folio destino no disponible");
+                                        return false;
+                                    }
+                                    else {
+                                        let MontoOrigen = $('#input-factura-destino-monto-permitido-servicio-hidden').val();
+                                        if (MontoOrigen == '') {
+                                            alert('El monto actual no permite proceder para capturar la nota de credito intente de nuevo');
+                                            initModule();
+                                            loadError();
+                                            return false;
+                                        }
+                                       
+                                        let Subtotal = data.Context[0].Subtotal;
+                                        
+                                        let Resta=0;
+                                        if (Subtotal == 0 || Subtotal == 0.00) {
+                                            Resta = parseFloat(MontoOrigen);
+                                        } else {
+                                            Resta = parseFloat(MontoOrigen) - Subtotal;                                            
+                                            if (Resta <= 0) {
+                                                Resta = 0.00;
+                                            }
+                                        }
+                                        //console.log('Resta ' + Resta);
+                                        $("#div-factura-destino").removeClass("has-error").addClass("has-success");
+                                        $("#spam-factura-destino-ocupado").text("Monto ocupado: " + formatNumber.new(Subtotal.toFixed(2), "$ "));
+                                        $("#spam-factura-destino-disponible").text("Monto disponible: " + formatNumber.new(parseFloat(Resta).toFixed(2), "$ "));
+                                        $("#input-factura-destino-monto-permitido-servicio-disponible-hidden").val(parseFloat(Resta).toFixed(2));
+                                    }
+                                }
+
+                            }).done(function (data) {
+                            }).fail(function (data) {
+                            }).always(function (data) {
+                            });
+
+                            break;
+                    }
+                }
+            }
+
+        }).done(function (data) {
+        }).fail(function (data) {
+        }).always(function (data) {
+        });
+
+    });
+
+    @* CANCELAR LA NOTA DE CREDITO SERVICIO*@
+    $('#button-cancelar-nota-credito-servicio').click(function (e) {
+        e.preventDefault();
+        initModule();
+    })
+
+    @* GUARDAR LA NOTA DE CREDITO SERVICIO *@
+    $('#button-guardar-nota-credito-servicio').click(function (e) {
+        e.preventDefault();
+
+        @*AGREGAR LA NOTA DE CREDITO ITEM*@
+        console.log('Length array ' + NotaCreditoItems.length);
+        if (NotaCreditoItems.length > 0) {
+            NotaCreditoItems = [];            
+        }
+
+        let MontoSolicitado = $('#input-factura-destino-monto-solicitado-servicio').val();
+        if (parseInt(MontoSolicitado) == 0) {
+            swal("Monto permitido", "El monto pemitido debe ser mayor a 0 para agregar la nota de credito", "warning");
+            return false;
+        }
+        let CuentaContable = $('#input-cuenta-contable-servicio-descuento-hidden').val();
+        //console.log('CuentaContable ' + CuentaContable);
+        if (CuentaContable == '') {
+            swal("Cuenta contable", "La cuenta contable no se ha definido para guardar la nota de crédito", "warning");
+            return false;
+        }
+
+        let Canal = $('#span-cliente-canal').text();
+        if (Canal == '') {
+            swal('Canal', 'No se ha definido el canal del cliente actual', 'warning');
+            return false;
+        }
+
+        let concepto_descuento = $('#select-concepto-descuento').val();
+        if (concepto_descuento == '0') {
+            swal('Concepto de descuento', 'El concepto de descuento seleccionado no es valido para generar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let MontoPermitido = 0;
+        if ((Canal == 'RETAIL') || (Canal == 'MAYOREO' && concepto_descuento == 39) || (Canal == 'MAYOREO' && concepto_descuento == 93)) {
+            MontoPermitido = $('#input-factura-destino-monto-permitido-servicio-hidden').val();
+            //console.log('MontoPermitido origen ' + MontoPermitido);
+        }
+        else {
+            MontoPermitido = $('#input-factura-destino-monto-permitido-servicio-disponible-hidden').val();            
+        }
+
+        if (parseInt(MontoPermitido) == 0 || parseFloat(MontoPermitido) == 0.00) {
+            swal("Monto solicitado", "El monto pemitido debe ser mayor a 0 para agregar la nota de credito verificar la nota de credito ingresada los datos sean correctos", "warning");
+            return false;
+        }
+
+        let ConceptoDescuentoText = $("#select-concepto-descuento option:selected").text();
+
+        let EmailUser = localStorage.getItem('UserEmail');
+        @* AGREGAR LA PARTIDA DE LA NOTA DE CREDITO*@
+        AddNotaCreditoItem(ConceptoDescuentoText, "1", MontoPermitido, MontoSolicitado, CuentaContable);
+        console.log('Array items: ' + JSON.stringify(NotaCreditoItems));
+
+        if (NotaCreditoItems.length == 0) {
+            swal("Partida vacia", "Debe de seleccionar una partida de la nota de credito", "warning");
+            return false;
+        }
+
+        let Cliente = $('#input-cliente').val();
+        if (Cliente == '') {
+            swal('Cliente', 'Debe de especificar un cliente para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let FolioOrigen = $('#input-factura-origen').val();
+        if (FolioOrigen == '') {
+            swal('Factura origen', 'Debe de especificar la factura origen para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let FolioDestino = $('#input-factura-destino').val();
+        if (FolioDestino == '') {
+            swal('Factura destino', 'Debe de especificar la factura destino para guardar la nota de crédito', 'warning');
+            return false;
+        }
+
+
+        if (Canal == 'NO') {
+            swal('Cliente', 'El cliente no tiene definido un canal para generar la nota de crédito', 'warning');
+            return false;
+        }
+        let tipo_documento = $("#select-tipo-documento option:selected").val();
+        if (tipo_documento == 0) {
+            swal('Tipo de documento', 'El tipo de documento seleccionado no es valido para generar la nota de crédito', 'warning');
+            return false;
+        }
+
+        let Comentario = $('#comentario').val();
+
+
+
+        swal({
+            title: "¿Solicitar nota de credito?",
+            text: "Se mandará solicitud de la nota de crédito Servicio " + ConceptoDescuentoText + ".",
+            icon: "warning",
+            buttons: [
+              'No, cancelar esta operación',
+              'Si, estoy seguro'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                swal({
+                    title: 'Operación confirmada',
+                    text: 'Enviando datos',
+                    icon: 'success'
+                }).then(function () {
+                    let EmailUser = localStorage.getItem('UserEmail');
+
+                    let ConceptoDescuentoText = $("#select-concepto-descuento option:selected").text();
+                    //alert("Concepto descuento " + ConceptoDescuentoText);
+
+                    $.post('@Url.Action("AddNotaCredito", "NotaCredito")',
+                    {
+                        Cliente: Cliente,
+                        FolioOrigen: FolioOrigen,
+                        FolioDestino: FolioDestino,
+                        FolioDestino: FolioDestino,
+                        TipoDocumento: tipo_documento,
+                        Comentario : Comentario,
+                        Usuario: EmailUser,
+                        ConceptoDescuento: concepto_descuento,
+                        Canal: Canal,
+                        ClienteName: $('#span-cliente').text(),
+                        ConceptoDescuentoDetalle : ConceptoDescuentoText,
+                        Items: NotaCreditoItems
+                    }, function (data) {
+                        if (data.Code == '-1' || concepto_descuento == '0') {
+                            initModule();
+                            getHistoricoNotaCredito();
+                            swal("Nota de crédito","Favor de verificar la logistica del descuento.", "warning");
+                        }                        
+                        else if (data.Context != null) {                                                        
+                            if (data.Context) {
+                                swal("Nota de crédito", "Nota de crédito agregado", "success");
+                                @* ENVIA EL CORREO AL USUARIO QUE GENERO LA NOTA DE CREDITO*@
+                                initModule();
+                                getHistoricoNotaCredito();
+                            }
+                            else
+                            {
+                                swal("Nota de crédito", "Ocurrio un error inesperado para agregar la nota de credito", "error");
+                                initModule();
+                            }                            
+                        }
+                        else {
+                            if (data.Message != '') {
+                                swal("Nota de crédito", "Mensaje " + data.Message, "error");
+                                initModule();
+                            }
+                            
+                            
+                        }
+                    }).done(function (data) {
+                    }).fail(function (xhr, textStatus, errorThrown) {
+                        console.log('xhr' +  JSON.stringify(xhr));
+                        console.log('textStatus' + JSON.stringify(textStatus));
+                        console.log('errorThrown ' + JSON.stringify(errorThrown));                        
+                    }).always(function (data) {                        
+                    });
+
+
+                });
+            } else {
+                NotaCreditoItems = [];
+                initModule();
+                swal("Aviso de nota de crédito", "La nota de crédito se ha cancelado.", "error");
+            }
+        });
+    });
+
+
+    @* VALIDA MONTO SOLICITADO CONTRA MONTO PERMITIDO NOTA DE CREDITO OTRO SERVICIO DESCUENTO *@
+    function validarCantidadPermitidaNotaCreditoServicioOtroDescuento() {
+        let monto_solicitado_nota_credito_otro_servicio_descuento_hidden = $("#input-factura-destino-monto-permitido-servicio-descuento-hidden").val();
+        let monto_solicitado_nota_credito_otro_servicio_descuento = $("#input-factura-destino-monto-solicitado-servicio").val();
+        let parse_monto_solicitado_hidden = parseFloat(monto_solicitado_nota_credito_otro_servicio_descuento_hidden);
+        let parse_monto_solicitado = parseFloat(monto_solicitado_nota_credito_otro_servicio_descuento);
+        if (parse_monto_solicitado > parse_monto_solicitado_hidden) {
+            swal('Cantidad excedida.',"El monto solicitado no puede superar al monto permitido del descuento a aplicar", 'warning');
+            $("#input-factura-destino-monto-solicitado-servicio").val(parse_monto_solicitado_hidden).slice(0, 3);
+        }
+    }
+
+
+   @* VALIDA LA CANTIDAD A SOLICITAR VS CANTIDAD PERMITIDA SERVICIO DESCUENTO *@
+    function validarCantidadPermitidaNotaCreditoServicioDescuento(index, Cantidad) {
+        var cantidad_solicitada = $("#cantidad-servicio-descuento-" + index).val();
+        let cant_s = parseInt(cantidad_solicitada);
+
+        if (cant_s > parseInt(Cantidad)) {
+            $("#cantidad-servicio-descuento-" + index).val(Cantidad);
+            swal({
+                title: "Cantidad",
+                text: "La cantidad ingresada supera el limite permitido.",
+                icon: "error",
+                button: "OK",
+            });
+        }
+    }
+
+    @*VALIDA EL DESCUENTO GENERADO POR EL 100 %*@
+    function validarDescuentoPermitidoServicioDescuento(index, Precio, PrecioFijo) {
+        let descuento_permitido = parseFloat(Precio);
+        let descuento_solicitado = $('#input-descuento-solicitado-servicio-descuento-' + index).val();
+        let cant_s = parseFloat(descuento_solicitado);
+        if (cant_s > descuento_permitido) {
+            $('#input-descuento-solicitado-servicio-descuento-' + index).val(descuento_permitido);
+            swal({
+                title: "Solicitud",
+                text: "La cantidad ingresada supera el descuento permitido.",
+                icon: "error",
+                button: "OK",
+            });
+            return false;
+        }
+    }
+
+
+
+    var countsd = 0;
+    @*CLONA EN TABLA VALORES DE LA NOTA DE CREDITO TIPO SERVICIO DESCUENTO*@
+    function clonarTablaNotaDeCreditoServicioDescuento(Codigosd, Preciosd, indexsd) {
+
+        let index_Aux = parseInt(indexsd);
+        let exist = 0;
+        let countSKU = $(".sku");
+
+        if (countSKU.length > 0) {
+            $(".sku").each(function () {
+
+                let sku = this.value;
+                if (Codigosd == sku) {
+                    exist = 1;
+                    swal("Registro duplicado", "El SKU " + Codigosd + " ya se ha agregado anteriormente.", "warning");
+                }
+            });
+        }
+
+        if (exist == 0) {
+
+            let Descuentosdv = $("#input-descuento-solicitado-servicio-descuento-" + indexsd).val();
+            parseFloat(Descuentosdv);
+            if (Descuentosdv == 0) {
+                swal("Cantidad de descuento", "Favor de revisar el descuento aplicado debe ser mayor a 0.", "warning");
+                return false;
+            } else {
+                $('#box-servicio-descuento-clonado').show();
+                $('#tabla-servicio-descuento-clone').show();
+
+                // cambia de color el index que esta seleccionado
+                $("#tr-servicio-descuento-" + indexsd).css("background-color", "#e6ffe6");
+
+                let Cantidadsd = $("#cantidad-servicio-descuento-" + indexsd).val();
+
+                let Cantidad = parseInt(Cantidadsd);
+                let Precio = parseFloat(Preciosd);
+                let SubTotal = Cantidad * Precio;
+                let DescuentoTotal = Cantidad * parseFloat(Descuentosdv);
+
+                let subFormatsd = formatNumber.new(SubTotal.toFixed(2), "$ ");
+                let preFormatsd = formatNumber.new(Precio.toFixed(2), "$ ");
+
+                let DescuentosdFormat = formatNumber.new(parseFloat(Descuentosdv).toFixed(2), "$ ");
+                let DescuentoTotalsdFormat = formatNumber.new(DescuentoTotal.toFixed(2), "$ ");
+
+                countsd = countsd + 1;
+
+                var html_code1 = "";
+                html_code1 += "<tr id='row" + countsd + "'>";
+                html_code1 += "<td><input class='sku' type='text' value='" + Codigosd + "' disabled/></td>";
+                html_code1 += "<td><input type='text'  value='" + Cantidad + "' style='width: 60px'  disabled/></td>";
+                html_code1 += "<td><input style='width: 100px;' type='text' value='" + preFormatsd + "' disabled/></td>";
+                html_code1 += "<td><input style='width: 100px;' type='text' value='" + subFormatsd + "' disabled/></td>";
+                html_code1 += "<td style='display:none'><input class='subtotal-descuento-hidden' type='text' value='" + DescuentoTotal + "' disabled/></td>";
+                html_code1 += "<td><input style='width: 100px;' type='text' value='" + DescuentosdFormat + "' disabled/></td>";
+                html_code1 += "<td><input style='width: 100px;' type='text' value='" + DescuentoTotalsdFormat + "' disabled/></td>";
+                html_code1 += "<td><button type='button' name='remove' data-row='row" + countsd + "' onclick='test2(\"" + indexsd + "\",\""+Codigosd+"\")' class='btn btn-danger btn-sm removesd'><i class='fa fa-trash'></i></button></td>";
+                html_code1 += "</tr>";
+
+                $("#tbody-servicio-descuento-clone").append(html_code1);
+
+                let monto_permitido = $('#factura-servicio-descuento-destino-monto-permitido').val();
+
+                let Sum = 0;
+                $('.subtotal-descuento-hidden').each(function () {
+                    let sumado = parseFloat(this.value);
+                    if (!isNaN(sumado) && sumado.length != 0) {
+                        Sum += sumado;
+                    }
+                });
+                let IVA = Sum * 0.16;
+                let Total = Sum + IVA;
+
+                $('#subtotal-servicio-descuento-clonado').text(formatNumber.new(Sum.toFixed(3), "$ "));
+                $('#iva-servicio-descuento-clonado').text(formatNumber.new(IVA.toFixed(3), "$ "));
+                $('#total-servicio-descuento-clonado').text(formatNumber.new(Total.toFixed(3), "$ "));
+
+                if (parseFloat(Total) > parseFloat(monto_permitido) + 5) {
+                    swal({
+                        title: "Solicitud",
+                        text: "El monto de la nota de credito original no puede ser superado.",
+                        icon: "error",
+                        button: "OK",
+                    });
+                    $('#row' + count).remove();
+
+                    @* REMOVE ITEM DE LA NOTA DE CREDITO *@
+                    RemoveItemCreditNote(Codigosd);
+                    Sum = 0; IVA = 0; Total = 0;
+
+                    $(".subtotal-descuento-hidden").each(function () {
+                        let sumado = parseFloat(this.value);
+                        if (!isNaN(sumado) && sumado.length != 0) {
+                            Sum += sumado;
+                        }
+                    });
+                    IVA = Sum * 0.16;
+                    Total = Sum + IVA;
+
+                    $('#subtotal-servicio-descuento-clonado').text(formatNumber.new(Sum.toFixed(3), "$ "));
+                    $('#iva-servicio-descuento-clonado').text(formatNumber.new(IVA.toFixed(3), "$ "));
+                    $('#total-servicio-descuento-clonado').text(formatNumber.new(Total.toFixed(3), "$ "));
+                    return false;
+                }
+                else if (Total == monto_permitido) {
+                    swal({
+                        title: "Solicitud",
+                        text: "Nota de credito (inventario) completada.",
+                        icon: "success",
+                        button: "OK",
+                    });
+                }
+                let AcctCode = $('#input-factura-destino-cuenta-servicio-descuento').val();
+
+                AddNotaCreditoItem(Codigosd, ""+Cantidad+"", ""+Precio+"", Descuentosdv, AcctCode);
+                console.log("Array add item: " + JSON.stringify(NotaCreditoItems));
+
+
+            }
+
+        }
+
+    }
+
+    @* REMOVER EL ITEM DE LA NOTA DE CREDITO SERVICIO  DESCUENTO 100%*@
+    function test2(indexsd, _SKU) {
+        $("#tr-servicio-descuento-" + indexsd).css("background-color", "#FFFFFF !important;");
+       @* REMOVER EL ITEM DE LA NOTA DE CREDITO *@
+       RemoveItemCreditNote(_SKU);
+    }
+
+    //CALCULA RESTA MONTO PERMITIDO VS MONTO SOLICITADO NOTA DE CREDITO SERVICIO DESCUENTO
+    $(document).on('click', '.removesd', function () {
+        var delete_rowsd = $(this).data("row");
+        $('#' + delete_rowsd).remove();
+        @*CALCULA MONTO PERMITIDO NOTA DE CREDITO SERVICIO DESCUENTO*@
+        if ($(".sku").length == 0) {
+            $('#box-servicio-descuento-clonado').hide();
+        }
+
+        let Sum = 0;
+        $(".subtotal-descuento-hidden").each(function () {
+            let sumado = parseFloat(this.value);
+            if (!isNaN(sumado) && sumado.length != 0) {
+                Sum += sumado;
+            }
+        });
+        let IVA = Sum * 0.16;
+        let Total = Sum + IVA;
+        $('#subtotal-servicio-descuento-clonado').text(formatNumber.new(Sum.toFixed(3), "$ "));
+        $('#iva-servicio-descuento-clonado').text(formatNumber.new(IVA.toFixed(3), "$ "));
+        $('#total-servicio-descuento-clonado').text(formatNumber.new(Total.toFixed(3), "$ "));
+
+    });
+
+
+    function getConceptosServicios() {
+        let Cliente = $('#input-cliente').val();
+
+        $.post('@Url.Action("GetConceptosDescuento", "NotaCredito")', {
+            Cliente: Cliente
+        },
+        function (data) {
+            if (data != null && $.isArray(data.Context)) {
+                $("#select-concepto-descuento").empty();
+                let selectConceptosServicios = $("#select-concepto-descuento");
+                selectConceptosServicios.append("<option value='0' selected='selected'>Seleccionar...</option>");
+                $.each(data.Context, function (index, value) {
+                    var DescuentoFormato = value.Descuento * 100;
+                    selectConceptosServicios.append(
+                        "<option class='option-concepto-" + index + "' value=" + value.Identifier + ">" + value.Nombre + " --- " + DescuentoFormato + '%' + "</option>")
+                });
+                $('#div-concepto-descuento').show();
+
+            } else {
+                alert("Error en la api: GetConceptosServicios");
+            }
+        });
+    }
+
+
+
+</script>
+
+@* NOTA DE CREDITO  OTRO DESCUENTO*@
+<script>
+
+</script>
+
+@* <!--Nota de Credito Servicio load admin or user--> *@
+<script>
+    function loadError() {
+        window.location.reload(); //Another possiblity
+    }
+
+    let rol = localStorage.getItem("Rol");
+    Load();
+    function Load() {
+        if (rol == 'Administrador') {
+            GetNotaCreditoAdmin();
+        }
+        else {
+            getHistoricoNotaCredito();
+        }
+    }
+
+    function resetFormsGestion() {
+        $('#div-gestion-almacen').hide();
+        $('#div-gestion-gerencia').hide();
+        $('#div-gestion-credito').hide();
+
+        $('#estatus-gerencia').hide();
+        $('#estatus-almacen').hide();
+        $('#estatus-credito').hide();
+
+        $("#estatus-gerencia").removeClass("meta-date-gestion").addClass('meta-date');
+        $("#estatus-almacen").removeClass("meta-date-gestion").addClass('meta-date');
+        $("#estatus-credito").removeClass("meta-date-gestion").addClass('meta-date');
+        $("#estatus-direccion").removeClass("meta-date-gestion").addClass('meta-date');
+
+        $('.timeline-end').removeClass("meta-date-gestion").addClass('meta-date');
+
+    }
+    function initModule2() {
+        $('#carrousel-dinamic').html('');
+        $('#NotaCreditoId').val('');
+        $('#NotaCreditoIdentifier').val('');
+        $('#filesToUpload').val('');
+        $('#fileList').html('');
+        $("#btn-addevidencia").attr("disabled", false);
+    }
+
+    function image(img) {
+        var src = img.src;
+        window.open(src);
+    }
+
+
+    function verImagenesNC(Identifier) {
+        initModule2();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetImagenenNotaCredito", "NotaCredito")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"FolioNC":"' + Identifier + '"}',
+            dataType: "json",
+        }).done(function (data) {
+            if (data.Context != null) {
+                $("#NotaCreditoId").val(data.Context.Identifier);
+                $("#NotaCreditoIdentifier").val(data.Context.Identifier);
+                $("#set-FolioNC").text("FOLIO SIE: " + data.Context.Identifier);
+                $("#set-ClienteNC").text("CLIENTE: " + data.Context.CardName);
+                $("#set-FolioOrigenNC").text("FOLIO ORIGEN: " + data.Context.FolioOrigen);
+                $("#set-FolioDestinoNC").text("FOLIO DESTINO: " + data.Context.FolioDestino);
+                let _TDocumento = '';
+                switch (data.Context.TipoDocumento) {
+                    case 'S':
+                        _TDocumento = 'Servicio';
+                        break;
+                    case 'I':
+                        _TDocumento = 'Inventario';
+                        break;
+                }
+                $("#set-TipoDocumentoNC").text("TIPO DOCUMENTO: " + _TDocumento);
+
+                // dibujar el carrucel
+                $("#carrousel-dinamic").html('');
+                var aux = 0;
+                var cabeceras = '';
+                var detalles = '';
+                //llenamos las cabeceras y los detalles..
+                if (data.Context.Imagenes.length <= 0) {
+                    cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="0" class="active"></li>';
+                    detalles = detalles + '<div class="item active"><img src="../dist/img/employee.jpg" /></div>';
+                    aux++;
+                }
+                else {
+                    $.each(data.Context.Imagenes, function (index, value) {
+                        let tipo = value.Tipo;
+                        //console.log(" Tipo: " + tipo);
+
+                        if (aux == 0) {
+                            cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '" class="active"></li>';
+                        } else {
+                            cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '"></li>';
+                        }
+                        if (aux == 0) {
+                            if (tipo == 1) {
+                                detalles = detalles + '<div class="item active"><img onclick="image(this)" class="img-responsive center-block" style="width:auto;" src="data:image/png;base64,' + value.ImagenBase64 + '" /> <div class="carousel-caption"><p>Usuario: ' + value.UserName + ' </p>   </div> </div > ';
+                            }
+                            else if (tipo == 2) {
+                                detalles = detalles + '<div class="item active"><iframe align="center" style="width:600px; height:600px; max-height:800px; max-width: 400px;" src="data:application/pdf;base64,' + value.ImagenBase64 + '" /> <div class="carousel-caption"><p>Usuario: ' + value.UserName + ' </p>   </div> </div > ';
+                            }
+                        } else {
+                            if (tipo == 1) {
+                                detalles = detalles + '<div class="item"><img onclick="image(this)" class="img-responsive center-block" style="width:auto;" src="data:image/png;base64,' + value.ImagenBase64 + '" /><div class="carousel-caption"><p> Usuario: ' + value.UserName + '</p> <br/> </div> </div>';
+                            }
+                            else if (tipo == 2) {
+                                detalles = detalles + '<div class="item"><iframe align="center" style="width:600px; height:600px; max-height:800px; max-width: 400px;" src="data:application/pdf;base64,' + value.ImagenBase64 + '" /> <div class="carousel-caption"><p>Usuario: ' + value.UserName + ' </p>   </div> </div > ';
+                            }
+                        }
+                        aux++;
+                    });
+                }
+                //se dibuja el carrusel
+                $("#carrousel-dinamic").append(
+                    "<div class='col-md-12' >" +
+                        "<div id='carousel-generic1' class='carousel slide' data-ride='carousel' style='width:80%;margin-left:10%;'>" +
+                        "<ol id='contenedor-carousel-cabecera' class='carousel-indicators'>" +
+                        cabeceras +
+                    "<\/ol>" +
+                    "<div id='carousel-detalles' class='carousel-inner' role='listbox'>" +
+                    detalles +
+                    "<\/div>" +
+                        "<a class='left carousel-control' href='#carousel-generic1' role='button' data-slide='prev'>" +
+                        "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'><\/span>" +
+                        "<span class='sr-only'>Previous<\/span>" +
+                    "<\/a>" +
+                    "<a class='right carousel-control' href='#carousel-generic1' role='button' data-slide='next'>" +
+                    "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'><\/span>" +
+                    "<span class='sr-only'>Next<\/span>" +
+                    "<\/a>" +
+                    "<\/div>" +
+                    "<\/div>");
+
+            }
+            else {
+                console.log("Data Null");
+            }
+        }).always(function (data) {
+        }).fail(function (data) {
+        });    
+    }
+
+    function verComentarios(SequenceForeignKey) {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetComentarioNotaCredito", "Venta")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"SequenceForeignKey":"' + SequenceForeignKey + '"}',
+            dataType: "json",
+        }).done(function (data) {
+            if (data != null && $.isArray(data.Context)) {
+                if (JSON.stringify(data.Context) == "[]") {
+                    $('#set-comentario').text('Sin comentarios');
+                } else {
+                    $('#set-comentario').text('');
+                    $("#tbody-comentarios").empty();
+                    $.each(data.Context, function (index, value) {
+                        if (value.Comentario == "") {
+                            value.Comentario = 'Sin comentario';
+                        }
+                        if (value.Departamento == 1) {
+                            value.Departamento = 'Gerencia';
+                        }
+                        if (value.Departamento == 2) {
+                            value.Departamento = 'Almacén';
+                        }
+                        if (value.Departamento == 3) {
+                            value.Departamento = 'Dirección';
+                        }
+                        if (value.Departamento == 5) {
+                            value.Departamento = 'Crédito y Cobranza';
+                        }
+                        if (value.Departamento == 6) {
+                            value.Departamento = 'Sistemas';
+                        }
+                        $("#tbody-comentarios").append(
+                            "<tr>\
+                            <td>" + value.Departamento + "</td>\
+                            <td>" + value.Usuario + "</td >\
+                            <td>" + value.Comentario + "</td >\
+                        </tr>");
+                    });
+                }
+
+            }
+        }).always(function (data) {
+        }).fail(function (data) {
+        });
+    }
+
+    function getHistoricoNotaCreditoDetail(FolioNotaCredito) {
+        resetFormsGestion();
+
+        $(".main-timeline-section").show();
+        $("#estatus-rechazado").text("");
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetNotaCreditoItem", "NotaCredito")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"NotaCredito":"' + FolioNotaCredito + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null) {
+
+                    let FechaFormato = moment(data.Context.Fecha).format("YYYY-MM-DD HH:mm:ss");
+                    let ConceptoDescuento = data.Context.ConceptoDescuento;                    
+
+                    let TypeDoc = data.Context.TipoDocumento;
+                    if (TypeDoc == 'S') {
+                        TypeDoc = 'Servicio';                        
+                    }
+                    if (TypeDoc == 'I') {
+                        TypeDoc = 'Inventario';                        
+                    }
+
+                    let canal = data.Context.Canal;
+
+                    let Total = 0;
+                    $("#table-invoice-detail").empty();
+
+                    $.each(data.Context.Items, function (index, value) {
+                        let SubTotalDetail = 0;
+                        let Descuento = 0;
+                        switch (data.Context.TipoDocumento) {
+                            case 'I':
+                                SubTotalDetail = value.Cantidad * value.Precio;
+                                Descuento = SubTotalDetail;
+                                break;
+                            case 'S':
+                                SubTotalDetail = value.Cantidad * value.Descuento;
+                                Descuento = value.Descuento;
+                                break;
+                            default:
+                        }
+                        if (ConceptoDescuento == 37) {
+                            SubTotalDetail = value.Cantidad * value.Descuento;
+                            Descuento = value.Descuento;
+                        }
+                        Total = Total + SubTotalDetail;
+
+                        $("#table-invoice-detail").append(
+                            "<tr>\
+                                <td>" + value.ItemCode + "</td>\
+                                <td align='center'>" + value.Cantidad + "</td >\
+                                <td align='center'>" + formatNumber.new(value.Precio.toFixed(2), "$ ") + "</td>\
+                                <td align='center'>" + formatNumber.new(value.Descuento.toFixed(2), "$ ") + "</td>\
+                                <td align='center' style='display:none'><input type='text' class='sub-total-detail' value='" + SubTotalDetail + "'/></td>\
+                                <td align='center'>" + formatNumber.new(SubTotalDetail.toFixed(2), "$ ") + "</td>\
+                            </tr>");
+
+                    });
+                    $('#total-detail').text(formatNumber.new(Total.toFixed(2), "$ "));
+
+                    let Estatus = data.Context.Valor;                    
+                    //alert('Estatus ' + Estatus);
+                    switch (Estatus) {
+                        case 0:                            
+                            $("#estatus-gerencia").addClass('meta-date');
+                            $("#estatus-almacen").addClass('meta-date');
+                            $("#estatus-credito").addClass('meta-date');
+                            $("#estatus-direccion").addClass('meta-date');
+                            $('.timeline-end').addClass('meta-date')
+                            break;
+                        case 1:
+                            $("#estatus-gerencia").addClass('meta-date-gestion');
+                            $("#estatus-almacen").addClass('meta-date');
+                            $("#estatus-credito").addClass('meta-date');
+                            $("#estatus-direccion").addClass('meta-date');
+                            $('.timeline-end').addClass('meta-date')
+                            break;
+                        case 2:
+                            $("#estatus-gerencia").addClass('meta-date-gestion');
+                            $("#estatus-almacen").addClass('meta-date-gestion');
+                            $("#estatus-credito").addClass('meta-date-gestion');
+                            $("#estatus-direccion").addClass('meta-date');
+                            $('.timeline-end').addClass('meta-date')
+                            break;
+                        case 3:
+                            $("#estatus-gerencia").addClass('meta-date-gestion');
+                            $("#estatus-almacen").addClass('meta-date-gestion');
+                            $("#estatus-credito").addClass('meta-date-gestion');
+                            $("#estatus-direccion").addClass('meta-date-gestion');
+                            $('.timeline-end').addClass('meta-date')
+                            break;
+                        case 4:
+                            $("#estatus-gerencia").addClass('meta-date-gestion');
+                            $("#estatus-almacen").addClass('meta-date-gestion');
+                            $("#estatus-credito").addClass('meta-date-gestion');
+                            $("#estatus-direccion").addClass('meta-date-gestion');
+                            $('.timeline-end').addClass('meta-date-gestion')
+                            break;
+                        case 5:
+                            $(".main-timeline-section").hide();
+                            $("#estatus-rechazado").text("NOTA DE CREDITO RECHAZADA");
+                            break;
+                    }
+
+                    if (ConceptoDescuento == 37) { // diferencia en precio 100%
+                        //$("#estatus-gerencia").addClass('meta-date-gestion');
+                        //$("#estatus-direccion").addClass('meta-date-gestion');
+
+                        $('#div-gestion-gerencia').show();
+                        $('#estatus-gerencia').show();
+
+                    }
+                    else if (ConceptoDescuento == 38) { // inventario
+                        $('#estatus-gerencia').show();
+                        $('#div-gestion-gerencia').show();
+
+                        $('#estatus-almacen').show();
+                        $('#div-gestion-almacen').show();
+                    }
+                    else if (ConceptoDescuento == 39) { // pronto pago
+                        $('#div-gestion-credito').show();
+                        $('#estatus-credito').show();
+
+                    }
+                    else if (canal == 'RETAIL' && data.Context.TipoDocumento != 'I' && ConceptoDescuento != 39 && ConceptoDescuento != 38 && ConceptoDescuento != 37) {
+                        $('#div-gestion-credito').show();
+                        $('#div-gestion-gerencia').show();
+                        $('#estatus-gerencia').show();
+                        $('#estatus-credito').show();
+
+                        $('#div-gestion-almacen').hide();
+                        $('#estatus-almacen').hide();
+                    }
+                    else {
+                        $('#div-gestion-gerencia').show();
+                        $('#estatus-gerencia').show();
+                    }
+
+                    $("#set-Sequence").text("FOLIO SIE: " + data.Context.Identifier);
+                    $("#set-Cliente").text("CLIENTE: " + data.Context.ClienteName);
+                    $("#set-FolioOrigen").text("FOLIO ORIGEN: " + data.Context.FolioOrigen);
+                    $("#set-FolioDestino").text("FOLIO DESTINO: " + data.Context.FolioDestino);
+                    $("#set-Comentario").text("COMENTARIO: " + data.Context.Comentario);
+                    $("#set-Usuario").text("USUARIO: " + data.Context.Usuario);
+                    $("#set-TipoDocumento").text("TIPO DOCUMENTO: " + TypeDoc);
+                    $("#set-Fecha").text("FECHA: " + FechaFormato);
+
+                }
+            }, error: function (data) {
+                swal('Mensaje de nota de crédito', "Error en la api: GetNotaCreditoItem: " + JSON.stringify(data), 'error');
+            }
+        });
+    }
+
+
+
+    function GetNotaCreditoAdmin() {
+        showLoad();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetNotaCreditoAdmin", "NotaCredito")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: null,
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null && $.isArray(data.Context)) {
+                    var VP = $('#factura-origen').DataTable();
+                    VP.destroy();
+                    $("#table-invoice-history").html('');
+                    count = data.Context.length;
+
+                    $.each(data.Context, function (index, value) {
+
+                        //alert("Valor " + value.Valor);
+
+                        let EstadoAprobacion = '';
+                        if (value.TipoDocumento == 'S') {
+                            if (value.Valor == 1 && value.Canal == 'RETAIL') {
+
+                                EstadoAprobacion = 'Aprobación pendiente por credito y cobranza';
+                            }
+                            else {
+                                EstadoAprobacion = 'Aprobación pendiente por dirección';
+                            }
+                            value.TipoDocumento = 'Servicio';
+
+                        }
+
+                        if (value.TipoDocumento == 'I') {
+                            value.TipoDocumento = 'Inventario';
+                            if (value.Valor == 1) {
+                                EstadoAprobacion = 'Aprobación pendiente por el almacén'
+                            }
+                        }
+                        if (value.Valor == 0) {
+                            if (value.ConceptoDescuento == 39) {
+
+                                EstadoAprobacion = 'Aprobación pendiente por credito y cobranza';
+                            }
+                            else {
+                                EstadoAprobacion = 'Aprobación pendiente por gerencia';
+                            }
+                        }
+
+                        if (value.Valor == 2) {
+                            EstadoAprobacion = 'Aprobación pendiente por la dirección'
+                        }
+                        if (value.Valor == 3) {
+                            EstadoAprobacion = 'Autorizada'
+                        }
+                        if (value.Valor == 4) {
+                            EstadoAprobacion = 'SAP'
+                        }
+                        if (value.Valor == 5) {
+                            EstadoAprobacion = 'Rechazada';
+                        }
+                        if (value.Valor == 10) {
+                            EstadoAprobacion = 'No especificado';
+                        }
+                        $("#table-invoice-history").append(
+                            "<tr>\
+                                <td>" + value.Identifier + "</td>\
+                                <td>" + value.ClienteName + "</td>\
+                                <td>" + value.FolioOrigen + "</td>\
+                                <td>" + value.FolioDestino + "</td>\
+                                <td>" + value.TipoDocumento + "</td>\
+                                <td>" + value.ConceptoDescuentoDetalle + "</td>\
+                                <td>" + value.Comentario + "</td>\
+                                <td>" + value.Usuario + "</td>\
+                                <td>" + EstadoAprobacion + "</td>\
+                                <td>" + moment(value.Fecha).format("YYYY-MM-DD HH:mm:ss") + "</td>\
+                                <td>" + value.FolioSap + "</td>\
+                                <td>" + value.FolioPagoSAP + "</td>\
+                                <td align='center'>\
+                                    <a class='btn btn-primary' data-target='#modal-nota-credito-detalle' data-toggle='modal' onclick='getHistoricoNotaCreditoDetail(" + value.Identifier + ")' href= '#'>\
+                                        <i class='fa fa-file-text'></i>\
+                                    </a>\
+                                </td>\
+                                <td align='center'>\
+                                    <a class='btn btn-info' data-target='#verComentarios' data-toggle='modal' onclick='verComentarios("+ value.Identifier + ")' data-id='" + value.Identifier + "' href= '#'>\
+                                        <i class='fa fa-comment'></i>\
+                                    </a>\
+                                </td>\
+                                <td align='center'>\
+                                    <a class='btn btn-info' data-target='#verImagenes' data-toggle='modal' onclick='verImagenesNC("+ value.Identifier + ")' data-id='" + value.Identifier + "' href= '#'>\
+                                        <i class='fa fa-eye'></i>\
+                                    </a>\
+                                </td>\
+                                </tr>");
+                    });
+
+                    $('#factura-origen').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        dom: 'Bfrtip',
+                        stateSave: true,
+                        buttons: [
+                            'excel'
+                        ],
+                        order: [[1, 'desc']],
+                        "paging": true,
+                        "searching": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+
+            },
+            error: function () {
+                swal("Error en la api: GetNotaCreditoAdmin");
+            }
+        });
+        hideLoad();
+    }
+
+    @*TRAE TODO EL EL HISTORICO DE NOTAS DE CREDITO SOLICITADAS POR USUARIO*@
+
+    function getHistoricoNotaCredito() {
+        showLoad();
+        let Email = localStorage.getItem('UserEmail');
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetNotaCreditoHistoryByUser", "Venta")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"Email":"' + Email + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+
+                    // "#table-invoice-history"
+                    var VP = $('#factura-origen').DataTable();
+                    VP.destroy();
+                    $("#table-invoice-history").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        let EstadoAprobacion = '';
+
+                        if (value.TipoDocumento == 'S') {
+                            if (value.Valor == 1 && value.Canal == 'RETAIL') {
+                                //alert("Retail");
+                                EstadoAprobacion = 'Aprobación pendiente por credito y cobranza';
+                            }
+                            else {
+                                EstadoAprobacion = 'Aprobación pendiente por dirección';
+                            }
+                            value.TipoDocumento = 'Servicio';
+                        }
+
+                        if (value.TipoDocumento == 'I') {
+                            value.TipoDocumento = 'Inventario';
+                            if (value.Estatus == 1) {
+                                EstadoAprobacion = 'Aprobación pendiente por el almacén'
+                            }
+                        }
+
+                        if (value.Estatus == 0) {
+                            if (value.ConceptoDescuento == 39) {
+                                //alert("Pronto pago");
+                                EstadoAprobacion = 'Aprobación pendiente por credito y cobranza';
+                            }
+                            else {
+                                EstadoAprobacion = 'Aprobación pendiente por gerencia';
+                            }
+                        }
+
+                        if (value.Estatus == 2) {
+                            EstadoAprobacion = 'Aprobación pendiente por la dirección'
+                        }
+                        if (value.Estatus == 3) {
+                            EstadoAprobacion = 'Autorizada'
+                        }
+                        if (value.Estatus == 4) {
+                            EstadoAprobacion = 'SAP'
+                        }
+                        if (value.Estatus == 5) {
+                            EstadoAprobacion = 'Rechazada';
+                        }
+                        if (value.Estatus == 10) {
+                            EstadoAprobacion = 'No especificado';
+                        }
+                        $("#table-invoice-history").append(
+                            "<tr>\
+                                <td>" + value.Sequence + "</td>\
+                                <td>" + value.CardCode + " - " + value.CardName + "</td>\
+                                <td>" + value.FolioOrigen + "</td>\
+                                <td>" + value.FolioDestino + "</td>\
+                                <td>" + value.TipoDocumento + "</td>\
+                                <td>" + value.Concepto + "</td>\
+                                <td>" + value.Comentario + "</td>\
+                                <td>" + value.Usuario + "</td>\
+                                <td>" + EstadoAprobacion + "</td>\
+                                <td>" + moment(value.Fecha).format("YYYY-MM-DD HH:mm:ss") + "</td>\
+                                <td>" + value.FolioSap + "</td>\
+                                <td>" + value.FolioPagoSap + "</td>\
+                                <td align='center'>\
+                                    <a class='btn btn-primary' data-target='#modal-nota-credito-detalle' data-toggle='modal' onclick='getHistoricoNotaCreditoDetail(" + value.Sequence + ")' href= '#'>\
+                                        <i class='fa fa-file-text'></i>\
+                                    </a>\
+                                </td>\
+                                <td align='center'>\
+                                    <a class='btn btn-info' data-target='#verComentarios' data-toggle='modal' onclick='verComentarios("+ value.Sequence + ")' data-id='" + value.Sequence + "' href= '#'>\
+                                        <i class='fa fa-comment'></i>\
+                                    </a>\
+                                </td>\
+                                <td align='center'>\
+                                    <a class='btn btn-info' data-target='#verImagenes' data-toggle='modal' onclick='verImagenesNC("+ value.Sequence + ")' data-id='" + value.Sequence + "' href= '#'>\
+                                        <i class='fa fa-eye'></i>\
+                                    </a>\
+                                </td>\
+                                </tr>");
+                    });
+
+                    $('#factura-origen').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        dom: 'Bfrtip',
+                        stateSave: true,
+                        buttons: [
+                            'excel'
+                        ],
+                        order: [[1, 'desc']],
+                        "paging": true,
+                        "searching": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+
+                }
+            },
+            error: function () {
+                swal("Error en la api: UsuarioFolio");
+            }
+        });
+        hideLoad();
+    }
+
+
+</script>
+
+

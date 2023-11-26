@@ -1,0 +1,572 @@
+﻿@{
+    ViewBag.Title = "Cumplimiento Metas";
+}
+<style>
+    .tr-head {
+        background-color:#dd4b39;
+        color:#ffffff;
+        text-align:center
+    }
+    .tr-head-sub {
+        background-color:#ffd8cc;
+    }
+   
+    .callout {
+        margin: 0 0 20px 0;
+        padding: 15px 15px 1px 15px;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        Indicadores
+        <small>Monitoreo de ventas</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Indicadores </a></li>
+        <li class="active">Monitoreo de ventas</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="callout callout-warning">
+                <div class="row">
+                    <div class="col-md-9">
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="DelAl">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div id="ShowDetails" class="btn btn-success btn-block">
+                                <span class="fa fa-exchange"></span> Obtener información
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-md-3">
+                            <div class="form-group">
+                                <div id="" class="btn btn-info btn-block">
+                                    <span class="fa fa-file-excel-o"></span> Descargar
+                                </div>
+                            </div>
+                      </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+    <table id="Clientes" class="table table-bordered" style="display:none">
+        <thead>
+            <tr>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Tienda</th>
+                <th>Meta</th>
+                <th>Venta</th>
+                <th>Venta Año Pasado</th>
+                <th>Cumplimiento Meta</th>
+            </tr>
+        </thead>
+        <tbody id="DetalleClientes"></tbody>
+    </table>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <i class="fa ion ion-bag"></i>
+                    <h3 class="box-title">Monitoreo de ventas</h3>
+                    <div class="box-tools pull-right">
+                        <button id="btn-report" type="button" class="btn btn-box-tool"><i class="fa fa-file-excel-o"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="width:60%" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" id="fecha-rango1" style="vertical-align: middle !important;border:none"></th>    
+                                            <th colspan="3" class="tr-head">Monitoreo de Ventas</th>                                                                                  
+                                        </tr>
+                                        <tr>
+                                            <th class="tr-head-sub">Meta</th>
+                                            <th class="tr-head-sub">Venta</th>
+                                            <th class="tr-head-sub">% Cum</th>                                       
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-shadow: 2px 2px 8px #FF0000;" class="pull-right">Venta vs Meta Acumulada</td> 
+                                            <td id="get-meta-val-2"></td>
+                                            <td id="get-venta-val-2"></td>
+                                            <td id="get-cumplimiento-meta-val-2"></td>
+                                                                                          
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="width:60%" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" style=";border:none"></th>
+                                            <th colspan="3" class="tr-head">Monitoreo de Forecast</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="tr-head-sub">Forecast</th>
+                                            <th class="tr-head-sub">Venta</th>
+                                            <th class="tr-head-sub">% Cum</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-shadow: 2px 2px 8px #FF0000;" class="pull-right">Venta vs Forecast acumulado</td>
+                                            <td id="get-meta-val-3"></td>
+                                            <td id="get-venta-val-3"></td>
+                                            <td id="get-cumplimiento-meta-val-3"></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td style="text-shadow: 2px 2px 8px #FF0000;" class="pull-right">Venta vs Forecast mensual</td>
+                                            <td id="get-meta-val-4"></td>
+                                            <td id="get-venta-val-4"></td>
+                                            <td id="get-cumplimiento-meta-val-4"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="width:60%" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="border:none"></th>
+                                            <th id="anio-inicial" class="tr-head"></th>
+                                            <th id="anio-final" class="tr-head"></th>
+                                            <th class="tr-head">% Cum</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-shadow: 2px 2px 8px #FF0000;" class="pull-right">Venta Mismo # Tiendas</td>
+                                            <td id="get-venta-anio-pasado-val-0"></td>
+                                            <td id="get-venta-val-0"></td>
+                                            <td id="get-cumplimiento-meta-val-0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-shadow: 2px 2px 8px #FF0000;" class="pull-right">Gran Total</td>
+                                            <td id="get-venta-anio-pasado-val-1"></td>
+                                            <td id="get-venta-val-1"></td>
+                                            <td id="get-cumplimiento-meta-val-1"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="ClientesRefresh" style="display:none;" class="overlay">
+                    <i class="fa  fa-circle-o-notch fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+<script>
+    $("#ShowDetails").click(function () {
+        resetValuesOfStorage();
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        localStorage.setItem('Del', Del);
+        localStorage.setItem('Al', Al);
+        console.log(Del + ' ' + Al);
+        $.confirm({
+            title: '¡Confirmar!',
+            content: '!Esto podria tomar unos segundos¡',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#ClientesRefresh').show();
+                        $.post('@Url.Action("GetCumplimientoVenta", "Cumplimiento")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            if (data != null && $.isArray(data.Context)) {
+                                var table = $('#Clientes').DataTable();
+                                table.destroy();
+                                $("#DetalleClientes").html('');
+
+                                $.each(data.Context, function (index, value) {
+                                    $("#DetalleClientes").append("<tr>\
+                                                                    <td class='del-val-" + index + " tr-click-" + index + "'>" + value.Del + "</td>\
+                                                                    <td class='al-val-" + index + "'>" + value.Al + "</td>\
+                                                                    <td class='tienda-val-" + index + "' >" + value.Tienda + "</td>\
+                                                                    <td class='meta-val-" + index + "'>" + value.Meta + "</td>\
+                                                                    <td class='venta-val-" + index + "'>" + value.Venta + "</td>\
+                                                                    <td class='venta-distribuidor-val-" + index + "'>" + value.VentaDistribuidor + "</td>\
+                                                                    <td class='venta-anio-pasado-val-" + index + "'>" + value.VentaAnioPasado + "</td>\
+                                                                    <td class='cumplimiento-meta-val-" + index + "'>" + value.CumplimientoMeta + "</td>\
+                                                                    <td class='venta-anio-pasado-distribuidor-val-" + index + "'>" + value.VentaAnioPasadoDistribuidor + "</td>\
+                                                                    <td class='porcentje-meta-val-" + index + "'>" + value.PorcentajeMeta + "</td>\
+                                   </tr>");
+                                });
+
+                                $('#ClientesRefresh').hide();
+
+                                $(document).on("click", ".tr-click-2", function () {
+                                    var venta_distribuidor_val_2 = $(this).closest("tr");
+                                    var get_venta_distribuidor_val_2 = venta_distribuidor_val_2.find(".venta-distribuidor-val-2").text();
+                                    localStorage.setItem('get_venta_distribuidor_val_2', get_venta_distribuidor_val_2);
+                                    var meta_val_2 = $(this).closest("tr");
+                                    var get_meta_val_2 = meta_val_2.find(".meta-val-2").text();
+                                    localStorage.setItem('get_meta_val_2', get_meta_val_2);
+                                    var venta_val_2 = $(this).closest("tr");
+                                    var get_venta_val_2 = venta_val_2.find(".venta-val-2").text();
+                                    localStorage.setItem('get_venta_val_2', get_venta_val_2);
+                                    var cumplimiento_meta_val_2 = $(this).closest("tr");
+                                    var get_cumplimiento_meta_val_2 = cumplimiento_meta_val_2.find(".cumplimiento-meta-val-2").text();
+                                    localStorage.setItem('get_cumplimiento_meta_val_2', get_cumplimiento_meta_val_2);
+                                });
+                                document.getElementsByClassName("tr-click-2")[0].click();
+
+                                $(document).on("click", ".tr-click-3", function () {
+                                    var venta_distribuidor_val_3 = $(this).closest("tr");
+                                    var get_venta_distribuidor_val_3 = venta_distribuidor_val_3.find(".venta-distribuidor-val-3").text();
+                                    localStorage.setItem('get_venta_distribuidor_val_3', get_venta_distribuidor_val_3);
+                                    var meta_val_3 = $(this).closest("tr");
+                                    var get_meta_val_3 = meta_val_3.find(".meta-val-3").text();
+                                    localStorage.setItem('get_meta_val_3', get_meta_val_3);
+                                    var venta_val_3 = $(this).closest("tr");
+                                    var get_venta_val_3 = venta_val_3.find(".venta-val-3").text();
+                                    localStorage.setItem('get_venta_val_3', get_venta_val_3);
+                                    var cumplimiento_meta_val_3 = $(this).closest("tr");
+                                    var get_cumplimiento_meta_val_3 = cumplimiento_meta_val_3.find(".cumplimiento-meta-val-3").text();
+                                    localStorage.setItem('get_cumplimiento_meta_val_3', get_cumplimiento_meta_val_3);
+                                });
+                                document.getElementsByClassName("tr-click-3")[0].click();
+
+                                $(document).on("click", ".tr-click-4", function () {
+                                    var venta_distribuidor_val_4 = $(this).closest("tr");
+                                    var get_venta_distribuidor_val_4 = venta_distribuidor_val_4.find(".venta-distribuidor-val-4").text();
+                                    localStorage.setItem('get_venta_distribuidor_val_4', get_venta_distribuidor_val_4);
+                                    var meta_val_4 = $(this).closest("tr");
+                                    var get_meta_val_4 = meta_val_4.find(".meta-val-4").text();
+                                    localStorage.setItem('get_meta_val_4', get_meta_val_4);
+                                    var venta_val_4 = $(this).closest("tr");
+                                    var get_venta_val_4 = venta_val_4.find(".venta-val-4").text();
+                                    localStorage.setItem('get_venta_val_4', get_venta_val_4);
+                                    var cumplimiento_meta_val_4 = $(this).closest("tr");
+                                    var get_cumplimiento_meta_val_4 = cumplimiento_meta_val_4.find(".cumplimiento-meta-val-4").text();
+                                    localStorage.setItem('get_cumplimiento_meta_val_4', get_cumplimiento_meta_val_4);
+                                });
+                                document.getElementsByClassName("tr-click-4")[0].click();
+
+                                $(document).on("click", ".tr-click-0", function () {
+                                    var venta_anio_pasado_distribuidor_val_0 = $(this).closest("tr");
+                                    var get_venta_anio_pasado_distribuidor_val_0 = venta_anio_pasado_distribuidor_val_0.find(".venta-anio-pasado-distribuidor-val-0").text();
+                                    localStorage.setItem('get_venta_anio_pasado_distribuidor_val_0', get_venta_anio_pasado_distribuidor_val_0);
+                                    var meta_val_0 = $(this).closest("tr");
+                                    var get_meta_val_0 = meta_val_0.find(".meta-val-0").text();
+                                    localStorage.setItem('get_meta_val_0', get_meta_val_0);
+                                    var venta_anio_pasado_val_0 = $(this).closest("tr");
+                                    var get_venta_anio_pasado_val_0 = venta_anio_pasado_val_0.find(".venta-anio-pasado-val-0").text();
+                                    localStorage.setItem('get_venta_anio_pasado_val_0', get_venta_anio_pasado_val_0);
+                                    var venta_val_0 = $(this).closest("tr");
+                                    var get_venta_val_0 = venta_val_0.find(".venta-val-0").text();
+                                    localStorage.setItem('get_venta_val_0', get_venta_val_0);
+                                    var venta_distribuidor_val_0 = $(this).closest("tr");
+                                    var get_venta_distribuidor_val_0 = venta_distribuidor_val_0.find(".venta-distribuidor-val-0").text();
+                                    localStorage.setItem('get_venta_distribuidor_val_0', get_venta_distribuidor_val_0);
+                                    var cumplimiento_meta_val_0 = $(this).closest("tr");
+                                    var get_cumplimiento_meta_val_0 = cumplimiento_meta_val_0.find(".cumplimiento-meta-val-0").text();
+                                    localStorage.setItem('get_cumplimiento_meta_val_0', get_cumplimiento_meta_val_0);
+                                });
+                                document.getElementsByClassName("tr-click-0")[0].click();
+
+                                $(document).on("click", ".tr-click-1", function () {
+                                    var meta_val_1 = $(this).closest("tr");
+                                    var get_meta_val_1 = meta_val_1.find(".meta-val-1").text();
+                                    localStorage.setItem('get_meta_val_1', get_meta_val_1);
+                                    var venta_anio_pasado_distribuidor_val_1 = $(this).closest("tr");
+                                    var get_venta_anio_pasado_distribuidor_val_1 = venta_anio_pasado_distribuidor_val_1.find(".venta-anio-pasado-distribuidor-val-1").text();
+                                    localStorage.setItem('get_venta_anio_pasado_distribuidor_val_1', get_venta_anio_pasado_distribuidor_val_1);
+                                    var venta_anio_pasado_val_1 = $(this).closest("tr");
+                                    var get_venta_anio_pasado_val_1 = venta_anio_pasado_val_1.find(".venta-anio-pasado-val-1").text();
+                                    localStorage.setItem('get_venta_anio_pasado_val_1', get_venta_anio_pasado_val_1);
+                                    var venta_val_1 = $(this).closest("tr");
+                                    var get_venta_val_1 = venta_val_1.find(".venta-val-1").text();
+                                    localStorage.setItem('get_venta_val_1', get_venta_val_1);
+                                    var venta_distribuidor_val_1 = $(this).closest("tr");
+                                    var get_venta_distribuidor_val_1 = venta_distribuidor_val_1.find(".venta-distribuidor-val-1").text();
+                                    localStorage.setItem('get_venta_distribuidor_val_1', get_venta_distribuidor_val_1);
+                                    var cumplimiento_meta_val_1 = $(this).closest("tr");
+                                    var get_cumplimiento_meta_val_1 = cumplimiento_meta_val_1.find(".cumplimiento-meta-val-1").text();
+                                    localStorage.setItem('get_cumplimiento_meta_val_1', get_cumplimiento_meta_val_1);
+                                });
+                                document.getElementsByClassName("tr-click-1")[0].click();
+                                reLoadPage();
+                            } else {
+                                $.alert("No se encontraron registros");
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+
+    $('#DelAl').daterangepicker({
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                 "Enero",
+                 "Febrero",
+                 "Marzo",
+                 "Abril",
+                 "Mayo",
+                 "Junio",
+                 "Julio",
+                 "Agosto",
+                 "Septiembre",
+                 "Octubre",
+                 "Noviembre",
+                 "Deciembre"
+            ]
+        }
+    });
+</script>
+
+<script>
+
+    var storage_del = localStorage.getItem('Del');
+    var storage_al = localStorage.getItem('Al');
+
+    function addValuesToReport2() {
+        var storage_get_venta_distribuidor_val_2 = localStorage.getItem('get_venta_distribuidor_val_2');
+        var storage_get_meta_val_2 = localStorage.getItem('get_meta_val_2');
+        var storage_get_venta_val_2 = localStorage.getItem('get_venta_val_2');
+        var storage_get_cumplimiento_meta_val_2 = localStorage.getItem('get_cumplimiento_meta_val_2');
+        var suma1 = parseFloat(storage_get_venta_val_2) + parseFloat(storage_get_venta_distribuidor_val_2);
+        var sumaVentas2 = (parseFloat(storage_get_venta_val_2) + parseFloat(storage_get_venta_distribuidor_val_2));
+        var divVentas2 = sumaVentas2 / storage_get_meta_val_2;
+        var porcentajeMeta2 = divVentas2 * 100;
+        $('#fecha-rango1').html("Del   " + storage_del + "  ......  Al   " + storage_al);
+        $('#get-meta-val-2').html("$ " + formatNumber.new(parseFloat(storage_get_meta_val_2).toFixed(2)));
+        $('#get-venta-val-2').html("$ " + formatNumber.new(suma1.toFixed(2)));
+        $('#get-cumplimiento-meta-val-2').html("% " + formatNumber.new(porcentajeMeta2.toFixed(2)));
+
+        $('#uno1').html("$ " + formatNumber.new(parseFloat(storage_get_meta_val_2).toFixed(2)));
+    }
+    addValuesToReport2();
+
+    function addValuesToReport3() {
+        var storage_get_venta_distribuidor_val_3 = localStorage.getItem('get_venta_distribuidor_val_3');
+        var storage_get_meta_val_3 = localStorage.getItem('get_meta_val_3');
+        var storage_get_venta_val_3 = localStorage.getItem('get_venta_val_3');
+        var storage_get_cumplimiento_meta_val_3 = localStorage.getItem('get_cumplimiento_meta_val_3');
+        var suma2 = parseFloat(storage_get_venta_val_3) + parseFloat(storage_get_venta_distribuidor_val_3);
+        var sumaVentas3 = (parseFloat(storage_get_venta_val_3) + parseFloat(storage_get_venta_distribuidor_val_3));
+        var divVentas3 = sumaVentas3 / storage_get_meta_val_3;
+        var porcentajeMeta3 = divVentas3 * 100;
+        $('#get-meta-val-3').html("$ " + formatNumber.new(parseFloat(storage_get_meta_val_3).toFixed(2)));
+        $('#get-venta-val-3').html("$ " + formatNumber.new(suma2.toFixed(2)));
+        $('#get-cumplimiento-meta-val-3').html("% " + formatNumber.new(porcentajeMeta3.toFixed(2)));
+    }
+    addValuesToReport3();
+
+    function addValuesToReport4() {
+        var storage_get_venta_distribuidor_val_4 = localStorage.getItem('get_venta_distribuidor_val_4');
+        var storage_get_meta_val_4 = localStorage.getItem('get_meta_val_4');
+        var storage_get_venta_val_4 = localStorage.getItem('get_venta_val_4');
+        var storage_get_cumplimiento_meta_val_4 = localStorage.getItem('get_cumplimiento_meta_val_4');
+        var suma3 = parseFloat(storage_get_venta_val_4) + parseFloat(storage_get_venta_distribuidor_val_4);
+        var sumaVentas4 = (parseFloat(storage_get_venta_val_4) + parseFloat(storage_get_venta_distribuidor_val_4));
+        var divVentas4 = sumaVentas4 / storage_get_meta_val_4;
+        var porcentajeMeta4 = divVentas4 * 100;
+        $('#get-meta-val-4').html("$ " + formatNumber.new(parseFloat(storage_get_meta_val_4).toFixed(2)));
+        $('#get-venta-val-4').html("$ " + formatNumber.new(suma3.toFixed(2)));
+        $('#get-cumplimiento-meta-val-4').html("% " + formatNumber.new(porcentajeMeta4.toFixed(2)));
+    }
+    addValuesToReport4();
+
+    function addValuesToReport0() {
+        var storage_get_cumplimiento_meta_val_0 = localStorage.getItem('get_cumplimiento_meta_val_0');
+        var storage_get_venta_anio_pasado_distribuidor_val_0 = localStorage.getItem('get_venta_anio_pasado_distribuidor_val_0');
+        var storage_get_venta_anio_pasado_val_0 = localStorage.getItem('get_venta_anio_pasado_val_0');
+        var storage_get_venta_val_0 = localStorage.getItem('get_venta_val_0');
+        var storage_get_venta_distribuidor_val_0 = localStorage.getItem('get_venta_distribuidor_val_0');
+        var storage_get_meta_val_0 = localStorage.getItem('get_meta_val_0');
+        var suma4 = parseFloat(storage_get_venta_anio_pasado_val_0) + parseFloat(storage_get_venta_anio_pasado_distribuidor_val_0);
+        var suma5 = parseFloat(storage_get_venta_val_0) + parseFloat(storage_get_venta_distribuidor_val_0);
+        var s1_0 = parseFloat(storage_get_venta_anio_pasado_val_0) + parseFloat(storage_get_venta_anio_pasado_distribuidor_val_0);
+        var s2_0 = parseFloat(storage_get_venta_val_0) + parseFloat(storage_get_venta_distribuidor_val_0);
+        s3_0 = s2_0 / s1_0;
+        s4_0 = s3_0 - 1;
+        var s5_0 = s4_0 * 100;
+        var sumaVentas0 = (parseFloat(storage_get_venta_val_0) + parseFloat(storage_get_meta_val_0));
+        var divVentas0 = sumaVentas0 / storage_get_meta_val_0;       
+        var porcentajeMeta0 = divVentas0 * 100;
+        $('#get-venta-anio-pasado-val-0').html("$ " + formatNumber.new(suma4.toFixed(2)));
+        $('#get-venta-val-0').html("$ " + formatNumber.new(suma5.toFixed(2)));
+        $('#get-cumplimiento-meta-val-0').html("% " + formatNumber.new(s5_0.toFixed(2)));
+    }
+    addValuesToReport0();
+
+    function addValuesToReport1() {
+        var storage_get_venta_anio_pasado_distribuidor_val_1 = localStorage.getItem('get_venta_anio_pasado_distribuidor_val_1');
+        var storage_get_venta_anio_pasado_val_1 = localStorage.getItem('get_venta_anio_pasado_val_1');
+        var storage_get_venta_distribuidor_val_1 = localStorage.getItem('get_venta_distribuidor_val_1');
+        var storage_get_venta_val_1 = localStorage.getItem('get_venta_val_1');
+        var storage_get_cumplimiento_meta_val_1 = localStorage.getItem('get_cumplimiento_meta_val_1');
+        var storage_get_meta_val_1 = localStorage.getItem('get_meta_val_1');
+        var suma6 = parseFloat(storage_get_venta_anio_pasado_distribuidor_val_1) + parseFloat(storage_get_venta_anio_pasado_val_1);
+        var suma7 = parseFloat(storage_get_venta_distribuidor_val_1) + parseFloat(storage_get_venta_val_1);
+        var s1_1 = parseFloat(storage_get_venta_anio_pasado_val_1) + parseFloat(storage_get_venta_anio_pasado_distribuidor_val_1);
+        var s2_1 = parseFloat(storage_get_venta_val_1) + parseFloat(storage_get_venta_distribuidor_val_1);
+        s3_1 = s2_1 / s1_1;
+        s4_1 = s3_1 - 1;
+        var s5_1 = s4_1 * 100;
+        var sumaVentas1 = (parseFloat(storage_get_venta_val_1) + parseFloat(storage_get_meta_val_1));
+        var divVentas1 = sumaVentas1 / storage_get_meta_val_1;
+        var porcentajeMeta1 = divVentas1 * 100;
+        $('#anio-inicial').html("Año pasado");
+        $('#anio-final').html("Año actual");
+        $('#get-venta-anio-pasado-val-1').html("$ " + formatNumber.new(suma6.toFixed(2)));
+        $('#get-venta-val-1').html("$ " + formatNumber.new(suma7.toFixed(2)));
+        $('#get-cumplimiento-meta-val-1').html("% " + formatNumber.new(s5_1.toFixed(2)));
+    }
+    addValuesToReport1();
+
+    function resetValuesOfStorage() {
+        localStorage.removeItem("get_venta_distribuidor_val_2");
+        localStorage.removeItem("get_meta_val_2");
+        localStorage.removeItem("get_venta_val_2");
+        localStorage.removeItem("get_cumplimiento_meta_val_2");
+        localStorage.removeItem("get_venta_distribuidor_val_3");
+        localStorage.removeItem("get_meta_val_3");
+        localStorage.removeItem("get_venta_val_3");
+        localStorage.removeItem("get_cumplimiento_meta_val_3");
+        localStorage.removeItem("get_venta_distribuidor_val_4");
+        localStorage.removeItem("get_meta_val_4");
+        localStorage.removeItem("get_venta_val_4");
+        localStorage.removeItem("get_cumplimiento_meta_val_4");
+        localStorage.removeItem("get_venta_anio_pasado_distribuidor_val_0");
+        localStorage.removeItem("get_venta_anio_pasado_val_0");
+        localStorage.removeItem("get_venta_distribuidor_val_0");
+        localStorage.removeItem("get_venta_val_0");
+        localStorage.removeItem("get_cumplimiento_meta_val_0");
+        localStorage.removeItem("get_venta_anio_pasado_distribuidor_val_1");
+        localStorage.removeItem("get_venta_anio_pasado_val_1");
+        localStorage.removeItem("get_venta_distribuidor_val_1");
+        localStorage.removeItem("get_venta_val_1");
+        localStorage.removeItem("get_cumplimiento_meta_val_1");
+        localStorage.removeItem("Del");
+        localStorage.removeItem("Al");
+        localStorage.removeItem("get_meta_val_0");
+    }
+
+    function reLoadPage() {
+        window.location.reload();
+    }
+
+    $("#btn-report").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        localStorage.setItem('Del', Del);
+        localStorage.setItem('Al', Al);
+        console.log(Del + ' ' + Al);
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: '!Esto podria tomar unos segundos¡',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#ClientesRefresh').show();
+
+                        $.post('@Url.Action("MonitoreoVentasExcel", "Cumplimiento")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            console.log(data)
+                            window.location.href = '@Url.Action("Download", "Precios")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+
+                            $('#ClientesRefresh').hide();
+                        });
+                    }
+
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            },
+        });
+    });
+
+</script>

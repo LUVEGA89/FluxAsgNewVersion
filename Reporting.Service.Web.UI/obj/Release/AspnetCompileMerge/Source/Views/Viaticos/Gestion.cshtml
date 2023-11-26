@@ -1,0 +1,671 @@
+﻿@{
+    ViewBag.Title = "Gestión de viaticos";
+}
+<style>
+    /*.modal-lg {
+        width: 95% !important;
+        height: 100% !important;
+    }*/
+</style>
+
+<section class="content-header">
+    <h1>
+        Aprobacion de viaticos
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Viaticos</a></li>
+        <li class="active">Gestión</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-file-text"></i>
+                    <h3 class="box-title">Viaticos para aprobación</h3>
+                    <div id="loading" style="display:block;" class="overlay">
+                        <i class="fa fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div id="loading" style="display:none;" class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered" style="width:100%" id="tabla-viaticos">
+                            <thead>
+                                <tr>
+                                    <th class="th-stationery">Folio</th>
+                                    <th class="th-stationery">Usuario</th>
+                                    <th class="th-stationery">Folio SAP</th>
+                                    <th class="th-stationery">Cheque</th>
+                                    <th class="th-stationery">Registrado El</th>
+                                    <th class="th-stationery">Fecha requisición</th>
+                                    <th class="th-stationery">Sucursal</th>
+                                    <th class="th-stationery">Monto</th>
+                                    <th class="th-stationery">Estado</th>
+                                    <th class="th-stationery">Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-viatico-history"></tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="box-footer">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal-gestion" class="modal fade" role="dialog">
+
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    
+                    <h4 class="modal-title">
+                        <i class="fa fa-file-text"></i>&nbsp;&nbsp;&nbsp;Gestión de Viatico (Finanzas)
+                        <small class="pull-right" id="set-Fecha-gestion-credito"></small>
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="col-md-6 col-sm-6 invoice-col">
+                        <address>
+                            <span>Folio de solicitud: #<span id="viatico-Identifier"></span></span><br>
+                            <span>Folio SAP: <span id="viatico-keySap"></span></span><br>
+                            <span id="viatico-userid" class="hidden"></span>
+                            <span>Solicitado por: <span id="viatico-user"></span></span><br>
+                        </address>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 invoice-col">
+                        <address>
+                            <span>Sucursal: <span id="viatico-sucursal"></span></span><br />
+                            <span>Cheque: <span id="viatico-cheque"></span></span>
+                        </address>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="th-stationery">Concepto</th>
+                                        <th class="th-stationery">Solicitado</th>
+                                        <th class="th-stationery">Comproabado</th>
+                                        <th class="th-stationery">Diferiencia</th>
+                                        <th class="th-stationery">Detalle</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-viaticos"></tbody>
+                                <tfoot>
+                                    <tr style="text-align:right">
+                                        <td colspan="4">
+                                            <b>Total:</b>
+                                        </td>
+                                        <td><span id="subtotal-detail-gestion"></span></td>
+                                    </tr>
+
+                                </tfoot>
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div id="div-comentario">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="text-viatico-comentario" placeholder="Agregar comentario"></textarea>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="btn-gestion-viatico-rechazar" type="button" class="btn btn-danger pull-left" data-dismiss="modal" onclick="rechazarViaticoFinanzas()">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fa fa-thumbs-down"></i>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+                    <button id="btn-gestion-viatico-aprobar" type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="aprobarViaticoFinanzas()">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fa fa-thumbs-up"></i>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-facturas" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalle de conceptos</h4>
+                    <span class="modal-title"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="box-body">
+                    <div class="col-md-12">
+
+                        <div class="col-md-6 col-sm-6 invoice-col">
+                            <address>
+                                <span>Folio de Solicitud: #<span id="factura-Identifier"></span></span><br>
+                                <span>Concepto: <span id="factura-concepto-detalle"></span></span><br>
+                                <span>Folio SAP: <span id="factura-foliosap"></span></span><br>
+                                <span id="factura-conceptoid" class="hidden"></span>
+                                <span>Solicitado por: <span id="factura-username"></span></span><br>
+                            </address>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 invoice-col">
+                            <address>
+                                <span>Sucursal: <span id="factura-sucursal"></span></span><br />
+                                <span>Cheque: <span id="factura-cheque"></span></span><br>
+                                <span>Monto solicitado: <span id="factura-monto-solicitado"></span></span><br>
+                                <span class="hidden" id="factura-monto-solicitado-hidden"></span>                                
+                            </address>
+                        </div>
+                    </div>
+                </div>               
+
+                <div class="modal-body">
+                    <span id="load-modal" class="modal-title"></span>
+                    <div class="col-md-12">
+                        <table class="table table-responsive col-md-12 col-xs-12 col-sm-12">
+                            <thead>
+                                <tr>
+                                    <td class="th-stationery">Folio</td>
+                                    <td class="th-stationery">Uso CFDI</td>
+                                    <td class="th-stationery">Concepto SAT</td>
+                                    <td class="th-stationery">Fecha Emisión</td>
+                                    <td class="th-stationery">Forma de pago</td>
+                                    <td class="th-stationery">Monto</td>
+                                    <td class="th-stationery">UUID</td>                                    
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-facturas"></tbody>
+                            <tfoot>
+                                <tr>
+
+                                    <td colspan="8">
+                                        <span class="pull-right">Monto Solicitado: <span id="factura-fotter-monto-solicitado"></span></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="8">
+                                        <span class="pull-right">Monto Comprobado: <span id="factura-fotter-monto-comprobado"></span></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="8">
+                                        <span class="pull-right">Diferencia: <span id="factura-fotter-monto-diferiencia"></span></span>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+
+    initModule();
+    function initModule() {
+        LoadViaticosAprobacion();
+    }
+
+    $(document).ready(function () {
+        $('.overlay').hide();
+    });
+
+    function rechazarViaticoFinanzas() {
+
+        let Comentario = $('#text-viatico-comentario').val();
+        let Sequence = $('#viatico-Identifier').text();
+        if (Sequence == '') {
+            swal('Alerta', 'Se debe de especificar un folio de solicitud de viatico. ', 'warning');
+            return false;
+        }
+
+        let Usuario = $('#viatico-user').text();
+        if (Usuario == '') {
+            console.log('Debe de especificar un usuario que realizo la solicitud del viatico');
+            return false;
+        }
+
+        $.post('@Url.Action("ViaticoRechazarFinanzas", "Viaticos")', {
+            Sequence: Sequence,
+            Comentarios: Comentario,
+            Usuario: {
+                Email: Usuario
+            }
+        }, function (data) {
+            if (data.Context != null) {
+                if (data.Context) {
+                    swal('Gestion viatico Finanzas', 'Se ha rechazado la solicitud de viatico', 'success')
+                }
+                else {
+                    swal('Gestion viatico Finanzas', 'Ocurrio un error al rechazar la solicitud de viatico.', 'warning')
+                }
+                LoadViaticosAprobacion();
+            }
+            else {
+                if (data.Message != 'Success') {
+                    alert('Ocurrio un error inesperado, mensaje:' + data.Message);
+                }
+            }
+        });
+    }
+
+    function aprobarViaticoFinanzas() {
+
+        let Comentario = $('#text-viatico-comentario').val();
+        let Sequence = $('#viatico-Identifier').text();
+        if (Sequence == '') {
+            swal('Alerta', 'Se debe de especificar un folio de solicitud de viatico. ', 'warning');
+            return false;
+        }
+
+        let Usuario = $('#viatico-user').text();
+        if (Usuario == '') {
+            console.log('Debe de especificar un usuario que realizo la solicitud del viatico');
+            return false;
+        }
+
+        $.post('@Url.Action("ViaticoAprobarFinanzas", "Viaticos")', {
+            Sequence: Sequence,
+            Comentarios : Comentario,
+            Usuario: {
+                Email : Usuario
+            }
+        }, function (data) {
+            if (data.Context != null) {
+                if (data.Context) {
+                    swal('Gestion viatico Finanzas','Se ha aprobado correctamente la solicitud de viatico','success')
+                }
+                else {
+                    swal('Gestion viatico Finanzas', 'Ocurrio un error al realizar la aprobación de viatico.', 'warning')
+                }
+                LoadViaticosAprobacion();
+            }
+            else {
+                if (data.Message != 'Success') {
+                    alert('Ocurrio un error inesperado, mensaje:' + data.Message);
+                }
+            }
+        });
+    }
+
+    function LoadViaticos(Identifier, FolioSAP, Cheque, Sucursal, UserId, UserName) {
+        $('#viatico-Identifier').text(Identifier);
+        $('#viatico-keySap').text(FolioSAP);
+        $('#viatico-cheque').text(Cheque);
+        $('#viatico-sucursal').text(Sucursal);
+        $('#viatico-userid').text(UserId);
+        $('#viatico-user').text(UserName);
+
+        $.post('@Url.Action("GetSolicitud", "Viaticos")', {
+            Folio: Identifier
+        }, function (data) {
+            if (data.Context != null) {
+
+                $('#tbody-viaticos').html('');
+                let Subtotal = 0;
+                $.each(data.Context, function (index, value) {
+
+                    var color = 'color: red;';
+                    if (value.Estado == 1) {
+                        color = 'color: green;';
+                    }
+
+                    let Diferiencia = 0;
+                    let StyleDiferiencia = '';
+                    Diferiencia = value.Monto - value.MontoSubido;
+
+                    if (Diferiencia > 0) {
+                        StyleDiferiencia = 'color: red;';
+                    }
+                    else {
+                        StyleDiferiencia = 'color: green;';
+                    }
+                    Subtotal = Subtotal + value.MontoSubido;
+
+                    let disabledMontoSubido = '';
+                    if (value.MontoSubido == 0) {
+                        disabledMontoSubido = 'disabled';
+                    }
+                    
+                    //<td><input id="monto-capturado-' + index + '" type="text" name="monto-capturado-' + index + '" onkeypress="return filterFloat(event,this);" placeholder="0.00" ></td>\
+                    let ConceptoDetalle = '' + value.SequenceItem + ' - ' + value.Producto + ' - (' + value.CentroCosto + ') : ' + formatNumber.new(value.Monto.toFixed(2), "$ ") + '';
+                    $("#tbody-viaticos").append('<tr>\
+                        <td><span id="labelItem-' + value.SequenceItem + '" class="text" style="' + color + '" >' + value.SequenceItem + ' - ' + value.Producto + ' - (' + value.CentroCosto + ') : ' + formatNumber.new(value.Monto.toFixed(2), "$ ") + '</span></td>\
+                        <td><input ' + disabledMontoSubido + ' type="text" onkeyup="validaDiferiencia(' + index + ')" id="name-' + index + '" value="' + value.Monto.toFixed(2) + '" name="name-' + index + '" size="10"><button type="button" ' + disabledMontoSubido + ' class="btn btn-success" onclick="FunctionUpdateMonto(' + value.SequenceItem + ',' + index + ')"><i class="fa fa-floppy-o"></i></button></td>\
+                        <td><span id="row-montosubido-'+index+'">' + formatNumber.new(value.MontoSubido.toFixed(2), "$ ") + '</spam></td>\
+                        <td><span id="diferiencia-'+index+'" style="' + StyleDiferiencia + '">' + formatNumber.new(Diferiencia.toFixed(2), "$ ") + '</span></td>\
+                        <td>\
+                            <button onclick="LoadFacturas(' + value.SequenceItem + ',' + value.Sequence + ',' + value.FolioSAP + ',' + value.Cheque + ',\'' + value.Sucursal + '\',\'' + value.Usuario.UserId + '\',\'' + value.Usuario.Email + '\',\'' + ConceptoDetalle + '\',' + value.Monto + ',' + index + ')" data-toggle="modal" data-target="#modal-facturas" class="btn btn-default"><i class="fa fa-eye"></i></button>\
+                        </td>\
+                    </tr>');
+                });
+                console.log(Subtotal);
+                $('#subtotal-detail-gestion').text(formatNumber.new(Subtotal.toFixed(2), "$ "));
+            }
+            else {
+                if (data.Message != 'Success') {
+                    alert('Ocurrio un error inesperado, mensaje:' + data.Message);
+                }
+            }
+        });
+    }
+    function validaDiferiencia(index) {        
+        let MontoSolicitado = $('#name-' + index + '').val();
+        let MontoSubido = $('#row-montosubido-' + index + '').text().replace('$', '').trim();
+
+        let MontoNuevo = MontoSolicitado - MontoSubido;
+        //formatNumber.new(MontoNuevo.toFixed(2), "$ ")
+        if (MontoSolicitado <= MontoSubido) {
+            swal('Monto Solicitado', 'El monto solicitado no debe de ser menor al monto subido', 'warning');
+            $('#name-' + index + '').val(MontoSubido);
+            $('#diferiencia-' + index + '').text('$ 0.00');
+            $('#diferiencia-' + index + '').css("color", "green");
+            return false;
+        }
+
+        if (MontoNuevo > 0) {
+            $('#diferiencia-' + index + '').css("color", "red");
+        }
+        else {
+            $('#diferiencia-' + index + '').css("color", "green");
+        }
+        $('#diferiencia-' + index + '').text(formatNumber.new(MontoNuevo.toFixed(2), "$ "));
+    }
+
+    function FunctionUpdateMonto(FolioConcepto, index) {
+        //alert('Folio: ' + FolioConcepto);
+        //alert('Value: ' + index);
+        //console.log($('#name-' + index + '').val());
+        let MontoUpdate = $('#name-' + index + '').val().replace(',','');
+
+        swal({
+            title: "Monto solicitado",
+            text: "Deseas actualizar el monto solicitado del concepto actual",
+            icon: "warning",
+            buttons: [
+              'No, cancelar',
+              'Si, estoy seguro'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                swal({
+                    title: 'Operación confirmada',
+                    text: 'Enviando datos',
+                    icon: 'success'
+                }).then(function () {
+
+                    $.post('@Url.Action("ViaticoUpdateConceptoMonto", "Viaticos")',{
+                        Concepto: FolioConcepto,
+                        MontoNuevo: MontoUpdate,
+                    }, function (data) {
+                        if (data.Context != null) {
+                            if (data.Context) {
+                                swal('Monto de concepto', 'Se ha actualizado el monto del concepto actual', 'success')
+                            }
+                            else {
+                                swal('Monto de concepto', 'Ocurrio un error al actualizar el monto del concepto actual.', 'warning')
+                            }                           
+                        }
+                        else {
+                            if (data.Message != 'Success') {
+                                alert('Ocurrio un error inesperado, mensaje:' + data.Message);
+                            }
+                        }
+                    });
+
+                });
+            } else {                
+                swal("Cancelado", "Operación cancelada", "error");
+            }
+        });
+
+    }
+
+
+    function LoadViaticosAprobacion() {
+        $('.overlay').show();
+        $.post('@Url.Action("GetViaticosAprobacionFinanzas", "Viaticos")',
+            function (data) {
+                if (data.Context != null) {
+                    var table = $('#tabla-viaticos').DataTable();
+                    table.destroy();
+                    $("#tbody-viatico-history").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        $("#tbody-viatico-history").append("<tr>\
+                            <td>"+ value.Sequence + "</td>\
+                            <td>" + value.Usuario.Email + "</td>\
+                            <td>"+ value.FolioSAP + "</td>\
+                            <td>"+ value.Cheque + "</td>\
+                            <td>"+ moment(value.RegistradoEl).format('DD/MM/YYYY') + "</td>\
+                            <td>"+ moment(value.FechaRequisicion).format('DD/MM/YYYY') + "</td>\
+                            <td>"+ value.Sucursal + "</td>\
+                            <td>"+ formatNumber.new(value.Total, "$ ") + "</td>\
+                            <td>"+ value.Estado + "</td>\
+                            <td>\
+                                <button onclick='LoadViaticos(" + value.Sequence + "," + value.FolioSAP + "," + value.Cheque + ",\"" + value.Sucursal + "\",\"" + value.Usuario.UserId + "\",\"" + value.Usuario.Email + "\")' data-toggle='modal' data-target='#modal-gestion' class='btn btn-default'><i class='fa fa-eye'></i></button>\
+                            </td>\
+                        </tr>");
+                    });
+
+
+                    $('#tabla-viaticos').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'excel'
+                        ],
+                        "scrollX": true,
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                    $('.overlay').hide();
+                }
+                else {
+                    if (data.Message != 'Success') {
+                        alert("Ocurrio un error al procesar la solicitud, mensaje: " + data.Message);
+                    }
+                    $('.overlay').hide();
+                }
+            });
+    }
+
+    function LoadFacturas(SequenceItem, Identifier, FolioSAP, Cheque, Sucursal, UserId, UserName, Concepto, MontoSolicitado, indexPosition) {
+
+        $('#factura-Identifier').text(Identifier);
+        $('#factura-conceptoid').text(SequenceItem);
+        $('#factura-foliosap').text(FolioSAP);
+        $('#factura-sucursal').text(Sucursal);
+        $('#factura-cheque').text(Cheque);
+
+        $('#factura-username').text(UserName);
+        $('#factura-monto-solicitado-hidden').text(MontoSolicitado);
+        $('#factura-monto-solicitado').text(formatNumber.new(MontoSolicitado.toFixed(2), "$ "));
+
+        $('#factura-concepto-detalle').text(Concepto);
+
+        $('#factura-fotter-monto-solicitado').text(formatNumber.new(MontoSolicitado.toFixed(2), "$ "));
+
+        $('#Viatico').val(Identifier);
+        //$('#ViaticoDetalle').val(V);
+        $('#ViaticoConcepto').val(SequenceItem);
+        @*MODAL DE CARGA DE XML Y PDF*@
+        $('#MontoSolicitado').val(MontoSolicitado);
+
+
+        $.post('@Url.Action("GetFacturas", "Viaticos")', {
+            Folio: SequenceItem
+        }, function (data) {
+            if (data != null) {
+
+                if (data.Context.length > 0) {
+
+                    let TotalComprobado = 0, TotalSolicitado = 0, TotalDiferiencia=0;
+                    $('#tbody-facturas').html('');
+
+                    $.each(data.Context, function (index, value) {
+
+                        TotalComprobado = TotalComprobado + value.Monto;
+
+                        let ProductoServicioSAT = '';
+                        if (value.ProductoServicioSAT === null) {
+                            ProductoServicioSAT = 'No definido';
+                        }
+                        else {
+                            ProductoServicioSAT = '' + value.ProductoServicioSAT.Codigo + ' - ' + value.ProductoServicioSAT.Descripcion + '';
+                        }
+
+                        let MontoIva = value.Monto + (value.Monto * 0.16);
+                        parseFloat(MontoIva);
+                        $('#tbody-facturas').append('<tr>\
+                            <td>' + value.Sequence + '</td>\
+                            <td>' + value.UsoCFDISAT.Codigo + '-' + value.UsoCFDISAT.Descripcion + '</td>\
+                            <td>' + ProductoServicioSAT + '</td>\
+                            <td>' + moment(value.FechaTimbrado).format('DD/MM/YYYY') + '</td>\
+                            <td>' + value.FormaPagoSAT.Codigo + '-' + value.FormaPagoSAT.Descripcion + '</td>\
+                            <td>' + formatNumber.new(MontoIva.toFixed(2), "$ ") + '</td>\
+                            <td>\
+                                <a target="_blank" href="https://apps.fussionweb.com/sie/PDF/'+ value.UUID + '.xml">' + value.UUID + '</a>\
+                            </td>\
+                        </tr>');
+                    });
+
+                    parseFloat(TotalComprobado);
+                    $('#factura-fotter-monto-comprobado').text(formatNumber.new(TotalComprobado.toFixed(2), "$ "));
+
+                    if (MontoSolicitado != 0) {
+                        TotalDiferiencia = MontoSolicitado - TotalComprobado;
+                    }
+
+                    $('#factura-fotter-monto-diferiencia').text(formatNumber.new(TotalDiferiencia.toFixed(2), "$ "));
+                }
+                else {
+                    $('#tbody-facturas').html('<tr><td colspan="7"><h4 class="text-danger">Por el momento no se cargado facturas para comprobar los viaticos.  </h4></td></tr>');
+                }
+            }
+            else {
+                if (data.Message != 'Success') {
+                    alert('Ocurrio un error inesperado, mensaje:' + data.Message);
+                }
+            }
+        });
+    }
+
+</script>
+
+<script>
+    var modal_counter = 0;
+    $(document).ready(function () {
+        $('.modal').on('shown.bs.modal', function () {
+            modal_counter++;
+        });
+        $('.modal').on('hidden.bs.modal', function () {
+            modal_counter--;
+            if (modal_counter) {
+                $('body').addClass('modal-open');
+            }
+            else {
+                $('body').removeClass('modal-open');
+            }
+        });
+    })
+
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    };
+
+    @*VALUDAR NUMEROS Y UN DECIMAL*@
+
+    function filterFloat(evt, input) {
+        // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+        var key = window.Event ? evt.which : evt.keyCode;
+        var chark = String.fromCharCode(key);
+        var tempValue = input.value + chark;
+        if (key >= 48 && key <= 57) {
+            if (filter(tempValue) === false) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if (key == 8 || key == 13 || key == 0) {
+                return true;
+            } else if (key == 46) {
+                if (filter(tempValue) === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+    function filter(__val__) {
+        var preg = /^([0-9]+\.?[0-9]{0,2})$/;
+        if (preg.test(__val__) === true) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+</script>

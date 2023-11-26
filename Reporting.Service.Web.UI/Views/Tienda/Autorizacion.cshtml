@@ -1,0 +1,409 @@
+﻿@{
+    ViewBag.Title = "Autorizacion";
+}
+
+<section class="content-header">
+    <h1>
+        Autorizaciones de Pedidos
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <i class="fa fa-level-down"></i>
+                    <h3 class="box-title">Autorizaciones</h3>
+                    <span id="count"></span>
+                </div>
+                <div class="box-body" style="display: block;">
+                    <div id="loading" style="display:none;" class="overlay">
+                        <i class="fa  fa fa-refresh fa-spin"></i>
+                    </div>
+                    <div class="table-responsive table-responsive-custom">
+                        <table class="table table-bordered" id="tableAut">
+                            <thead>
+                                <tr>
+                                    <th>Folio</th>
+                                    <th>Nombre Tienda</th>
+                                    <th>Fecha</th>
+                                    <th>Importe</th>
+                                    <th style="text-align: center">Estado</th>
+                                    <th style="text-align: center">Registros</th>
+                                    <th style="text-align: center">Aprobar</th>
+                                    <th style="text-align: center">Rechazar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyAut"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="cargando" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+
+            <!--MODAL TABLA REGISTROS-->
+            <div class="modal fade" id="modalRegistros" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Registros del pedido</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="box-header">
+                                <div id="loadingReg" style="display:none;" class="overlay">
+                                    <i class="fa  fa fa-refresh fa-spin"></i>
+                                </div>
+                                <i class="fa fa-level-down"></i>
+                                <h3 class="box-title">Pedidos</h3>
+                                <span id="countPedidos"></span>
+                            </div>
+                            <div class="box-body" style="display: block;">
+                                <div class="table-responsive table-responsive-custom">
+                                    <table class="table table-bordered" id="tablaPed">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th>SKU</th>
+                                                <th>Cantidad</th>
+                                                <th>Importe Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyPed"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    //Formato de dinero
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+
+    initmodule();//Se ejecuta la función de inicio de módulo
+    function initmodule() {
+        getAuthorizations();
+        var rows = $('#tbodyAut tr').length;
+        $("#count").text(" --- " + rows + " registros");
+    }
+
+    function getAuthorizations(){
+        $('#loading').show();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetAuthorizations", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+                    var VP = $('#tableAut').DataTable();
+                    VP.destroy();
+
+                    $("#tbodyAut").html('');
+                    $.each(data.Context, function (index, value) {
+                        var estadoBoton = ""
+                        if (!value.status) {
+                            value.status = "<span class='label label-danger'>No aprobado</span>";
+                            estadoBoton = "enabled"
+                        }
+                        else {
+                            value.status = "<span class='label label-success'>Aprobado</span>";
+                            estadoBoton = "disabled";
+                        }
+                            
+                            
+                        $("#tbodyAut").append(
+                            "<tr>\
+                                <td>" + value.Identifier + "</td>\
+                                <td>" + value.Cliente + " " + value.tienda + "</td>\
+                                <td>" + value.fecha + "</td>\
+                                <td>" + formatNumber.new(value.Importe, "$ ") + "</td>\
+                                <td align='center'> " + value.status + "</td >\
+                                <td align='center'><a class='btn' data-target='#modalRegistros' data-toggle='modal' data-id='" + value.PedidosTiendasWEB + "' data-index-id='" + value.Cliente + "' href='#' align='center'><i class='glyphicon glyphicon-list-alt'></i></a></td>\
+                                <td align='center'><button type='button' class='btn btn-success' onclick='Aprobar("+ value.Identifier + ")' " + estadoBoton + ">Aprobar</button></td>\
+                                <td align='center'><button type='button' class='btn btn-danger' onclick='Rechazar("+ value.Identifier +")' " + estadoBoton + ">Rechazar</button></td ></tr > ");
+                    });
+
+                    $('#tableAut').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        dom: 'frtip',
+                        stateSave: true,
+                        "searching": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: GetAuthorizations",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+        $('#loading').hide();
+    }
+
+    $('#modalRegistros').on('show.bs.modal', function (e) {
+        var auth = $(e.relatedTarget).data().id;
+        var cliente = $(e.relatedTarget).data('index-id');
+        $('#loadingReg').show();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("findPedidosTiendas", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"CardCode":"' + cliente + '", "Auth":' + auth + '}',
+            dataType: "json",
+            success: function (data) {
+                console.log(data.Context);
+                if (data != null && $.isArray(data.Context)) {
+                    var VP = $('#tablaPed').DataTable();
+                    VP.destroy();
+
+                    $("#tbodyPed").html('');
+                    $.each(data.Context, function (index, value) {
+                        $("#tbodyPed").append(
+                            "<tr>\
+                                <td>" + value.SKU + "</td>\
+                                <td>" + value.Cantidad + "</td>\
+                                <td>" + formatNumber.new(value.precioTotal, "$ ") + "</td></tr>");
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: findPedidosTiendas",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+        $('#loadingReg').hide();
+    });
+
+    function Aprobar(id) {
+        $('#cargando').show();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("findAuthorization", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"id":' + id + '}',
+            dataType: "json",
+            success: function (dataAuth) {
+                if (dataAuth != null) {
+                    $.post('@Url.Action("ejecutaSap", "Tienda")', {
+                        CardCode: dataAuth.Context.Cliente,
+                        Referencia: dataAuth.Context.referencia,
+                        Comentario: dataAuth.Context.comentarios,
+                        Auth: dataAuth.Context.PedidosTiendasWEB,
+                        Tipo : 1
+                    },
+                    function (data) {
+                        if (data)
+                        {
+                            if (data.Context.substring(0, 1) == "X")
+                            {
+                                $('#cargando').hide();
+                                swal({
+                                    title: "Error de conexión",
+                                    text: "Error: Problemas de Conexion. Intentelo de nuevo",
+                                    icon: "error",
+                                    button: true,
+                                    dangerMode: true,
+                                })
+                            }
+                            if (data.Context.substring(0, 1) == "E") {
+                                $('#cargando').hide();
+                                swal({
+                                    title: "Error",
+                                    text: data.Context,
+                                    icon: "error",
+                                    button: true,
+                                    dangerMode: true,
+                                })
+
+                            }
+                            if ((data.Context.substring(0, 1) != "X") && (data.Context.substring(0, 1) != "E"))
+                            {
+                                $.ajax({
+                                    contentType: "application/json; charset=utf-8",
+                                    url: '@Url.Action("UpdateAuthorization", "Tienda")',
+                                    async: false,
+                                    timeout: 3000,
+                                    type: 'POST',
+                                    data: '{"id":' + dataAuth.Context.Identifier + ', "Cliente":"' + dataAuth.Context.Cliente + '", "Importe":' + dataAuth.Context.Importe + ', "fecha":"' + dataAuth.Context.fecha + '", "referencia":"' + dataAuth.Context.referencia + '", "comentarios":"' + dataAuth.Context.comentarios + '", "status": 1, "registros":' + dataAuth.Context.PedidosTiendasWEB + '}',
+                                    dataType: "json",
+                                    success: function (dataUp) {
+                                        if (dataUp.Context) {
+                                            swal({
+                                                title: "Pedido SAP",
+                                                text: "No. de Pedido SAP: " + data.Context,
+                                                icon: "success",
+                                                button: true,
+                                                dangerMode: true,
+                                            })
+                                            .then((willDelete) => {
+                                                if (willDelete) {
+                                                    $('#cargando').hide();
+                                                    location.reload();
+                                                }
+                                            });
+                                        }
+                                    },
+                                    error: function () {
+                                        swal({
+                                            title: "Error",
+                                            text: "Error en la api: UpdateAuthorization",
+                                            icon: "error",
+                                            button: true,
+                                            dangerMode: true,
+                                        })
+                                        $('#cargando').hide();
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: findAuthorization",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+                $('#cargando').hide();
+            }
+        });
+        
+    }
+
+    function Rechazar(id) {
+        $('#cargando').show();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("findAuthorization", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"id":' + id + '}',
+            dataType: "json",
+            success: function (dataAuth) {
+                if (dataAuth != null) {
+                    $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        url: '@Url.Action("UpdateAuthorization", "Tienda")',
+                        async: false,
+                        timeout: 3000,
+                        type: 'POST',
+                        data: '{"id":' + dataAuth.Context.Identifier + ', "Cliente":"' + dataAuth.Context.Cliente + '", "Importe":' + dataAuth.Context.Importe + ', "fecha":"' + dataAuth.Context.fecha + '", "referencia":"' + dataAuth.Context.referencia + '", "comentarios":"' + dataAuth.Context.comentarios + '", "status": 3, "registros":' + dataAuth.Context.PedidosTiendasWEB + '}',
+                        dataType: "json",
+                        success: function (dataUp) {
+                            if (dataUp.Context) {
+                                var body = "¡El pedido de " + dataAuth.Context.Cliente + " " + dataAuth.Context.tienda + "no fue aprobado!";
+
+                                $.ajax({
+                                    contentType: "application/json; charset=utf-8",
+                                    url: '@Url.Action("enviarCorreo", "Tienda")',
+                                    async: false,
+                                    timeout: 3000,
+                                    type: 'POST',
+                                    data: '{"Subject":"Pedido no aprobado", "Body":"' + body + '"}',
+                                    dataType: "json",
+                                    success: function (dataSend) {
+                                        
+                                    },
+                                    error: function () {
+                                        swal({
+                                            title: "Error",
+                                            text: "Error en la api: enviarCorreo",
+                                            icon: "error",
+                                            button: true,
+                                            dangerMode: true,
+                                        })
+                                    }
+                                });
+                                swal({
+                                    title: "Pedido Rechazado",
+                                    icon: "success",
+                                    button: true,
+                                    dangerMode: true,
+                                })
+                                .then((willDelete) => {
+                                    if (willDelete) {
+                                        $('#cargando').hide();
+                                        location.reload();
+                                    }
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            swal({
+                                title: "Error",
+                                text: "Error en la api: UpdateAuthorization",
+                                icon: "error",
+                                button: true,
+                                dangerMode: true,
+                            })
+                            $('#cargando').hide();
+                        }
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: findAuthorization",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+                $('#cargando').hide();
+            }
+        });
+        
+    }
+</script>

@@ -1,0 +1,1017 @@
+﻿@model Reporting.Service.Web.UI.Models.EmisoresModel
+@{
+    ViewBag.Title = "Completar Facturación recibida";
+}
+
+<style>
+    .funkyradio div {
+        clear: both;
+        overflow: hidden;
+    }
+
+    .funkyradio label {
+        width: 50%;
+        border-radius: 3px;
+        border: 1px solid #D1D3D4;
+        font-weight: normal;
+    }
+
+    .funkyradio input[type="radio"]:empty,
+    .funkyradio input[type="checkbox"]:empty {
+        display: none;
+    }
+
+        .funkyradio input[type="radio"]:empty ~ label,
+        .funkyradio input[type="checkbox"]:empty ~ label {
+            position: relative;
+            line-height: 2.5em;
+            text-indent: 3.25em;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            .funkyradio input[type="radio"]:empty ~ label:before,
+            .funkyradio input[type="checkbox"]:empty ~ label:before {
+                position: absolute;
+                display: block;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                content: '';
+                width: 2.5em;
+                background: #D1D3D4;
+                border-radius: 3px 0 0 3px;
+            }
+
+    .funkyradio input[type="radio"]:hover:not(:checked) ~ label,
+    .funkyradio input[type="checkbox"]:hover:not(:checked) ~ label {
+        color: #888;
+    }
+
+        .funkyradio input[type="radio"]:hover:not(:checked) ~ label:before,
+        .funkyradio input[type="checkbox"]:hover:not(:checked) ~ label:before {
+            content: '\2714';
+            text-indent: .9em;
+            color: #C2C2C2;
+        }
+
+    .funkyradio input[type="radio"]:checked ~ label,
+    .funkyradio input[type="checkbox"]:checked ~ label {
+        color: #777;
+    }
+
+        .funkyradio input[type="radio"]:checked ~ label:before,
+        .funkyradio input[type="checkbox"]:checked ~ label:before {
+            content: '\2714';
+            text-indent: .9em;
+            color: #333;
+            background-color: #ccc;
+        }
+
+    .funkyradio input[type="radio"]:focus ~ label:before,
+    .funkyradio input[type="checkbox"]:focus ~ label:before {
+        box-shadow: 0 0 0 3px #999;
+    }
+
+    .funkyradio-danger input[type="radio"]:checked ~ label:before,
+    .funkyradio-danger input[type="checkbox"]:checked ~ label:before {
+        color: #fff;
+        background-color: #d9534f;
+    }
+
+    .funkyradio-success input[type="radio"]:checked ~ label:before,
+    .funkyradio-success input[type="checkbox"]:checked ~ label:before {
+        color: #fff;
+        background-color: #5cb85c;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Completar Facturación recibida  SAP</a></li>
+        <li class="active">Facturas</li>
+        <li class="active">v2022.07.13</li>
+    </ol>
+</section>
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Completar Facturas recibidas</h3>
+                    <div class="box-tools ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Receptor:</span>
+                                    <select name="cbxEmisor" id="cbxEmisor" class="form-control">
+                                        @foreach (var td in this.Model.Emisores)
+                                        {
+                                            <option value="@td">@td </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span>Fecha de timbrado: </span>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input class="form-control" id="DelAl" type="text">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div id="btnFacturas" class="btn btn-success btn-block"><i class="fa fa-binoculars"></i></div>
+                            </div>
+                            <!--<div class="form-group">
+                                <button type="button" id="btn-descargaReport-FacRecibidas" class="btn btn-xs pull-right btn-spacing bg-blue" data-toggle="modal" style="display:none;padding:5px; color:white; border-radius:5px;"> Descargar <i class="glyphicon glyphicon-download" style="width:20px"></i></button>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered" id="Facturas">
+                            <thead>
+                                <tr>
+                                    <td>Tipo</td>
+                                    <td>Uuid</td>
+                                    <td>Rfc Emisor</td>
+                                    <td>Nombre Emisor</td>
+                                    <td>Uso Cfdi</td>
+                                    <td>Metodo Pago</td>
+                                    <td>Forma Pago</td>
+                                    <td>Folio Interno</td>
+                                    <td>Subtotal</td>
+                                    <td>Retenciones</td>
+                                    <td>Traslados</td>
+                                    <td>Total</td>
+                                    <td>Fecha Timbrado</td>
+                                    <td>Estatus</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Detalles</td>
+                                </tr>
+                            </thead>
+                            <tbody id="DetalleFacturas"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer">
+
+                </div>
+                <div id="FacturasRefresh" style="display:none;" class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="contactLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:90%">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="panel-title" id="contactLabel"><span class="glyphicon glyphicon-info-sign"></span> Detalles de factura</h4>
+                </div>
+                <div class="modal-body" style="padding: 5px;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
+                            <div class="input-group">
+                                <span class="input-group-addon">Proveedor</span>
+                                <input id="Proveedor" type="text" class="form-control" placeholder="Nombre de proveedor" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
+                            <div class="input-group">
+                                <span class="input-group-addon">Comentarios</span>
+                                <input id="Comentarios" type="text" class="form-control" onblur="SetComentario()" placeholder="Comentarios">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="divSucursal">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
+                            <div class="input-group">
+                                <span class="input-group-addon">Sucursal</span>
+                                <select name="cbxSucursal" id="cbxSucursal" class="form-control">
+                                    @foreach (var td in this.Model.SucursalesSAP)
+                                    {
+                                        <option value="@td.Identifier">@td.Nombre </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                            <div class="funkyradio">
+                                <div class="funkyradio-success">
+                                    <input type="radio" name="moneda" class="moneda" id="MXP" value="MXP" checked />
+                                    <label for="MXP">MXP</label>
+                                </div>
+                                <div class="funkyradio-danger">
+                                    <input type="radio" name="moneda" class="moneda" id="USD" value="USD" />
+                                    <label for="USD">USD</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="rowTipoCambio" style="display:none">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom: 10px;">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tipo de cambio</span>
+                                <input id="TipoCambio" type="number" class="form-control" onblur="SetTipoCambio()" value="0.00">
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Cuenta</span>
+                                    <input type="text" class="form-control" id="Cuenta" readonly="readonly">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#cuentas-contables" data-original-title onclick="GetCuentas()">Buscar</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="table table-responsive">
+                                <table class="table table-bordered" id="Conceptos">
+                                    <thead>
+                                        <tr>
+                                            <td>Concepto</td>
+                                            <td>Descripción</td>
+                                            <td>Importe</td>
+                                            <td>Cuenta</td>
+                                            <td>Contenedor</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="DetalleConceptos"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <form id="formAnexos" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <input type="hidden" id="idCont" name="idCont" />
+                                <div class="col-md-3">
+                                    <label>Seleccionar Anexos</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <label for="Files" class="btn btn-block btn-default" id="lblFiles">
+                                        <i class="fa fa-cloud-upload"></i>
+                                    </label>
+                                    <span class="errorMsg " id="spanArchivo" hidden="hidden" style="color: red;"> Debes seleccionar un archivo al menos</span>
+                                    <input type="file" id="Files" name="Files" accept=".pdf, .PDF, .xlsx, .xls" style='display: none;' multiple />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div id="archivosSeleccionados" class="files"></div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="panel-footer" style="margin-bottom:-14px;">
+                    <input type="submit" class="btn btn-success" id="btnEnviaSAP" value="Enviar a SAP" onclick="EnviaASAP()" />
+                    <!--<span class="glyphicon glyphicon-ok"></span>-->
+                    <button style="float: right;" type="button" class="btn btn-default btn-close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cuentas-contables" tabindex="-2" role="dialog" aria-labelledby="contactLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Cuentas Contables</h4>
+                </div>
+                <div class="modal-body" style="padding: 5px;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="table table-responsive">
+                                <table class="table table-bordered" id="Cuentas">
+                                    <thead>
+                                        <tr>
+                                            <td>AcctCode</td>
+                                            <td>ActId</td>
+                                            <td>AcctName</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="CuentasContables"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" style="margin-bottom:-14px;">
+                    <button style="float: right;" type="button" class="btn btn-default btn-close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    var FacturaCompra = {
+        Moneda:"MXP",
+        TipoCambio: 0.0,
+        Empresa: "",
+        Rfc: "",
+        UUID: "",
+        Comentarios: "",
+        Conceptos: [],
+        Hijos: [],
+        Fecha: "",
+        MonedaOriginal: "MXN",
+        TipoCambioOriginal: 0.0,
+        IdSucursal: 0
+    }
+
+    var TipoCambio = 1; //Se refiere a MXP, 2 = USD
+
+    $('#DelAl').daterangepicker({
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Deciembre"
+            ]
+        }
+
+    });
+
+    $("#cbxSucursal").change(function () {
+        FacturaCompra.IdSucursal = $("#cbxSucursal").val();
+    });
+
+    $("#cbxEmisor").change(function () {
+        $("#btnFacturas").click();
+
+        FacturaCompra = {
+            Moneda: "MXP",
+            TipoCambio: 0.0,
+            Empresa: $("#cbxEmisor").val(),
+            Rfc: "",
+            UUID: "",
+            Comentarios: "",
+            Conceptos: [],
+            Hijos: [],
+            Fecha: "",
+            MonedaOriginal: "MXN",
+            TipoCambioOriginal: 0.0,
+            IdSucursal: 0
+        }
+
+        FacturaCompra.Empresa = $("#cbxEmisor").val();
+
+        if (FacturaCompra.Empresa == "SME1006298L7") {
+            $("#divSucursal").show();
+            $("#cbxSucursal").change();
+        }
+        else
+        {
+            $("#divSucursal").hide();
+        }
+    });
+
+    $("#cbxEmisor").change();
+    $("#cbxSucursal").change();
+
+    $(".moneda").change(function () {
+        switch ($(this).val()) {
+            case 'MXP':
+                TipoCambio = 1;
+                FacturaCompra.Moneda = "MXP";
+                FacturaCompra.TipoCambio = 0.0;
+                $("#rowTipoCambio").hide();
+                $("#TipoCambio").val(0.00);
+                break;
+            case 'USD':
+                TipoCambio = 2;
+                FacturaCompra.Moneda = "USD";
+                FacturaCompra.TipoCambio = $("#TipoCambio").val();
+                $("#rowTipoCambio").show();
+                break;
+        }
+    });
+    
+
+	$("#btnFacturas").click(function () {
+		$("#FacturasRefresh").show();
+
+		var drp = $('#DelAl').data('daterangepicker');
+		var Del = drp.startDate.format('YYYY/MM/DD');
+		var Al = drp.endDate.format('YYYY/MM/DD');
+		var RfcEmisor = $("#cbxEmisor").val();
+
+		$.post('@Url.Action("Obtener", "CompletarFacturacionRecibida")', {
+		    Del: Del,
+		    Al: Al,
+			RfcEmisor: RfcEmisor
+		}, function (data) {
+			if (data.Context != null && $.isArray(data.Context)) {
+
+				var table = $('#Facturas').DataTable();
+				table.destroy();
+				$("#DetalleFacturas").html('');
+
+				$.each(data.Context, function (index, value) {
+				    var detalle = '';
+				    var fech = '';
+				    if (value.FechaCaptura != null) {
+				        fech = moment(value.FechaCaptura).format('DD/MM/YYYY');
+				    }
+				    $("#DetalleFacturas").append('<tr>\
+                                                        <td>' + value.Tipo + '</td>\
+                                                        <td>'+ value.Uuid + '</td>\
+                                                        <td>'+ value.RfcEmisor + '</td>\
+                                                        <td>'+ value.NombreEmisor + '</td>\
+                                                        <td>'+ value.UsoCfdi + '</td>\
+                                                        <td>'+ value.MetodoPago + '</td >\
+                                                        <td>'+ value.FormaPago + '</td>\
+                                                        <td>'+ value.Serie + " " + value.Folio + '</td>\
+														<td>'+ formatNumber.new(value.Subtotal.toFixed(2), "$") + '</td>\
+														<td>'+ formatNumber.new(value.Retenciones.toFixed(2), "$") + '</td>\
+														<td>'+ formatNumber.new(value.Traslados.toFixed(2), "$") + '</td>\
+														<td>'+ formatNumber.new(value.Total.toFixed(2), "$") + '</td>\
+														<td>'+ moment(value.FechaTimbrado).format('DD/MM/YYYY') + '</td>\
+														<td>'+ value.Estatus + '</td>\
+														<td><i onclick="DescargarPdf(\''+ value.Uuid + '\')" class="fa fa-file-pdf-o"></i></td>\
+														<td><i onclick="DescargarXml(\''+ value.Uuid + '\')" class="fa fa-file"></i></td>\
+                                                        <td><i data-toggle="modal" data-target="#contact" data-original-title onclick="VerDetallesXml(\'' + value.Identifier + '\')" class="fa fa-file"></i></td>\
+                                                    </tr >');
+				});
+				$('#Facturas').DataTable({
+					"paging": true,
+					"lengthChange": true,
+					"searching": true,
+					"ordering": true,
+					"info": true,
+					"autoWidth": true,
+					"language": {
+						"url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+					}
+				});
+
+				$("#FacturasRefresh").hide();
+			} else {
+			    $("#FacturasRefresh").hide();
+			}
+        });
+	});
+
+    var ConceptosHijos = [];
+
+    function DivideConcepto(indexPadre, ImportePadre, Descripcion) {
+        let NoHijosTotalPorPadre = 0;
+        for (var i = 0; i < ConceptosHijos.length; i++) {
+            if (ConceptosHijos[i].Padre == indexPadre) {
+                NoHijosTotalPorPadre++;
+            }
+        }
+
+        let Hijo = {
+            Padre: indexPadre,
+            NoHijos: NoHijosTotalPorPadre
+        }
+
+        //ConceptosHijos.push(Hijo);
+
+
+
+        let TotalImporte = 0.0;
+        let Importe = 0.0;
+        let error = 0;
+        $(".ImporteHijo" + indexPadre).each(function (index, element) {
+            if (element.value == "") {
+                error++;
+            }
+
+            TotalImporte = TotalImporte + parseFloat(element.value);
+        });
+
+        if (error > 0) {
+            swal({
+                title: "Error",
+                text: "Es necesario indicar el importe antes de agregar un nuevo concepto.",
+                icon: "error"
+            });
+            return;
+        }
+
+        Importe = parseFloat(ImportePadre) - TotalImporte;
+
+        if (Importe <= 0) {
+            swal({
+                title: "Error",
+                text: "No es posible agregar mas conceptos, se ha cubierto el total del importe.",
+                icon: "error"
+            });
+            return;
+        }
+
+        if (TotalImporte > ImportePadre) {
+            swal({
+                title: "Error",
+                text: "la suma del importe de las diviciones no puede ser mayor que la original: $" + ImportePadre,
+                icon: "error"
+            });
+            return;
+        }
+
+        $("#DetalleConceptos").append('<tr>\
+                                            <td>'+ indexPadre + '</td>\
+                                            <td><input type="text" id="DescripcionPadre'+ indexPadre + 'Hijo' + NoHijosTotalPorPadre + '" class="form-control" value="' + Descripcion + '" readonly="readonly"></td>\
+                                            <td><input type="number" id="ImportePadre'+ indexPadre + 'Hijo' + NoHijosTotalPorPadre + '" class="ImporteHijo' + indexPadre + '" onblur="SetImporteHijos(' + indexPadre + ',' + NoHijosTotalPorPadre +')"/></td>\
+                                            <td><div class="input-group"><input type="text" class="form-control" id="CuentaPadre'+ indexPadre + 'Hijo' + NoHijosTotalPorPadre + '" readonly="readonly" style="min-width: 300px;"><span class="input-group-btn"><button class="btn btn-default" type="button" data-toggle="modal" data-target="#cuentas-contables" data-original-title onclick="GetCuentasHijos(' + indexPadre + ',' + NoHijosTotalPorPadre +')">Buscar</button></span></div></td>\
+                                            <td><div class="input-group"><input type="text" class="form-control" id="ContenedorPadre'+ indexPadre + 'Hijo' + NoHijosTotalPorPadre + '" onblur="SetContenedorHijos(' + indexPadre + ',' + NoHijosTotalPorPadre +')"></div></td>\
+                                        </tr >');
+
+        $("#ImportePadre" + indexPadre + "Hijo" + NoHijosTotalPorPadre).val(Importe);
+
+        Hijo.Importe = Importe;
+
+        ConceptosHijos.push(Hijo);
+    }
+
+    function GetCuentasHijos(padre, hijo) {
+        $("#CuentasContables").html('');
+
+        $.post('@Url.Action("ObtenerCuentas", "CompletarFacturacionRecibida")', {
+            Empresa: $("#cbxEmisor").val()
+        }, function (data) {
+                if (data.Context != null) {
+                    var table = $('#Cuentas').DataTable();
+                    table.destroy();
+                    $("#CuentasContables").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        $("#CuentasContables").append('<tr>\
+                                                        <td>'+ value.Identifier+'\
+                                                        <td>' + value.ActId + '\
+                                                        <td>'+ value.AcctName + '</td>\
+                                                        <td><a class="btn btn-lg" onclick="seleccionarCuentaHijo(\'' + value.Identifier + '\',\'' + value.ActId + '\',\'' + value.AcctName + '\', ' + padre + ',' + hijo +')" align="center"><i class="fa fa-check" style="color: green;"></i></a></td>\
+                                                    </tr >');
+                    });
+
+                    $('#Cuentas').DataTable({
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+        });
+    }
+
+    function GetCuentas(index2) {
+        $("#CuentasContables").html('');
+
+        $.post('@Url.Action("ObtenerCuentas", "CompletarFacturacionRecibida")', {
+            Empresa: $("#cbxEmisor").val()
+        }, function (data) {
+                if (data.Context != null) {
+                    var table = $('#Cuentas').DataTable();
+                    table.destroy();
+                    $("#CuentasContables").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        $("#CuentasContables").append('<tr>\
+                                                        <td>'+ value.Identifier +'\
+                                                        <td>' + value.ActId + '\
+                                                        <td>'+ value.AcctName + '</td>\
+                                                        <td><a class="btn btn-lg" onclick="seleccionarCuenta(\'' + value.Identifier + '\',\'' + value.ActId + '\',\'' + value.AcctName + '\', ' + index2 +')" align="center"><i class="fa fa-check" style="color: green;"></i></a></td>\
+                                                    </tr >');
+                    });
+
+                    $('#Cuentas').DataTable({
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+        });
+    }
+
+    function seleccionarCuentaHijo(AcctCode, ActId, AcctName, padre, hijo) {
+        $('#cuentas-contables').modal('hide');
+        $("#CuentaPadre" + padre + "Hijo" + hijo).val(AcctCode + " / " + AcctName + " / " + ActId);
+
+
+        var found = ConceptosHijos.find(element => element.Padre == padre && element.NoHijos == hijo);
+
+        found.Cuenta = AcctCode + " / " + AcctName + " / " + ActId;
+    }
+
+    function seleccionarCuenta(AcctCode, ActId, AcctName, index){
+        $('#cuentas-contables').modal('hide');
+        $("#Cuenta" + index).val(AcctCode + " / " + AcctName + " / " + ActId);
+
+
+        var found = FacturaCompra.Conceptos.find(element => element.Sequence == index);
+
+        found.Cuenta = AcctCode + " / " + AcctName + " / " + ActId;
+
+        //alert(JSON.stringify(FacturaCompra));
+
+    }
+
+    function SetImporteHijos(padre, hijo) {
+        var found = ConceptosHijos.find(element => element.Padre == padre && element.NoHijos == hijo);
+
+        found.Importe = $("#ImportePadre" + padre + "Hijo" + hijo).val();
+    }
+
+    function SetContenedorHijos(padre, hijo){
+        var found = ConceptosHijos.find(element => element.Padre == padre && element.NoHijos == hijo);
+
+        found.Contenedor = $("#ContenedorPadre" + padre + "Hijo" + hijo).val();
+        found.Descripcion = $("#DescripcionPadre" + padre + "Hijo" + hijo).val();
+    }
+
+    function SetContenedor(index) {
+        var found = FacturaCompra.Conceptos.find(element => element.Sequence == index);
+
+        found.Contenedor = $("#Contenedor" + index).val();
+        found.Descripcion = $("#Descripcion" + index).val();
+
+        //alert(JSON.stringify(FacturaCompra));
+    }
+
+    function SetTipoCambio() {
+        FacturaCompra.TipoCambio = $("#TipoCambio").val();
+    }
+
+    function SetComentario() {
+        FacturaCompra.Comentarios = $("#Comentarios").val();
+    }
+
+    //var FacturaCompra = {
+    //    Empresa: "PKO090209IV6",
+    //    Rfc: "VEVL890403KY7",
+    //    Conceptos: [{
+    //        Importe: 123
+    //    }]
+    //}
+
+    function EnviaASAP() {
+        FacturaCompra.Hijos = ConceptosHijos;
+        $("#btnEnviaSAP").prop("disabled", true);
+
+        var formData = new FormData($("#formAnexos")[0]);
+
+        formData.append("FacturaCompra", JSON.stringify(FacturaCompra));
+
+        if (TipoCambio == 2 && $("#TipoCambio").val() <= 0) {
+            swal({
+                title: "Error",
+                text: "es necesario especificar el tipo de cambio cuando la moneda es USD",
+                icon: "error"
+            });
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("EnviarASAP", "CompletarFacturacionRecibida")',
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(JSON.stringify(data));
+                if (data.Code < 0) {
+                    swal({
+                        title: "Error",
+                        text: "Error en la api: " + "\n" + data.Message,
+                        icon: "error",
+                        button: true,
+                        dangerMode: true,
+                    });
+
+                    $("#btnEnviaSAP").prop("disabled", false);
+                } else {
+
+                    FacturaCompra = {
+                        Moneda: "MXP",
+                        TipoCambio: 0.0,
+                        Empresa: $("#cbxEmisor").val(),
+                        Rfc: "",
+                        UUID: "",
+                        Comentarios: "",
+                        Conceptos: [],
+                        Hijos: [],
+                        Fecha: "",
+                        MonedaOriginal: "MXN",
+                        TipoCambioOriginal: 0.0,
+                        IdSucursal: 0
+                    }
+
+                    swal({
+                        title: "Registro Exitoso",
+                        text: "Los archivos se han agregado correctamente",
+                        icon: "success",
+                        button: true,
+                    }).then((fin) => {
+                        $("#contact").modal('hide');
+                    });
+
+                    $("#btnEnviaSAP").prop("disabled", false);
+                    $("#Comentarios").val("");
+                }
+            },
+            error: function (error) {
+
+                FacturaCompra = {
+                    Moneda: "MXP",
+                    TipoCambio: 0.0,
+                    Empresa: $("#cbxEmisor").val(),
+                    Rfc: "",
+                    UUID: "",
+                    Comentarios: "",
+                    Conceptos: [],
+                    Hijos: [],
+                    Fecha: "",
+                    MonedaOriginal: "MXN",
+                    TipoCambioOriginal: 0.0,
+                    IdSucursal: 0
+                }
+
+                swal({
+                    title: "Error",
+                    text: "Error en la api: " + "\n" + error,
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                }).then((fin) => {
+                    $("#contact").modal('hide');
+                });;
+
+                $("#btnEnviaSAP").prop("disabled", false);
+                $("#Comentarios").val("");
+            }
+        })
+
+        @*$.post('@Url.Action("EnviarASAP", "CompletarFacturacionRecibida")', {
+            FacturaCompra: FacturaCompra
+        }, function (data) {
+                if (data.Context != null) {
+                    swal({
+                        title: "OK",
+                        text: "Se agrego la factura correctamente",
+                        icon: "success"
+                    });
+                }
+                else {
+                    var error = data.Message;
+                    swal({
+                        title: "Error",
+                        text: error,
+                        icon: "error"
+                    });
+                    return;
+                }
+        });*@
+    }
+
+    function VerDetallesXml(Sequence) {
+    //Se limpian los objetos
+        $("#btnEnviaSAP").prop("disabled", false);
+        FacturaCompra = {
+            Moneda: "MXP",
+            TipoCambio: 0.0,
+            Empresa: $("#cbxEmisor").val(),
+            Rfc: "",
+            UUID: "",
+            Comentarios: "",
+            Conceptos: [],
+            Hijos: [],
+            Fecha: "",
+            MonedaOriginal: "MXN",
+            TipoCambioOriginal: 0.0,
+            IdSucursal: 0
+        }
+        $("#Comentarios").val("");
+
+        $("#cbxSucursal").change();
+
+        $.post('@Url.Action("ObtenerInfoXml", "CompletarFacturacionRecibida")', {
+            Sequence: Sequence
+        }, function (data) {
+            if (data.Context != null) {
+                console.log(data.Context);
+                FacturaCompra.Conceptos = [];
+                var table = $('#Conceptos').DataTable();
+                table.destroy();
+                $("#DetalleConceptos").html('');
+
+                $.each(data.Context.Conceptos, function (index, value) {
+                    $("#DetalleConceptos").append('<tr>\
+                                                        <td>'+index+'</td>\
+                                                        <td><input type="text" class="form-control" id="Descripcion' + index + '" value="' + value.Descripcion + '"></td>\
+                                                        <td>'+ formatNumber.new(value.Importe.toFixed(2), "$") + '</td>\
+                                                        <td><div class="input-group"><input type="text" class="form-control" id="Cuenta'+ index + '" readonly="readonly" style="min-width: 300px;"><span class="input-group-btn"><button class="btn btn-default" type="button" data-toggle="modal" data-target="#cuentas-contables" data-original-title onclick="GetCuentas(' + index + ')">Buscar</button></span></div></td>\
+                                                        <td><div class="input-group"><input type="text" class="form-control" id="Contenedor'+ index + '" onblur="SetContenedor(' + index + ')"><span class="input-group-btn"><button class="btn btn-danger" type="button" onclick="DivideConcepto(' + index + ', ' + value.Importe + ',\'' + value.Descripcion.split("\n").join(" ") +'\')">+</button></span></div></td>\
+                                                    </tr >');
+
+
+                    //alert(JSON.stringify(value));
+                    
+                    var concepto = {
+                        Sequence: index,
+                        Retenciones: value.Impuestos == null ? [] : value.Impuestos.Retenciones,
+                        Traslados: value.Impuestos == null ? [] : value.Impuestos.Traslados,
+                        Importe: value.Importe,
+                        Descripcion: value.Descripcion
+                    }
+
+                    FacturaCompra.Conceptos.splice(0, 0, concepto);
+
+                    //alert(JSON.stringify(FacturaCompra));
+                });
+
+
+                FacturaCompra.TipoCambioOriginal = data.Context.TipoCambio;
+                FacturaCompra.MonedaOriginal = data.Context.Moneda;
+                FacturaCompra.Fecha = data.Context.Fecha;
+                FacturaCompra.Sequence = data.Context.Folio;
+                $("#Proveedor").val(data.Context.Emisor.Nombre);
+                FacturaCompra.Rfc = data.Context.Emisor.Rfc;
+                FacturaCompra.UUID = data.Context.TimbreFiscalDigital.UUID;
+                $("#Cuenta").val("");
+
+                console.log(JSON.stringify(FacturaCompra));
+
+            }
+
+        });
+    };
+
+    function DescargarPdf(Uuid) {
+		window.location.href = '@Url.Action("DownloadPdf", "FacturacionRecibida")' + '?Uuid=' + Uuid;
+	};
+
+	function DescargarXml(Uuid) {
+		window.location.href = '@Url.Action("DownloadXml", "FacturacionRecibida")' + '?Uuid=' + Uuid;
+    };
+
+    //Función para mostrar los archivos seleccionados y validar la extension y tamaño del archivo
+    $("#Files").change(function () {
+        var idCont = $('#idCont').val();
+        var duplicados = "";
+        var primero = true;
+        $('#archivosSeleccionados').empty();
+        var GetFiles = this.files;
+        $.each(GetFiles, function (index, file) {
+            if (file.size > 41947304) {//Si el archivo pesa mas de 4MB
+                swal({
+                    title: "Error tamaño",
+                    text: "Tu archivo" + file.name + " sobrepasa el tamaño permitido de 4MB",
+                    icon: "warning",
+                    button: true,
+                    dangerMode: true,
+                }).then((fin) => {
+                    $("#Files").val('');
+                    $('#archivosSeleccionados').empty();
+                    return false;
+                });
+            } else {
+                //Verificamos las extensiones
+                let ext = file.name.substr(-4);
+                if (ext !== ".pdf" && ext !== ".PDF" && ext !== ".xls" && ext !== "xlsx" && ext !== ".xml") {
+                    swal({
+                        title: "Error formato",
+                        text: "Solo se permiten archivos pdf, xls, xlsx, xml",
+                        icon: "warning",
+                        button: true,
+                        dangerMode: true,
+                    }).then((fin) => {
+                        $("#Files").val('');
+                        $('#archivosSeleccionados').empty();
+
+                    });
+                    return false;
+                }
+
+                $('<div style="text-align:right;color: green;" />').text(file.name).appendTo('#archivosSeleccionados');
+                //Comprobamos para ver si el archivo existe y si se desea sobreescribir
+                @*$.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("ComprobarArchivoContenedor", "Contenedor")',
+                    async: false,
+                    timeout: 3000,
+                    type: 'POST',
+                    data: '{"idContenedor":' + idCont + ', "filename":"' + file.name + '"}',
+                    dataType: "json",
+                    success: function (data) {
+                        $('<p/>').text(file.name).appendTo('#archivosSeleccionados');
+                        if (data.Context != "") {//Existe
+                            if (primero) {
+                                duplicados = duplicados + data.Context;
+                                primero = false;
+                            }
+                            else
+                                duplicados = duplicados + "\n" + data.Context;
+                        }
+                    },
+                    error: function (error) {
+                        swal({
+                            title: "Error",
+                            text: "Error en la api: ComprobarArchivo" + "\n" + error,
+                            icon: "error",
+                            button: true,
+                            dangerMode: true,
+                        })
+                    }
+                })*@
+            }
+        });
+        //Si hay duplicados
+        //if (duplicados != "") {
+        //    swal({
+        //        title: 'Archivos duplicados',
+        //        text: "Los archivos:\n " + duplicados + " \n¡Ya existen!\n¿Desea sobreescribirlos?",
+        //        icon: 'warning',
+        //        buttons: ["No", "Si, Sobreescribir"],
+        //    }).then((result) => {
+        //        if (!result) {//No sobreescribir
+        //            $("#Files").val('');
+        //            $('#archivosSeleccionados').empty();
+        //            return false;
+        //        }
+        //    })
+        //}
+    })
+
+	var formatNumber = {
+		separador: ",", // separador para los miles
+		sepDecimal: '.', // separador para los decimales
+		formatear: function (num) {
+			num += '';
+			var splitStr = num.split('.');
+			var splitLeft = splitStr[0];
+			var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+			var regx = /(\d+)(\d{3})/;
+			while (regx.test(splitLeft)) {
+				splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+			}
+			return this.simbol + splitLeft + splitRight;
+		},
+		new: function (num, simbol) {
+			this.simbol = simbol || '';
+			return this.formatear(num);
+		}
+	}
+
+</script>

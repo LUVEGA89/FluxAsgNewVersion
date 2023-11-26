@@ -1,0 +1,3 @@
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\x64\Release\Interop.SAPbobsCOM.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\x64\Release\Reporting.Service.Web.UI.csproj.ResolveComReference.cache
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Reporting.Service.Web.UI\obj\x64\Release\Reporting.Service.Web.UI.csproj.CoreCompileInputs.cache

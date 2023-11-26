@@ -1,0 +1,316 @@
+﻿
+@{
+    ViewBag.Title = "AnalisisCliente";
+}
+
+<section class="content-header">
+    <h1>
+        Análisis Clientes
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Análisis Clientes</a></li>
+        <li class="active">Ventas</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-group"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="Vendedor">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="DelAl">
+                                <span class="input-group-btn">
+                                    <button id="btn-AnalisisClientes" type="button" class="btn btn-default btn-flat"><i class="fa fa-balance-scale"></i> Generar</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="VendedorWait" style="display:none;" class="overlay">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">Detalle por vendedor</h3>
+                    <div class="box-tools pull-right">
+                        <button id="btn-DetalleCliente" type="button" class="btn btn-box-tool"><i class="fa fa-file-excel-o"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table id="TableClientes" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <th>Promedio año anterior</th>
+                                    <th>Promedio año actual</th>
+                                    <th>Crecimiento(Promedio)</th>
+                                    <th>Venta año anterior</th>
+                                    <th>Venta año actual</th>
+                                    <th>Crecimiento(Venta)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="DetalleClientes"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">Detalle Sku´s en oferta</h3>
+                    <div class="box-tools pull-right">
+                        <button id="btn-DetalleSku" type="button" class="btn btn-box-tool"><i class="fa fa-file-excel-o"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table id="TableSkuOferta" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sku</th>
+                                    <th>Cliente</th>
+                                    <th>Agente</th>
+                                    <th>Cantidad</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="DetalleSkuOferta"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    InitModule();
+
+    function InitModule() {
+        $('#TableClientes').DataTable();
+
+        $('#TableSkuOferta').DataTable();
+        var options = {
+            url: function (phrase) {
+                return "@Url.Action("FindVendedor", "Venta")";
+            },
+            getValue: function (element) {
+                return element.Coincidencia;
+            },
+            list: {
+                onSelectItemEvent: function () {
+                    var Codigo = $("#Vendedor").getSelectedItemData().Nombre;
+
+                    $("#Vendedor").val(Codigo).trigger("change");
+
+                },
+                //onHideListEvent: function() {
+                //    $("#inputTwo").val("").trigger("change");
+                //}
+            },
+            ajaxSettings: {
+                dataType: "json",
+                method: "POST",
+                data: {
+                    dataType: "json",
+                }
+            },
+            preparePostData: function (data) {
+                data.phrase = $("#Vendedor").val();
+                return data;
+            },
+            requestDelay: 400
+        };
+
+        $("#Vendedor").easyAutocomplete(options);
+        $('#DelAl').daterangepicker({
+            locale: {
+                cancelLabel: 'Clear',
+                daysOfWeek: [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa"
+                ],
+                monthNames: [
+                     "Enero",
+                     "Febrero",
+                     "Marzo",
+                     "Abril",
+                     "Mayo",
+                     "Junio",
+                     "Julio",
+                     "Agosto",
+                     "Septiembre",
+                     "Octubre",
+                     "Noviembre",
+                     "Deciembre"
+                ]
+            }
+
+        });
+    }
+
+    $("#btn-AnalisisClientes").click(function () {
+        GetDetalleCliente();
+        GetDetalleSkuOferta();
+    });
+
+    function GetDetalleCliente() {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("AnalisisClientes", "Venta")', {
+            Del: Del,
+            Al: Al,
+            Vendedor: $("#Vendedor").val()
+        }, function (data) {
+            console.log(data)
+            if (data != null && $.isArray(data.Context)) {
+
+                var VP = $('#TableClientes').DataTable();
+                VP.destroy();
+                $("#DetalleClientes").html('');
+                $.each(data.Context, function (index, value) {
+                    console.log(value)
+                    $("#DetalleClientes").append("<tr>\
+                                                    <td>"+ value.Codigo + "</td>\
+                                                    <td>" + value.Nombre + "</td>\
+                                                    <td>" + formatNumber.new(value.PromedioAñoAnterior.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.PromedioAñoActual.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.IncrementoDecrementoPromedio.toFixed(2), "") + "</td>\
+                                                    <td>" + formatNumber.new(value.VentaPeriodoAnterior.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.VentaPeriodoActual.toFixed(2), "$") + "</td>\
+                                                    <td>" + formatNumber.new(value.IncrementoDecrementoVenta.toFixed(2), "") + "</td>\
+                                                </tr>");
+
+                });
+                $('#TableClientes').DataTable();
+            } else {
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+    function GetDetalleSkuOferta() {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("AnalisisSkuOferta", "Venta")', {
+            Del: Del,
+            Al: Al
+        }, function (data) {
+            console.log(data)
+            if (data != null && $.isArray(data.Context)) {
+                var VP = $('#TableSkuOferta').DataTable();
+                VP.destroy();
+                $("#DetalleSkuOferta").html('');
+                $.each(data.Context, function (index, value) {
+                    console.log(value)
+                    $("#DetalleSkuOferta").append("<tr>\
+                                                    <td>" + value.Sku + "</td>\
+                                                    <td>" + value.Cliente + "</td>\
+                                                    <td>" + value.Agente + "</td>\
+                                                    <td>" + formatNumber.new(value.Cantidad.toFixed(2), "") + "</td>\
+                                                    <td>" + formatNumber.new(value.Monto.toFixed(2), "$") + "</td>\
+                                                  </tr>");
+
+                });
+                $('#TableSkuOferta').DataTable();
+            } else {
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+
+    $("#btn-DetalleCliente").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $.post('@Url.Action("DetalleAnalisisClientes", "Venta")', {
+            Del: Del,
+            Al: Al,
+            Vendedor: $("#Vendedor").val()
+        }, function (data) {
+            console.log(data)
+            window.location.href = '@Url.Action("Download", "Venta")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+        });
+    });
+    $("#btn-DetalleSku").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $.post('@Url.Action("DetalleAnalisisSkuOferta", "Venta")', {
+            Del: Del,
+            Al: Al
+        }, function (data) {
+            console.log(data)
+            window.location.href = '@Url.Action("Download", "Venta")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+        });
+    });
+</script>
+<script>
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>

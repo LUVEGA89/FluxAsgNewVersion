@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "Presupuesto";
+}
+
+<section class="content-header">
+    <h1>
+        Presupuesto por usuario
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Presupuesto</a></li>
+        <li class="active">Administración</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Añadir presupuesto</h3>
+                </div>
+                <div class="box box-body">
+                    <div class="row-fluid">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Usuario:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                    <select class="form-control pull-right" id="usuario"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mes:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <select class="form-control pull-right" id="mes">
+                                        <option value="1">ENERO</option>
+                                        <option value="2">FEBRERO</option>
+                                        <option value="3">MARZO</option>
+                                        <option value="4">ABRIL</option>
+                                        <option value="5">MAYO</option>
+                                        <option value="6">JUNIO</option>
+                                        <option value="7">JULIO</option>
+                                        <option value="8">AGOSTO</option>
+                                        <option value="9">SEPTIEMBRE</option>
+                                        <option value="10">OCTUBRE</option>
+                                        <option value="11">NOVIEMBRE</option>
+                                        <option value="12">DICIEMBRE</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Año:</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <select class="form-control pull-right" id="año">
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Monto:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-money"></i>
+                                    </div>
+                                    <input type="text" id="monto" onKeyPress="return SoloNumeros(event);" class="form-control pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="box box-footer">
+                    <div id="btn-add" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Agregar</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Detalle solicitud</h3>
+                </div>
+                <div class="box box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>Usuario</td>
+                                        <td>Fecha</td>
+                                        <td>Monto</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="detalle"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="box box-footer">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+    InitModule();
+
+    function InitModule() {
+        LoadUsuariosSAP();
+        LoadPresupuestos();
+    }
+
+    function LoadUsuariosSAP() {
+        $.post('@Url.Action("GetUsuariosSAP", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#usuario").html('');
+                $("#usuario").append('<option>-- Seleccione usuario--</option>');
+                $.each(data.Context, function (index, value) {
+                    $("#usuario").append('<option value="' + value.Id + '">' + value.Nombre + ' ' + value.ApellidoPaterno + ' ' + value.ApellidoMaterno + '</option>');
+                });
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+
+    function LoadPresupuestos() {
+
+        $.post('@Url.Action("GetPresupuestos", "Viaticos")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+                $("#detalle").html("");
+                $.each(data.Context, function (index, value) {
+                    $("#detalle").append('<tr>\
+                                          <td>'+ value.Usuario + '</td>\
+                                          <td>'+ value.Fecha + '</td>\
+                                          <td>'+ formatNumber.new(value.Monto.toFixed(2), '$') + ' </td >\
+                                      </tr >');
+
+                    
+                });
+
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+
+    }
+
+     $("#btn-add").click(function () {
+        $.post('@Url.Action("AgregaPresupuesto", "Viaticos")', {
+            Usuario: $("#usuario").val(),
+            Mes: $("#mes").val(),
+            Año: $("#año").val(),
+            Monto: $("#monto").val()
+        }, function (data) {
+
+            if (data.Code == 0) {
+                LoadPresupuestos();
+            }
+
+        });
+    });
+
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+
+    function SoloNumeros(evt) {
+        if (window.event) {//asignamos el valor de la tecla a keynum
+            keynum = evt.keyCode; //IE
+        }
+        else {
+            keynum = evt.which; //FF
+        }
+        //comprobamos si se encuentra en el rango numérico y que teclas no recibirá.
+        if ((keynum > 45 && keynum < 58) || keynum == 8 || keynum == 13 || keynum == 6) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+

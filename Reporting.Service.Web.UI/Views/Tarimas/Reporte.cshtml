@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "Reporte";
+}
+
+<section class="content-header">
+    <h1>
+        Tarimas
+        <small>Reporte</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Tarimas</a></li>
+        <li class="active">Reporte</li>
+        <li> LVV</li>
+    </ol>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-filter"></i>
+
+                    <h3 class="box-title">Filtros</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="RangoFechas">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <ul class="list-inline pull-right">
+                                <li><button type="button" class="btn btn-success BuscarSIE">Buscar</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+
+                </div>
+                <div id="FiltrosWait" style="display:none;" class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-database"></i>
+
+                    <h3 class="box-title">Reporte</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table id="Cabecera" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sequence</th>
+                                    <th>Factura</th>
+                                    <th>Folio SAP</th>
+                                    <th>Código cliente</th>
+                                    <th>Nombre cliente</th>
+                                    <th>Fecha(MM/dd/YYYY)</th>
+                                    <th>Tarimas</th>
+                                    <th>No. piezas</th>
+                                    <th>Total</th>
+                                    <th>Estatus</th>
+                                </tr>
+                            </thead>
+                            <tbody id="Detalles"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer">
+
+                </div>
+                <div id="DetallesWait" style="display:none;" class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $("#RangoFechas").daterangepicker({
+        locale: {
+            cancelLabel: "Clear",
+            daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+            monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        }
+
+    }).on('apply.daterangepicker', function (ev, picker) {//Cuando se oprime el boton de aceptar
+        hideOverlays();
+    }).on('show.daterangepicker', function (ev, picker) {//Cuando se muestra
+        showOverlays();
+    }).on('hide.daterangepicker', function (ev, picker) {//Cuando se esconde
+        hideOverlays();
+    });
+
+    $(".BuscarSIE").click(function () {
+        showOverlays();
+
+        var drp = $('#RangoFechas').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: '¿Los parametros de busqueda son correctos?.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $.post('@Url.Action("Buscar", "Tarimas")', {
+                            Inicio: Del,
+                            Termino: Al,
+                            EstatusSincronizacion: null
+                        }, function (data) {
+                            hideOverlays();
+                            if (data.Code == -1) {
+                                swal({
+                                    title: "Error!",
+                                    text: data.Message,
+                                    icon: "error",
+                                    button: "ok",
+                                });
+                            } else {
+                                if (data.Context.Tarimas.length <= 0) {
+                                    swal({
+                                        title: "Advertencia!",
+                                        text: "No se encontraron registros para los filtros especificados.",
+                                        icon: "warning",
+                                        button: "ok",
+                                    });
+                                }
+                                else {
+                                    if (data.Context != null && $.isArray(data.Context.Tarimas)) {
+                                        var VP = $('#Cabecera').DataTable();
+                                        VP.destroy();
+                                        $("#Detalles").html('');
+                                        var estatus = "";
+
+                                        $.each(data.Context.Tarimas, function (index, value) {
+                                            switch (value.EstatusSincronizacion) { case 1: estatus = "SIE"; break; case 2: estatus = "SAP"; break; case 4: estatus = "Canceladas"; break; }
+                                            $("#Detalles").append('<tr>\
+                                        <td>' + value.Identifier + '</td>\
+							            <td>' + value.DocNum + '</td>\
+                                        <td>' + value.FolioSAP + '</td>\
+                                        <td>' + value.CardCodeCliente + '</td>\
+                                        <td>' + value.CardNameCliente + '</td>\
+							            <td>' + moment(value.DocDate).format('L') + '</td>\
+							            <td>' + value.NoCajas + '</td>\
+							            <td>' + value.NoPiezas + '</td>\
+							            <td>' + formatNumber.new(value.DocTotal.toFixed(2), "$") + '</td>\
+                                        <td>' + estatus + '</td>\
+						             </tr>\>');
+                                        });
+
+                                        $('#Cabecera').DataTable({
+                                            "dom": "Bfrtip",
+                                            "buttons": [
+                                                "excel", "pdf"
+                                            ],
+                                            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+                                            "paging": true,
+                                            "lengthChange": true,
+                                            "searching": true,
+                                            "ordering": true,
+                                            "info": true,
+                                            "autoWidth": true,
+                                            "language": {
+                                                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        hideOverlays();
+                        $.alert('La busqueda ha sido cancelada por el usuario.');
+                    }
+                }
+            }
+        });
+    });
+
+    function showOverlays() {
+        $("#ButtonsWait").show();
+        $("#FiltrosWait").show();
+        $("#DetallesWait").show();
+    }
+
+    function hideOverlays() {
+        $("#ButtonsWait").hide();
+        $("#FiltrosWait").hide();
+        $("#DetallesWait").hide();
+    }
+
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>

@@ -1,0 +1,30 @@
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Services\bin\Debug\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Services\bin\Debug\Services.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Services\obj\Debug\Services.csprojResolveAssemblyReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Services\obj\Debug\Services.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Services\obj\Debug\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\subversion\Services\obj\Debug\Services.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\bin\Debug\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\bin\Debug\Services.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\obj\Debug\Services.csprojAssemblyReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\obj\Debug\Services.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\obj\Debug\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\obj\Debug\Services.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\bin\Debug\Services.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\bin\Debug\Services.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\Debug\Services.csproj.CoreCompileInputs.cache
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\Debug\Services.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\Debug\Services.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\Debug\Services.csprojAssemblyReference.cache
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Services\bin\Debug\Services.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Services\bin\Debug\Services.pdb
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Services\obj\Debug\Services.csprojAssemblyReference.cache
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Services\obj\Debug\Services.csproj.CoreCompileInputs.cache
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Services\obj\Debug\Services.dll
+C:\Users\mcaleb01\Desktop\Massriv\SIE\Services\obj\Debug\Services.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\bin\Debug\Services.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\bin\Debug\Services.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\obj\Debug\Services.csproj.AssemblyReference.cache
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\obj\Debug\Services.csproj.CoreCompileInputs.cache
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\obj\Debug\Services.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\obj\Debug\Services.pdb

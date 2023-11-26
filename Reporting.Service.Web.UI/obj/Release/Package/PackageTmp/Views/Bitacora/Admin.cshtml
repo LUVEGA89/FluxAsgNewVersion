@@ -1,0 +1,307 @@
+﻿
+@{
+    ViewBag.Title = "Administracion";
+}
+<section class="content-header">
+    <h1>
+        Administración
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Bitacora</a></li>
+        <li class="active">Administración</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title" id="lblRubroNombre">Rubros Bitacora</h3>
+                </div>
+                <div class="box-body">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Área</label>
+                            <select class="form-control" id="departamento">
+                                <option value="0">NO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Rubro:</label>
+                            <input class="form-control" id="rubro" placeholder="" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción:</label>
+                            <input class="form-control" id="descripcion" placeholder="" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Ejemplo:</label>
+                            <input class="form-control" id="ejemplo" placeholder="" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Orden:</label>
+                            <input class="form-control" id="orden" placeholder="" type="number">
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" id="saveRubro" class="btn btn-block btn-primary"><i class="fa fa-plus-circle"></i> Añadir</button>
+                    </div>
+
+
+                </div>
+                <div class="box-footer">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_1" data-toggle="tab">RUBROS DE BITACORA</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="content">
+                        <div class="post">
+                            <div class="user-block">
+                                <img class="img-circle img-bordered-sm" src="~/dist/img/segmento.jpg" alt="user image">
+                                <span class="username">
+                                    <a href="#">RECURSOS HUMANOS</a>
+                                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-plus"></i></a>
+                                </span>
+                                <span class="description">Descripcion del segmento</span>
+                            </div>
+
+                            <ul class="todo-list">
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    <span class="text">Plantilla Completa (Se revisa que tengan plantilla Completa y Autorizada por la Dirección.)</span>
+                                    <small class="label label-default"><i class="fa fa-pie-chart"></i> 6</small>
+                                    <div class="tools">
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    <span class="text">Universidad Fussion (El personal cuenta con todos los cursos en plataforma on line)</span>
+                                    <small class="label label-default"><i class="fa fa-pie-chart"></i> 8</small>
+                                    <div class="tools">
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
+                                </li>
+                            </ul><br />
+
+                            <ul class="list-inline">
+                                <li class="pull-right">
+                                    <a href="#" class="link-black text-sm">
+                                        <i class="fa fa-bars margin-r-5"></i> Rubros (2)
+                                    </a>
+                                </li>
+                            </ul><br />
+
+                        </div>
+                        <div class="post">
+                            <div class="user-block">
+                                <img class="img-circle img-bordered-sm" src="~/dist/img/segmento.jpg" alt="user image">
+                                <span class="username">
+                                    <a href="#">ADMINISTRACIÓN</a>
+                                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-plus"></i></a>
+                                </span>
+                                <span class="description">Descripcion del segmento</span>
+                            </div>
+
+                            <ul class="todo-list">
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    <span class="text">Fondo Operativo  (Se realiza un arqueo para validar que no exista ninguna diferencia, y que los comprobantes estén justificados, y que no sean de meses anteriores.)</span>
+                                    <small class="label label-default"><i class="fa fa-pie-chart"></i> 8</small>
+                                    <div class="tools">
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
+                                </li>
+                            </ul><br />
+
+                            <ul class="list-inline">
+                                <li class="pull-right">
+                                    <a href="#" class="link-black text-sm">
+                                        <i class="fa fa-bars margin-r-5"></i> Rubros (1)
+                                    </a>
+                                </li>
+                            </ul><br />
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div id="tbAuditoria" class="nav-tabs-custom">
+
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+    InitModule();
+
+    function InitModule() {
+        GetDepartamentos();
+        LoadRubros();
+    };
+
+    function GetDepartamentos() {
+        $.post('@Url.Action("GetDepartamentos", "Bitacora")', function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#departamento").html('');
+                $("#departamento").append('<option>-- Seleccione departamento--</option>');
+                $.each(data.Context, function (index, value) {
+                    $("#departamento").append('<option value="' + value.Sequence + '">' + value.Nombre + '</option>');
+                });
+            }else{
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    };
+
+    $("#saveRubro").click(function () {
+        $.post('@Url.Action("AddRubro", "Bitacora")', {
+            Departamento: $('#departamento').val(),
+            Rubro: $("#rubro").val(),
+            Descripcion: $("#descripcion").val(),
+            Ejemplo: $("#ejemplo").val(),
+            Orden: $("#orden").val()
+        }, function (data) {
+
+            console.log(data)
+            if (data.Context != null) {
+
+                $('#departamento').val('');
+                $("#rubro").val('');
+                $("#descripcion").val('');
+                $("#ejemplo").val('');
+                $("#orden").val('');
+                LoadRubros();
+            } else {
+                alert('Ocurrío un error al intentar guardar la información.')
+            }
+
+        });
+    });
+    function DeleteRubro(sequence) {
+        $.confirm({
+            title: '¡Confirmar!',
+            content: '¿Esta seguro de que desea eliminar el rubro?.',
+            type: 'red',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $.post('@Url.Action("DeleteRubro", "Bitacora")', {
+                            Sequence: sequence
+                        }, function (data) {
+                            console.log(data.Code)
+                            if (data.Code == 0) {
+                                $.alert("El registro fue deshabilitado correctamente.");
+                                LoadRubros();
+
+                            }
+
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    };
+
+    Array.prototype.unique = function (a) {
+      return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+      });
+
+    function LoadRubros() {
+        $.post('@Url.Action("GetRubros", "Bitacora")', function (data) {
+            console.log(data)
+            if (data.Context != null && $.isArray(data.Context)) {
+
+                $("#content").html('');
+
+                var Rubros = '';
+                var Segmentos = '';
+                var departamentos = [];
+
+                $.each(data.Context, function (index, value1) {
+                    departamentos.push(value1.Nombre);
+                });
+
+                $.each(departamentos.unique(), function (index, value) {
+                    Rubros = '';
+                    var CountRubros = 0;
+                    //contruir tabs
+                        $.each(data.Context, function (index2, value2) {
+                            
+                            //mostrar segmentos
+                            if (value2.Nombre == value) {
+                                //Mostrar rubros
+                                    Rubros = Rubros + '<li>\
+                                                        <span class="handle">\
+                                                            <i class="fa fa-ellipsis-v"></i>\
+                                                            <i class="fa fa-ellipsis-v"></i>\
+                                                        </span>\
+                                                        <span class="text">'+ value2.Requerimiento + '  (' + value2.Descripcion + ') [' + value2.Ejemplo +']</span>\
+                                                        <div class="tools">\
+                                                            <i onclick="EditarRubro(' + value2.Sequence + ')" class="fa fa-edit"></i>\
+                                                            <i onclick= "DeleteRubro('+ value2.Sequence +')" class="fa fa-trash-o"></i>\
+                                                        </div>\
+                                                  </li>';
+                                CountRubros++;
+                            };
+
+                        });
+
+                        Segmentos = Segmentos + '<div class="post">\
+                                                        <div class="user-block">\
+                                                            <img class="img-circle img-bordered-sm" src="@Url.Content("~/Content/dist/img/segmento.jpg")" alt="user image">\
+                                                            <span class="username">\
+                                                                <a href="#">'+ value + '</a>\
+                                                            </span>\
+                                                        </div>\
+                                                        <ul class="todo-list"> ' + Rubros + ' \
+                                                        </ul><br />\
+                                                        <ul class="list-inline">\
+                                                            <li class="pull-right">\
+                                                                <a href="#" class="link-black text-sm">\
+                                                                    <i class="fa fa-bars margin-r-5"></i> Rubros (' + CountRubros + ')\
+                                                                </a>\
+                                                            </li>\
+                                                        </ul><br />\
+                                                    </div>';
+
+
+                });
+                $("#content").html(Segmentos);
+
+                } else {
+                alert('Ocurrío un error al intentar guardar la información.')
+            }
+
+        });
+    };
+</script>

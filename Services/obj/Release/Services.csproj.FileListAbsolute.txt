@@ -1,0 +1,18 @@
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\bin\Release\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\bin\Release\Services.pdb
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\obj\Release\Services.csprojAssemblyReference.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\obj\Release\Services.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\obj\Release\Services.dll
+C:\Users\Ricardo Alonso Hdz\Desktop\SIE\Services\obj\Release\Services.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\bin\Release\Services.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\bin\Release\Services.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\Release\Services.csproj.CoreCompileInputs.cache
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\Release\Services.dll
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\Release\Services.pdb
+C:\Users\Develop12\Desktop\SISTEMAS MASSRI\SIE v3\SIE\Services\obj\Release\Services.csprojAssemblyReference.cache
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\bin\Release\Services.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\bin\Release\Services.pdb
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\obj\Release\Services.csproj.AssemblyReference.cache
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\obj\Release\Services.csproj.CoreCompileInputs.cache
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\obj\Release\Services.dll
+E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Services\obj\Release\Services.pdb

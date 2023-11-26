@@ -1,0 +1,2931 @@
+﻿
+@{
+    ViewBag.Title = "Seguimiento Producto";
+}
+
+@model Reporting.Service.Web.UI.Models.ProductosModel
+@{
+    var tam = this.Model.Roles.Count();
+    var roles = this.Model.Roles;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css" />
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js">
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+<style>
+    .widget-user .box-footer {
+        padding-top: 100px !Important;
+    }
+
+    .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+        display: block;
+        width: 100%;
+        height: 150px;
+    }
+
+    #imagenDetalle {
+        width: 50%;
+        margin-left: 25%;
+    }
+
+    #carousel-example-generic1 {
+        width: 50%;
+    }
+
+    .btn-spacing {
+        margin-right: 10px;
+    }
+
+    #panelFind {
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+
+    #panelNuevoProducto {
+        height: 150px;
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+    /*#tbPrecioNuevoProducto {
+        height: 150px;
+        max-height: 200px;
+        overflow-y: scroll;
+    }*/
+
+    .table {
+        margin-top: 3px;
+    }
+
+    .table, thead {
+        background-color: rgba(121, 119, 121,0.2);
+        color: black;
+        border: 1px solid white;
+    }
+
+    .table, tbody {
+        border: 1px solid white;
+    }
+
+    #addTablePrecios thead {
+        background-color: rgba(0,92,191,0.9);
+        color: white;
+    }
+
+    #tbSKUSugerido {
+        width: 50%;
+        text-align: center;
+    }
+
+        #tbSKUSugerido thead {
+            background-color: rgba(0,92,191,0.9);
+            color: white;
+        }
+
+        #tbSKUSugerido tbody {
+            background-color: lightgray;
+            color: black;
+        }
+
+    #modal-success {
+        width: 100%;
+        height: 800px;
+    }
+
+    #tb-Comparacion {
+        padding: 0px;
+        max-height: 150px;
+        overflow-y: scroll;
+    }
+
+    #imagenEvidencia {
+        padding: 0px;
+        max-height: 130px;
+        overflow-y: scroll;
+    }
+    /************* Radios de seleccion de busqueda de productos *************/
+    #tbRadios {
+        background-color: rgb(42,131,200);
+        color: white;
+    }
+
+        #tbRadios tr th {
+            color: white;
+            text-align: center;
+            width: 50%;
+        }
+    /************* Modal de nuevos productos *************/
+
+    #modal-NuevoProducto .modal-body {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    #modal-NuevoProducto .modal-footer {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    /************* Modal de Imagenes *********************/
+    #imagemodal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        padding-top: 2%;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.9);
+    }
+
+        #imagemodal .close {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+            #imagemodal .close:hover,
+            #imagemodal .close:focus {
+                color: white;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        #imagemodal .modal-content {
+            background-color: rgba(0,0,0,0);
+            margin: auto;
+            display: block;
+            width: 400px;
+        }
+
+        #imagemodal .modal-content {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+    @@-webkit-keyframes zoom {
+        from {
+            -webkit-transform: scale(0)
+        }
+
+        to {
+            -webkit-transform: scale(1)
+        }
+    }
+
+    @@keyframes zoom {
+        from {
+            transform: scale(0)
+        }
+
+        to {
+            transform: scale(1)
+        }
+    }
+
+    @@media only screen and (max-width: 700px) {
+        #imagemodal .modal-content {
+            width: 100%;
+        }
+    }
+    /*carga de imagenes, loader de espera*/
+    /*.loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        opacity: .7;
+        background-color: rgb(14,30,47);
+        background: url('../../Content/dist/img/pageLoader.gif') 50% 50% no-repeat rgb(14,30,47);
+    }*/
+    /*** diseño de tree de seguimiento de productos nuevos */
+    /*#treeviewSKUFechasNuevo .list-group .list-group-item .node-treeviewSKUFechasNuevo:active {
+        background-color:red;
+
+    }*/
+    #PanelSeguimientoProductos #chatSeguimientoFecha {
+        min-height: 200px;
+    }
+
+    #PanelSeguimientoProductos #chat-box {
+        min-height: 200px;
+    }
+
+    #PanelSeguimientoProductos #chatSeguimientoFechaNuevoSKU {
+        min-height: 200px;
+    }
+
+    #overBody {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        opacity: .7;
+        background-color: rgb(14,30,47);
+    }
+</style>
+<!--cabecera de pagina-->
+<section class="content-header">
+    <h1>
+        Seguimiento de productos
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Seguimiento de productos</a></li>
+        <li class="active">Ventas</li>
+        <!------- Seccion del Author JIMERU ------>
+        <li class="active">JJ</li>
+    </ol>
+</section>
+<!--cuerpo de la pagina-->
+<section class="content">
+    <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+    <div id="overBody" class="loading" style="display:none;">
+    </div>
+    <div class="row">
+        <!--carga de SKU (productos) existentes y button de comentarios-->
+        <div class="col-md-4">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <!----------------- titulo y link Agregar SKU ----------------->
+                    <div class="row col-md-12">
+                        <i class="fas fa-stream"></i>
+                        <h3 class="box-title">Productos</h3>
+                        <a class="btn btn-link pull-right bg-yellow" id="linkAddNuevoProducto"
+                           href="javascript:void(0);" data-toggle="tooltip" data-placement="left"
+                           title="Permite agregar una sugerencia de producto nuevo"><i class="fas fa-plus"></i>Agregar Nuevo SKU</a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <!-----------------   opciones de busqueda de SKU --------------------->
+                            <h4 id="formBusqueda">Seleccione la forma de busqueda</h4>
+                            <table id="tbRadios" class="table">
+                                <thead class="bg-blue" data-toggle="tooltip" data-placement="right"
+                                       title="Permite seleccionar el tipo de busqueda">
+                                    <tr>
+                                        <th scope="col">
+                                            <input type="radio" name="buscar" id="radSKUExistente" value="1" checked> SKU Existentes
+                                        </th>
+                                        <th scope="col">
+                                            <input type="radio" name="buscar" id="radSKUSugerido" value="2"> SKU Sugeridos
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <!-----------------   Input de busqueda --------------------->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </span>
+                                        <input type="text" class="form-control" id="NombreProductoExistente" placeholder="Nombre / Codigo "
+                                               style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <input type="text" class="form-control" id="NombreProductoSugerido" placeholder="Nombre / Codigo "
+                                               style="text-transform:uppercase;display:none;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <span class="input-group-btn">
+                                            <button id="btnLimpiarInputBusqueda" class="btn btn-default"><i class="fas fa-times-circle"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <!--------------------  Button agregar actividad desde panel ---------->
+                            <div id="btnActividadPrincipal" class="row" style="display:none;">
+                                <div class="col-sm-12">
+                                    <button type="button" onclick="AbrirModalActividad()" class="btn pull-right bg-yellow"
+                                            data-toggle="tooltip" data-placement="left"
+                                            title="Permite agregar una sugerencia o actividad sobre el producto seleccionado">
+                                        Agregar sugerencia de producto <span></span><i class="fa fa-comment"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="Producto" style="display:none;">
+                            <br />
+                            <!--dibuja las opciones de productos encontrados SKU Existentes-->
+                            <div id="panelProductos" class="panel panel-default">
+                                <div class="panel-heading">Productos encontrados </div>
+                                <div id="panelFind">
+                                    <table class="table table-bordered">
+                                        <tbody id="contentProductos"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!---------------------------------------------->
+                            <!--dibuja las opciones de productos encontrados SKU Sugeridos-->
+                            <div id="panelProductosSugeridos" class="panel panel-default" style="display:none">
+                                <div class="panel-heading">Productos encontrados</div>
+                                <div id="panelFind">
+                                    <table class="table table-bordered">
+                                        <tbody id="contentProductosSugeridos"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!---------------------------------------------->
+                            <br />
+                            <!------------- button de fecha----------------->
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="fechainicial">
+                            </div>
+                            <!---------------------------------------------->
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <!---------------------- Button para visualizar comentarios de las actividades --------------->
+                    <div class="col-md-12">
+                        <div id="btn-Comentarios" class="btn btn-primary btn-block" data-toggle="tooltip" data-placement="right"
+                             title="Permite buscar los comentarios, actividades o sugerencias sobre el producto seleccionado en un rango de fechas">
+                            <i class="fa fa-comments"></i> Ver comentarios
+                        </div>
+                    </div>
+                </div>
+                <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                <div id="over01" class="overlay" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+        <!--carga de detalles del SKU -->
+        <div class="col-md-8">
+            <div class="box box-widget widget-user">
+                <div class="widget-user-header bg-blue" style="height:175px;">
+                    <h2 class="widget-user-username text-bold" id="lblCode"></h2>
+                    <h5 class="widget-user-desc" id="lblArticulo"></h5>
+                    <h5 class="widget-user-desc" id="lblFamilia"></h5>
+                    <h5 class="widget-user-desc" id="lblSubFamilia" style="display:none"></h5>
+                    <h5 class="widget-user-desc" id="lblEstatus"></h5>
+                    <br />
+                </div>
+                <div class="box-footer">
+                    <h5 class="widget-user-desc" id="lblEmpaque" style="display:none"></h5>
+                    <h5 class="widget-user-desc" id="lblMarca" style="display:none"></h5>
+                    <h5 class="widget-user-desc" id="lblRegistradoPor" style="display:none"></h5>
+                    <h5 class="widget-user-desc" id="lblRegistradoEl" style="display:none"></h5>
+                    <div id="tablaSKUSugerido" style="display:none">
+                        <table id="tbSKUSugerido">
+                            <thead>
+                                <tr>
+                                    <th>Tipo Precio</th>
+                                    <th>Numero de piezas</th>
+                                    <th>Precio por pieza</th>
+                                </tr>
+                            </thead>
+                            <tbody id="TbContentSKUSugerido"></tbody>
+                        </table>
+                    </div>
+                    <div class="widget-user-image" style="margin-top:15px;height:150px;">
+                        <!--Carrusel de imagenes-->
+                        <div class="row" id="carrousel-dinamic">
+                        </div>
+                    </div>
+                </div>
+                <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                <div id="over02" class="overlay" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------- Panel de conversaciones o comentarios del seguimiento de productos ---------->
+    <div class="row" id="PanelSeguimientoProductos">
+        <div class="col-md-12">
+            <!------------------ button de opciones de panel de chat ------------------------->
+            <ul class="nav nav-pills" role="tablist">
+                <li role="presentation"><button id="btnSeguimientoSKU" class="btn btn-primary active">Seguimiento por SKU </button></li>
+                @for (int i = 0; i < tam; i++)
+                {
+                    if (roles[i].ToString() == "Administrador" || roles[i].ToString() == "Direccion" || roles[i].ToString() == "Compras")
+                    {
+                        <li role="presentation"><button id="btnSeguimientoFecha" class="btn btn-primary">Seguimiento por fechas</button></li>
+                        break;
+                    }
+                }
+                <li role="presentation"><button id="btnSeguimientoSKUNuevos" class="btn btn-primary">Seguimiento de nuevos SKU </button></li>
+            </ul>
+            <!------------------------  Seguimiento de productos por SKU --------------------->
+            <div class="box box-danger" id="SeguimientoSKU">
+                <div class="box-header with-border">
+                    <i class="fa fa-comments"></i>
+                    <h3 class="box-title">Seguimiento de productos</h3>
+                    @for (int i = 0; i < tam; i++)
+                    {
+                        if (roles[i].ToString() == "Administrador" || roles[i].ToString() == "Direccion" || roles[i].ToString() == "Compras")
+                        {
+                            <button type="button" id="btn-descargaReport" class="btn btn-xs pull-right btn-spacing bg-blue"
+                                    data-toggle="modal" style="display:none;padding:5px; color:white; border-radius:5px;">
+                                Descargar reporte <i class="glyphicon glyphicon-download" style="width:20px"></i>
+                            </button>
+                            break;
+                        }
+                    }
+                    <button type="button" onclick="AbrirModalActividad()" class="btn btn-xs pull-right btn-spacing bg-blue" data-toggle="modal" style="border-radius:5px;height:30px;color:white;">Agregar actividad <span></span><i class="fa fa-comment" style="width:20px"></i></button>
+                </div>
+                <div class="box-body chat" id="chat-box">
+                    <div class="row container-fluid">
+                        <div id="treeview_json">
+                            <!--aqui se genera el arbol de comentarios y respuestas-->
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                </div>
+                <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                <div id="over03" class="overlay" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+            <!------------------------  Seguimiento de productos por fechas --------------------->
+            <div class="box box-danger" id="SeguimientoFecha" style="display:none;">
+                <div class="box-header with-border">
+                    <form class="form-inline">
+                        <i class="fa fa-comments"></i>
+                        <h3 class="box-title">Seguimiento de productos por fecha</h3>
+                        <div class="pull-right">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="fechaSeguimiento">
+                                </div>
+                                <button type="button" id="btnBuscar" class="btn btn-primary"><i class="far fa-eye"></i> Ver</button>
+                            </div>
+                            <button type="button" id="btnDescargarReporteFechas" class="btn btn-primary" style="display:none;"> Descargar reporte <i class="glyphicon glyphicon-download" style="width:20px"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-body chat" id="chatSeguimientoFecha">
+                    <div class="row container-fluid">
+                        <div id="treeviewFechas">
+                            <!--aqui se genera el arbol de comentarios y respuestas-->
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                </div>
+                <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                <div id="over04" class="overlay" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+            <!------------------------  Seguimiento de productos nuevos por fecha de registro --------------------->
+            <div class="box box-danger" id="SeguimientoSKUNuevoFecha" style="display:none;">
+                <div class="box-header with-border">
+                    <form class="form-inline">
+                        <i class="fa fa-comments"></i>
+                        <h3 class="box-title">Seguimiento de productos nuevos sugeridos</h3>
+                        <div class="pull-right">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="fechaSeguimientoNuevoSKU">
+                                    <div class="input-group-btn">
+                                        <button type="button" id="btnBuscarNuevoSKU" class="btn btn-primary"><i class="far fa-eye"></i> Ver</button>
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <button type="button" id="btnDescargarNuevoSKU" class="btn btn-primary" style="display:none;">
+                                            Descargar Reporte
+                                            <i class="glyphicon glyphicon-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="box-body chat" id="chatSeguimientoFechaNuevoSKU">
+                    <div class="row container-fluid">
+                        <div id="treeviewSKUFechasNuevo">
+                            <!--aqui se genera el arbol de comentarios y respuestas-->
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                </div>
+                <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                <div id="over05" class="overlay" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------------------------------------------------------------------->
+    <!--------- Modal de agregar actividad nueva(Nueva conversación(primer nivel)----------------->
+    <div class="modal fade " id="modal-success">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered; color:azure">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Agregar actividad</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <form id="frm-actividad" method="post" class="form-horizontal" enctype="multipart/form-data">
+                            <div class="box-body">
+                                <div class="col-md-12">
+                                    @for (int i = 0; i < tam; i++)
+                                    {
+                                        if (roles[i].ToString() == "Administrador" || roles[i].ToString() == "Direccion" || roles[i].ToString() == "Compras")
+                                        {
+                                            <div class="form-group">
+                                                <label for="TxtPermisos" class="col-sm-4 col-sm-offset-4 control-label">Permisos de visualizacion</label>
+                                                <div class="col-sm-4">
+                                                    <select id="TxtPermisos" name="TxtPermisos" class="form-control" data-toggle="tooltip" data-placement="right"
+                                                            title="Permite seleccionar quien puede ver esta actividad">
+                                                        <option value="1" selected>Compras y Dirección</option>
+                                                        <option value="2">Todos</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+                                        else if (roles[i].ToString() == "Ventas")
+                                        {
+                                            <select id="TxtPermisos" name="TxtPermisos" class="form-control" style="display:none">
+                                                <option value="2" selected>Todos</option>
+                                            </select>
+                                            break;
+                                        }
+                                    }
+                                    <!--------- columna izquierda ----------------------------------------------------->
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="txt-titulo" class="col-sm-2 control-label">Titulo</label>
+                                            <div class="col-sm-10">
+                                                <select id="txt-titulo" name="txt-titulo" class="form-control">
+                                                    <option value="default" selected disabled>
+                                                        Seleccione un título
+                                                    </option>
+                                                    @foreach (var item in this.Model.titulosActividads)
+                                                    {
+                                                        <option value="@item.Titulo">@item.Titulo.ToUpper()</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class=" col-sm-12">
+                                                <label for="txt-Comentario" class="control-label">Comentario o descripción</label>
+                                                <textarea type="text" id="txt-Comentario" name="txt-Comentario" class="form-control"
+                                                          placeholder="Agregar descripción de la actividad" data-toggle="tooltip" data-placement="right"
+                                                          title="Agregue una sugerencia o comentario acerca del producto seleccionado" /></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--------- columna derecha ----------------------------------------------------->
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="id-Producto" class="col-sm-2 control-label">Producto</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="id-Producto" name="id-Producto" readonly>
+                                            </div>
+                                        </div>
+                                        <!---------------- Seleccion de imagenes ----------------->
+                                        <div class="form-group">
+                                            <div class="col-sm-12" style="margin-bottom:1px;">
+                                                <label for="imagenEvidencia">Seleccione imagenes de evidencia</label>
+                                                <input class="col-sm-12" type="file" id="imagenEvidencia" name="imagenEvidencia"
+                                                       accept=".jpg, .jpeg, .png" multiple style="border:solid 0.5px;border-color:black;">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div id="btn-addTable" class="btn btn-block bg-yellow" data-toggle="tooltip" data-placement="left"
+                                                     title="Permite agregar datos a la table de comparación de precios">
+                                                    <i class="fa fa-plus"></i> Agregar datos de comparación de precios
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row bg-red" style="text-align:center;">
+                                <label class="text text-bold" style="color:white;"> Tabla de comparacion de precios  </label>
+                            </div>
+                            <!--manejo de table de comparaciones de precio-->
+                            <div class="form-group" id="tb-Comparacion">
+                                <table id="addTablePrecios" class="table" style="margin-left:5%;width:90%;">
+                                    <thead>
+                                        <tr>
+                                            <th scope='col' style='vertical-align:middle;width:17%;text-align:center;'>
+                                                Modelo
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:17%;text-align:center;'>
+                                                Marca
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:16%;text-align:center;'>
+                                                Precio Corp F3
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:18%;text-align:center;'>
+                                                Tipo de Precio
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:16%;text-align:center;'>
+                                                Minimo de piezas
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:16%;text-align:center;'>
+                                                Precio
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbPrecioComparativo" name="tbPrecioComparativo"></tbody>
+                                </table>
+                            </div>
+                            <!--fin de table-->
+                            <div id="datosTable">
+
+                            </div>
+                        </form>
+                        <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                        <div id="overmodal-success" class="overlay" style="display:none;">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-sm-4 pull-right">
+                                <div id="btn-actividad-add" class="btn btn-block bg-blue"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-sm-4 pull-right">
+                                <div id="btn-actividad-cancel" class="btn btn-block bg-blue"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------- modal llenado de formulario para add a tabla de agregar actividad ------------------>
+    <div class="modal fade" id="modalTabla">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered; color:azure">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Agregar a tabla de comparación</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frm-actividad" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="" class="col-sm-3 control-label">Modelo</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="txt-Modelo" name="txt-Modelo" class="form-control" placeholder="Agregar Modelo" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-3 control-label">Stock cedis</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="txt-StockCedis" name="txt-StockCedis" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-3 control-label">Tipo precio</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="txt-TipoPrecio" name="txt-TipoPrecio" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-3 control-label">Marca</label>
+                                <div class="col-sm-7">
+                                    @*<input type="text" id="txt-Marca" name="txt-Marca" class="form-control" placeholder="Agregar Marca" />*@
+                                    <select id="txt-Marca" name="txt-Marca" class="form-control">
+                                        <option value="default" selected disabled>Seleccione una marca</option>
+                                        @foreach (var item in this.Model.marcaProductos)
+                                        {
+                                            <option value="@item.Marca">@item.Marca</option>
+                                        }
+                                        <option>Otro...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-5 control-label">Precio Ultra</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="txt-PrecioLocal" name="txt-PrecioLocal" class="form-control" placeholder="Agregar el Precio Local" readonly />
+                                </div>
+                                <label for="" class="col-sm-5 control-label">Mayoreo Tiendas</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="txt-PrecioMayoreoTiendas" name="txt-PrecioMayoreoTiendas" class="form-control" placeholder="Agregar el Precio Mayoreo Tiendas" readonly />
+                                </div>
+                                <label for="" class="col-sm-5 control-label">Precio Público</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="txt-PrecioMenudeoTiendas" name="txt-PrecioMenudeoTiendas" class="form-control" placeholder="Agregar el Precio Menudeo Tiendas" readonly />
+                                </div>
+                                <label for="" class="col-sm-5 control-label">Precio Distrubuidor Local</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="txt-PrecioDistribuidorLocal" name="txt-PrecioDistribuidorLocal" class="form-control" placeholder="Agregar el Precio Distribuidor Local" readonly />
+                                </div>
+                                <label for="" class="col-sm-5 control-label">Precio Distrubuidor Foranea</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="txt-PrecioDistribuidorForanea" name="txt-PrecioDistribuidorForanea" class="form-control" placeholder="Agregar el Precio Distribuidor Foranea" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtATipoPrecioTbComparacion" class="col-sm-3 control-label">Tipo de Precio</label>
+                                <div class="col-sm-7">
+                                    <select type="text" class="form-control" id="txtATipoPrecioTbComparacion" name="txtATipoPrecioTbComparacion">
+                                        <option value="default" selected disabled>
+                                            Seleccione un tipo de precio
+                                        </option>
+                                        <option value="1">Público General</option>
+                                        <option value="Mayoreo">Mayoreo</option>
+                                        <option value="Volúmen">Volúmen</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtNumeroPiezaTbComparacion" class="col-sm-3 control-label">Número mínimo de piezas</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="txtNumeroPiezaTbComparacion" name="txtNumeroPiezaTbComparacion"
+                                           class="form-control" placeholder="Agregar número mínimo de piezas" data-toggle="tooltip" data-placement="right"
+                                           title="Permite agregar el número mínimo de piezas, sólo recibe números enteros" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtPrecioTbComparacion" class="col-sm-3 control-label">Precio</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="txtPrecioTbComparacion" name="txtPrecioTbComparacion" class="form-control"
+                                           placeholder="Agregar el precio de la competencia" data-toggle="tooltip" data-placement="left"
+                                           title="Permite agregar el precio por las piezas antes mencionadas, sólo acepta números enteros con decimales">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-addDato" class="btn btn-block bg-primary"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-cancelDato" class="btn btn-block bg-primary"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------------------------- modal de comentario o respuesta a actividad (segundo nivel)---->
+    <div class="modal  fade" id="modal-AddRespuesta">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" style="color:azure">Agregar comentario</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <form id="frm-Respuesta" class="form-horizontal" enctype="multipart/form-data" method="post">
+                            <div class="box-body">
+                                @for (int i = 0; i < tam; i++)
+                                {
+                                    if (roles[i].ToString() == "Administrador" || roles[i].ToString() == "Direccion" || roles[i].ToString() == "Compras")
+                                    {
+                                        <div class="form-group">
+                                            <label for="TxtPermisosComentarios" class="col-md-offset-5 col-md-3 control-label">Permisos de visualizacion</label>
+                                            <div class="col-md-offset-8">
+                                                <select id="TxtPermisosComentarios" name="TxtPermisosComentarios" class="form-control">
+                                                    <option value="1" selected>Compras y Dirección</option>
+                                                    <option value="2">Todos</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        break;
+                                    }
+                                    else if (roles[i].ToString() == "Ventas")
+                                    {
+                                        <select id="TxtPermisosComentarios" name="TxtPermisosComentarios" class="form-control" style="display:none">
+                                            <option value="2" selected>Todos</option>
+                                        </select>
+                                        break;
+                                    }
+                                }
+                                <div class="form-group">
+                                    <label for="txt-RespTitulo" class="col-sm-2 control-label">Titulo</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txt-RespTitulo" name="txt-RespTitulo" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <label for="id-ResActividad" class="col-sm-2 control-label">Actividad</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="id-ResActividad" name="id-ResActividad" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <label for="" class="col-sm-2 control-label">Id Producto</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="id-ResProducto" name="id-ResProducto" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txt-RespCliente" class="col-sm-2 control-label">Producto SKU</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txt-ResProducto" name="txt-ResProducto" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txt-RespComentario" class="col-sm-2 control-label">Comentario</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txt-RespComentario" name="txt-RespComentario" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                        <div id="overmodal-AddRespuesta" class="overlay" style="display:none;">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-addComentario" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-cancelComentario" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------------------------------ Modal de comentario o respuesta a actividad (tercer nivel) -->
+    <div class="modal fade" id="modal-AddCometarioRespuesta">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" style="color:azure">Agregar comentario</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <form id="frm-Respuesta" class="form-horizontal" enctype="multipart/form-data" method="post">
+                            <div class="box-body">
+                                @for (int i = 0; i < tam; i++)
+                                {
+                                    if (roles[i].ToString() == "Administrador" || roles[i].ToString() == "Direccion" || roles[i].ToString() == "Compras")
+                                    {
+                                        <div class="form-group">
+                                            <label for="TxtPermisosComentariosRespuesta" class="col-md-offset-5 col-md-3 control-label">Permisos de visualizacion</label>
+                                            <div class="col-md-offset-8">
+                                                <select id="TxtPermisosComentariosRespuesta" name="TxtPermisosComentariosRespuesta" class="form-control">
+                                                    <option value="1" selected>Compras y Dirección</option>
+                                                    <option value="2">Todos</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        break;
+                                    }
+                                    else if (roles[i].ToString() == "Ventas")
+                                    {
+                                        <select id="TxtPermisosComentariosRespuesta" name="TxtPermisosComentariosRespuesta" class="form-control" style="display:none">
+                                            <option value="2" selected>Todos</option>
+                                        </select>
+                                        break;
+                                    }
+                                }
+                                <div class="form-group">
+                                    <label for="txt-ComenRespTitulo" class="col-sm-2 control-label">Titulo</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txt-ComenRespTitulo" name="txt-ComenRespTitulo" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <label for="id-ComenResActividad" class="col-sm-2 control-label">Actividad</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="id-ComenResActividad" name="id-ComenResActividad" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <label for="id-Comen" class="col-sm-2 control-label">idComentario</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="id-Comen" name="id-Comen" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id-ComenResProductoNombre" class="col-sm-2 control-label">Producto</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txt-ComenRespProducto" name="txt-ComenRespProducto" class="form-control" style="display:none;" />
+                                        <input type="text" class="form-control" id="id-ComenResProductoNombre" name="id-ComenResProductoNombre" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txt-ComenRespComentario" class="col-sm-2 control-label">Comentario</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txt-ComenRespComentario" name="txt-ComenRespComentario" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                        <div id="overmodal-AddCometarioRespuesta" class="overlay" style="display:none;">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-addComentarioRespuesta" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividad-cancelComentarioRespuesta" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------------- Modal de detalles de actividad --------------------------->
+    <div class="modal fade" name="modalDetalle" id="modal-showVerDetalles">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" style="color:azure; margin-right:30px;float:right;"><b>Detalles de actividad</b></h5>
+                    <div class="form-group" style="display:none">
+                        <label for="lblIdActividadDetalle" class="col-sm-2 control-label">Actividad</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="lblIdActividadDetalle" name="lblIdActividadDetalle" readonly>
+                        </div>
+                    </div>
+                    <h4 id="lblActividadDetalle" style="color:azure;"></h4>
+                    <h5 id="lblUsuarioDetalle" style="color:azure;"></h5>
+                    <h5 id="lblProductoDetalle" style="color:azure;display:none;"></h5>
+
+                </div>
+                <div class="modal-body">
+                    <form id="frm-Respuesta" class="form-horizontal" enctype="multipart/form-data" method="post">
+                        <div class="box-body">
+                            @for (int i = 0; i < tam; i++)
+                            {
+                                if (roles[i].ToString() == "Administrador" || roles[i].ToString() == "Direccion" || roles[i].ToString() == "Compras")
+                                {
+                                    <div class="form-group">
+                                        <label for="TxtPermisosComentariosDetalle" class="col-md-offset-5 col-md-3 control-label">Permisos de visualizacion</label>
+                                        <div class="col-md-offset-8">
+                                            <select id="TxtPermisosComentariosDetalle" name="TxtPermisosComentariosDetalle" class="form-control">
+                                                <option value="1" selected>Compras y Dirección</option>
+                                                <option value="2">Todos</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    break;
+                                }
+                                else if (roles[i].ToString() == "Ventas")
+                                {
+                                    <select id="TxtPermisosComentariosDetalle" name="TxtPermisosComentariosDetalle" class="form-control" style="display:none">
+                                        <option value="2" selected>Todos</option>
+                                    </select>
+                                    break;
+                                }
+                            }
+                            <!--manejo de table de detalle de actividades-->
+                            <div class="form-group" id="tb-detall">
+                                <!-- descripcion de actividad -->
+                                <table class="table" style="margin-left:5%;margin-right:5%;width:90%;">
+                                    <thead class="bg-blue">
+                                        <tr>
+                                            <th colspan="6" scope='col' style='vertical-align:middle;width:60%;text-align:center;'>
+                                                Descripcion de actividad
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbDetalleActividad" class="bg-info"></tbody>
+                                    <!----- fin de descripcion de actividad -->
+                                    <!-- manejo de tabla comparativa -->
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-blue" colspan="6" scope="col" style='text-align:center;'>Tabla de comparacion de precios</th>
+                                        </tr>
+                                        <tr class="bg-light-blue">
+                                            <th scope='col' style='vertical-align:middle;width:17%;text-align:center;'>
+                                                Modelo
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:17%;text-align:center;'>
+                                                Marca
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:17%;text-align:center;'>
+                                                Precio Corp F3
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:17%;text-align:center;'>
+                                                Tipo de precio
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:16%;text-align:center;'>
+                                                Mínimo de piezas
+                                            </th>
+                                            <th scope='col' style='vertical-align:middle;width:16%;text-align:center;'>
+                                                Precio de competencia
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbComparacion" class="bg-info"></tbody>
+                                </table>
+                                <!--fin de table-->
+                            </div>
+                            <!--fin de table-->
+                            <!--Manejo de carrucel de imagenes-->
+                            <div class="carruselActividad row" id="carrousel-dinamicActividad">
+                            </div>
+                            <!--fin de carrucel de imagenes-->
+                            <div class="form-group" id="AddComentarioGrupo" style="margin-top:10px">
+                                <label for="txt-AddComentario" class="col-sm-2 control-label">Comentario</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-AddComentario" name="txt-AddComentario" class="form-control" placeholder="Añade un comentario" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2">
+                        <!--espacio entre el margen-->
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividadAddComentario" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-actividadCancelComentario" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------------- Modal de agregar Producto nuevo -------------------------->
+    <div class="modal fade" id="modal-NuevoProducto">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered; color:azure">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Agregar nuevo producto</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <form id="frm-NuevoProducto" method="post" class="form-horizontal" enctype="multipart/form-data">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!--------------- BodyModal - Izquierda ---------------->
+                                        <div class="col-sm-6">
+                                            <!------------------------------  Codigo SKU ------------------------------->
+                                            <div class="form-group">
+                                                <label for="TxtCodeSKU" class="col-sm-3 control-label">SKU</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="TxtCodeSKU" name="TxtCodeSKU" class="form-control" placeholder="Agregar código SKU"
+                                                           style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                           data-toggle="tooltip" data-placement="right" title="Debe escribir el SKU del producto(competencia) o uno genérico" />
+                                                </div>
+                                            </div>
+                                            <!------------------------------  Nombre SKU ------------------------------->
+                                            <div class="form-group">
+                                                <label for="TxtNameSKU" class="col-sm-3 control-label">Nombre de SKU</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="TxtNameSKU" name="TxtNameSKU" class="form-control" placeholder="Agregar nombre de SKU"
+                                                           style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                           data-toggle="tooltip" data-placement="right" title="Debe agregar un nombre y la descripción del SKU" />
+                                                </div>
+                                            </div>
+                                            <!--------------------------------  Marca ---------------------------------->
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-3 control-label">Marca</label>
+                                                <div class="col-sm-8">
+                                                    <select id="txt-MarcaNuevoProducto" name="txt-MarcaNuevoProducto" class="form-control">
+                                                        <option value="default" selected disabled>Seleccione una marca</option>
+                                                        @foreach (var item in this.Model.marcaProductos)
+                                                        {
+                                                            <option value="@item.Marca">@item.Marca</option>
+                                                        }
+                                                        <option value="OTRO">OTRO...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!----------------------------  Tipo de Empaque ---------------------------->
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-3 control-label">Tipo de empaque</label>
+                                                <div class="col-sm-8">
+                                                    <select id="txt-EmpaqueNuevoProducto" name="txt-EmpaqueNuevoProducto" class="form-control">
+                                                        <option value="default" selected disabled>Seleccione un tipo de Empaque</option>
+                                                        <option value="BOLSA">BOLSA</option>
+                                                        <option value="BLISTER">BLISTER</option>
+                                                        <option value="CAJA DE CARTON">CAJA DE CARTON</option>
+                                                        <option value="CAJA DE COLOR">CAJA DE COLOR</option>
+                                                        <option value="CAJA DE PLATICO">CAJA DE PLATICO</option>
+                                                        <option value="GRANEL">GRANEL</option>
+                                                        <option value="OTRO">OTRO</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--------------- BodyModal - Derecha ---------------->
+                                        <div class="col-sm-6">
+                                            <!----------------------------------  Categoria ---------------------------->
+                                            <div class="form-group">
+                                                <label for="TxtCategoria" class="col-sm-3 control-label">Categoria</label>
+                                                <div class="col-sm-8">
+                                                    <select id="TxtCategoria" name="TxtCategoria" class="form-control">
+                                                        <option value="default" selected disabled>
+                                                            Seleccione una categoria
+                                                        </option>
+                                                        @foreach (var item in this.Model.CategoriasSKU)
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!----------------------------------  Subcategoria ------------------------->
+                                            <div class="form-group">
+                                                <label for="TxtSubCategoria" class="col-sm-3 control-label">Subcategoria</label>
+                                                <div class="col-sm-8">
+                                                    <!----------- Pinta las opciones de subcategorias --------------->
+                                                    <select id="TxtSubCategoria" name="TxtSubCategoria" class="form-control">
+                                                        <option value="default" selected disabled>Seleccione una subcategoria</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!------------------- Manejo de imagenes de producto nuevo ----------------->
+                                            <div class="form-group col-sm-12" data-toggle="tooltip" data-placement="right" title="Seleccione imagenes respectivas al SKU sugerido">
+                                                <div class="col-sm-12">
+                                                    <label for="imagenProductoNuevo">Seleccione imágenes de evidencia</label>
+                                                </div>
+                                                <div class="col-sm-12" style="border:solid 1px;">
+                                                    <input type="file" id="imagenProductoNuevo" name="imagenProductoNuevo"
+                                                           accept=".jpg, .jpeg, .png" multiple>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div id="btn-addTbProductoNuevo" class="btn btn-block bg-orange"><i class="fa fa-plus"></i> Agregar precio de producto sugerido</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!---------------- manejo de table de comparaciones de precio -------------->
+                                    <div class="col-sm-12">
+                                        <h5 style="text-align:center;background-color:orangered;color:white;padding:2px 0px 2px 0px;height:20px;">Tabla de Precio de Producto Nuevo</h5>
+                                        <div id="panelNuevoProducto" class="panel panel-default">
+                                            <div class="form-group col-sm-12" id="tb-NuevoProducto">
+                                                <table id="TablePrecioNuevoProducto" class="table" style="margin-left:5%;width:90%;">
+                                                    <thead class="bg-primary">
+                                                        <tr>
+                                                            <th scope='col' style='vertical-align:middle;width:34%;text-align:center;'>
+                                                                Tipo de Precio
+                                                            </th>
+                                                            <th scope='col' style='vertical-align:middle;width:33%;text-align:center;'>
+                                                                Numero mínimo de piezas
+                                                            </th>
+                                                            <th scope='col' style='vertical-align:middle;width:33%;text-align:center;'>
+                                                                Precio
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbPrecioNuevoProducto" name="tbPrecioNuevoProducto"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                        <!------------- ventana de loader, permite bloquear la pagina mientras esta carga -------->
+                        <div id="overmodal-NuevoProducto" class="overlay" style="display:none;">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-NuevoProducto-add" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btn-NuevoProducto-cancel" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------------------------ modal llenado de formulario para add a tabla de producto nuevo  --->
+    <div class="modal fade" id="modalTablaPrecioProduto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered; color:azure">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Agregar a tabla precios de producto nuevo </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frm-actividad" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <div class="box-body col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <label for="TxtTipoPrecio" class="col-sm-3 control-label">Tipo de Precio</label>
+                                <div class="col-sm-8">
+                                    <select id="TxtTipoPrecio" name="TxtTipoPrecio" class="form-control" onchange="TipoPrecioEvento()">
+                                        <option value="default" selected disabled>Seleccione tipo de precio</option>
+                                        <option value="Público General">Público General</option>
+                                        <option value="Mayoreo">Mayoreo</option>
+                                        <option value="Volúmen">Volúmen</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label for="TxtPrecioPieza" class="col-sm-3 control-label">Precio</label>
+                                <div class="input-group col-sm-8">
+                                    <span class="input-group-addon">
+                                        <span class="fas fa-dollar-sign"></span>
+                                    </span>
+                                    <input type="text" id="TxtPrecioPieza" name="TxtPrecioPieza" class="form-control" placeholder="Agrege el precio por pieza"
+                                           data-toggle="tooltip" data-placement="right" title="Debe ingresar solo números enteros con decimales" />
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label for="TxtNumPiezas" class="col-sm-3 control-label">Mínimo de piezas</label>
+                                <div class="input-group col-sm-8">
+                                    <span class="input-group-addon">
+                                        <span><b>#</b></span>
+                                    </span>
+                                    <input type="text" id="TxtNumPiezas" name="TxtNumPiezas" class="form-control" placeholder="Agrege el número de piezas"
+                                           data-toggle="tooltip" data-placement="right" title="Debe ingresar el número de piezas mínimo para obtener el precio antes mencionado" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btnAddPrecioProducto" class="btn btn-default btn-block"><i class="fa fa-plus"></i> Agregar</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btnCancelPrecioProducto" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------------------------------------ Modal de permisos Actividad --------------------------->
+    <div class="modal fade" id="modalPermisos">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered; color:azure">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Cambiar permisos de visualización</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Descripción de actividad</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-info">
+                                <div class="panel-heading ">
+                                    <h5>Titulo de actividad:</h5>
+                                </div>
+                                <div class="panel-body">
+                                    <p id="txtPermisoTitulo"></p>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading ">
+                                    <h5>Comentario de la actividad:</h5>
+                                </div>
+                                <div class="panel-body">
+                                    <p id="txtPermisoComentarioActividad"></p>
+                                </div>
+                            </div>
+                            <h2 id="txtPermisoIdActividad" style="display:none"></h2>
+                            <h4>Seleccione una opcion de visualización</h4>
+                            <div class="col-md-6 col-md-offset-3">
+                                <select id="TxtPermisoCambioActividad" class="form-control">
+                                    <option value="1">Compras y Dirección</option>
+                                    <option value="2">Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btnAddPermisoActividad" class="btn btn-default btn-block"><i class="fas fa-save"></i> Guardar cambios</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btnCancelPermisoActividad" class="btn btn-default btn-block"><i class="fas fa-ban"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------- Modal de permisos Comentario------------------------------->
+    <div class="modal fade" id="modalPermisosComentario">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:orangered; color:azure">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Cambiar permisos de visualización</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Descripción del comentario</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-info">
+                                <div class="panel-heading ">
+                                    <h5>Comentario: </h5>
+                                </div>
+                                <div class="panel-body">
+                                    <p id="txtPermisoComentario"></p>
+                                </div>
+                            </div>
+                            <h2 id="txtPermisoIdComentario" style="display:none"></h2>
+                            <h4>Seleccione una opcion de visualización</h4>
+                            <div class="col-md-6 col-md-offset-3">
+                                <select id="TxtPermisoCambioComentario" class="form-control">
+                                    <option value="1">Compras y Dirección</option>
+                                    <option value="2">Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <div id="btnAddPermisoComentario" class="btn btn-default btn-block"><i class="fas fa-save"></i> Guardar cambios</div>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                <div id="btnCancelPermisoComentario" class="btn btn-default btn-block"><i class="fas fa-ban"></i> Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------- Modal de imagen ------------------------------------------->
+    <div class="modal" id="imagemodal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white;"> Cerrar &times;</span>
+                </button>
+            </div>
+            <img src="" id="imagepreview" width="400">
+        </div>
+    </div>
+</section>
+
+
+<!--------------- Funciones de carga/loader de procesos ---------------->
+<script>
+    function HideOver() {
+        $("#over01").hide();
+        $("#over02").hide();
+        $("#over03").hide();
+        $("#over04").hide();
+        $("#over05").hide();
+        $("#overmodal-success").hide();
+        $("#overBody").hide();
+        $("#overmodal-AddRespuesta").hide();
+        $("#overmodal-AddCometarioRespuesta").hide();
+        $("#overmodal-NuevoProducto").hide();
+
+    }
+    function ShowOver() {
+        $("#over01").show();
+        $("#over02").show();
+        $("#over03").show();
+        $("#over04").show();
+        $("#over05").show();
+        $("#overmodal-success").show();
+        $("#overBody").show();
+        $("#overmodal-AddRespuesta").show();
+        $("#overmodal-AddCometarioRespuesta").show();
+        $("#overmodal-NuevoProducto").show();
+    }
+</script>
+<!--------------------Manejo de funcinalidad de radioButton, seleccion de busqueda------------>
+<script>
+    $("#radSKUExistente").change(function () {
+        limpiarSKUExistente();
+    });
+    function limpiarSKUExistente() {
+        $("#btnActividadPrincipal").css('display', 'none');
+        $("#radSKUExistente").attr('checked', true);
+        $("#Producto").val('');
+        $("#NombreProductoExistente").val('');
+        $("#NombreProductoExistente").css('display', 'inline-block');
+        $("#NombreProductoSugerido").val('');
+        $("#NombreProductoSugerido").css('display', 'none');
+        $("#panelProductosSugeridos").css('display', 'none');
+        $("#panelProductos").css('display', 'block');
+        $("#contentProductos").html('');
+        $("#contentProductosSugeridos").html('');
+    }
+    $("#radSKUSugerido").change(function () {
+        limpiarSKUSugerido();
+    });
+    function limpiarSKUSugerido() {
+        $("#btnActividadPrincipal").css('display', 'none');
+        $("#radSKUSugerido").attr('checked', true);
+        $("#Producto").val('');
+        $("#NombreProductoExistente").val('');
+        $("#NombreProductoExistente").css('display', 'none');
+        $("#NombreProductoSugerido").val('');
+        $("#NombreProductoSugerido").css('display', 'inline-block');
+        $("#panelProductos").css('display', 'none');
+        $("#panelProductosSugeridos").css('display', 'block');
+        $("#contentProductos").html('');
+        $("#contentProductosSugeridos").html('');
+    }
+</script>
+<!---------------------- Manejo del modal Add Nuevo Producto --------------------------------->
+<script>
+    $("#linkAddNuevoProducto").click(function (e) {
+        e.preventDefault();
+        LimpiarModalNuevoProducto();
+        $("#modal-NuevoProducto").modal('show');
+    });
+    function LimpiarModalNuevoProducto() {
+        $("#TxtCodeSKU").val('');
+        $("#TxtNameSKU").val('');
+        $("#txt-EmpaqueNuevoProducto").val('default');
+        $("#txt-MarcaNuevoProducto").val('default');
+        $("#TxtCategoria").val('default');
+        $("#TxtSubCategoria").val('default');
+        $("#tbPrecioNuevoProducto").html('');
+        $("#TxtCodeSKU").focus();
+        $("#imagenProductoNuevo").val('');
+    }
+    $("#btn-NuevoProducto-cancel").click(function () {
+        LimpiarModalNuevoProducto();
+        $("#modal-NuevoProducto").modal('hide');
+    });
+    $("#TxtCategoria").change(function () {
+        var Id = $("#TxtCategoria").val();
+        $.post('@Url.Action("GetCategoriasSKU", "ActividadesProductos")', {
+            Id: Id
+        }, function (data) {
+            $("#TxtSubCategoria").html('');
+            if (data.Context.length <= 0 || data.Context === null) {
+                $("#TxtSubCategoria").append(
+                    "<option value='0' selected>No contiene Subcategoria</option>"
+                );
+            } else {
+                $("#TxtSubCategoria").append(
+                    "<option value='default' selected disabled>Seleccione un Subcategoria</option>"
+                );
+                $.each(data.Context, function (index, value) {
+                    $("#TxtSubCategoria").append(
+                        "<option value='" + value.Id + "'>" + value.Name + "</option>"
+                    );
+                });
+            }
+        });
+    });
+    $("#btn-NuevoProducto-add").click(function () {
+        var CodeSKU = $("#TxtCodeSKU").val();
+        var NameSKU = $("#TxtNameSKU").val();
+        var MarcaProducto = $("#txt-MarcaNuevoProducto").val();
+        var Categoria = $("#TxtCategoria").val();
+        var Empaque = $("#txt-EmpaqueNuevoProducto").val();
+
+        //******  control de validaciones  ******//
+        if (CodeSKU == "") {
+            swal("Alerta", "Debe ingresar un código al SKU.", "warning");
+            $("#TxtCodeSKU").focus();
+            return;
+        }
+        if (NameSKU == "") {
+            swal("Alerta", "Debe ingresar un nombre al SKU.", "warning");
+            $("#TxtNameSKU").focus();
+            return;
+        }
+        if (Empaque == "" || Empaque === null) {
+            swal("Alerta", "Debe seleccionar una Tipo de Empaque.", "warning");
+            $("#txt-EmpaqueNuevoProducto").focus();
+            return;
+        }
+        if (MarcaProducto == "" || MarcaProducto === null) {
+            swal("Alerta", "Debe seleccionar una marca.", "warning");
+            $("#txt-MarcaNuevoProducto").focus();
+            return;
+        }
+        if (($("#imagenProductoNuevo").get(0).files.length) <= 0) {
+            swal("Alerta", "Debe ingresar imagen de producto", "warning");
+            $("#imagenProductoNuevo").focus();
+            return;
+        }
+        if (($("#imagenProductoNuevo").get(0).files.length) > 5) {
+            swal("Alerta", "Debe seleccionar un máximo de 5 imagenes.", "warning");
+            $("#imagenProductoNuevo").focus();
+            return;
+        }
+        if ($('#tbPrecioNuevoProducto td').length <= 0) {
+            swal("Alerta", "Debe agregar precio al producto nuevo.", "warning");
+            return;
+        }
+        if (Categoria == "") {
+            swal("Alerta", "Debe Seleccionar una Categoria.", "warning");
+            return;
+        }
+        ShowOver();
+        var formData = new FormData($("#frm-NuevoProducto")[0]);
+        var Ruta = "@Url.Action("GuardarProductoNuevo", "ActividadesProductos")";
+        $.ajax({
+            url: Ruta,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.Context.length <= 0 || typeof data.Context === null) {
+                    HideOver();
+                } else {
+                    var ProductosSKU = { preciosCompetencias: [] };
+                    var Ruta2 = "@Url.Action("GuardarPrecioCompetencia", "ActividadesProductos")";
+                    var tamTabla = $('#TablePrecioNuevoProducto td').length;
+                    var cont = 0;
+                    for (var i = 0; i < (tamTabla / 3); i++) {
+                        ProductosSKU.preciosCompetencias.push({
+                            "IdSKU": data.Context,
+                            "TipoPrecio": $('#TablePrecioNuevoProducto').find('td').eq(cont).html(),
+                            "NumPiezas": $('#TablePrecioNuevoProducto').find('td').eq(cont + 1).html(),
+                            "Precio": $('#TablePrecioNuevoProducto').find('td').eq(cont + 2).html(),
+                        });
+                        cont = cont + 3;
+                    }
+                    var JsonProductosSKU = JSON.stringify(ProductosSKU);
+                    if (tamTabla > 0) {
+                        $.ajax({
+                            url: Ruta2,
+                            type: "POST",
+                            data: JsonProductosSKU,
+                            contentType: 'application/json; charset=utf-8 ',
+                            dataType: 'JSON',
+                            success: function (response) {
+                                enviarCorreoNuevoSKU(CodeSKU);
+                                $("#modal-NuevoProducto").modal('hide');
+                                LimpiarModalNuevoProducto();
+                                HideOver();
+                            }
+                        });
+                    } else {
+                        enviarCorreoNuevoSKU(CodeSKU);
+                        $("#modal-NuevoProducto").modal('hide');
+                        LimpiarModalNuevoProducto();
+                        HideOver();
+                    }
+
+                }
+            }
+        });
+    });
+    $("#btn-addTbProductoNuevo").click(function () {
+        LimpiarModalAddTabla();
+        $("#modalTablaPrecioProduto").modal('show');
+    });
+    /******************* Manejo de modal add precios a tabla ***************************************/
+    function LimpiarModalAddTabla() {
+        $("#TxtTipoPrecio").val('default');
+        $("#TxtNumPiezas").attr('readonly', false);
+        $("#TxtNumPiezas").val('');
+        $("#TxtPrecioPieza").val('');
+    }
+    function TipoPrecioEvento() {
+        var aux = $("#TxtTipoPrecio").val();
+        if (aux == "Público General") {
+            $("#TxtNumPiezas").val('1');
+            $("#TxtNumPiezas").attr('readonly', true);
+        } else {
+            $("#TxtNumPiezas").attr('readonly', false);
+            $("#TxtNumPiezas").val('');
+        }
+    }
+    //************ VAlidacion de campos *********//
+    $("#TxtNumPiezas").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ""));
+    });
+    $("#TxtPrecioPieza").keyup(function () {
+        var ExpReg = /(0-9\.{1}|0-9\.{1}0-9{2})?/;
+        var valor = $(this).val();
+        if ((valor.split(".").length - 1) > 1) {
+            $(this).val($(this).val().replace(".", "/"));
+            $(this).val($(this).val().replace(".", ""));
+            $(this).val($(this).val().replace("/", "."));
+        } else {
+            $(this).val($(this).val().replace(/[^\d+\.{1}\d{2}]/, ""));
+        }
+    });
+
+    $("#btnAddPrecioProducto").click(function () {
+        var TipoPrecio = $("#TxtTipoPrecio").val();
+        var NumeroPiezas = $("#TxtNumPiezas").val();
+        var PrecioXPieza = $("#TxtPrecioPieza").val();
+
+        if (TipoPrecio == "" || TipoPrecio === null) {
+            swal("Error", "Debe seleccionar un tipo de precio", "warning");
+            $("#TxtTipoPrecio").focus();
+            return;
+        }
+        if (NumeroPiezas == "") {
+            swal("Error", "Debe indicar el numero de mínimo de piezas.", "warning");
+            $("#TxtNumPiezas").focus();
+            return;
+        }
+        if (PrecioXPieza == "") {
+            swal("Error", "Debe indicar el precio por pieza.", "warning");
+            $("#txt-PrecioCompetencia").focus();
+            return;
+        }
+        ShowOver();
+        $("#tbPrecioNuevoProducto").append(
+            "<tr style='vertical-align:middle;text-align:center;'>" +
+            "<td>" + TipoPrecio + "<\/td>" +
+            "<td>" + NumeroPiezas + "<\/td>" +
+            "<td>" + (Number(PrecioXPieza)).toFixed(2) + "<\/td>" +
+            "<\/tr>"
+        );
+        LimpiarModalAddTabla();
+        $("#modalTablaPrecioProduto").modal('hide');
+        HideOver();
+    });
+
+    $("#btnCancelPrecioProducto").click(function () {
+        LimpiarModalAddTabla();
+        $("#modalTablaPrecioProduto").modal('hide');
+    });
+</script>
+<!--------------inicio de pagina, carga de productos y carga de fecha------------------------->
+<script>
+    //**************** btn limpiar input de busqueda ******************
+    $("#btnLimpiarInputBusqueda").click(function () {
+        $("#NombreProductoExistente").val("");
+        $("#NombreProductoExistente").focus();
+        $("#NombreProductoSugerido").val("");
+        $("#NombreProductoSugerido").focus();
+    });
+    //--------------- Cargar opciones de productos existentes --------------//
+    $("#NombreProductoExistente").on('keyup', function (e) {
+        FindProductoExistentes();
+    });
+    function FindProductoExistentes() {
+        var Aux = $("#NombreProductoExistente").val();
+        $.post('@Url.Action("FindProducto", "ActividadesProductos")', {
+            Texto: Aux
+        }, function (data) {
+            var Auxiliar = JSON.stringify(data.Context);
+            $("#contentProductos").html('');
+            if (data.Context.length <= 0 || Auxiliar == "" ) {
+            } else {
+                $.each(data.Context, function (index, value) {
+                    $("#contentProductos").append("<tr>" +
+                        "<td> " + value.Coincidencia + "</td >" +
+                        "<td>" +
+                        "<button type='button' onclick='DetalleProducto(\"" + value.Code + "\",\"" + value.Articulo + "\",\"" + value.Auxiliar + "\")' class='btn btn-success'>" +
+                        "<span class='glyphicon glyphicon-eye-open'></span> Seleccionar" +
+                        "</button></td>" +
+                        "</tr > ");
+                });
+            }
+        });
+    }
+    $("#NombreProductoSugerido").on('keyup', function (e) {
+        FindProductoSugerido();
+    });
+    function FindProductoSugerido() {
+        var Aux = $("#NombreProductoSugerido").val();
+        $.post('@Url.Action("FindProductoSugerido", "ActividadesProductos")', {
+            Texto: Aux
+        }, function (data) {
+            var Auxiliar = JSON.stringify(data.Context);
+            $("#contentProductosSugeridos").html('');
+            if (data.Context.length <= 0 || Auxiliar == "" ) {
+            } else {
+                $.each(data.Context, function (index, value) {
+                    $("#contentProductosSugeridos").append("<tr>" +
+                        "<td> " + value.Coincidencia + "</td >" +
+                        "<td>" +
+                        "<button type='button' onclick='DetalleProducto(\"" + value.Code + "\",\"" + value.Articulo + "\",\"" + value.Auxiliar + "\")' class='btn btn-success'>" +
+                        "<span class='glyphicon glyphicon-eye-open'></span> Seleccionar" +
+                        "</button></td>" +
+                        "</tr > ");
+                });
+            }
+        });
+    }
+
+    //-------------- Iniciar modulo de fechas para comentarios--------------------//
+    InitModule();
+    function InitModule() {
+        $('#fechainicial').daterangepicker();
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+    }
+</script>
+<!---- Detalles de los productos, carga de imagenes de clientes y comentarios ---------------->
+<script>
+    //--------- Detalles de los productos, carga de imagenes de clientes y comentarios ------------//
+    function DetalleProducto(codeSKU, NombreSKU, Estatus) {
+        $("#btnActividadPrincipal").css('display', 'block');
+        $("#treeview_json").html('');
+        $("#Producto").val(codeSKU);
+        $("#NombreProductoSugerido").val('');
+        $("#NombreProductoExistente").val('');
+        $("#lblSubFamilia").css('display', 'none');
+        $("#lblEmpaque").css('display', 'none');
+        $("#lblMarca").css('display', 'none');
+        $("#lblRegistradoPor").css('display', 'none');
+        $("#lblRegistradoEl").css('display', 'none');
+        $("#tablaSKUSugerido").css('display', 'none');
+        $("#TbContentSKUSugerido").html('');
+
+        var aux = Estatus;
+        if (aux == "Producto Existente" || aux == '') {
+            $("#NombreProductoExistente").val(codeSKU+" " + NombreSKU);
+            FindProductoExistentes();
+            $.post('@Url.Action("DetalleSKU", "ActividadesProductos")', {
+                Code: codeSKU
+            }, function (data) {
+                if (data.Context === null) {
+                } else {
+                    $("#lblArticulo").html(data.Context.Articulo);
+                    $("#lblCode").html("Modelo: " + data.Context.Code);
+                    $("#lblFamilia").html("Categoria: " + data.Context.Familia);
+                    $("#lblEstatus").html("Estado: " + Estatus);
+                }
+            });
+            var CodeProducto = $("#Producto").val();
+            if ((CodeProducto.indexOf(".") == 0) == true) {
+                var CodeProducto = $("#Producto").val(),
+                    areplace = ".",
+                    replace = "",
+                    aux = CodeProducto.replace(areplace, replace);
+                Code = aux.toString();
+            } else if ((CodeProducto.indexOf("+") == 0) == true) {
+                var CodeProducto = $("#Producto").val(),
+                    areplace = "+",
+                    replace = "",
+                    aux = CodeProducto.replace(areplace, replace);
+                Code = aux.toString();
+            } else {
+                var Code = CodeProducto;
+            }
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: 'POST',
+                url: '@Url.Action("ImagenProducto", "ActividadesProductos")',
+                async: false,
+                data: '{ Code: "' + Code + '"}',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Context === null) {
+                    } else {
+                        $("#carrousel-dinamic").html('');
+                        //var imagenevidencia = '';
+                        var aux = 0;
+                        var cabeceras = '';
+                        var detalles = '';
+                        //llenamos las cabeceras y los detalles..
+                        if (data.Context.length <= 0 || data.Context === null) {
+                            cabeceras = cabeceras + '<li data-target="#carousel-example-generic1" data-slide-to="0" class="active"></li>';
+                            detalles = detalles + '<div class="item active"><img src="~/Content/dist/img/producto.jpg" /></div>';
+                            aux++;
+                        }
+                        else {
+                            $.each(data.Context, function (index, value) {
+                                var RutaVieja = "E:\\\\inetpub\\wwwroot\\ImagenesWEB\\";
+                                var RutaNueva = "https://apps.fussionweb.com/ImagenesWEB/";
+                                var Imagen = value.replace(RutaVieja, RutaNueva);
+                                if (aux == 0) {
+                                    cabeceras = cabeceras + '<li data-target="#carousel-example-generic1" data-slide-to="' + index + '" class="active"></li>';
+                                } else {
+                                    cabeceras = cabeceras + '<li data-target="#carousel-example-generic1" data-slide-to="' + index + '"></li>';
+                                }
+                                if (aux == 0) {
+                                    detalles = detalles + '<div class="item active"><img src="' + Imagen + '" /></div>';
+                                } else {
+                                    detalles = detalles + '<div class="item"><img src="' + Imagen + '" /></div>';
+                                }
+                                aux++;
+                            });
+                        }
+                        $("#carrousel-dinamic").append('<div class="col-md-12">\
+							    <div id="carousel-example-generic1" class="carousel slide" data-ride="carousel" style="width: 250px;margin-left: -25%;">\
+									    <ol id="contenedor-carousel-cabecera" class="carousel-indicators">\
+										    '+ cabeceras + '\
+									    </ol>\
+									    <div id="carousel-detalles" class="carousel-inner" role="listbox">\
+										    '+ detalles + '\
+									    </div>\
+									    <a class="left carousel-control" href="#carousel-example-generic1" role="button" data-slide="prev">\
+										    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>\
+										    <span class="sr-only">Previous</span>\
+									    </a>\
+									    <a class="right carousel-control" href="#carousel-example-generic1" role="button" data-slide="next">\
+										    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>\
+										    <span class="sr-only">Next</span>\
+									    </a>\
+							    </div>\
+						    </div>');
+                    }
+                },
+                error: function () {
+                    swal("Error en la api: Cargar imagenes de productos");
+                }
+            });
+        } else
+            if (aux == "Producto Sugerido") {
+                $("#NombreProductoSugerido").val(codeSKU + " " + NombreSKU);
+                FindProductoSugerido();
+            $.post('@Url.Action("DetalleSKUNuevo", "ActividadesProductos")', {
+                Code: codeSKU
+            }, function (data) {
+                if (data.Context === null) {
+                } else {
+                    $("#lblArticulo").html(data.Context[0].SKUName);
+                    $("#lblCode").html("Modelo: " + data.Context[0].SKUCode);
+                    $.post('@Url.Action("GetCategoriasSKUParaDetalle", "ActividadesProductos")', {
+                        Id: Number(data.Context[0].Categoria)
+                    }, function (data) {
+                        $("#lblFamilia").html("Categoria: " + data.Context.Name);
+                        }
+                    );
+                    if (data.Context[0].Subcategoria != 0) {
+                        $.post('@Url.Action("GetCategoriasSKUParaDetalle", "ActividadesProductos")', {
+                            Id: Number(data.Context[0].Subcategoria)
+                        }, function (data) {
+                            $("#lblSubFamilia").css('display', 'block');
+                            $("#lblSubFamilia").html("Subcategoria: " + data.Context.Name);
+                            }
+                        );
+                    }
+                    $("#lblEstatus").html("Estado: " + data.Context[0].Auxiliar);
+                    $("#lblEmpaque").css('display', 'block');
+                    $("#lblEmpaque").html("Tipo de Empaque: " + data.Context[0].Empaque);
+                    $("#lblMarca").css('display', 'block');
+                    $("#lblMarca").html("Marca: " + data.Context[0].Marca);
+                    $("#lblRegistradoPor").css('display', 'block');
+                    $("#lblRegistradoPor").html("Registrado Por: " + data.Context[0].RegistradoPor);
+                    $("#lblRegistradoEl").css('display', 'block');
+                    var fecha = formatJSONDate(data.Context[0].FechaRegistro);
+                    $("#lblRegistradoEl").html("Fecha de Registro: " + fecha);
+                    $("#tablaSKUSugerido").css('display', 'block');
+                    $.each(data.Context[0].ListaPreciosCompetencias, function (index, value) {
+                        $("#TbContentSKUSugerido").append(
+                            "<tr>" +
+                            "<td>" + value.TipoPrecio + "</td>" +
+                            "<td>" + value.NumPiezas + "</td>" +
+                            "<td>" + Number(value.Precio).toFixed(2) + "</td>" +
+                            "</tr > ");
+                    });
+                    $("#carrousel-dinamic").html('');
+                    //var imagenevidencia = '';
+                    var aux = 0;
+                    var cabeceras = '';
+                    var detalles = '';
+                    //llenamos las cabeceras y los detalles..
+                    if (data.Context[0].ListaImagenes.length <= 0) {
+                        cabeceras = cabeceras + '<li data-target="#carousel-example-generic1" data-slide-to="0" class="active"></li>';
+                        detalles = detalles + '<div class="item active"><img src="~/Content/dist/img/producto.jpg" /></div>';
+                        aux++;
+                    }
+                    else {
+                        $.each(data.Context[0].ListaImagenes, function (index, value) {
+                            if (aux == 0) {
+                                cabeceras = cabeceras + '<li data-target="#carousel-example-generic1" data-slide-to="' + index + '" class="active"></li>';
+                            } else {
+                                cabeceras = cabeceras + '<li data-target="#carousel-example-generic1" data-slide-to="' + index + '"></li>';
+                            }
+                            if (aux == 0) {
+                                detalles = detalles + '<div class="item active"><img src="data:image;base64,' + value.Imagen + '" /></div>';
+                            } else {
+                                detalles = detalles + '<div class="item"><img src="data:image;base64,' + value.Imagen + '" /></div>';
+                            }
+                            aux++;
+                        });
+                    }
+                    $("#carrousel-dinamic").append('<div class="col-md-12">\
+				        <div id="carousel-example-generic1" class="carousel slide" data-ride="carousel" style="width: 250px;margin-left: -25%;">\
+						        <ol id="contenedor-carousel-cabecera" class="carousel-indicators">\
+							        '+ cabeceras + '\
+						        </ol>\
+						        <div id="carousel-detalles" class="carousel-inner" role="listbox">\
+							        '+ detalles + '\
+						        </div>\
+						        <a class="left carousel-control" href="#carousel-example-generic1" role="button" data-slide="prev">\
+							        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>\
+							        <span class="sr-only">Previous</span>\
+						        </a>\
+						        <a class="right carousel-control" href="#carousel-example-generic1" role="button" data-slide="next">\
+							        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>\
+							        <span class="sr-only">Next</span>\
+						        </a>\
+				        </div>\
+			        </div>');
+                }
+            });
+        }
+    }
+    $("#btn-Comentarios").click(function () {
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esto podría tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                       swal("El proceso ha sido cancelado");
+                    }
+                },
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        ShowOver();
+                        selectPanelSKU();
+                        var status = $("#lblEstatus").html().replace("Estado: ", "");
+                        if (status == "") {
+                            swal("Error", "Debe seleccionar un producto!", "warning");
+                            HideOver();
+                        }else {
+                            var CodeSKU = $("#lblCode").html().replace("Modelo: ", "");
+                            var NombreSKU = $("#lblArticulo").html();
+                            DetalleProducto(CodeSKU, NombreSKU, status);
+                            Comentarios();
+                            $("#btn-descargaReport").css('display', 'block');
+                        }
+                        HideOver();
+                    }
+                }
+            }
+        });
+    });
+    function formatJSONDate(jsonDate) {
+        /***si viene una fecha JSON de formato /Date(1224043200000)/*****/
+        //var newDate = dateFormat(jsonDate, "mm/dd/yyyy");
+        var newDate = new Date(parseInt(jsonDate.substr(6)));
+        return newDate;
+    }
+    //--------  carga los comentarios respecto a el codigo de producto y rango de fecha de comentarios  ---
+    function Comentarios() {
+        //aqui se genera la informacion acerca de los comentarios
+        //o refierente al armado de arbol de actividad
+        var Producto = $("#Producto").val();
+        var drp = $('#fechainicial').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("GetActividadesProductos", "ActividadesProductos")',
+            async: false,
+            data: '{ Producto: "' + Producto + '", Del: "' + Del + '", Al: "' + Al + '"}',
+            dataType: 'json',
+            success: function (response) {
+                //procesar para dibujar estructura de los comentrarios treeview
+                initTree(response)
+            }
+        });
+        function initTree(treeData) {
+            $('#treeview_json').treeview({
+                data: treeData.Context,
+            });
+            contraeTree();
+            $(".esconder").hide();
+        }
+    }
+    function contraeTree() {
+        $('#treeview_json').treeview('collapseAll', { silent: true });
+    }
+ //----------------------------------------------//////////
+</script>
+<!-------- Manejo del button agregar nueva actividad  y modal nueva actividad actividades ---->
+<script>
+    //********** Abre el modal de la actividad ********
+    function AbrirModalActividad() {
+        $("#txt-Comentario").val('');
+        $("#imagenEvidencia").val('');
+        $("#tbPrecioComparativo").html('');
+        var x = $("#lblCode").html();
+        var codeSKU = String(x.replace("Modelo: ", ""));
+        if (x == null || x == '') {
+            $('#modal-success').modal('hide');
+            swal("Alerta", "Debe de especificar un producto", "warning");
+            return;
+        } else {
+            $('#modal-success').modal('show');
+            $("#id-Producto").val(codeSKU);
+        }
+    }
+    //**************************Inicio Modal de Tabla de Comparacion ******************//
+    function limpiarFormAddTabla() {
+        $("#txt-Modelo").val('');
+        $("#txt-Marca").val('default');
+        $("#txt-StockCedis").val('');
+        $("#txt-TipoPrecio").val('');
+        $("#txt-PrecioLocal").val('');
+        $("#txt-PrecioMayoreoTiendas").val('');
+        $("#txt-PrecioMenudeoTiendas").val('');
+        $("#txt-PrecioDistribuidorLocal").val('');
+        $("#txt-PrecioDistribuidorForanea").val('');
+        $("#txt-PrecioCompetencia").val('');
+        $("#txtATipoPrecioTbComparacion").val('default');
+        $("#txtNumeroPiezaTbComparacion").val("");
+        $("#txtPrecioTbComparacion").val("");
+    }
+    $("#btn-cancelDato").click(function () {
+        $("#modalTabla").modal('hide');
+        limpiarFormAddTabla();
+    });
+    ///*******   Validacion de Numeros enteros ***********//
+    $("#txtNumeroPiezaTbComparacion").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ""));
+    });
+    ///*******   Validacion de Numeros decimales ***********//
+    $("#txtPrecioTbComparacion").keyup(function () {
+        var ExpReg = /(0-9\.{1}|0-9\.{1}0-9{2})?/;
+        var valor = $(this).val();
+        if ((valor.split(".").length - 1) > 1) {
+            $(this).val($(this).val().replace(".", "/"));
+            $(this).val($(this).val().replace(".", ""));
+            $(this).val($(this).val().replace("/", "."));
+        } else {
+            $(this).val($(this).val().replace(/[^\d+\.{1}\d{2}]/, ""));
+        }
+    });
+    $("#txtATipoPrecioTbComparacion").change(function () {
+        var valor = $(this).val();
+        if (valor == "1") {
+            $("#txtNumeroPiezaTbComparacion").val(1);
+            $("#txtNumeroPiezaTbComparacion").attr('readonly', true);
+        } else {
+            $("#txtNumeroPiezaTbComparacion").val("");
+            $("#txtNumeroPiezaTbComparacion").attr('readonly', false);
+        }
+    });
+    // Add datos a tabla de competencia de Nueva Actividad
+    $("#btn-addDato").click(function () {
+        var modelo = $("#txt-Modelo").val();
+        var marca = $("#txt-Marca").val();
+        var precioLocal = $("#txt-PrecioLocal").val();
+        var precioDistLocal = $("#txt-PrecioDistribuidorLocal").val();
+        var precioDistForanea = $("#txt-PrecioDistribuidorLocal").val();
+        var TipoPrecio = $("#txtATipoPrecioTbComparacion").val();
+        var MinPiezas = $("#txtNumeroPiezaTbComparacion").val();
+        var PrecioCompetencia = $("#txtPrecioTbComparacion").val();
+
+        if (marca == "" || marca===null) {
+            swal("Error", "Debe seleccionar Marca.", "warning");
+            $("#txt-Marca").focus();
+            return;
+        }
+        if (precioLocal == "") {
+            swal("Error", "Debe indicar el precio local.", "warning");
+            return;
+        }
+        if (precioDistLocal == "") {
+            swal("Error", "Debe indicar el precio distribuidor local.", "warning");
+            return;
+        }
+        if (precioDistForanea == "") {
+            swal("Error", "Debe indicar el precio distribuidor foranea.", "warning");
+            return;
+        }
+        if (TipoPrecio == "") {
+            swal("Error", "Debe seleccionar un tipo de precio.", "warning");
+            $("#txt-PrecioCompetencia").focus();
+            return;
+        }
+        if (MinPiezas == "") {
+            swal("Error", "Debe ingresar un número mínimo de piezas.", "warning");
+            $("#txt-PrecioCompetencia").focus();
+            return;
+        }
+        if (PrecioCompetencia == "") {
+            swal("Error", "Debe indicar el precio de la competencia.", "warning");
+            $("#txt-PrecioCompetencia").focus();
+            return;
+        }
+        if (TipoPrecio == "1") {
+            TipoPrecio = "Público General";
+        }
+        $("#tbPrecioComparativo").append(
+            "<tr style='vertical-align:middle;text-align:center;'>" +
+            "<td>" + modelo+"<\/td>" +
+            "<td>" + marca+"<\/td>" +
+            "<td>" + precioLocal+"<\/td>" +
+            "<td>" + TipoPrecio + "<\/td>" +
+            "<td>" + MinPiezas + "<\/td>" +
+            "<td>" + (Number(PrecioCompetencia)).toFixed(2) + "<\/td>" +
+            "<\/tr>"
+        );
+        $("#modalTabla").modal('hide');
+        limpiarFormAddTabla();
+        $('#modal-success').modal('show');
+    });
+    //************************** Fin Modal de Tabla de Comparacion ******************//
+
+    //************************** Inicio Modal de Actividades ******************//
+    // ---- obtiene el precio existente del SKU seleccionado -----//
+    $("#btn-addTable").click(function () {
+        limpiarFormAddTabla();
+        $("#txt-Modelo").val($("#id-Producto").val());
+        let ProductoSKU = $("#id-Producto").val();
+        $.ajax({
+            url: "@Url.Action("PrecioLocalSKU", "ActividadesProductos")",
+            type: 'POST',
+            data: '{ ProductoSKU: "' + ProductoSKU + '"}',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                let precioLocal = Number(data.Context.PrecioLocal) * 1.16;
+                console.log(JSON.stringify(data.Context));
+                $("#txt-StockCedis").val(data.Context.StockCedis);
+                $("#txt-TipoPrecio").val(data.Context.TipoPrecio);
+                $("#txt-PrecioLocal").val((precioLocal).toFixed(2));
+                $("#txt-PrecioDistribuidorLocal").val(((data.Context.PrecioDistribuidorLocal) * 1.16).toFixed(2));
+                $("#txt-PrecioDistribuidorForanea").val(((data.Context.PrecioDistribuidorForanea) * 1.16).toFixed(2));
+                $("#txt-PrecioMayoreoTiendas").val(((data.Context.PrecioMayoreoTiendas) * 1.16).toFixed(2));
+                $("#txt-PrecioMenudeoTiendas").val(((data.Context.PrecioMenudeoTiendas) * 1.16).toFixed(2));
+                $("#modalTabla").modal('show');
+            }
+        });
+    });
+    $("#btn-actividad-add").click(function () {
+        var Permiso = $("#TxtPermisos").val();
+        if ($("#txt-titulo").val() == null) {
+            swal("Alerta","Debe seleccionar un título.","warning");
+            return;
+        }
+        if ($("#id-Producto").val() == '') {
+            swal("Alerta", "Debe especificar un producto.", "warning");
+            return;
+        }
+        if ($("#txt-Comentario").val() == '') {
+            swal("Alerta", "Debe especificar un comentario.", "warning");
+            return;
+        }
+        ShowOver();
+        //************** se obtienen los valores de la tabla y se arma el JSON *******//
+        var actividadProductos = { ProductosComparacion: [] };
+        var formData = new FormData($("#frm-actividad")[0]);
+        $("frm-actividad").attr("disabled", true);
+        $.ajax({
+            url: "@Url.Action("GuardarActividadProductos", "ActividadesProductos")",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                var tamTabla = $('#addTablePrecios td').length;
+                var cont = 0;
+                for (var i = 0; i < (tamTabla / 6); i++) {
+                    actividadProductos.ProductosComparacion.push({
+                        "Actividad": data.Context,
+                        "Modelo": $('#addTablePrecios').find('td').eq(cont).html(),
+                        "Marca": $('#addTablePrecios').find('td').eq(cont + 1).html(),
+                        "PrecioLocal": $('#addTablePrecios').find('td').eq(cont + 2).html(),
+                        "TipoPrecio": $('#addTablePrecios').find('td').eq(cont + 3).html(),
+                        "MinPiezas": $('#addTablePrecios').find('td').eq(cont + 4).html(),
+                        "PrecioCompetencia": $('#addTablePrecios').find('td').eq(cont + 5).html()
+                    });
+                    cont = cont + 6;
+                }
+                var JsonActividadProductos = JSON.stringify(actividadProductos);
+                if (tamTabla > 0) {
+                    $.ajax({
+                        url: "@Url.Action("GuardarListaComparacion", "ActividadesProductos")",
+                        type: 'POST',
+                        data: JsonActividadProductos,
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        async: false,
+                        success: function (response) {
+                            //------finaliza proceso -------//
+                            let comentario = $("#txt-Comentario").val();
+                            let SKUProducto = $("#id-Producto").val();
+                            let Aux = 1;
+                            enviarNotificacionCorreo(data.Context, comentario, SKUProducto, Aux);
+                            Comentarios();
+                            limpiarModalSuccess();
+                            $('#modal-success').modal('hide');
+                            HideOver();
+                            //-----------------------------//
+                        }
+                    });
+                } else {
+                    let comentario = $("#txt-Comentario").val();
+                    let SKUProducto = $("#id-Producto").val();
+                    let Aux = 1;
+                    enviarNotificacionCorreo(data.Context, comentario, SKUProducto, Aux);
+                    Comentarios();
+                    limpiarModalSuccess();
+                    $('#modal-success').modal('hide');
+                    HideOver();
+                }
+
+            }
+        });
+    });
+    function limpiarModalSuccess() {
+        $("#txt-titulo").val('');
+        $("#id-Producto").val('');
+        $("#txt-Comentario").val('');
+        $('#tbPrecioComparativo').html('');
+        $("#imagenEvidencia").val('');
+    }
+    $("#btn-actividad-cancel").click(function () {
+        $('#modal-success').modal('hide');
+        limpiarModalSuccess();
+    });
+     //************************** Fin Modal de Actividades ******************//
+</script>
+<!---------- Manejo completo del modal de detalles y la respuesta desde este ----------------->
+<script>
+    function showVerDetalles(idActividad, actividad, usuarioActividad, registradoEl, detalleActividad, SKU) {
+        $("#lblIdActividadDetalle").val(idActividad);
+        $("#lblActividadDetalle").html(actividad);
+        $("#lblUsuarioDetalle").html(usuarioActividad + " - Registrado: " + registradoEl);
+        $("#modal-showVerDetalles").modal('show');
+        $("#lblProductoDetalle").html(SKU);
+        cargarTablaDetallesActividad(detalleActividad);
+        CargarFotosActividades(Number(idActividad));
+        cargarTablaComparacion(Number(idActividad));
+    }
+    function cargarTablaDetallesActividad(detalleActividad) {
+        $("#tbDetalleActividad").html(
+            "<tr>" +
+                "<td colspan='6' style='text-align:justify;'>" + detalleActividad + "<\/td>" +
+            "<\/tr>"
+        );
+    }
+    function cargarTablaComparacion(idActividad) {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("CargarTablaComparacion", "ActividadesProductos")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"idActividad":"' + idActividad + '"}',
+            dataType: "json",
+            success: function (data) {
+                $("#tbComparacion").html("");
+                $.each(data.Context, function (index, value) {
+                    $("#tbComparacion").append(
+                        "<tr>" +
+                        "<td style='text-align:justify;'>" + value.Modelo + "<\/td>" +
+                        "<td style='text-align:justify;'>" + value.Marca + "<\/td>" +
+                        "<td style='text-align:justify;'>" + (value.PrecioLocal).toFixed(2) + "<\/td>" +
+                        "<td style='text-align:justify;'>" + value.TipoPrecio + "<\/td>" +
+                        "<td style='text-align:justify;'>" + value.MinPiezas + "<\/td>" +
+                        "<td style='text-align:justify;'>" + (value.PrecioCompetencia).toFixed(2) + "<\/td>" +
+                        "<\/tr>"
+                    );
+                });
+            },
+            error: function () {
+                swal("Error en la api: Cargar tabla de comparacion de precios");
+            }
+        });
+    }
+    function CargarFotosActividades(idActividad) {
+        //se solicita la carga de imagenes y se dibuja el carrusel
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("CargarFotosActividades", "ActividadesProductos")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"idActividad":"' + idActividad + '"}',
+            dataType: "json",
+            success: function (data) {
+                $("#carrousel-dinamicActividad").html('');
+                var aux = 0;
+                var cabeceras = '';
+                var detalles = '';
+                //llenamos las cabeceras y los detalles..
+                if (data.Context.length <= 0) {
+                    cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="0" class="active"></li>';
+                    detalles = detalles + '<div class="item active"><img src="../dist/img/employee.jpg" /></div>';
+                    aux++;
+                }
+                else {
+                    $.each(data.Context, function (index, value) {
+                        if (aux == 0) {
+                            cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '" class="active"></li>';
+                        } else {
+                            cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '"></li>';
+                        }
+                        if (aux == 0) {
+                            detalles = detalles + '<div id="imagenDetalle" class="item active"><img src="data:image/png;base64,' + value.Foto + '" /></div>';
+                        } else {
+                            detalles = detalles + '<div id="imagenDetalle" class="item"><img src="data:image/png;base64,' + value.Foto + '" /></div>';
+                        }
+                        aux++;
+                    });
+                }
+                //se dibuja el carrusel
+                $("#carrousel-dinamicActividad").append(
+                    "<div class='col-md-12' >"+
+		                "<div id='carousel-generic1' class='carousel slide' data-ride='carousel' >"+
+			                "<ol id='contenedor-carousel-cabecera' class='carousel-indicators'>"+
+				                 cabeceras +
+				            "<\/ol>"+
+			                "<div id='carousel-detalles' class='carousel-inner' role='listbox'>"+
+					             detalles +
+			                "<\/div>"+
+				                "<a class='left carousel-control' href='#carousel-generic1' role='button' data-slide='prev'>"+
+				                    "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'><\/span>"+
+                                    "<span class='sr-only'>Previous<\/span>"+
+				                "<\/a>"+
+				                "<a class='right carousel-control' href='#carousel-generic1' role='button' data-slide='next'>"+
+					                "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'><\/span>"+
+					                "<span class='sr-only'>Next<\/span>"+
+				                "<\/a>"+
+			            "<\/div>"+
+                    "<\/div>");
+                $("#modal-showVerDetalles").modal('show');
+            },
+            error: function () {
+                swal("Error en la api: Cargar imagenes actividad");
+            }
+        });
+    }
+    $("#btn-actividadCancelComentario").click(function () {
+        //se cancela el uso de modal y se limpian las casillas
+        $("#modal-showVerDetalles").modal('hide');
+        $("#txt-AddComentario").val('');
+        //vaciarTablaDetallesActividad();
+    });
+    $("#btn-actividadAddComentario").click(function () {
+        //se verifica que el campo comentario contenga texto
+        if ($("#txt-AddComentario").val() == '') {
+            swal("Debe especificar el comentario.");
+            return;
+        } else {
+            ShowOver();
+            //---rellenar la respuesta o comentario al cliente---//
+            //var formData = new FormData($("#frm-Respuesta")[0]);
+            let productoSKU = $("#lblProductoDetalle").html();
+            let Actividad = $("#lblIdActividadDetalle").val();
+            let Comentario = $("#txt-AddComentario").val();
+            let Permiso = $("#TxtPermisosComentariosDetalle").val();
+
+            var ruta = "@Url.Action("AddComentario", "ActividadesProductos")";
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                timeout: 3000,
+                url: ruta,
+                type: "POST",
+                data: '{"Actividad":"' + Actividad + '","Comentario":"' + Comentario + '","Permiso":"' + Permiso + '"}',
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        //swal('Comentario agregado');
+                        //var NameCliente= $("#lblProductoDetalle").html();
+                        //Envia via correo electronico la notificacion de un nuevo comentario
+                        //en la actividad
+                        enviarNotificacionCorreo(Actividad, Comentario, productoSKU);
+                    }
+                    else {
+                        console.log('Error API: Añadir Comentario');
+                    }
+                    HideOver();
+                }, error: function (response) {
+                    console.log(response);
+                    HideOver();
+                }
+            });
+            $("#modal-showVerDetalles").modal('hide');
+            $("#txt-AddComentario").val('');
+            //recarga todos los comentarios
+            //Comentarios($("#Cliente").val());
+            Comentarios();
+            //vaciarTablaDetallesActividad();
+        }
+    });
+</script>
+<!---------------------- Manejo Modal Comentario nivel 2 ------------------------------------->
+<script>
+    function showAddComentario(idActividad, tituloActividad, productoSKU, usuario) {
+        var nombreProducto = $("#lblArticulo").html();
+        $("#modal-AddRespuesta").modal('show');
+        $("#id-ResProducto").val(productoSKU);
+        $("#id-ResActividad").val(idActividad);
+        $("#txt-ResProducto").val(productoSKU + " - " + nombreProducto);
+        $("#txt-RespTitulo").val(tituloActividad);
+    }
+    $("#btn-actividad-cancelComentario").click(function () {
+        //se cancela el uso de modal y se limpian las casillas
+        $('#modal-AddRespuesta').modal('hide');
+        $("#txt-RespComentario").val('');
+    });
+    $("#btn-actividad-addComentario").click(function () {
+        //se verifica que el campo comentario contenga texto
+        if ($("#txt-RespComentario").val() == '') {
+            swal("Debe agregar un comentario.");
+            return;
+        } else {
+            ShowOver();
+            let productoSKU=$("#id-ResProducto").val();
+            //---rellenar la respuesta o comentario al cliente---//
+            let Actividad = $("#id-ResActividad").val();
+            let Comentario = $("#txt-RespComentario").val();
+            let Permiso = $("#TxtPermisosComentarios").val();
+            let json = '{"Actividad":"' + Actividad + '","Comentario":"' + Comentario + '","Permiso":"' + Permiso + '"}';
+            var ruta = "@Url.Action("AddComentario", "ActividadesProductos")";
+            //alert(json);
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                timeout: 3000,
+                url: ruta,
+                type: "POST",
+                data: json,
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        enviarNotificacionCorreo(Actividad, Comentario, productoSKU);
+                        Comentarios();
+                    }
+                    HideOver();
+                }, error: function () {
+                    console.log("error al agregar comentario");
+                    HideOver();
+                }
+            });
+            $('#modal-AddRespuesta').modal('hide');
+            HideOver();
+            $("#txt-RespComentario").val('');
+        }
+    });
+</script>
+<!---------------------- Manejo Modal Comentario nivel 3 ------------------------------------->
+<script>
+    function showAddRespuestas(Actividad, idComentario, strComentario, productoSKU) {
+        var nombreProducto = $("#lblArticulo").html();
+        $("#modal-AddCometarioRespuesta").modal('show');
+        $("#txt-ComenRespProducto").val(productoSKU);
+        $("#id-ComenResProductoNombre").val(productoSKU + " - " + nombreProducto);
+        $("#txt-ComenRespTitulo").val(strComentario);
+        $("#id-Comen").val(idComentario);
+        $("#id-ComenResActividad").val(Actividad);
+    }
+    $("#btn-actividad-cancelComentarioRespuesta").click(function () {
+        //se cancela el uso de modal y se limpian las casillas
+        $("#modal-AddCometarioRespuesta").modal('hide');
+        $("#txt-ComenRespComentario").val('');
+    });
+    $("#btn-actividad-addComentarioRespuesta").click(function () {
+        //se verifica que el campo comentario contenga texto
+        let productoSKU=$("#txt-ComenRespProducto").val();
+        let IntComentario= $("#id-Comen").val();
+        let Actividad = $("#id-ComenResActividad").val();
+        let Comentario = $("#txt-ComenRespComentario").val();
+        let Permiso = $("#TxtPermisosComentariosRespuesta").val();
+        if ($("#txt-ComenRespComentario").val() == '') {
+            swal("Debe especificar el comentario.");
+            return;
+        } else {
+            //---añadir respuesta al comentario ---//
+            var ruta = "@Url.Action("AddComentarioRespuesta", "ActividadesProductos")";
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                timeout: 3000,
+                url: ruta,
+                type: "POST",
+                data: '{"Actividad":"' + Actividad + '","IntComentario":"' + IntComentario + '","Comentario":"' + Comentario + '","Permiso":"' + Permiso + '"}',
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        enviarNotificacionCorreo(Actividad, Comentario, productoSKU);
+                        Comentarios();
+                        $("#modal-AddCometarioRespuesta").modal('hide');
+                        $("#txt-ComenRespComentario").val('');
+                    }
+                    else {
+                        swal('Error API: añadirComentarioRespuesta');
+                    }
+                }
+            });
+        }
+    });
+</script>
+<!---------- Generacion de reporte en xls y envio de notificacion de correo electronico ------>
+<script>
+    function enviarCorreoNuevoSKU(Code) {
+        var ruta = "@Url.Action("emailNotificacionNuevoSKU", "ActividadesProductos")";
+        var json = '{"Code":"' + Code + '"}';
+        $.ajax({
+            contentType:"application/json; charset=utf-8",
+            async: false,
+            timeout: 3000,
+            url: ruta,
+            type: "POST",
+            data: json,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data)
+            {
+                console.log("Error en API:Nuevo SKU");
+                console.log(data);
+            }
+        });
+    }
+    function enviarNotificacionCorreo(idActividad, Comentario, SKUProducto ,Aux) {
+        var texto;
+        var texto2;
+        if (Aux == 1) {
+            texto = " Ha sido creada! ";
+            texto2 = " Ha comentado: ";
+        } else {
+            texto = " Ha sido comentada! ";
+            texto2 = " Ha comentado: ";
+        }
+        var ruta = "@Url.Action("emailNotificacionSeguimiento", "ActividadesProductos")";
+        var json = '{"Actividad":"' + idActividad + '","Comentario":"' + Comentario + '","SKUProducto":"' + SKUProducto + '","Texto":"' + texto + '","Texto2":"' + texto2 + '"}';
+        $.ajax({
+            contentType:"application/json; charset=utf-8",
+            async: false,
+            timeout: 3000,
+            url: ruta,
+            type: "POST",
+            data: json,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data)
+            {
+                console.log("Error en API: Actividades");
+                console.log(data);
+            }
+        });
+    }
+    //descarga el reporte de el/los cliente(s) existentes
+    $("#btn-descargaReport").click(function () {
+        var skuProducto = $("#Producto").val();
+        if (skuProducto != "") {
+            $.confirm({
+                title: '¿Desea generar el reporte?',
+                content: 'Esto podría tomar algunos segundos.',
+                type: 'blue',
+                buttons: {
+                    cancel: {
+                        text: 'Cancelar',
+                        action: function () {
+                            swal("El proceso ha sido cancelado");
+                        }
+                    },
+                    confirm: {
+                        text: 'Confirmar',
+                        action: function () {
+                            var NombreProducto = $("#lblNombre").html();
+                            var drp = $('#fechainicial').data('daterangepicker');
+                            var Del = drp.startDate.format('YYYY/MM/DD');
+                            var Al = drp.endDate.format('YYYY/MM/DD');
+                            $.ajax({
+                                contentType: "application/json; charset=utf-8",
+                                type: 'POST',
+                                url: '@Url.Action("seguimientoXls", "ActividadesProductos")',
+                                async: false,
+                                data: '{ skuProducto: "' + skuProducto + '", Del: "' + Del + '", Al: "' + Al + '",NombreProducto:"' + NombreProducto + '"}',
+                                dataType: 'json',
+                                success: function (data) {
+                                    window.location.href = '@Url.Action("DownloadSeguimientoXls", "ActividadesProductos")' +
+                                        '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+<!-----------------------------   Manejo de permiso de visualizacion ------------------------->
+<script>
+    //*********************** Actividad **********************************//
+    function PermisoVisualizacion(idActividad, PermisosRol,Titulo,Comentario) {
+        $("#modalPermisos").modal("show");
+        $("#txtPermisoIdActividad").html(idActividad);
+        $("#txtPermisoTitulo").html(Titulo);
+        $("#txtPermisoComentarioActividad").html(Comentario);
+        $("#TxtPermisoCambioActividad").val(PermisosRol);
+    }
+    $("#btnCancelPermisoActividad").click(function () {
+        $("#modalPermisos").modal("hide");
+    });
+    $("#btnAddPermisoActividad").click(function () {
+        ShowOver();
+        var idActividad= $("#txtPermisoIdActividad").html();
+        var idPermisoActividad = $("#TxtPermisoCambioActividad").val();
+        var Aux = "Actividad";
+        EnvioPermiso(idActividad, idPermisoActividad, Aux);
+        Comentarios();
+        $("#modalPermisos").modal("hide");
+        HideOver();
+    });
+
+    //*********************** Cometario *******************************************
+    function PermisoVisualizacionComentario(IdComentario,Comentario,IdPermiso) {
+        $("#modalPermisosComentario").modal("show");
+        $("#txtPermisoIdComentario").html(IdComentario);
+        $("#txtPermisoComentario").html(Comentario);
+        $("#TxtPermisoCambioComentario").val(IdPermiso);
+    }
+    $("#btnCancelPermisoComentario").click(function () {
+        $("#modalPermisosComentario").modal("hide");
+    });
+    $("#btnAddPermisoComentario").click(function () {
+        var IdComentario = $("#txtPermisoIdComentario").html();
+        var IdPermiso = $("#TxtPermisoCambioComentario").val();
+        var Aux = "Comentario";
+        EnvioPermiso(IdComentario, IdPermiso, Aux);
+        Comentarios();
+        $("#modalPermisosComentario").modal("hide");
+    });
+
+    //********************** Actualizacion de Permisos ****************************
+    function EnvioPermiso(id, idPermiso, Aux) {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            timeout: 3000,
+            url: "@Url.Action("CambiarPermiso", "ActividadesProductos")",
+            type: "POST",
+            data: '{"Id":"' + id + '","IdPermiso":"' + idPermiso + '","Aux":"'+Aux+'"}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null) {
+                    console.log("Save");
+                }
+                else {
+                    console.log('Error API: Cambiar Permisos');
+                }
+            },
+            error: function (data) {
+                console.log("error en API: " + data);
+            }
+        });
+    }
+</script>
+<!----------- Manejo de vistas de seguimiento, panel de seguimiento de SKU y por fechas ------>
+<script>
+    $("#btnSeguimientoSKU").click(function () {
+        selectPanelSKU();
+    });
+    $("#btnSeguimientoFecha").click(function () {
+        selectPanelSKUFechas();
+    });
+    $("#btnSeguimientoSKUNuevos").click(function () {
+        selectPanelSKUNuevosFechas();
+    });
+    function selectPanelSKU() {
+        $("#btnSeguimientoSKUNuevos").removeClass("active");
+        $("#btnSeguimientoFecha").removeClass("active");
+        $(this).addClass("active");
+        $("#SeguimientoFecha").css("display", "none");
+        $("#SeguimientoSKUNuevoFecha").css("display", "none");
+        $("#SeguimientoSKU").fadeIn("slow");
+    }
+    function selectPanelSKUFechas() {
+        $("#btnSeguimientoSKUNuevos").removeClass("active");
+        $("#btnSeguimientoSKU").removeClass("active");
+        $(this).addClass("active");
+        $("#SeguimientoSKU").css("display", "none");
+        $("#SeguimientoSKUNuevoFecha").css("display", "none");
+        $("#SeguimientoFecha").fadeIn("slow");
+    }
+    function selectPanelSKUNuevosFechas() {
+        $("#btnSeguimientoSKU").removeClass("active");
+        $("#btnSeguimientoFecha").removeClass("active");
+        $(this).addClass("active");
+        $("#SeguimientoSKU").css("display", "none");
+        $("#SeguimientoFecha").css("display", "none");
+        $("#SeguimientoSKUNuevoFecha").fadeIn("slow");
+    }
+
+</script>
+<!--------------------  Manejo de seguimiento por fechas ------------------------------------->
+<script>
+    FechaSeguimiento();
+    function FechaSeguimiento() {
+        $('#fechaSeguimiento').daterangepicker();
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+    }
+    function ComentariosXFechas() {
+        ShowOver();
+        var drp = $('#fechaSeguimiento').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("GetActividadesProductosPorFechas", "ActividadesProductos")',
+            async: false,
+            data: '{Del: "' + Del + '", Al: "' + Al + '"}',
+            dataType: 'json',
+            success: function (response) {
+                //procesar para dibujar estructura de los comentrarios treeview
+                initTree(response)
+                HideOver();
+            },
+            error: function () {
+                HideOver();
+            }
+        });
+        function initTree(treeData) {
+
+            $('#treeviewFechas').treeview({
+                data: treeData.Context,
+            });
+            $('#treeviewFechas').treeview('collapseAll', { silent: true });
+        }
+    }
+    $("#btnBuscar").click(function () {
+        ComentariosXFechas();
+        $("#btnDescargarReporteFechas").css("display","inline");
+    });
+
+    $("#btnDescargarReporteFechas").click(function () {
+        $.confirm({
+            title: '¿Desea generar el reporte?',
+            content: 'Esto podría tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        swal("El proceso ha sido cancelado");
+                    }
+                },
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        var drp = $('#fechaSeguimiento').data('daterangepicker');
+                        var Del = drp.startDate.format('YYYY/MM/DD');
+                        var Al = drp.endDate.format('YYYY/MM/DD');
+                        $.ajax({
+                            contentType: "application/json; charset=utf-8",
+                            type: 'POST',
+                            url: '@Url.Action("seguimientoXlsPorFecha", "ActividadesProductos")',
+                            async: false,
+                            data: '{Del: "' + Del + '", Al: "' + Al +'"}',
+                            dataType: 'json',
+                            success: function (data) {
+                                window.location.href = '@Url.Action("DownloadSeguimientoXls", "ActividadesProductos")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    });
+</script>
+<!-------------------------- Manejo modal de vista de imagenes ------------------------------->
+<script>
+    $('body').on('click', 'img', function () {
+        $('#imagepreview').attr('src', $(this).attr('src'));
+        $("#imagemodal").modal("show");
+    });
+
+</script>
+<!-----------------  Manejo de seguimiento por fechas de nuevos SKU sugeridos ---------------->
+<script>
+    FechaSeguimientoNuevoSKU();
+    function FechaSeguimientoNuevoSKU() {
+        $('#fechaSeguimientoNuevoSKU').daterangepicker();
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+    }
+    function NuevosSKUXFechas() {
+        ShowOver();
+        var drp = $('#fechaSeguimientoNuevoSKU').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY-MM-DD');
+        var Al = drp.endDate.format('YYYY-MM-DD');
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("GetNuevoSKUPorFechas", "ActividadesProductos")',
+            async: false,
+            data: '{Del: "' + Del + '", Al: "' + Al + '"}',
+            dataType: 'json',
+            success: function (response) {
+                //procesar para dibujar estructura de los comentrarios treeview
+                initTree(response)
+                HideOver()
+            },
+            error: function () {
+                HideOver();
+            }
+        });
+        function initTree(treeData) {
+
+            $('#treeviewSKUFechasNuevo').treeview({
+                data: treeData.Context,
+            });
+            $('#treeviewSKUFechasNuevo').treeview('collapseAll', { silent: true });
+        }
+    }
+    $("#btnBuscarNuevoSKU").click(function () {
+        NuevosSKUXFechas();
+        $("#btnDescargarNuevoSKU").show();
+    });
+    $("#btnDescargarNuevoSKU").click(function () {
+        var drp = $('#fechaSeguimientoNuevoSKU').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            url: '@Url.Action("seguimientoXlsNuevoSKU", "ActividadesProductos")',
+            async: false,
+            data: '{Del: "' + Del + '", Al: "' + Al +'"}',
+            dataType: 'json',
+            success: function (data) {
+                window.location.href = '@Url.Action("DownloadSeguimientoXls", "ActividadesProductos")' +
+                    '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+            }
+        });
+    });
+</script>

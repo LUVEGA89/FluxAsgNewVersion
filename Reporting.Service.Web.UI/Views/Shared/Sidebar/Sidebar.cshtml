@@ -1,0 +1,975 @@
+﻿@model Reporting.Service.Web.UI.Models.UserModel
+
+@using Microsoft.AspNet.Identity
+@using Reporting.Service.Core.Common
+
+
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="@Model.CodigoEmpleado" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>@*@Model.Usuario.Nombre @Model.Usuario.ApellidoPaterno*@</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="header">SIE SISTEMA</li>
+            @if (Request.IsAuthenticated)
+            {
+                if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Direccion))
+                {
+                    <li class="treeview">
+                        <a href="@Url.Action("#", "#")">
+                            <i class="fa fa-file"></i> <span>Almacen</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Facturas")"><i class="fa fa-circle-o"></i> Facturación </a></li>
+                            @if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Direccion) || Model.Roles.Contains(Rol.Almacen))
+                            {
+                                <li class="treeview">
+                                    <a href="@Url.Action("#", "#")">
+                                        <i class="fa fa-file"></i> <span>Tarimas</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="@Url.Action("Index", "Tarimas")"><i class="fa fa-circle-o"></i> Inicio </a></li>
+                                        <!--<li><a href="@Url.Action("Reporte", "Tarimas")"><i class="fa fa-circle-o"></i> Reporte </a></li>-->
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-money"></i>
+                            <span>Finanzas Corporativas</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Estados/Relacion"><i class="fa fa-diamond"></i>Relación bancaria suc.</a></li>
+                            <li><a href="~/Estados"><i class="fa fa-circle-o"></i>Relación bancaria suc.</a></li>
+                            <li><a href="~/Estados/Conciliacion"><i class="fa fa-circle-o"></i>Conciliación bancaría</a></li>
+                            <li><a href="~/PagosRecibidos"><i class="fa fa-circle-o"></i>Pagos recibidos</a></li>
+                            <li><a href="~/MetasCobranza"><i class="fa fa-circle-o"></i>Metas cobranza</a></li>
+                            <li><a href="@Url.Action("Index", "FacturacionRecibida")"><i class="fa fa-minus"></i>Facturación recibida</a></li>
+                            <li><a href="@Url.Action("Index", "FacturacionEmitida")"><i class="fa fa-minus"></i>Facturación emitida</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-line-chart"></i>
+                            <span>Indicadores</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Indicadores/Compras"><i class="fa fa-circle-o"></i>Compras Fussion</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o"></i>Compras Woika</a></li>
+                            <li><a href="~/Cobranza"><i class="fa fa-circle-o"></i>Crédito y Cobranza</a></li>
+                            <li><a href="~/Cumplimiento"><i class="fa fa-circle-o"></i>Mon. Ventas Tiendas</a></li>
+                            <li><a href="~/Canales"><i class="fa fa-circle-o"></i>Forecast Canales</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dollar"></i>
+                            <span>Precios</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Precios/Aprobacion"><i class="fa fa-circle-o"></i>Aprobación de Precios</a></li>
+                            <li><a href="~/Precios"><i class="fa fa-circle-o"></i>Gestión de Precios</a></li>
+                            <li><a href="~/Precios/ConsultaPrecios"><i class="fa fa-circle-o"></i>Consulta de Precios</a></li>
+                            <li><a href="~/FactoresPrecios"><i class="fa fa-circle-o"></i>Factores de precios</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cubes"></i>
+                            <span>Productos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Productos/skuchina"><i class="fa fa-list"></i>SKU china</a></li>
+                            <li><a href=@Url.Action("RotacionArticulos", "Venta")><i class="fa fa-product-hunt"></i>Rotación SKU</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa  fa-bar-chart"></i>
+                            <span>Reporte SAP</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+
+                            <li><a href="~/Evaluacion/Consejo"><i class="fa fa-circle-o"></i> Reporte de consejo</a></li>
+                            <li><a href="~/Indicadores/LlegadasSeguimiento"><i class="fa fa-circle-o"></i>Seguimiento llegadas</a></li>
+                            <li><a href="~/Evaluacion/Retail"><i class="fa fa-circle-o"></i>Ventas Retail</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-book"></i>
+                            <span>Auditoría</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Auditoria/Administracion"><i class="fa fa-cog"></i>Administración</a></li>
+                            <li><a href="~/Auditoria/Index"><i class="fa fa-cog"></i>Iniciar auditoria</a></li>
+                            <li><a href="~/Auditoria/Reporte"><i class="fa fa-archive"></i>Reporte</a></li>
+
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-file-o"></i> <span>Viaticos</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="@Url.Action("Solicitud", "Viaticos")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                                    <li><a href="@Url.Action("Comprobacion", "Viaticos")"><i class="fa fa-circle-o"></i> Comprobación </a></li>
+                                    <li><a href="@Url.Action("ApruebaSolicitud", "Viaticos")"><i class="fa fa-circle-o"></i> Aprobación </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cubes"></i>
+                            <span>Inventarios</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Inventarios/Index"><i class="fa fa-cog"></i>Fac. Diaria Almacén</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cut"></i>
+                            <span>Papelería</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Papeleria"><i class="fa fa-leaf"></i>Solicitud</a></li>
+                            <li><a href="~/Papeleria/Entrega"><i class="fa fa-copy"></i>Entrega</a></li>
+                            <li><a href="~/Papeleria/Reporte"><i class="fa fa-bar-chart"></i>Reporte</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file"></i>
+                            <span>Business Intelligence</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Tienda/PedidoTienda"><i class="fa fa-circle-o"></i>Pedidos Tiendas</a></li>
+                            <li><a href="~/Tienda/Autorizacion"><i class="fa fa-circle-o"></i>Aprobación Pedidos</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-adn"></i>
+                            <span>Retail</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Pedidos/Index"><i class="fa fa-circle-o"></i>Gerencia</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Supervisor))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cubes"></i>
+                            <span>Productos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href=@Url.Action("RotacionArticulos", "Venta")><i class="fa fa-product-hunt"></i>Rotación SKU</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa  fa-bar-chart"></i>
+                            <span>Reporte SAP</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Evaluacion/Consejo"><i class="fa fa-circle-o"></i> Reporte de consejo</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Direccion) || Model.Roles.Contains(Rol.Trafico))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-ship"></i>
+                            <span>Tráfico</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Trafico"><i class="fa fa-balance-scale"></i>Impuestos</a></li>
+                            <li><a href="~/Trafico/Compras"><i class="fa fa-legal"></i>Compras</a></li>
+
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-file-o"></i> <span>Contenedor</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="@Url.Action("Index", "Contenedor")"><i class="fa fa-circle-o"></i> Inicio </a></li>
+                                    <li><a href="@Url.Action("Registrar", "Contenedor")"><i class="fa fa-circle-o"></i> Registrar </a></li>
+                                    <li><a href="@Url.Action("Seguimiento", "Contenedor")"><i class="fa fa-circle-o"></i> Seguimiento </a></li>
+                                    <li><a href="@Url.Action("Envio", "Contenedor")"><i class="fa fa-circle-o"></i> Agregar envios </a></li>
+                                    <li><a href="@Url.Action("ReporteSKUS", "Contenedor")"><i class="fa fa-circle-o"></i> Reporte </a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Direccion) || Model.Roles.Contains(Rol.Ventas) || Model.Roles.Contains(Rol.Supervisor))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>Ventas</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (Model.Roles.Contains(Rol.Ventas) || Model.Roles.Contains(Rol.Supervisor))
+                            {
+                                if (Model.Roles.Contains(Rol.Supervisor))
+                                {
+                                    <li><a href="~/Productos"><i class="fa fa-product-hunt"></i>Productos</a></li>
+                                    <li><a href="~/Venta"><i class="fa fa-money"></i>Panel de control ventas</a></li>
+                                }
+                                <li><a href="~/Venta"><i class="fa fa-dollar"></i></a></li>
+                                <li><a href="@Url.Action("Clientes", "Venta")"><i class="fa fa-minus"></i>Clientes - Sku´s</a></li>
+                                <li class="treeview">
+                                    <a href="@Url.Action("Index", "NotaCredito")">
+                                        <i class="fa fa-credit-card"></i> <span>Notas de crédito</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="@Url.Action("Index", "NotaCredito")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                                        <li><a href="@Url.Action("NotasCreditoReporte", "NotaCredito")"><i class="fa fa-circle-o"></i> Reporte </a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Direccion))
+                            {
+                                <li><a href="~/Evaluacion"><i class="fa fa-area-chart"></i>Evaluación vendedor</a></li>
+                                <li><a href="~/Venta/AgregarMetas"><i class="fa fa-plus-circle"></i> Agregar metas</a></li>
+                                <li><a href="~/Clientes/ClientesAA"><i class="fa fa-user"></i>Clientes AA</a></li>
+                                <li><a href="~/Clientes"><i class="fa fa-user"></i>Clientes AAA</a></li>
+                                <li><a href="~/Productos"><i class="fa fa-product-hunt"></i>Productos</a></li>
+
+                                <li><a href="@Url.Action("General", "Venta")"><i class="fa fa-calculator"></i>Análisis general</a></li>
+                                <li><a href="~/Venta"><i class="fa fa-money"></i>Panel de control ventas</a></li>
+                                <li class="treeview">
+                                    <a href="@Url.Action("Index", "NotaCredito")">
+                                        <i class="fa fa-credit-card"></i> <span>Notas de crédito</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="@Url.Action("Index", "NotaCredito")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                                        <li><a href="@Url.Action("NotasCreditoGestion", "Venta")"><i class="fa fa-circle-o"></i> Gestión </a></li>
+                                        <li><a href="@Url.Action("NotasCreditoReporte", "NotaCredito")"><i class="fa fa-circle-o"></i> Reporte </a></li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Direccion) || Model.Roles.Contains(Rol.Ventas) || Model.Roles.Contains(Rol.Supervisor))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-minus"></i>
+                            <span>Seguimiento</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (Model.Roles.Contains(Rol.Ventas) || Model.Roles.Contains(Rol.Supervisor))
+                            {
+                                <li><a href="@Url.Action("SeguimientoCliente", "Venta")"><i class="fa fa-minus"></i>Clientes</a></li>
+                                <li><a href="@Url.Action("SeguimientoProducto", "ActividadesProductos")"><i class="fa fa-minus"></i>Productos</a></li>
+                            }
+                            else if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Direccion))
+                            {
+                                <li><a href="@Url.Action("SeguimientoCliente", "Venta")"><i class="fa fa-minus"></i>Clientes</a></li>
+                                <li><a href="@Url.Action("SeguimientoProducto", "ActividadesProductos")"><i class="fa fa-minus"></i>Productos</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+
+                if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Tiendas))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-institution"></i>
+                            <span>Tiendas</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Tienda")"><i class="fa fa-minus"></i>Cumplimiento de metas</a></li>
+                            <li><a href="@Url.Action("Boletin", "Tienda")"><i class="fa fa-minus"></i>Boletin</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Finanzas))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-balance-scale"></i>
+                            <span>Nómina</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (Model.Nombre == "captura@fussionweb.com")
+                            {
+                                <li><a href="@Url.Action("Precarga", "Nomina")"><i class="fa fa-history"></i>Precarga</a></li>
+                                <li><a href="@Url.Action("Historial", "Nomina")"><i class="fa fa-history"></i>Historial</a></li>
+                            }
+                            @if (Model.Roles.Contains(Rol.Administrador))
+                            {
+                                <li><a href="@Url.Action("Precarga", "Nomina")"><i class="fa fa-history"></i>Precarga</a></li>
+                                <li><a href="@Url.Action("Historial", "Nomina")"><i class="fa fa-history"></i>Historial</a></li>
+                                <li><a href="@Url.Action("Index", "Nomina")"><i class="fa fa-file-o"></i>Facturar</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Action("Index", "FacturacionRecibida")"><i class="fa fa-minus"></i>Facturación recibida</a></li>
+                                <li><a href="@Url.Action("Index", "FacturacionEmitida")"><i class="fa fa-minus"></i>Facturación emitida</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.Ecommerce))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-at"></i>
+                            <span>E-commerce</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Ecommerce")"><i class="fa fa-money"></i>Ventas</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Administrador) || Model.Roles.Contains(Rol.RecursosHumanos))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-user"></i>
+                            <span>Recursos Humanos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-user pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Reporte", "Buzon")"><i class="fa fa-file"></i>Reporte buzón</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Administrador))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cogs"></i>
+                            <span>Herramientas</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Role")"><i class="fa fa-tags"></i>Roles</a></li>
+                            <li><a href="@Url.Action("Register", "Account")"><i class="fa fa-user"></i>Nuevo Usuario</a></li>
+                        </ul>
+                    </li>
+                }
+
+                if (Model.Roles.Contains(Rol.Business) || Model.Roles.Contains(Rol.Ecommerce))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-line-chart"></i>
+                            <span>Indicadores</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Cumplimiento")"><i class="fa fa-circle-o"></i>Monitoreo de Ventas Tiendas</a></li>
+                            <li><a href="@Url.Action("Index", "Canales")"><i class="fa fa-circle-o"></i>Forecast Canales</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file"></i>
+                            <span>Business Intelligence</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Tienda/PedidoTienda"><i class="fa fa-circle-o"></i>Pedidos Tiendas</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-book"></i>
+                            <span>Auditoría</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Auditoria/Reporte"><i class="fa fa-archive"></i>Reporte</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dollar"></i>
+                            <span>Precios</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Precios"><i class="fa fa-circle-o"></i>Gestión de Precios</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Precios))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dollar"></i>
+                            <span>Precios</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Precios"><i class="fa fa-circle-o"></i>Gestión de Precios</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file"></i>
+                            <span>Business Intelligence</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Tienda/PedidoTienda"><i class="fa fa-circle-o"></i>Pedidos Tiendas</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Regional))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-book"></i>
+                            <span>Auditoría</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Auditoria/Index"><i class="fa fa-cog"></i>Tiendas</a></li>
+                            <li><a href="~/Auditoria/Reporte"><i class="fa fa-archive"></i>Reporte</a></li>
+
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-file-o"></i> <span>Viaticos</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="@Url.Action("Solicitud", "Viaticos")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                                    <li><a href="@Url.Action("Comprobacion", "Viaticos")"><i class="fa fa-circle-o"></i> Comprobación </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </li>
+
+                }
+                if (Model.Roles.Contains(Rol.Inventarios))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-book"></i>
+                            <span>Inventarios</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Inventarios/Index"><i class="fa fa-cog"></i>Fac. Diarial Almacén</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="@Url.Action("NotasCredito", "Venta")">
+                            <i class="fa fa-share"></i> <span>Notas de crédito</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("NotasCredito", "Venta")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file-o"></i> <span>Viaticos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Solicitud", "Viaticos")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                            <li><a href="@Url.Action("Comprobacion", "Viaticos")"><i class="fa fa-circle-o"></i> Comprobación </a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Papeleria))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cut"></i>
+                            <span>Papelería</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Papeleria"><i class="fa fa-circle-o"></i>Solicitud</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.AdministracionPapeleria))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cut"></i>
+                            <span>Papelería</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Papeleria"><i class="fa fa-circle-o"></i>Solicitud</a></li>
+                            <li><a href="~/Papeleria/Entrega"><i class="fa fa-circle-o"></i>Entrega</a></li>
+                            <li><a href="~/Papeleria/Reporte"><i class="fa fa-circle-o"></i>Reporte</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Conciliacion))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-money"></i>
+                            <span>Finanzas Corporativas</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Estados"><i class="fa fa-circle-o"></i>Relación bancaria suc.</a></li>
+                            <li><a href="~/Estados/Conciliacion"><i class="fa fa-circle-o"></i>Conciliación bancaría</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.PedidosTienda))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file"></i>
+                            <span>Business Intelligence</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Tienda/PedidoTienda"><i class="fa fa-circle-o"></i>Pedidos Tiendas</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Gerencia))
+                {
+                    <li class="treeview">
+                        <a href="@Url.Action("#", "#")">
+                            <i class="fa fa-file"></i> <span>Almacen</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Facturas")"><i class="fa fa-circle-o"></i> Facturación </a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-line-chart"></i>
+                            <span>Indicadores</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Canales")"><i class="fa fa-circle-o"></i>Forecast Canales</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cubes"></i>
+                            <span>Inventarios</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Inventarios/Index"><i class="fa fa-cog"></i>Fac. Diaria Almacén</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cut"></i>
+                            <span>Papelería</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Papeleria"><i class="fa fa-leaf"></i>Solicitud</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dollar"></i>
+                            <span>Precios</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Precios/ConsultaPrecios"><i class="fa fa-circle-o"></i>Consulta de precios</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cubes"></i>
+                            <span>Productos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Productos/skuchina"><i class="fa fa-list"></i>SKU china</a></li>
+                            <li><a href=@Url.Action("RotacionArticulos", "Venta")><i class="fa fa-product-hunt"></i>Rotación SKU</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa  fa-bar-chart"></i>
+                            <span>Reporte SAP</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+
+                            <li><a href="~/Evaluacion/Consejo"><i class="fa fa-circle-o"></i> Reporte de consejo</a></li>
+                            <li><a href="~/Indicadores/LlegadasSeguimiento"><i class="fa fa-circle-o"></i>Seguimiento llegadas</a></li>
+                            <li><a href="~/Evaluacion/Retail"><i class="fa fa-circle-o"></i>Ventas Retail</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-adn"></i>
+                            <span>Retail</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Pedidos/Index"><i class="fa fa-circle-o"></i>Gerencia</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>Ventas</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Venta"><i class="fa fa-dollar"></i>Inicio</a></li>
+                            <li><a href="~/Evaluacion"><i class="fa fa-area-chart"></i>Evaluación vendedor</a></li>
+                            <li><a href="~/Venta/AgregarMetas"><i class="fa fa-plus-circle"></i> Agregar metas</a></li>
+                            <li><a href="~/Clientes/ClientesAA"><i class="fa fa-user"></i>Clientes AA</a></li>
+                            <li><a href="~/Clientes"><i class="fa fa-user"></i>Clientes AAA</a></li>
+                            <li><a href="~/Productos"><i class="fa fa-product-hunt"></i>Productos</a></li>
+                            <li><a href="@Url.Action("General", "Venta")"><i class="fa fa-calculator"></i>Análisis general</a></li>
+                            <li><a href="~/Venta"><i class="fa fa-money"></i>Panel de control ventas</a></li>
+                            <li><a href="@Url.Action("Clientes", "Venta")"><i class="fa fa-minus"></i>Clientes - Sku´s</a></li>
+                            <li class="treeview">
+                                <a href="@Url.Action("Index", "NotaCredito")">
+                                    <i class="fa fa-credit-card"></i> <span>Notas de crédito</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="@Url.Action("Index", "NotaCredito")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                                    <li><a href="@Url.Action("NotasCreditoGestion", "Venta")"><i class="fa fa-circle-o"></i> Gestión </a></li>
+                                    <li><a href="@Url.Action("NotasCreditoReporte", "NotaCredito")"><i class="fa fa-circle-o"></i> Reporte </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-minus"></i>
+                            <span>Seguimiento</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("SeguimientoCliente", "Venta")"><i class="fa fa-minus"></i>Clientes</a></li>
+                            <li><a href="@Url.Action("SeguimientoProducto", "ActividadesProductos")"><i class="fa fa-minus"></i>Productos</a></li>
+                        </ul>
+                    </li>
+                }
+
+                if (Model.Roles.Contains(Rol.Almacen))
+                {
+                    <li class="treeview">
+                        <a href="@Url.Action("#", "#")">
+                            <i class="fa fa-file"></i> <span>Almacen</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Facturas")"><i class="fa fa-circle-o"></i> Facturación </a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="@Url.Action("NotasCredito", "Venta")">
+                            <i class="fa fa-share"></i> <span>Notas de crédito</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("NotasCreditoGestion", "Venta")"><i class="fa fa-circle-o"></i> Gestión </a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Asistente))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-book"></i>
+                            <span>Auditoría</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Auditoria/Reporte"><i class="fa fa-archive"></i>Reporte</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Credito))
+                {
+
+                    <li class="treeview">
+                        <a href="@Url.Action("Index", "NotaCredito")">
+                            <i class="fa fa-share"></i> <span>Notas de crédito</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "NotaCredito")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                            <li><a href="@Url.Action("NotasCreditoGestion", "Venta")"><i class="fa fa-circle-o"></i> Gestión </a></li>
+                            <li><a href="@Url.Action("NotasCreditoReporte", "NotaCredito")"><i class="fa fa-circle-o"></i> Reporte </a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Retail))
+                {
+
+                    <li class="treeview">
+                        <a href="@Url.Action("NotasCredito", "Venta")">
+                            <i class="fa fa-share"></i> <span>Notas de crédito</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "NotaCredito")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                        </ul>
+                    </li>
+                }
+
+                if (Model.Roles.Contains(Rol.RetailAdmin))
+                {
+                    <li class="treeview">
+                        <a href="@Url.Action("NotasCredito", "Venta")">
+                            <i class="fa fa-share"></i> <span>Notas de crédito</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "NotaCredito")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                            <li><a href="@Url.Action("Gestion", "NotaCredito")"><i class="fa fa-circle-o"></i> Gestión </a></li>
+                            <li><a href="@Url.Action("NotasCreditoReporte", "NotaCredito")"><i class="fa fa-circle-o"></i> Reporte </a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-adn"></i>
+                            <span>Retail</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Pedidos/Index"><i class="fa fa-circle-o"></i>Crédito y cobranza</a></li>
+                        </ul>
+                    </li>
+
+                }
+                if (Model.Roles.Contains(Rol.Compras))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cubes"></i>
+                            <span>Productos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="~/Productos/skuchina"><i class="fa fa-list"></i>SKU china</a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Capacitacion))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file-o"></i> <span>Viaticos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Solicitud", "Viaticos")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                            <li><a href="@Url.Action("Comprobacion", "Viaticos")"><i class="fa fa-circle-o"></i> Comprobación </a></li>
+                        </ul>
+                    </li>
+                }
+                if (Model.Roles.Contains(Rol.Aperturas))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file-o"></i> <span>Viaticos</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Solicitud", "Viaticos")"><i class="fa fa-circle-o"></i> Solicitud </a></li>
+                            <li><a href="@Url.Action("Comprobacion", "Viaticos")"><i class="fa fa-circle-o"></i> Comprobación </a></li>
+                        </ul>
+                    </li>
+                }
+            }
+        </ul>
+    </section>
+</aside>

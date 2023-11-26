@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "Arbol";
+}
+<style>
+
+    .list-group.list-group-tree {
+        padding: 0;
+    }
+    .list-group.list-group-tree .list-group {
+        margin-bottom: 0;
+    }
+    .list-group.list-group-tree > .list-group > .list-group-item {
+        padding-left: 30px;
+    }
+    .list-group.list-group-tree > .list-group > .list-group > .list-group-item {
+        padding-left: 45px;
+    }
+    .list-group.list-group-tree > .list-group > .list-group > .list-group-item > .list-group-item {
+        padding-left: 60px;
+    }
+    .list-group.list-group-tree > .list-group > .list-group > .list-group-item > .list-group-item > .list-group-item {
+        padding-left: 75px;
+    }
+    .list-group.list-group-tree > .list-group > .list-group > .list-group-item > .list-group-item > .list-group-item > .list-group-item {
+        padding-left: 90px;
+    }
+    .list-group-item .fa {
+        margin-right: 5px;
+    }
+    .fa-chevron:before {
+        content: "\f054"; /*right*/
+    }
+    .in > .fa-chevron:before {
+        content: "\f078"; /*down*/
+    }
+
+</style>
+<!--
+<div class="list-group list-group-tree well">
+
+    <a href="javascript:void(0);" class="list-group-item" data-toggle="collapse">
+        <i class="fa fa-chevron"></i>
+        <span class="badge">12</span>
+        Item 1
+    </a>
+
+    <div class="list-group collapse">
+
+        <a href="javascript:void(0);" class="list-group-item" data-toggle="collapse">
+            <i class="fa fa-chevron"></i>
+            <span class="badge">3</span>
+            Item 1.1
+        </a>
+
+        <div class="list-group collapse">
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.1.1</a>
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.1.2</a>
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.1.3</a>
+        </div>
+
+        <a class="list-group-item" data-toggle="collapse">
+            <i class="fa fa fa-chevron"></i>
+            <span class="badge">3</span>
+            Item 1.2
+        </a>
+        <div class="list-group collapse">
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.2.1</a>
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.2.2</a>
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.2.3</a>
+        </div>
+
+        <a href="javascript:void(0);" class="list-group-item" data-toggle="collapse">
+            <i class="fa fa fa-chevron"></i>
+            <span class="badge">3</span>
+            Item 1.3
+        </a>
+        <div class="list-group collapse">
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.3.1</a>
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.3.2</a>
+            <a href="javascript:void(0);" class="list-group-item"><span class="badge">0</span>Item 1.3.3</a>
+        </div>
+
+    </div>
+
+</div>
+-->
+
+    <div class="list-group list-group-tree well" id="padre">
+
+
+
+        
+        <div class="list-group collapse" id="hijo">
+
+  
+
+        </div>
+
+
+    </div>
+
+
+<script>
+
+
+
+    function Comentarios() {
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("ComentariosCliente", "Venta")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"Codigo":"C004495"}',
+            dataType: "json",
+        }).done(function (data) {
+
+
+            //$('#hijo').append("<a href='javascript:void(0);' class='list-group-item' data-toggle='collapse'><i class='fa fa-chevron'></i><span class='badge'>3</span>" + value.SequencePadre + "</a>");
+            //$('#nieto').append("<a href='javascript:void (0);' class='list-group-item'><span class='badge'>0</span>Item 1.1.1</a>");
+
+            
+
+            $.each(data.Context, function (index, value) {
+                $("#padre").append("<a href='javascript:void (0);' class='list-group-item' data-toggle='collapse'><i class='fa fa-chevron'></i><span class='badge'>12</span>" + value.Sequence + "</a>");                  
+            });
+
+            /*
+            var cont = data.Context.length;
+            for (i = 0; i < cont; i++) {
+                console.log(data.Context[i].Sequence);
+            }
+            */
+              
+        }).always(function () {
+            console.log("FINISH API AñadirComentarioSequence")
+        }).fail(function () {
+            swal("ERROR: AñadirComentarioSequence");
+        });
+
+    }
+
+    Comentarios();
+
+    $(function () {
+
+        // delegated handler
+        $(".list-group-tree").on('click', "[data-toggle=collapse]", function () {
+            $(this).toggleClass('in')
+            $(this).next(".list-group.collapse").collapse('toggle');
+
+            // next up, when you click, dynamically load contents with ajax - THEN toggle
+            return false;
+        })
+
+    });
+
+</script>

@@ -11,8 +11,8 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <UseIISExpress>true</UseIISExpress>
     <ProjectView>ShowAllFiles</ProjectView>
-    <NameOfLastUsedPublishProfile>E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIE - FLUX\Reporting.Service.Web.UI\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
-    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <NameOfLastUsedPublishProfile>E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIEFLUXGIT\FluxAsgNewVersion\Reporting.Service.Web.UI\Properties\PublishProfiles\SIE.pubxml</NameOfLastUsedPublishProfile>
+    <LastActiveSolutionConfig>Release|Any CPU</LastActiveSolutionConfig>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />

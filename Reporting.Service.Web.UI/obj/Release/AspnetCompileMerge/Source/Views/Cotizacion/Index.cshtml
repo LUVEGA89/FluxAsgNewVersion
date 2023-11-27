@@ -31,6 +31,10 @@
     #modalTam {
         width: 80% !important;
     }
+
+    .justify-content-between {
+        justify-content: space-between !important;
+    }
 </style>
 
 <section class="content-header">
@@ -60,9 +64,9 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-6">
                         </div>
-                        <div class="col-md-1" style="text-align: right;">
+                        <div class="col-md-6" style="text-align: right;">
                             <button onclick="CotizacionModal()" id="ShowDetails" class="btn btn-success">
                                 New Quotation
                             </button>
@@ -294,11 +298,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" id="divSchedule" style="display:none">
+                                    <br />
+                                    <div class="row" id="divSchedule">
                                         <div class="col-md-12">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-file"></i></span>
-                                                <span class="input-group-text text-quotation">Schedule</span>
+                                                <span class="input-group-addon">
+                                                    Schedule
+                                                </span>
                                                 <textarea class="form-control" name="ObcSchedule" id="ObcSchedule" rows="4"></textarea>
                                             </div>
                                         </div>
@@ -497,71 +503,49 @@
                             <h5 class="d-flex justify-content-between align-items-center mb-3" id="cliente-summary" style="color: mediumseagreen;"></h5>
                             <h5 class="d-flex justify-content-between align-items-center mb-3" id="tittle-summary" style="color: red;"></h5>
                             <ul class="list-group mb-3">
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted"># OBC</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-obc"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted"># OBC</small>
+                                    <span class="text-muted pull-right" id="sumary-obc"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">DAY</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-day"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">DAY</small>
+                                    <span class="text-muted pull-right" id="sumary-day"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">OBC FEE</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-obc-fee"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">OBC FEE</small>
+                                    <span class="text-muted pull-right" id="sumary-obc-fee"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">FLIGHTS</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-flights"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">FLIGHTS</small>
+                                    <span class="text-muted pull-right" id="sumary-flights"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">HOTEL</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-hotel"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">HOTEL</small>
+                                    <span class="text-muted pull-right" id="sumary-hotel"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">PICKUP</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-pickup"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">PICKUP</small>
+                                    <span class="text-muted pull-right" id="sumary-pickup"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">DELIVERY</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-delibery"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">DELIVERY</small>
+                                    <span class="text-muted pull-right" id="sumary-delibery"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">CUSTOMS</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-customs"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">CUSTOMS</small>
+                                    <span class="text-muted pull-right" id="sumary-customs"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">OTHER</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-wrapping"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">OTHER</small>
+                                    <span class="text-muted pull-right" id="sumary-wrapping"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">PROFIT</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-profit"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">PROFIT</small>
+                                    <span class="text-muted pull-right" id="sumary-profit"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">COST OF MISSION</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-cost"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">COST OF MISSION</small>
+                                    <span class="text-muted pull-right" id="sumary-cost"></span>
                                 </li>
                             </ul>
                         </div>
@@ -771,11 +755,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" id="divScheduleE" style="display:none">
+                                    <br />
+                                    <div class="row" id="divScheduleE">
                                         <div class="col-md-12">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-file"></i></span>
-                                                <span class="input-group-text text-quotation">Schedule</span>
+                                                <span class="input-group-addon">
+                                                    Schedule
+                                                </span>
                                                 <textarea class="form-control" name="ObcScheduleE" id="ObcScheduleE" rows="4"></textarea>
                                             </div>
                                         </div>
@@ -974,71 +960,49 @@
                             <h5 class="d-flex justify-content-between align-items-center mb-3" id="cliente-summaryE" style="color: mediumseagreen;"></h5>
                             <h5 class="d-flex justify-content-between align-items-center mb-3" id="tittle-summaryE" style="color: red;"></h5>
                             <ul class="list-group mb-3">
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted"># OBC</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-obcE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted"># OBC</small>
+                                    <span class="text-muted pull-right" id="sumary-obcE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">DAY</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-dayE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">DAY</small>
+                                    <span class="text-muted pull-right" id="sumary-dayE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">OBC FEE</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-obc-feeE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">OBC FEE</small>
+                                    <span class="text-muted pull-right" id="sumary-obc-feeE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">FLIGHTS</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-flightsE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">FLIGHTS</small>
+                                    <span class="text-muted pull-right" id="sumary-flightsE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">HOTEL</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-hotelE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">HOTEL</small>
+                                    <span class="text-muted pull-right" id="sumary-hotelE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">PICKUP</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-pickupE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">PICKUP</small>
+                                    <span class="text-muted pull-right" id="sumary-pickupE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">DELIVERY</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-deliberyE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">DELIVERY</small>
+                                    <span class="text-muted pull-right" id="sumary-deliberyE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">CUSTOMS</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-customsE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">CUSTOMS</small>
+                                    <span class="text-muted pull-right" id="sumary-customsE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">OTHER</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-wrappingE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">OTHER</small>
+                                    <span class="text-muted pull-right" id="sumary-wrappingE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">PROFIT</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-profitE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">PROFIT</small>
+                                    <span class="text-muted pull-right" id="sumary-profitE"></span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">COST OF MISSION</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-costE"></span>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">COST OF MISSION</small>
+                                    <span class="text-muted pull-right" id="sumary-costE"></span>
                                 </li>
                             </ul>
                         </div>
@@ -1056,15 +1020,22 @@
 </section>
 
 <script>
-    Conceptos: [];
-    RowNumber = 0;
-    RowNumberE = 0;
-    PadreId = null;
-    IsUpdate = false;
-    CotizacionId = 0;
+Conceptos: [];
+RowNumber = 0;
+RowNumberE = 0;
+PadreId = null;
+IsUpdate = false;
+CotizacionId = 0;
 
-//Calculos de la formula
-$("#ObcHotel, #ObcPickup, #ObcDelibery, #ObcCustoms, #ObcOther, #ObcProfit, #DetalleConceptos input").on("blur", function () {
+var inputs = document.querySelectorAll('#Conceptos input');
+
+inputs.forEach(function (input) {
+    input.addEventListener('blur', function () {
+        Calculos();
+    });
+});
+
+function Calculos() {
     var total = 0;
     var tamTabla = $('#Conceptos input').length;
     var cont = 0;
@@ -1103,20 +1074,51 @@ $("#ObcHotel, #ObcPickup, #ObcDelibery, #ObcCustoms, #ObcOther, #ObcProfit, #Det
     $("#tittle-summary").text('Summary ' + $("#Origin").val() + ' -------> ' + $("#Destination").val());
     $("#sumary-obc").text(ObcT);
     $("#sumary-day").text(DayT);
-    $("#sumary-obc-fee").text('$ ' + ObcFeeSuma);
-    $("#sumary-flights").text('$ ' + FlightsSuma);
-    $("#sumary-hotel").text('$ ' + (ObcT * $("#ObcHotel").val()));
-    $("#sumary-pickup").text('$ ' + Number($("#ObcPickup").val()));
-    $("#sumary-delibery").text('$ ' + Number($("#ObcDelibery").val()));
-    $("#sumary-customs").text('$ ' + Number($("#ObcCustoms").val()));
-    $("#sumary-wrapping").text('$ ' + Number($("#ObcOther").val()));
-    $("#sumary-profit").text('$ ' + Number($("#ObcProfit").val()));
-    $("#sumary-cost").text('$ ' + total);
+    $("#sumary-obc-fee").text(ObcFeeSuma.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-flights").text(FlightsSuma.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-hotel").text((ObcT * $("#ObcHotel").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-pickup").text(Number($("#ObcPickup").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-delibery").text(Number($("#ObcDelibery").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-customs").text(Number($("#ObcCustoms").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-wrapping").text(Number($("#ObcOther").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-profit").text(Number($("#ObcProfit").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-cost").text(total.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+}
+
+//Calculos de la formula
+$("#ObcHotel, #ObcPickup, #ObcDelibery, #ObcCustoms, #ObcOther, #ObcProfit, #DetalleConceptos input").on("blur", function () {
+    Calculos();
 });
 //Calculos de la formula
 
-//Calculos de la formulaActualizacion
-$("#ObcHotelE, #ObcPickupE, #ObcDeliberyE, #ObcCustomsE, #ObcOtherE, #ObcProfitE, #DetalleConceptosE input").on("blur", function () {
+function CalculosE() {
     var total = 0;
     var tamTabla = $('#ConceptosE input').length;
     var cont = 0;
@@ -1155,15 +1157,46 @@ $("#ObcHotelE, #ObcPickupE, #ObcDeliberyE, #ObcCustomsE, #ObcOtherE, #ObcProfitE
     $("#tittle-summaryE").text('Summary ' + $("#OriginE").val() + ' -------> ' + $("#DestinationE").val());
     $("#sumary-obcE").text(ObcT);
     $("#sumary-dayE").text(DayT);
-    $("#sumary-obc-feeE").text('$ ' + ObcFeeSuma);
-    $("#sumary-flightsE").text('$ ' + FlightsSuma);
-    $("#sumary-hotelE").text('$ ' + (ObcT * $("#ObcHotelE").val()));
-    $("#sumary-pickupE").text('$ ' + Number($("#ObcPickupE").val()));
-    $("#sumary-deliberyE").text('$ ' + Number($("#ObcDeliberyE").val()));
-    $("#sumary-customsE").text('$ ' + Number($("#ObcCustomsE").val()));
-    $("#sumary-wrappingE").text('$ ' + Number($("#ObcOtherE").val()));
-    $("#sumary-profitE").text('$ ' + Number($("#ObcProfitE").val()));
-    $("#sumary-costE").text('$ ' + total);
+    $("#sumary-obc-feeE").text(ObcFeeSuma.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-flightsE").text(FlightsSuma.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-hotelE").text((ObcT * $("#ObcHotelE").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-pickupE").text(Number($("#ObcPickupE").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-deliberyE").text(Number($("#ObcDeliberyE").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-customsE").text(Number($("#ObcCustomsE").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-wrappingE").text(Number($("#ObcOtherE").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-profitE").text(Number($("#ObcProfitE").val()).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+    $("#sumary-costE").text(total.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }));
+}
+//Calculos de la formulaActualizacion
+$("#ObcHotelE, #ObcPickupE, #ObcDeliberyE, #ObcCustomsE, #ObcOtherE, #ObcProfitE, #DetalleConceptosE input").on("blur", function () {
+    CalculosE();
 });
 //Calculos de la formula Actualizacion
 
@@ -1222,17 +1255,33 @@ function AgregarDetalle() {
                                 <td><input type="text" class="form-control" id="ObcFee'+ RowNumber + '" name="ObcFee' + RowNumber + '" aria-label="ObcFee' + RowNumber + '"></td>\
                                 <td><div class="input-group"><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"></div></td>\
                             </tr >');
-    }
+
+    var inputs = document.querySelectorAll('#DetalleConceptos input');
+
+    inputs.forEach(function (input) {
+        input.addEventListener('blur', function () {
+            Calculos();
+        });
+    });
+}
 
 function AgregarDetalleE() {
-        RowNumberE = RowNumberE + 1;
-        $("#DetalleConceptosE").append('<tr>\
-                                <td><input type="text" class="form-control" id="NumObcE'+ RowNumberE + '"  name="NumObcE' + RowNumberE + '" aria-label="NumObcE' + RowNumberE + '"></td>\
-                                <td><input type="text" class="form-control" id="DayE'+ RowNumberE + '" name="DayE' + RowNumberE + '" aria-label="DayE' + RowNumberE + '"></td>\
-                                <td><input type="text" class="form-control" id="ObcFeeE'+ RowNumberE + '" name="ObcFeeE' + RowNumberE + '" aria-label="ObcFeeE' + RowNumberE + '"></td>\
-                                <td><div class="input-group"><input type="text" class="form-control" id="ContenedorE'+ RowNumberE + '" name="ContenedorE' + RowNumberE + '" aria-label="ContenedorE' + RowNumberE + '"></div></td>\
-                            </tr >');
-    }
+    RowNumberE = RowNumberE + 1;
+    $("#DetalleConceptosE").append('<tr>\
+                            <td><input type="text" class="form-control" id="NumObcE'+ RowNumberE + '"  name="NumObcE' + RowNumberE + '" aria-label="NumObcE' + RowNumberE + '"></td>\
+                            <td><input type="text" class="form-control" id="DayE'+ RowNumberE + '" name="DayE' + RowNumberE + '" aria-label="DayE' + RowNumberE + '"></td>\
+                            <td><input type="text" class="form-control" id="ObcFeeE'+ RowNumberE + '" name="ObcFeeE' + RowNumberE + '" aria-label="ObcFeeE' + RowNumberE + '"></td>\
+                            <td><div class="input-group"><input type="text" class="form-control" id="ContenedorE'+ RowNumberE + '" name="ContenedorE' + RowNumberE + '" aria-label="ContenedorE' + RowNumberE + '"></div></td>\
+                        </tr >');
+
+    var inputs = document.querySelectorAll('#DetalleConceptosE input');
+
+    inputs.forEach(function (input) {
+        input.addEventListener('blur', function () {
+            CalculosE();
+        });
+    });
+}
 
 function EliminarDetalle() {
     if (RowNumber > 0) {
@@ -1242,12 +1291,10 @@ function EliminarDetalle() {
         RowNumber = RowNumber - 1;
     }
     else {
-        Swal.fire({
+        swal({
             icon: 'warning',
             title: 'Oops...',
-            text: 'it is not possible to delete more rows',
-            buttons: false,
-            timer: 2500
+            text: 'it is not possible to delete more rows'
         });
     }
 
@@ -1262,12 +1309,10 @@ function EliminarDetalleE() {
         RowNumberE = RowNumberE - 1;
     }
     else {
-        Swal.fire({
+        swal({
             icon: 'warning',
             title: 'Oops...',
-            text: 'it is not possible to delete more rows',
-            buttons: false,
-            timer: 2500
+            text: 'it is not possible to delete more rows'
         });
     }
 
@@ -1281,8 +1326,8 @@ function CotizacionModal() {
     CotizacionId = null;
     IsUpdate = false;
     $("#btnSave").show();
-    $("#divSchedule").removeClass('mostrar');
-    $("#divSchedule").addClass('esconder');
+    //$("#divSchedule").removeClass('mostrar');
+    //$("#divSchedule").addClass('esconder');
 
     while (RowNumber > 0) {
         EliminarDetalle();
@@ -1340,6 +1385,14 @@ function init() {
                                 <td><input type="text" class="form-control" id="ObcFee0" name="ObcFee0" aria-label="ObcFee0"></td>\
                                 <td><div class="input-group"><input type="text" class="form-control" id="Contenedor0" name="Contenedor0" aria-label="Contenedor0"><span class="input-group-btn"><button class="btn btn-success" type="button" onclick="AgregarDetalle()">+</button></span></div></td>\
                             </tr >')
+
+    var inputs = document.querySelectorAll('#DetalleConceptos input');
+
+    inputs.forEach(function (input) {
+        input.addEventListener('blur', function () {
+            Calculos();
+        });
+    });
     //Se crea la tabla de los conceptos
 
     var table = $('#quotation').DataTable();
@@ -1687,8 +1740,7 @@ function SaveQuotation() {
         swal({
             icon: 'error',
             title: 'Error',
-            text: 'Select an Origin',
-            timer: 1500
+            text: 'Select an Origin'
         });
 
         $("#Origin").focus();
@@ -1701,8 +1753,7 @@ function SaveQuotation() {
         swal({
             icon: 'error',
             title: 'Error',
-            text: 'Select a Destination',
-            timer: 1500
+            text: 'Select a Destination'
         });
 
         $("#Destination").focus();
@@ -1715,9 +1766,7 @@ function SaveQuotation() {
             swal({
                 icon: 'error',
                 title: 'Error',
-                text: 'Select a service',
-                buttons: false,
-                timer: 1500
+                text: 'Select a service'
             });
 
             //miBoton.disabled = false;
@@ -1732,9 +1781,7 @@ function SaveQuotation() {
                 swal({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Invalid date in pickup.',
-                    buttons: false,
-                    timer: 1500
+                    text: 'Invalid date in pickup.'
                 });
 
                 return;
@@ -1744,9 +1791,7 @@ function SaveQuotation() {
                 swal({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Invalid date in Eta.',
-                    buttons: false,
-                    timer: 1500
+                    text: 'Invalid date in Eta.'
                 });
 
                 return;
@@ -1762,9 +1807,7 @@ function SaveQuotation() {
                 swal({
                     icon: 'error',
                     title: 'Error',
-                    text: 'The pickup field must be numerical',
-                    buttons: false,
-                    timer: 1500
+                    text: 'The pickup field must be numerical'
                 });
 
                 $("#ObcPickup").focus();
@@ -1782,9 +1825,7 @@ function SaveQuotation() {
                 swal({
                     icon: 'error',
                     title: 'Error',
-                    text: 'The hotel field must be numerical',
-                    buttons: false,
-                    timer: 1500
+                    text: 'The hotel field must be numerical'
                 });
 
                 $("#ObcHotel").focus();
@@ -1803,9 +1844,7 @@ function SaveQuotation() {
                 swal({
                     icon: 'error',
                     title: 'Error',
-                    text: 'The cost field must be numerical',
-                    buttons: false,
-                    timer: 1500
+                    text: 'The cost field must be numerical'
                 });
 
                 return;
@@ -1822,9 +1861,7 @@ function SaveQuotation() {
                 swal({
                     icon: 'error',
                     title: 'Error',
-                    text: 'The cost field must be numerical',
-                    buttons: false,
-                    timer: 1500
+                    text: 'The cost field must be numerical'
                 });
 
                 return;
@@ -1841,9 +1878,7 @@ function SaveQuotation() {
                 swal({
                     icon: 'error',
                     title: 'Error',
-                    text: 'The cost field must be numerical',
-                    buttons: false,
-                    timer: 1500
+                    text: 'The cost field must be numerical'
                 });
 
                 return;
@@ -1862,15 +1897,14 @@ function SaveQuotation() {
         success: function (data) {
             if (data.Code == 200) {
                 swal({
-                    title: "The quote was saved successfully.",
-                    icon: "success",
-                    buttons: false,
-                    timer: 1500
-                }).then((fin) => {
-                    $("#quotationModal").modal('hide');//ocultamos el modal
-                    $("#DetalleConceptos").html('');
-                    init();
+                    title: "OK",
+                    text: "The quote was saved successfully.",
+                    icon: "success"
                 });
+
+                $("#quotationModal").modal('hide');//ocultamos el modal
+                $("#DetalleConceptos").html('');
+                init();
             }
             else {
                 var error = "An error has occurred when trying to save the quote, please report it to the systems department.";
@@ -1927,8 +1961,7 @@ if ($("#OriginE").val() == "")
     swal({
         icon: 'error',
         title: 'Error',
-        text: 'Select an Origin',
-        timer: 1500
+        text: 'Select an Origin'
     });
 
     $("#OriginE").focus();
@@ -1942,7 +1975,6 @@ if ($("#DestinationE").val() == "")
         icon: 'error',
         title: 'Error',
         text: 'Select a Destination',
-        timer: 1500
     });
 
     $("#DestinationE").focus();
@@ -1955,9 +1987,7 @@ switch ($("#cbx-serviceE").val()) {
         swal({
             icon: 'error',
             title: 'Error',
-            text: 'Select a service',
-            buttons: false,
-            timer: 1500
+            text: 'Select a service'
         });
 
         return;
@@ -1971,9 +2001,7 @@ switch ($("#cbx-serviceE").val()) {
             swal({
                 icon: 'error',
                 title: 'Error',
-                text: 'Invalid date in pickup.',
-                buttons: false,
-                timer: 1500
+                text: 'Invalid date in pickup.'
             });
 
             return;
@@ -1983,9 +2011,7 @@ switch ($("#cbx-serviceE").val()) {
             swal({
                 icon: 'error',
                 title: 'Error',
-                text: 'Invalid date in Eta.',
-                buttons: false,
-                timer: 1500
+                text: 'Invalid date in Eta.'
             });
 
             return;
@@ -2001,9 +2027,7 @@ switch ($("#cbx-serviceE").val()) {
             swal({
                 icon: 'error',
                 title: 'Error',
-                text: 'The pickup field must be numerical',
-                buttons: false,
-                timer: 1500
+                text: 'The pickup field must be numerical'
             });
 
             $("#ObcPickupE").focus();
@@ -2021,9 +2045,7 @@ switch ($("#cbx-serviceE").val()) {
             swal({
                 icon: 'error',
                 title: 'Error',
-                text: 'The hotel field must be numerical',
-                buttons: false,
-                timer: 1500
+                text: 'The hotel field must be numerical'
             });
 
             $("#ObcHotelE").focus();
@@ -2042,9 +2064,7 @@ switch ($("#cbx-serviceE").val()) {
             swal({
                 icon: 'error',
                 title: 'Error',
-                text: 'The cost field must be numerical',
-                buttons: false,
-                timer: 1500
+                text: 'The cost field must be numerical'
             });
 
             return;
@@ -2061,9 +2081,7 @@ switch ($("#cbx-serviceE").val()) {
             swal({
                 icon: 'error',
                 title: 'Error',
-                text: 'The cost field must be numerical',
-                buttons: false,
-                timer: 1500
+                text: 'The cost field must be numerical'
             });
 
             return;
@@ -2080,9 +2098,7 @@ switch ($("#cbx-serviceE").val()) {
             swal({
                 icon: 'error',
                 title: 'Error',
-                text: 'The cost field must be numerical',
-                buttons: false,
-                timer: 1500
+                text: 'The cost field must be numerical'
             });
 
             return;
@@ -2101,15 +2117,14 @@ $.ajax({
     success: function (data) {
         if (data.Code == 200) {
             swal({
-                title: "The quote was saved successfully.",
+                title: "OK",
                 icon: "success",
-                buttons: false,
-                timer: 1500
-            }).then((fin) => {
-                $("#quotationModalE").modal('hide');//ocultamos el modal
-                $("#DetalleConceptosE").html('');
-                init();
+                text: "The quote was saved successfully."
             });
+
+            $("#quotationModalE").modal('hide');//ocultamos el modal
+            $("#DetalleConceptosE").html('');
+            init();
         }
         else {
             var error = "An error has occurred when trying to save the quote, please report it to the systems department.";
@@ -2168,9 +2183,8 @@ function Aprobar(id) {
 
             swal({
                 icon: 'success',
-                title: 'The quote was successfully approved.',
-                buttons: false,
-                timer: 1500
+                title: 'OK',
+                text: "The quote was successfully approved."
             });
         },
         error: function (xhr) {
@@ -2303,9 +2317,8 @@ Terms and Conditions: ${disclaimer}
 
                 swal({
                     icon: 'success',
-                    title: 'The quote was copied successfully.',
-                    buttons: false,
-                    timer: 1500
+                    title: 'OK',
+                    text: 'The quote was copied successfully.'
                 });
             });
         },
@@ -2332,9 +2345,8 @@ function Rechazar(id) {
 
             swal({
                 icon: 'success',
-                title: 'The quote was successfully rejected.',
-                buttons: false,
-                timer: 1500
+                title: 'OK',
+                text: 'The quote was successfully rejected.'
             })
         },
         error: function (xhr) {
@@ -2358,6 +2370,14 @@ function Edit(id, noAction) {
                         <td><input type="text" class="form-control" id="ObcFeeE0" name="ObcFeeE0" aria-label="ObcFeeE0"></td>\
                         <td><div class="input-group"><input type="text" class="form-control" id="ContenedorE0" name="ContenedorE0" aria-label="ContenedorE0"><span class="input-group-btn"><button class="btn btn-success" type="button" onclick="AgregarDetalleE()">+</button></span></div></td>\
                     </tr >')
+
+    var inputs = document.querySelectorAll('#DetalleConceptosE input');
+
+    inputs.forEach(function (input) {
+        input.addEventListener('blur', function () {
+            CalculosE();
+        });
+    });
     //Se crea la tabla de los conceptos
 
     //Se abre el modal
@@ -2435,6 +2455,13 @@ function Edit(id, noAction) {
                                 </tr >');
                         }
 
+                        var inputs = document.querySelectorAll('#DetalleConceptosE input');
+
+                        inputs.forEach(function (input) {
+                            input.addEventListener('blur', function () {
+                                CalculosE();
+                            });
+                        });
 
                         $('#ObcHotelE').val(response.Context.ObcHotel);
                         $('#ObcPickupE').val(response.Context.ObcPickup);
@@ -2479,7 +2506,7 @@ function Edit(id, noAction) {
         },
         error: function (xhr) {
             ////console.log(JSON.stringify(xhr));
-            Swal.fire({
+            swal({
                 icon: 'error',
                 title: 'Error',
                 text: 'An error has occurred when trying to get the quote, please report it to the systems department.'
@@ -2538,7 +2565,7 @@ function ClonarMismoServicio(id) {//tendra padre la cotizacion
                     $('#ClientRef').val(response.Context.ClientRef);
                     $('#Origin').val(response.Context.Origin);
                     $('#Destination').val(response.Context.Destination);
-                    $('#cbx-service').val(response.Context.Service).prop('disabled', 'disabled');
+                    $('#cbx-service').val(response.Context.Service);//.prop('disabled', 'disabled');
                     $("#cbx-service").trigger("change");
 
                     switch ($('#cbx-service').val()) {

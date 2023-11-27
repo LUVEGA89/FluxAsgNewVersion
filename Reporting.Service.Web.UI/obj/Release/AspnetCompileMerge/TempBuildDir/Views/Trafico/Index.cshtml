@@ -1,0 +1,243 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<section class="content-header">
+    <h1>
+        Trafico
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Indicadores</a></li>
+        <li class="active">Trafico</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title"></h3>
+                    <div style="right: 71px;" class="box-tools ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="ComprasNacionales">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div id="btnComprasNacionales" class="btn btn-success btn-block">Obtener Información</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <div onclick="DescargarArchivo()" class="btn btn-primary">
+                            <span class="fa fa-file-excel-o"></span>
+                            Descargar Archivo
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="Trafico" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Contenedor</th>
+                                    <th></th>
+                                    <th>Total gastos</th>
+                                    <th>IGI</th>
+                                    <th>DTA</th>
+                                    <th>IVA</th>
+                                    <th>PREV</th>
+                                    <th>Flete Maritimo</th>
+                                    <th>Custodia</th>
+                                    <th>Custodia IVA</th>
+                                    <th>Honorarios</th>
+                                    <th>Honorarios IVA</th>
+                                    <th>Flete</th>
+                                    <th>Flete IVA</th>
+                                    <th>Otros</th>
+                                    <th>Folio</th>
+                                    <th>Proveedor</th>
+                                    <th>Forwarder</th>
+                                    <th>Embarcada</th>
+                                    <th>Llega a puerto</th>
+                                    <th>Sale de puerto</th>
+                                    <th>Llega a pantaco</th>
+                                    <th>Sale de pantaco</th>
+                                    <th>Transito embarque - puerto</th>
+                                    <th>Dias en puerto</th>
+                                    <th>Transito puerto - pantaco</th>
+                                    <th>Dias en pantaco</th>
+                                    <th>Cuenta de gastos agente aduanal</th>
+                                    <th>Cuenta de gastos entregada Finanzas</th>
+                                    <th>Cuenta de gastos trafico</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="DetalleTrafico">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+        var formatNumber = {
+            separador: ",", // separador para los miles
+            sepDecimal: '.', // separador para los decimales
+            formatear: function (num) {
+                num += '';
+                var splitStr = num.split('.');
+                var splitLeft = splitStr[0];
+                var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+                var regx = /(\d+)(\d{3})/;
+                while (regx.test(splitLeft)) {
+                    splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+                }
+                return this.simbol + splitLeft + splitRight;
+            },
+            new: function (num, simbol) {
+                this.simbol = simbol || '';
+                return this.formatear(num);
+            }
+        }
+</script>
+<script>
+    $('#ComprasNacionales').daterangepicker();
+
+    $("#btnComprasNacionales").click(function () {
+        var drp = $('#ComprasNacionales').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.post('@Url.Action("ComprasNacionales", "Indicadores")', {
+            Del: Del,
+            Al: Al
+        }, function (data) {
+            if (data != null && $.isArray(data.Context)) {
+                console.log(data);
+                var VP = $('#Trafico').DataTable();
+                VP.destroy();
+                $("#DetalleTrafico").html('');
+                $.each(data.Context, function (index, value) {
+                    $("#DetalleTrafico").append('<tr>\
+                                                    <td>' + value.Contenedor + '</td>\
+                                                    <td>' + value.Observaciones + '</td>\
+                                                    <td>' + formatNumber.new(value.TotalGastos.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.IGI.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.DTA.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.IVA.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.PREV.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.FleteMaritimo.toFixed(2), "$") + '</td>\
+                                                    <td>' +formatNumber.new( value.Custodia.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.CustodiaIva.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.Honorarios.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.HonorariosIva.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.Flete.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.FleteIva.toFixed(2), "$") + '</td>\
+                                                    <td>' + formatNumber.new(value.Otros.toFixed(2), "$") + '</td>\
+                                                    <td>' + value.Folio + '</td>\
+                                                    <td>' + value.Proveedor + '</td>\
+                                                    <td>' + value.Forwarder + '</td>\
+                                                    <td>' + moment(value.Embarcada).format('DD/MM/YYYY') + '</td>\
+                                                    <td>' + moment(value.LlegaPuerto).format('DD/MM/YYYY') + '</td>\
+                                                    <td>' + moment(value.SalidaPuerto).format('DD/MM/YYYY') + '</td>\
+                                                    <td>' + moment(value.LlegaPatco).format('DD/MM/YYYY') + '</td>\
+                                                    <td>' +moment(value.SalidaPatco).format('DD/MM/YYYY') + '</td>\
+                                                    <td>' + value.TransitoEmbarquePuerto + '</td>\
+                                                    <td>' + value.DiasEnPuerto + '</td>\
+                                                    <td>' + value.TransitoPuertoPantaco + '</td>\
+                                                    <td>' + value.DiasEnPantaco + '</td>\
+                                                    <td>' +moment(value.CuentaDeGastos).format('DD/MM/YYYY') + '</td>\
+                                                    <td>' + moment(value.CuentaDeGastosFinanzas).format('DD/MM/YYYY') + '</td>\
+                                                    <td>' + moment(value.CuentaDeGastosTrafico).format('DD/MM/YYYY') + '</td>\
+                                                    <td>' + value.Estado + '</td>\
+                                                </tr>')
+                });
+                $('#Trafico').DataTable({
+                    //order: [[4, "desc"]],
+                    "lengthMenu": [[12, 24, 48, -1], [12, 24, 48, "All"]],
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+            } else {
+                $.alert("No se encontro registros");
+            }
+
+        });
+    });
+
+    function ActualizarComentario(contenedor) {
+        var comentario = $("#txt-" + contenedor).val();
+
+        $.post('@Url.Action("ActualizarComentario", "Indicadores")', {
+            Contenedor: contenedor,
+            Comentario: comentario
+        }, function (data) {
+            if (data.Code == 0 ) {
+                $.alert("El comentario se agrego correctamente");
+            }
+        });
+    }
+
+    function DescargarArchivo() {
+        var drp = $('#ComprasNacionales').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Se decargara un archivo con la informacion',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $.post('@Url.Action("ExcelTrafico", "Indicadores")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+
+                            // var response = JSON.parse(data);
+                            console.log(data)
+                            //window.location = '../SAPREP/' + data.FileName;
+                            window.location.href = '@Url.Action("Download", "Indicadores")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    }
+</script>

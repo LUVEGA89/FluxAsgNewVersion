@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Bancomer";
+}
+<section class="content-header">
+    <h1>
+        Relación Bancaria
+        <small>Bancomer</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Relación Bancaria</a></li>
+        <li class="active">Bancomer</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-body" style="display: block;">
+                <div class="table-responsive">
+                    <button class="btn btn-success" id="insertar-bancomer">Innsertar estado de cuenta Bancomer</button>
+                    <table id="table-list-status-inbursa" class="table table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <td>Fecha</td>
+                                <td>Referencia</td>
+                                <td>Cargo</td>
+                                <td>Abono</td>
+                                <td>Saldo</td>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-bancomer">
+                            @foreach (var b in ViewBag.ListBancomer)
+                            {
+                                <tr>
+                                    <td><input name="Fecha[]" value="@b.Fecha" disabled/></td>
+                                    <td><input name="Referencia[]" value="@b.Referencia" disabled/></td>
+                                    <td><input name="Cargo[]" value="@b.Cargo" disabled/></td>
+                                    <td><input name="Abono[]" value="@b.Abono" disabled/></td>
+                                    <td><input name="Saldo[]" value="@b.Saldo" disabled/></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.querySelector('#insertar-bancomer').addEventListener('click', function (e) {
+        e.preventDefault();
+        swal({
+            title: "¿Estas seguro?",
+            text: "",
+            icon: "warning",
+            buttons: [
+              'No, cancelar esta operación',
+              'Si, estoy seguro'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                swal({
+                    title: 'Operación confirmada',
+                    text: '',
+                    icon: 'success'
+                }).then(function () {
+                    var rowCount = $('#tbody-bancomer >tr').length;
+                    if (rowCount == 0) {
+                        swal("No hay datos");
+                    } else {
+
+                        var Fechas = document.getElementsByName('Fecha[]');
+                        var Referencias = document.getElementsByName('Referencia[]');
+                        var Cargos = document.getElementsByName('Cargo[]');
+                        var Abonos = document.getElementsByName('Abono[]');
+                        var Saldos = document.getElementsByName('Saldo[]');
+                    
+                        for (var i = 0; i < Saldos.length; i++) {
+
+                            var Fecha = Fechas[i];
+                            var Referencia = Referencias[i];
+                            var Cargo = Cargos[i];
+                            var Abono = Abonos[i];
+                            var Saldo = Saldos[i];
+
+                            console.log("Fecha: "+Fecha);
+
+                            $.ajax({
+                                url: '@Url.Action("InsertarEstadoDeCuentaBancomer", "Estados")',
+                                async: false,
+                                timeout: 10000,
+                                method: "POST",
+                                data: { Fecha: Fecha.value, Referencia: Referencia.value, Cargo: Cargo.value, Abono: Abono.value, Saldo: Saldo.value },
+                                success: function (data) {
+                                }
+                            });
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelado", "Operación cancelada", "error");
+            }
+        });
+    });
+</script>

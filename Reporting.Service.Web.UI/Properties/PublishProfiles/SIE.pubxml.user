@@ -7,7 +7,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\CLIENTES\FRANK\Publicacion SIE - FLUX</_PublishTargetUrl>
-    <History>False|2023-11-27T21:46:50.0449212Z;True|2023-11-27T12:28:40.8397649-06:00;</History>
+    <History>True|2023-11-27T21:56:35.0077102Z;False|2023-11-27T15:46:50.0449212-06:00;True|2023-11-27T12:28:40.8397649-06:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>

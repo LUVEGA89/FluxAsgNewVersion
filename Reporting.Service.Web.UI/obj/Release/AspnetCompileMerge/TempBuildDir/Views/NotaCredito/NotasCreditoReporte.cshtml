@@ -1,0 +1,440 @@
+﻿@model Reporting.Service.Web.UI.Models.UserModel
+@using Microsoft.AspNet.Identity
+@using Reporting.Service.Core.Common
+@{
+    ViewBag.Title = "Reporte de Notas de Crédito";
+}
+<style>
+    .nombre-cliente-custom {
+        text-transform: uppercase
+    }
+
+    .chat-box {
+        height: 150px !important
+    }
+
+    .hide-autocomplete {
+        visibility: hidden
+    }
+
+    .color-sku {
+        background-color: #e6ffe6
+    }
+
+    .main-timeline-section {
+        position: relative;
+        width: 100%;
+        margin: auto;
+        height: 30px
+    }
+
+        .main-timeline-section .timeline-end, .main-timeline-section .timeline-start {
+            position: absolute;
+            background: #FFF;
+            border-radius: 100px;
+            border: 3px solid #F2635F;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            z-index: 1
+        }
+
+        .main-timeline-section .timeline-end {
+            right: 0
+        }
+
+        .main-timeline-section .conference-center-line {
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #F2635F
+        }
+
+    .timeline-article {
+        width: 20%;
+        position: relative;
+        min-height: 30px;
+        float: right
+    }
+
+        .timeline-article .content-date {
+            position: absolute;
+            top: 35%;
+            left: -30px;
+            font-size: 18px
+        }
+
+    #letter-small, #letter-small-gestion {
+        font-size: 13px
+    }
+
+    .timeline-article .meta-date {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        background: #fff;
+        border: 1px solid #F2635F
+    }
+
+    .timeline-article .content-box {
+        box-shadow: 2px 2px 4px 0 #c1c1c1;
+        border: 1px solid #F2635F;
+        border-radius: 5px;
+        background-color: #fff;
+        width: 180px;
+        position: absolute;
+        top: 60%;
+        left: -80px;
+        padding: 10px
+    }
+
+    .meta-date-almacen, .meta-date-almacen-gestion, .meta-date-autorizado, .meta-date-autorizado-gestion, .meta-date-direccion, .meta-date-direccion-gestion, .meta-date-pendiente, .meta-date-pendiente-gestion {
+        background: #F2635F !important
+    }
+
+    .timeline-article-bottom .content-date {
+        top: 90%
+    }
+
+    .timeline-article-bottom .content-box {
+        top: 0
+    }
+
+        .timeline-article-bottom .content-box:before {
+            content: " ";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -20px;
+            border: 10px solid transparent;
+            border-top-color: #F2635F
+        }
+</style>
+<section class="content-header">
+    <h1>
+        Reporte Notas de Crédito
+        <small id="span-cliente"></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Nota de Crédito </a></li>
+        <li class="active"> Aprobación </li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-file-text"></i>
+                    <h3 class="box-title">Detalle notas de crédito</h3>
+                    <div id="loading" style="display:none;" class="overlay">
+                        <i class="fa  fa fa-refresh fa-spin"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="cbx-Estatus">Estado:</label>
+                                <select class="form-control" id="cbx-Estatus">
+                                    <option value="null">Seleccione una opción...</option>
+                                    <option value="0">Aprobación gerencia</option>
+                                    <option value="1">Aprobación Almacén / Crédito</option>
+                                    <option value="2">Aprobación dirección</option>
+                                    <option value="3">Pendientes a SAP</option>
+                                    <option value="4">SAP</option>
+                                    <option value="5">Rechazados</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5">
+                                <label>Fecha:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="DelAl">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label></label>
+                                <div class="input-group-btn">
+                                    <button id="btn-buscar" type="button" class="btn btn-success"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered" id="factura-origen">
+                            <thead>
+                                <tr>
+                                    <th class="th-stationery">Folio SIE</th>
+                                    <th class="th-stationery">Código Cliente</th>
+                                    <th class="th-stationery">Nombre Cliente</th>
+                                    <th class="th-stationery">Vendedor</th>
+                                    <th class="th-stationery">Folio Origen</th>
+                                    <th class="th-stationery">Folio Destino</th>
+                                    <th class="th-stationery">Tipo Documento</th>
+                                    <th class="th-stationery">Concepto</th>
+                                    <th style="min-width: 150px !important;" class="th-stationery">Comentario</th>
+                                    <th class="th-stationery">Usuario</th>
+                                    <th class="th-stationery">Estatus</th>
+                                    <th class="th-stationery">Fecha</th>
+                                    <th class="th-stationery">Importe</th>
+                                    <th class="th-stationery">Folio SAP</th>
+                                    <th class="th-stationery">Folio pago SAP</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-invoice-history"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    InitModule();
+    function InitModule() {
+        $('#DelAl').daterangepicker(); 
+        GetReporte();
+    }
+
+    $("#cbx-Estatus").change(function () {
+       // GetReporte();
+    });
+    $("#btn-buscar").click(function () {        
+        //let tipo;
+        //let Rol = localStorage.getItem("Rol");
+        //let UserEmail = localStorage.getItem("UserEmail");
+
+        //if (UserEmail == "adrian_rivera@fussionweb.com") {
+
+        //}
+        //if (UserEmail == "eduardo.masso@fussionweb.com") {
+
+        //}
+        //// gerencia
+        //if (UserEmail == "rafael.massorivera@fussionweb.com") {
+
+        //}
+        //if (UserEmail == "ricardo_prieto@fussionweb.com") {
+
+        //}
+        //// usuario creditoy cobranza
+        //if (Rol == "Credito") {
+
+        //}
+        //// ventas
+        //if (Rol == "Ventas") {
+        //    GetReporteCriteria(4);
+        //}
+        //if (Rol == "Inventarios") {
+        //    GetReporteCriteria(8);
+        //}
+
+        //if (UserEmail == "juan_carlos@fussionweb.com") {
+        //    GetReporteCriteria(6);
+        //}
+        GetReporte();
+    });
+    function GetReporte() {
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetReporte", "NotaCredito")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"Estatus":"' + $("#cbx-Estatus").val() + '","Inicio":"' + Inicio + '","Termino":"' + Termino + '"}',
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null && $.isArray(data.Context)) {
+
+                    var VP = $('#factura-origen').DataTable();
+                    VP.destroy();
+
+                    $("#table-invoice-history").empty();
+
+                    $.each(data.Context, function (index, value) {
+
+                        $("#table-invoice-history").append(
+                            "<tr>\
+                                <td>" + value.Identifier + "</td>\
+                                <td>" + value.Cliente +"</td>\
+                                <td>" + value.CardName + "</td>\
+                                <td>" + value.Vendedor + "</td>\
+                                <td>" + value.FolioOrigen + "</td>\
+                                <td>" + value.FolioDestino + "</td>\
+                                <td>" + value.TipoDocumento + "</td>\
+                                <td>" + value.ConceptoDescuentoDetalle + "</td>\
+                                <td>" + value.Comentario + "</td>\
+                                <td>" + value.Usuario + "</td>\
+                                <td>" + value.EstatusValor + "</td>\
+                                <td>" + moment(value.Fecha).format("YYYY-MM-DD") + "</td>\
+                                <td>" + formatNumber.new(value.Importe.toFixed(2), "$") + "</td>\
+                                <td>" + value.FolioSap + "</td>\
+                                <td>" + value.FolioPagoSAP + "</td>\
+                         </tr>");
+                    });
+
+                    $('#factura-origen').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        dom: 'Bfrtip',
+                        stateSave: true,
+                        buttons: [
+                            'excel', 'pdf'
+                        ],
+                        "paging": true,
+                        "searching": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+            },
+            error: function () {
+                swal("Error en la api: GetReporte");
+            }
+        });
+    }
+
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+
+    function GetReporteCriteria(tipo) {        
+        var drp = $('#DelAl').data('daterangepicker');
+        var Inicio = drp.startDate.format('YYYY/MM/DD');
+        var Termino = drp.endDate.format('YYYY/MM/DD');
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetReporte", "NotaCredito")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"Estatus":"' + $("#cbx-Estatus").val() + '","Inicio":"' + Inicio + '","Termino":"' + Termino + '","TipoUsuario":"' + tipo + '"}',
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null && $.isArray(data.Context)) {
+
+                    var VP = $('#factura-origen').DataTable();
+                    VP.destroy();
+
+                    $("#table-invoice-history").empty();
+
+                    $.each(data.Context, function (index, value) {
+
+                        $("#table-invoice-history").append(
+                            "<tr>\
+                                <td>" + value.Identifier + "</td>\
+                                <td>" + value.Cliente + "</td>\
+                                <td>" + value.CardName + "</td>\
+                                <td>" + value.Vendedor + "</td>\
+                                <td>" + value.FolioOrigen + "</td>\
+                                <td>" + value.FolioDestino + "</td>\
+                                <td>" + value.TipoDocumento + "</td>\
+                                <td>" + value.ConceptoDescuentoDetalle + "</td>\
+                                <td>" + value.Comentario + "</td>\
+                                <td>" + value.Usuario + "</td>\
+                                <td>" + value.EstatusValor + "</td>\
+                                <td>" + moment(value.Fecha).format("YYYY-MM-DD") + "</td>\
+                                <td>" + value.FolioSap + "</td>\
+                                <td>" + value.FolioPagoSAP + "</td>\
+                         </tr>");
+                    });
+
+                    $('#factura-origen').DataTable({
+                        "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                        dom: 'Bfrtip',
+                        stateSave: true,
+                        buttons: [
+                            'excel', 'pdf'
+                        ],
+                        "paging": true,
+                        "searching": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+            },
+            error: function () {
+                swal("Error en la api: GetReporte");
+            }
+        });
+    }
+    let tipo;
+    let Rol = localStorage.getItem("Rol");
+
+    let UserEmail = localStorage.getItem("UserEmail");
+
+    if (UserEmail == "adrian_rivera@fussionweb.com") {
+
+    }
+    if (UserEmail == "eduardo.masso@fussionweb.com") {
+
+    }
+    // gerencia
+    if (UserEmail == "rafael.massorivera@fussionweb.com"){
+
+    }
+    if (UserEmail == "ricardo_prieto@fussionweb.com") {
+
+    }
+    // usuario creditoy cobranza
+    if (Rol == "Credito"){
+
+    }
+    // ventas
+    if (Rol == "Ventas")  {
+        GetReporteCriteria(4);
+    }
+    if (Rol == "Inventarios") {
+        GetReporteCriteria(8);
+    }
+
+    if (UserEmail == "juan_carlos@fussionweb.com") {
+        GetReporteCriteria(6);
+    }
+
+    // dirección
+    if (UserEmail == 'rafael_masso@fussionweb.com') {
+        GetReporteCriteria(2);
+    }           
+
+
+
+</script>

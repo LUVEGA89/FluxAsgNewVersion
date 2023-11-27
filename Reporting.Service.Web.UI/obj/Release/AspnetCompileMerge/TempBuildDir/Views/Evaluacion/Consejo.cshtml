@@ -1,0 +1,861 @@
+﻿@{
+    ViewBag.Title = "Consejo";
+}
+
+<style>
+    .th-Estados {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+    }
+
+    .th-Clientes {
+        background-color: #bcfa62;
+        color: black;
+        text-align: center;
+    }
+
+    .text-wrap {
+        white-space: normal;
+    }
+
+</style>
+
+<section class="content-header">
+    <h1>
+        Consejo
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Reporte SAP</a></li>
+        <li class="active">Consejo</li>
+        <li class="active">MCRC</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title">Ingresar parametros</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>Ingrese el rango:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="RangoFechas">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input id="OnlyCorp" type="checkbox">
+                                    Considerar solo corporativo
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="btnInfoCanal" class="btn btn-success btn-block">Obtener Informacion</div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title">Porcentaje de crecimiento Año/Mes Anterior</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="BodyCrecimiento"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Canal</th>
+                                        <th>Monto Anterior</th>
+                                        <th>Monto Actual</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="DetalleCreciento">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title">Porcentaje de participación actual</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div id="ParticipacionActual" style="height: 400px;"></div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title">Porcentaje de participación Anterior</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div id="ParticipacionAnterior" style="height: 400px;"></div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title">Porcentaje de participación respecto al Año/Mes Anterior</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="chart" id="CompareParticipacion" style="height: 300px;"></div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title">Porcentaje de utilidades respecto al Año/Mes Anterior</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="chart" id="CompareUtilidades" style="height: 300px;"></div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title"></h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div id="" class="box-body">
+                    <div style="display:none" class="col-md-6">
+                        <div class="knob-label">Actual</div>
+                        <div id="donut-Actual" style="height: 300px;"></div>
+                    </div>
+                    <div style="display:none" class="col-md-6">
+                        <div class="knob-label">Anterior</div>
+                        <div id="donut-Anterior" style="height: 300px;"></div>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Monto Anterior </th>
+                                <th>Monto Actual </th>
+                                <th>Utilidad </th>
+                                <th>Crecimiento VS Año ant</th>
+                            </tr>
+                        </thead>
+                        <tbody id="FacturaCartaFactura"></tbody>
+                    </table>
+
+                </div>
+                <div class="box-footer no-border">
+                    <ul id="CrecimientoCFF" class="nav nav-pills nav-stacked"></ul>
+                    <!-- /.row -->
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+
+                    <h3 class="box-title">Crecimiento por estados</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" onclick="DescargarDetalleEstados()"><i class="fa fa-file"></i></button>
+                        <button type="button" class="btn btn-box-tool" onclick="DetalleEstadoClientes('TODOS')"><i class="fa fa-group"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div id="" class="box-body">
+                    <table id="DetalleEstados" class="table table-striped table-bordered">
+                        <thead>
+                            <tr id="Estados">
+                                <th class="th-Estados"><span class="glyphicon glyphicon-globe"></span>Estado</th>
+                                <th class="th-Estados"><span class="glyphicon glyphicon-usd"></span> Anterior</th>
+                                <th class="th-Estados">Participación Anterior</th>
+                                <th class="th-Estados"><span class="glyphicon glyphicon-usd"></span> utilidad anterior</th>
+                                <th class="th-Estados">% de utilidad anterior</th>
+                                <th class="th-Estados"><span class="glyphicon glyphicon-usd"></span> Actual</th>
+                                <th class="th-Estados">Participación Actual</th>
+                                <th class="th-Estados"><span class="glyphicon glyphicon-usd"></span> utilidad Actual</th>
+                                <th class="th-Estados">% de utilidad Actual</th>
+                                <th class="th-Estados">Crecimiento</th>
+                                <th class="th-Estados"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="ComprobanteDetalleEstados"></tbody>
+                    </table>
+                </div>
+                <div id="EstadosRefresh" style="display:none;" class="overlay">
+                    <i class="fa  fa-circle-o-notch fa-spin"></i>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+
+        <!--MODAL TABLA DETALLE ESTADO-->
+        <div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="col-md-6">
+                            <h5 class="modal-title">Detalle del Estado</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">x</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box-header">
+                            <i class="fa fa-level-down"></i>
+                            <h3 class="box-title">Tiendas</h3>
+                        </div>
+                        <div class="box-body" style="display: block;">
+                            <div class="table-responsive table-responsive-custom">
+                                <table class="table table-bordered" id="tablaTiendas">
+                                    <thead>
+                                        <tr class="table-primary">
+                                            <th class="th-Clientes">Cliente</th>
+                                            <th class="th-Clientes">Agente</th>
+                                            <th class="th-Clientes">Monto</th>
+                                            <th class="th-Clientes">Monto<small>(Año anterior)</small></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyTiendas"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+<script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+    $('#RangoFechas').daterangepicker({
+
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                 "Enero",
+                 "Febrero",
+                 "Marzo",
+                 "Abril",
+                 "Mayo",
+                 "Junio",
+                 "Julio",
+                 "Agosto",
+                 "Septiembre",
+                 "Octubre",
+                 "Noviembre",
+                 "Diciembre"
+            ]
+        }
+
+    });
+
+    function GetFacturaCartafactura(Del, Al) {
+        
+        $.post('@Url.Action("FacturadoCartaFactura", "Evaluacion")', {
+            Del: Del,
+            Al: Al
+        }, function (data) {
+
+            if (data != null && $.isArray(data.Context)) {
+                /* Recorremos tu respuesta con each */
+                $("#CrecimientoCFF").html('');
+                $("#FacturaCartaFactura").html('');
+                var Anterior = [];
+                var Actual = [];
+                var i = 0;
+                var color = '#3c8dbc';
+                $.each(data.Context, function (index, value) {
+                    if (i > 0){
+                        color = '#0073b7';
+                    }
+                    Actual.push({ label: value.Codigo, data: value.ActualPorcentPart.toFixed(2), color: color });
+                    Anterior.push({ label: value.Codigo, data: value.AnteriorPorcentPart.toFixed(2), color: color });
+                    i++;
+                    var colorlabel = '';
+                    var icono = '';
+                    var Nombre =''
+                    if (parseFloat(value.PorcentajeCrecimiento.toFixed(2)) > 0) {
+                        colorlabel = ' text-green';
+                        icono = 'fa fa-angle-up';
+                    } else if (parseFloat(value.PorcentajeCrecimiento.toFixed(2)) < 0) {
+                        colorlabel = ' text-red';
+                        icono = 'fa fa-angle-down';
+                    } else {
+                        colorlabel = 'text-yellow';
+                        icono = 'fa fa-angle-left';
+                    }
+                    if (value.Codigo == 'F') {
+                        Nombre = 'Facturado'
+                    } else {
+                        Nombre = 'Carta factura'
+                    }
+                    $("#FacturaCartaFactura").append('<tr>\
+                                                        <th>' + value.Codigo + '</th>\
+                                                        <th>' + formatNumber.new(value.MontoAñoAnt.toFixed(2),'$') + ' </th>\
+                                                        <th>' + formatNumber.new(value.MontoAñoAct.toFixed(2), '$') + '</th>\
+                                                        <th>' + value.ActualPorcentUtilidad.toFixed(2) + '% </th>\
+                                                        <th><span class="' + colorlabel + '"><i class="' + icono + '"></i> ' + value.PorcentajeCrecimiento.toFixed(2) + '%</span> </th>\
+                                                    </tr>');
+                });
+
+ 
+                $.plot("#donut-Actual", Actual, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 1,
+                            innerRadius: 0.5,
+                            label: {
+                                show: true,
+                                radius: 2 / 3,
+                                formatter: labelFormatter,
+                                threshold: 0.1
+                            }
+
+                        }
+                    },
+                    legend: {
+                        show: false
+                    },
+                    label: "Actual"
+                });
+                $.plot("#donut-Anterior", Anterior, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 1,
+                            innerRadius: 0.5,
+                            label: {
+                                show: true,
+                                radius: 2 / 3,
+                                formatter: labelFormatter,
+                                threshold: 0.1
+                            }
+
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+            } else {
+                $.alert("No se encontraron registros");
+            }
+
+
+        });
+    }
+
+
+    $("#btnInfoCanal").click(function () {
+        var Tipo = 0
+        if ($('#OnlyCorp').is(":checked")) {
+            Tipo = 1
+        }
+
+        var drp = $('#RangoFechas').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esta seguro de buscar este rango de fechas',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $.post('@Url.Action("DetalleCanal", "Evaluacion")', {
+                            Del: Del,
+                            Al: Al,
+                            Tipo: Tipo
+                        }, function (data) {
+
+                            if (data != null && $.isArray(data.Context)) {
+                                /* Recorremos tu respuesta con each */
+                                $("#ParticipacionActual").html('');
+                                $("#BodyCrecimiento").html('');
+                                $("#DetalleCreciento").html('');
+                                var DatosArrayActual = [];
+                                var DatosArrayAnterior = [];
+                                var matrizComparativo = [];
+                                var matrizutilidades = [];
+                                var totalAnterior = 0;
+                                var totalActual = 0;
+                                $.each(data.Context, function (index, value) {
+                                    var color = dame_color_aleatorio();
+                                    DatosArrayActual.push({ label: value.Codigo + ' ' + value.ActualPorcentPart.toFixed(2) + ' %', data: value.ActualPorcentPart.toFixed(2), color: color });
+                                    DatosArrayAnterior.push({ label: value.Codigo + ' ' + value.AnteriorPorcentPart.toFixed(2) + ' %', data: value.AnteriorPorcentPart.toFixed(2), color: color });
+                                    matrizComparativo.push({ y: value.Codigo, a: value.ActualPorcentPart.toFixed(2), b: value.AnteriorPorcentPart.toFixed(2) });
+                                    matrizutilidades.push({ y: value.Codigo, a: value.ActualPorcentUtilidad.toFixed(2), b: value.AnteriorPorcentUtilidad.toFixed(2) });
+
+                                    //Crecimiento prcetajes
+                                    var crecimiento = value.PorcentajeCrecimiento.toFixed(0);
+                                    var color = '';
+                                    var icono = '';
+                                    var porcentaje = 0;
+
+                                    if (parseFloat(crecimiento) > 0) {
+                                        if (crecimiento > 100) {
+                                            porcentaje = 100
+                                        }
+                                        else {
+                                            porcentaje = crecimiento;
+                                        }
+                                        color = 'bg-green';
+                                        icono = 'fa fa-long-arrow-up';
+                                    } else if (parseFloat(crecimiento) < 0) {
+                                        color = 'bg-red';
+                                        icono = 'fa fa-long-arrow-down';
+                                        porcentaje = 0;
+                                    } else {
+                                        color = 'bg-aqua';
+                                        icono = 'fa fa-arrows-v';
+                                        porcentaje = 0;
+                                    }
+
+                                    $("#BodyCrecimiento").append('<div class="col-md-6"><div class="info-box ' + color + ' "><span class="info-box-icon"><i class=" ' + icono + '"></i></span><div class="info-box-content"><span class="info-box-text">' + value.Codigo + '</span><span class="info-box-number">' + value.PorcentajeCrecimiento.toFixed(2) + ' %</span><div class="progress"><div class="progress-bar" style="width: ' + porcentaje + '%"></div></div><span class="progress-description">' + value.PorcentajeCrecimiento.toFixed(2) + ' % de incremento</span></div></div></div>');
+                                    $("#DetalleCreciento").append('<tr>\
+                                                                        <td>' + value.Codigo + '</td>\
+                                                                        <td>' + formatNumber.new(value.MontoAñoAnt.toFixed(2), '$') + '</td>\
+                                                                        <td>' + formatNumber.new(value.MontoAñoAct.toFixed(2), '$') + '</td>\
+                                                                    </tr>');
+                                    totalAnterior = totalAnterior + value.MontoAñoAnt;
+                                    totalActual = totalActual + value.MontoAñoAct;
+
+                                });
+                                $("#DetalleCreciento").append('<tr>\
+                                                                        <th>TOTAL</th>\
+                                                                        <th>' +formatNumber.new(totalAnterior.toFixed(2), '$')  + '</th>\
+                                                                        <th>' + formatNumber.new(totalActual.toFixed(2), '$') + '</th>\
+                                                                    </tr>');
+                                //var donutData = DatosArrayActual;
+
+                                $.plot("#ParticipacionActual", DatosArrayActual, {
+                                    series: {
+                                        pie: {
+                                            show: true
+                                        }
+                                    },
+                                    grid: {
+                                        hoverable: true
+                                    },
+                                    legend: {
+                                        show: true,
+                                        labelFormatter: function (label, series) {
+                                            // series is the series object for the label
+                                            return '<label>' + label + '</label>';
+
+                                        }
+                                    }
+                                });
+                                //Participacion año anterior
+                                $.plot("#ParticipacionAnterior", DatosArrayAnterior, {
+                                    series: {
+                                        pie: {
+                                            show: true
+                                        }
+                                    },
+                                    grid: {
+                                        hoverable: true
+                                    },
+                                    legend: {
+                                        show: true,
+                                        labelFormatter: function (label, series) {
+                                            // series is the series object for the label
+                                            return '<label>' + label + '</label>';
+
+                                        }
+                                    }
+                                });
+
+                                //BAR CHART
+                                Morris.Bar({
+                                    element: 'CompareParticipacion',
+                                    data: matrizComparativo,
+                                    barColors: ['#DEA5A4', '#AEC6CF'],
+                                    xkey: 'y',
+                                    ykeys: ['a', 'b'],
+                                    labels: ['Actual', 'Anterior'],
+                                    hideHover: 'auto'
+                                });
+                                //BAR CHART
+                                Morris.Bar({
+                                    element: 'CompareUtilidades',
+                                    data: matrizutilidades,
+                                    barColors: ['#77DD77', '#CFCFC4'],
+                                    xkey: 'y',
+                                    ykeys: ['a', 'b'],
+                                    labels: ['Actual', 'Anterior'],
+                                    hideHover: 'auto'
+                                });
+
+
+
+                            } else {
+                                $.alert("No se encontro ningun vendendor con el nombre: " + $("#Vendedor").val());
+                            }
+
+                            GetFacturaCartafactura(Del, Al);
+                            GetDetalleEstados(Del, Al);                            
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+
+</script>
+<script>
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>
+<script>
+    function DescargarDetalleEstados() {
+
+        var drp = $('#RangoFechas').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        var Tipo = 0
+        if ($('#OnlyCorp').is(":checked")) {
+            Tipo = 1
+        }
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esto podria tomar unos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#EstadosRefresh').show();
+                        $.post('@Url.Action("ExcelDetalleEstados", "Evaluacion")', {
+                            Del: Del,
+                            Al: Al,
+                            Tipo:Tipo
+                        }, function (data) {
+                           
+                            window.location.href = '@Url.Action("Download", "Evaluacion")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#EstadosRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    }
+
+    function GetDetalleEstados(Del, Al) {
+
+        var Tipo = 0
+        if ($('#OnlyCorp').is(":checked")) {
+            Tipo = 1
+        }
+
+        $('#EstadosRefresh').show();
+        $.post('@Url.Action("GetDetalleEstados", "Evaluacion")', {
+            Del: Del,
+            Al: Al,
+            Tipo : Tipo
+        }, function (data) {
+            if (data != null && $.isArray(data.Context)) {
+                var table = $('#DetalleEstados').DataTable();
+                table.destroy();
+                $("#ComprobanteDetalleEstados").html('');
+
+                //if (Tipo == 3) {
+                //    $("#ModalTitleDetalle").html('Detalle Stock 80/20 Piezas');
+                //    $("#modalHeaderDetalle").attr('class', 'modal-header alert-info');
+                //    $("#footerModalDetalle").attr('class', 'modal-footer alert-info');
+                //    $("#EncabezadoTabla").attr('class', 'info');
+                //}
+
+                $.each(data.Context, function (index, value) {
+                    $("#ComprobanteDetalleEstados").append("\
+                        <tr>\
+                                <td><a class='btn btn-lg' data-target='#modalDetalle' data-toggle='modal' data-id='" + value.Codigo + "' align='center'><i class='glyphicon glyphicon-globe'></i> " + value.Codigo + "</a></td>\
+                                <td>" + value.MontoAñoAnt.toFixed(2) + "</td>\
+                                <td>" + value.AnteriorPorcentPart.toFixed(2) + "</td>\
+                                <td>" + value.UtilidadAñoAnt.toFixed(2) + "</td>\
+                                <td>" + value.AnteriorPorcentUtilidad.toFixed(2) + "</td>\
+                                <td>" + value.MontoAñoAct.toFixed(2) + "</td>\
+                                <td>" + value.ActualPorcentPart.toFixed(2) + "</td>\
+                                <td>" + value.UtilidadAñoAct.toFixed(2) + "</td>\
+                                <td>" + value.ActualPorcentUtilidad.toFixed(2) + "</td>\
+                                <td>" + value.PorcentajeCrecimiento.toFixed(2) + "</td>\
+                                <td><div class='btn btn-default' onclick='DetalleEstadoClientes(\"" + value.Codigo + "\")'><i class='fa fa-file'></i> Detalle</div></td>\
+                            </tr>\
+                         `");
+                });
+
+                //$('#Detalle8020').DataTable({ });
+                $('#DetalleEstados').DataTable({
+                    //order: [[4, "desc"]],
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+                $('#EstadosRefresh').hide();
+            } else {
+                $('#EstadosRefresh').hide();
+                $.alert("No se encontro ningun registro");
+            }
+        });
+    }
+
+    $('#modalDetalle').on('show.bs.modal', function (e) {
+        var Estado = $(e.relatedTarget).data().id;
+        var Tipo = 0;
+        if ($('#OnlyCorp').is(":checked")) {
+            Tipo = 1;
+        }
+
+        var drp = $('#RangoFechas').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("getTiendasEstado", "Evaluacion")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"Estado":"' + Estado + '", "Del":"' + Del + '", "Al":"' + Al + '", "Tipo":' + Tipo + '}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+                    var VP = $('#tablaTiendas').DataTable();
+                    VP.destroy();
+                    $("#tbodyTiendas").html('');
+                    
+                    $.each(data.Context, function (index, value) {
+                        $("#tbodyTiendas").append(
+                            "<tr>\
+                                <td><div class='text-wrap' style='width: 200px'>" + value.Identifier + " - " + value.tienda + "</div></td>\
+                                <td><div class='text-wrap' style='width: 100px'>" + value.Agente + "</div></td>\
+                                <td><div class='text-wrap' style='width: 100px'>" + formatNumber.new(value.monto.toFixed(2), "$ ") + "</div></td>\
+                                <td><div class='text-wrap' style='width: 100px'>" + formatNumber.new(value.montoAnt.toFixed(2), "$ ") + "</div></td></tr>");
+                    });
+
+                    $('#tablaTiendas').DataTable({
+                        dom: 'B',
+                        "buttons": ['excel'],
+                        "searching": false,
+                        "paging": false,
+                        "ordering": false,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+
+                    
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: getTiendasEstado",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    });
+
+    function DetalleEstadoClientes(Estado) {
+        var drp = $('#RangoFechas').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        var Tipo = 0
+        if ($('#OnlyCorp').is(":checked")) {
+            Tipo = 1
+        }
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esto podria tomar unos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#EstadosRefresh').show();
+                        $.post('@Url.Action("ExcelDetalleBYEstados", "Evaluacion")', {
+                            Del: Del,
+                            Al: Al,
+                            Tipo: Tipo,
+                            Estado: Estado                            
+                        }, function (data) {
+
+                            window.location.href = '@Url.Action("Download", "Evaluacion")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#EstadosRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    }
+</script>

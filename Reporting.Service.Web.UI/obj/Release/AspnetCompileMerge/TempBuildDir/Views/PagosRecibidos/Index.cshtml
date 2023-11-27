@@ -1,0 +1,379 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content-header">
+    <h1>
+        Pagos recibidos
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Finanzas</a></li>
+        <li class="active">Pagos recibidos</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-money"></i>
+
+                    <h3 class="box-title">Pagos recibidos</h3>
+
+                    <div class="box-tools pull-right">
+                        <!--<button id="DetalleExcelVentas" type="button" class="btn btn-box-tool"><i class="fa fa-file-excel-o"></i></button>-->
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+				<div class="box-body">
+					<div class="col-md-4">
+						<div class="form-group">
+							<div class="form-group">
+								<label>Ingrese el rango de fechas:</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</div>
+									<input type="text" class="form-control pull-right" id="RangoVentas">
+								</div>
+							</div>
+							<div class="form-group">
+								<div id="btnPagos" class="btn btn-default btn-block"><i class="fa fa-eye"></i> Mostrar detalles</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-5 col-sm-5 col-xs-12">
+								<div class="info-box">
+									<span class="info-box-icon bg-light-blue"><i class="fa fa-dollar"></i></span>
+									<div class="info-box-content">
+										<span class="info-box-text">Total pagos crédito</span>
+										<span class="info-box-number" id="total-pagos-credito"></span>
+										<span class="info-box-text">Pagos a facturas vencidas</span>
+										<span class="info-box-number" id="total-fac-vencidas"></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-xs-12">
+								<div class="info-box">
+									<span class="info-box-icon bg-aqua"><i class="fa fa-dollar"></i></span>
+									<div class="info-box-content">
+										<span class="info-box-text">Total pagos contado</span>
+										<span class="info-box-number" id="total-pagos-contado"></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-12">
+								<div class="info-box">
+									<span class="info-box-icon bg-teal"><i class="fa fa-dollar"></i></span>
+									<div class="info-box-content">
+										<span class="info-box-text">Gran Total</span>
+										<span class="info-box-number" id="Total"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-xs-6">
+								<div class="info-box">
+									<span class="info-box-icon bg-green"><i class="fa fa-dollar"></i></span>
+									<div class="info-box-content">
+										<span class="info-box-text">Total Vencidas año anterior a la fecha</span>
+										<span class="info-box-number" id="acumulado-vencidas-2017"></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-6 col-xs-6">
+								@*<div class="info-box">
+									<span class="info-box-icon bg-maroon"><i class="fa fa-dollar"></i></span>
+									<div class="info-box-content">
+										<span class="info-box-text">Total Vencidas 2018 a la fecha:</span>
+										<span class="info-box-number" id="acumulado-vencidas-2018"></span>
+									</div>
+								</div>*@
+							</div>
+						</div>
+					</div>
+					<div id="Contenido">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-danger" role="alert">
+									Pagos aplicados a crédito
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="table-responsive">
+									<table id="FacturasCredito" class="table table-bordered">
+										<thead>
+											<tr>
+												<td>Pago</td>
+												<td>Card Code</td>
+												<td>Card Name</td>
+												<td>Canal</td>
+												<td>Fecha Pago</td>
+												<td>Monto Pago</td>
+												<td>Factura</td>
+												<td>Monto Aplicado</td>
+												<td>Dias Vencidos</td>
+												<td>Fecha Factura</td>
+												<td>Fecha Vencimiento</td>
+											</tr>
+										</thead>
+										<tbody id="DetalleCredito"></tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						</br>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-danger" role="alert">
+									Pagos aplicados a contado
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="table-responsive">
+									<table id="FacturasContado" class="table table-bordered">
+										<thead>
+											<tr>
+												<td>Pago</td>
+												<td>Card Code</td>
+												<td>Card Name</td>
+												<td>Canal</td>
+												<td>Fecha Pago</td>
+												<td>Monto Pago</td>
+												<td>Factura</td>
+												<td>Monto Aplicado</td>
+												<td>Dias Vencidos</td>
+												<td>Fecha Factura</td>
+												<td>Fecha Vencimiento</td>
+											</tr>
+										</thead>
+										<tbody id="DetalleContado"></tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <div id="VentasRefresh" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+					<span class="sr-only">Cargando...</span>
+                </div>
+                <!-- /.box-body-->
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $('#RangoVentas').daterangepicker();
+	$("#Contenido").hide();
+
+    $("#btnPagos").click(function () {
+        var drp = $('#RangoVentas').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esto podría tomar unos segundos',
+            type: 'Info',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#VentasRefresh').show();
+						$("#Total").html("");
+						var Totalpagoscredito = 0.00;
+						var Totalpagoscontado = 0.00;
+						var GranTotal = 0.00;
+
+                        $.post('@Url.Action("DetallePagos", "PagosRecibidos")', {
+                            Del: Del,
+                            Al: Al,
+							Tipo: 1  //pagos credito
+                        }, function (data) {
+                            $("#total-pagos-credito").html("");
+							$("#total-fac-vencidas").html("");
+                            if (data != null) {
+                                if ($.isArray(data.Context)) {
+                                    var VP = $('#FacturasCredito').DataTable();
+                                    VP.destroy();
+                                    $("#DetalleCredito").html('');
+									
+									var Totalpagoscreditovencidos = 0.00;
+                                    $.each(data.Context, function (index, value) {
+                                        $("#DetalleCredito").append('<tr>\
+                                                                <td>'+ value.Pago+'</td>\
+																<td>'+ value.CardCode+'</td>\
+																<td>'+ value.CardName+'</td>\
+																<td>'+ value.Canal+'</td>\
+																<td>' + moment(value.FechaPago).format('L')+ '</td>\
+																<td>' + formatNumber.new(value.MontoPago.toFixed(2), "$") + '</td>\
+																<td>'+ value.Factura+'</td>\
+                                                                <td>' + formatNumber.new(value.MontoAplicado.toFixed(2), "$") + '</td>\
+																<td>' + value.DiasVencidos + '</td>\
+																<td>' + moment(value.FechaFactura).format('L') + '</td>\
+																<td>' + moment(value.FechaVencimiento).format('L') + '</td>\
+                                                            </tr>');
+										Totalpagoscredito = Totalpagoscredito + value.MontoAplicado;
+										if(value.DiasVencidos > 0){
+											Totalpagoscreditovencidos = Totalpagoscreditovencidos + value.MontoAplicado
+										}
+                                    });
+
+									$("#total-pagos-credito").html(formatNumber.new(Totalpagoscredito.toFixed(2), "$"));
+									$("#total-fac-vencidas").html(formatNumber.new(Totalpagoscreditovencidos.toFixed(2), "$"));
+									GranTotal = Totalpagoscontado + Totalpagoscredito;
+									$("#Total").html(formatNumber.new(GranTotal.toFixed(2), "$"));
+
+                                    $('#FacturasCredito').DataTable({
+                                        //order: [[4, "desc"]],
+                                        "lengthMenu": [[12, 24, 48, -1], [12, 24, 48, "All"]],
+										dom: 'Bfrtip',
+										buttons: [
+											'excel', 'pdf'
+										],
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "searching": true,
+                                        "ordering": true,
+                                        "info": true,
+                                        "autoWidth": true,
+                                        "language": {
+                                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                        }
+                                    });
+                                }
+                                $('#VentasRefresh').hide();
+                            } else {
+                                $.alert("No se encontro registros");
+                                $('#VentasRefresh').hide();
+                            }
+                        });
+
+						$.post('@Url.Action("DetallePagos", "PagosRecibidos")', {
+                            Del: Del,
+                            Al: Al,
+							Tipo: 2  //pagos contado
+                        }, function (data) {
+                            $("#total-pagos-contado").html("");
+                            if (data != null) {
+                                if ($.isArray(data.Context)) {
+                                    var VP = $('#FacturasContado').DataTable();
+                                    VP.destroy();
+                                    $("#DetalleContado").html('');
+									
+									//var Totalpagoscontadovencidos = 0.00;
+                                    $.each(data.Context, function (index, value) {
+                                        $("#DetalleContado").append('<tr>\
+                                                                <td>'+ value.Pago+'</td>\
+																<td>'+ value.CardCode+'</td>\
+																<td>'+ value.CardName+'</td>\
+																<td>'+ value.Canal+'</td>\
+																<td>' + moment(value.FechaPago).format('L')+ '</td>\
+																<td>' + formatNumber.new(value.MontoPago.toFixed(2), "$") + '</td>\
+																<td>'+ value.Factura+'</td>\
+                                                                <td>' + formatNumber.new(value.MontoAplicado.toFixed(2), "$") + '</td>\
+																<td>' + value.DiasVencidos + '</td>\
+																<td>' + moment(value.FechaFactura).format('L') + '</td>\
+																<td>' + moment(value.FechaVencimiento).format('L') + '</td>\
+                                                            </tr>');
+										Totalpagoscontado = Totalpagoscontado + value.MontoAplicado;
+										/*if(value.DiasVencidos > 0){
+											Totalpagoscontadovencidos = Totalpagoscontadovencidos + value.MontoAplicado
+										}*/
+                                    });
+
+									$("#total-pagos-contado").html(formatNumber.new(Totalpagoscontado.toFixed(2), "$"));
+									//$("#total-fac-vencidas").html(formatNumber.new(Totalpagoscontadovencidos.toFixed(2), "$"));
+									GranTotal = Totalpagoscontado + Totalpagoscredito;
+									$("#Total").html(formatNumber.new(GranTotal.toFixed(2), "$"));
+
+                                    $('#FacturasContado').DataTable({
+                                        //order: [[4, "desc"]],
+                                        "lengthMenu": [[12, 24, 48, -1], [12, 24, 48, "All"]],
+										dom: 'Bfrtip',
+										buttons: [
+											'excel', 'pdf'
+										],
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "searching": true,
+                                        "ordering": true,
+                                        "info": true,
+                                        "autoWidth": true,
+                                        "language": {
+                                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                        }
+                                    });
+                                }
+                                $('#VentasRefresh').hide();
+                            } else {
+                                $.alert("No se encontro registros");
+                                $('#VentasRefresh').hide();
+                            }
+                        });
+
+						$.post('@Url.Action("AcumuladoVencidas", "PagosRecibidos")', {
+                            Del: Del,
+                            Al: Al,
+							Tipo: 1 //toma la fecha Al como paramtro 
+                        }, function (data) {
+                            if (data != null) {
+                                $("#acumulado-vencidas-2017").html(formatNumber.new(data.Context.toFixed(2), "$"));
+                            } else {
+                                $("#acumulado-vencidas-2017").html("no se pudo obtener la información");
+                            }
+                        });
+
+						/*$.post('Url.Action("AcumuladoVencidas", "PagosRecibidos")', {
+                            Del: Del,
+                            Al: Al,
+							Anio: 2018
+                        }, function (data) {
+                            if (data != null) {
+                                $("#acumulado-vencidas-2018").html(formatNumber.new(data.Context.toFixed(2), "$"));
+                            } else {
+                                $("#acumulado-vencidas-2018").html("no se pudo obtener la información");
+                            }
+                        });*/
+
+						$("#Contenido").show();
+                    }
+                }
+            }
+        })
+    });
+
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>

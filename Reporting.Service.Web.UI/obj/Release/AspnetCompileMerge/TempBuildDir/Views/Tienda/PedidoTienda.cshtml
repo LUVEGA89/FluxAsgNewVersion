@@ -1,0 +1,579 @@
+﻿@{
+    ViewBag.Title = "Pedidos de Tiendas";
+}
+<style>
+    .btn-custom {
+        margin-right: 10px
+    }
+</style>
+<section class="content-header">
+    <h1>
+        Pedidos Tiendas
+        <small>(Captura de Pedidos-Tiendas)</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Business Intelligence</a></li>
+        <li class="active"> Pedidos Tiendas
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="col-md-6">
+        <!-- Forma de Datos Entrada -->
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Datos de Tienda</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" id="formTienda">
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <label>Seleccione Tienda</label>
+                        <select class="form-control" id="cmbTienda">
+                            <option value="0"> Seleccionar tienda... </option>
+                        </select>
+                        <b><span style="color:red; " id="spanPresupuestoDisp" hidden="hidden"></span></b>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Referencia</label>
+                        <input type="text" class="form-control" id="txtReferencia" placeholder="Ingrese Referencia" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Comentario</label>
+                        <input type="text" class="form-control" id="txtComentario" placeholder="Ingrese Comentario" autocomplete="off">
+                    </div>
+
+                    <label>Archivo de Articulos</label>
+                    <div class="box-footer">
+                        <input type="file" class="btn pull-left" id="excelfile">
+                        <div class="clearfix"></div>
+                        <button type="button" class="btn btn-warning pull-right" onclick="apiSap()" id="btnProcesar" disabled>Procesar Pedido SAP</button>
+                        <button type="button" class="btn btn-primary pull-right btn-custom" onclick="ExportToTable()">Cargar Archivo</button>
+                    </div>
+
+                </div>
+            </form>
+            <div id="cargando" style="display:none;" class="overlay">
+                <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="col-md-6">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Lista de Articulos</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered" id="exceltable" hidden></table>
+            </div>
+            <div id="loading" style="display:none;" class="overlay">
+                <i class="fa  fa fa-refresh fa-spin"></i>
+            </div>
+        </div>
+    </div>
+
+    
+</section>
+
+<script>
+
+    $("#cmbTienda").change(function (event) {
+
+        let CardCode = $("#cmbTienda").val();
+        $('#cargando').show();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("PresupuestoDisponible", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"CardCode":"' + CardCode + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null) {
+                    let texto = "";
+                    if (data.Context == 0)
+                        texto = "Tienes presupuesto";
+                    else if (data.Context > 0)
+                        texto = "El presupuesto disponible es: " + formatNumber.new(data.Context, "$ ");
+                    else
+                        texto = "Ya no tienes presupuesto disponible";
+                    $("#spanPresupuestoDisp").text(texto);
+                    $("#spanPresupuestoDisp").removeAttr('hidden');
+                    $('#cargando').hide();
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: PresupuestoDisponible",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+        
+    });
+
+    function fListaCliente() {
+        $.post('@Url.Action("ListaTiendas", "Tienda")', {},
+            function (data) {
+                if (data != null && $.isArray(data.Context)) {
+
+                    let selectTiendas = $("#cmbTienda");
+
+                    $.each(data.Context, function (index, value) {
+                        selectTiendas.append(
+                            "<option value=" + value.CardCode + ">" + value.Nombre + "</option>")
+                    });
+
+                } else {
+                    swal({
+                        title: "Error",
+                        text: "Error en la api: ListaTiendas",
+                        icon: "error",
+                        button: true,
+                        dangerMode: true,
+                    })
+                }
+            });
+    }
+
+    // Mandamos Ejecutar la Funcion porque se carga en Automatico la Lista de Clientes
+    fListaCliente();
+
+    function ExportToTable() {
+        let cardcode = $('#cmbTienda option:selected').val();       
+        let referencia = $('#txtReferencia').val();
+        let comentarios = $('#txtComentario').val();
+        let error = "Faltan campos por llenar: ";
+        //Validación campos vacíos
+        if (cardcode == 0)
+            error = error + "Tienda";
+        if (cardcode == 0 && referencia == "")
+            error = error + ", Referencia";
+        else if (referencia == "")
+            error = error + "Referencia";
+
+        if (error == "Faltan campos por llenar: ")
+        {
+            //Hace todo
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("BorrarArticulosPedidos", "Tienda")',
+                async: false,
+                timeout: 3000,
+                type: 'POST',
+                data: '{"CardCode":"' + cardcode + '"}',
+                dataType: "json",
+                success: function (data) {
+                },
+                error: function () {
+                    swal({
+                        title: "Error",
+                        text: "Error en la api: BorrarArticulosPedidos",
+                        icon: "error",
+                        button: true,
+                        dangerMode: true,
+                    })
+                }
+            });
+            $('#loading').show();
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+            /*Checks whether the file is a valid excel file*/
+            if (regex.test($("#excelfile").val().toLowerCase())) {
+                var xlsxflag = false;
+                /*Flag for checking whether excel is .xls format or .xlsx format*/
+                if ($("#excelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+                    xlsxflag = true;
+                }
+                /*Checks whether the browser supports HTML5*/
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        /*Converts the excel data in to object*/
+                        if (xlsxflag) {
+                            var workbook = XLSX.read(data, { type: 'binary' });
+                        }
+                        else {
+                            var workbook = XLS.read(data, { type: 'binary' });
+                        }
+                        /*Gets all the sheetnames of excel in to a variable*/
+                        var sheet_name_list = workbook.SheetNames;
+                        var cnt = 0;
+                        /*This is used for restricting the script to consider only first sheet of excel*/
+                        sheet_name_list.forEach(function (y) {
+                            /*Iterate through all sheets*/
+                            /*Convert the cell value to Json*/
+                            if (xlsxflag) {
+                                var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                            }
+                            else {
+                                var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                            }
+                            if (exceljson.length > 0 && cnt == 0) {
+                                BindTable(exceljson, '#exceltable');
+                                cnt++;
+                            }
+                        });
+                        $('#loading').hide();
+                        $('#cargando').show();
+                        $.ajax({
+                            contentType: "application/json; charset=utf-8",
+                            url: '@Url.Action("validarPresupuesto", "Tienda")',
+                            async: false,
+                            timeout: 3000,
+                            type: 'POST',
+                            data: '{"CardCode":"' + cardcode + '"}',
+                            dataType: "json",
+                            success: function (data) {
+                                let totalPedido = 0;
+                                $.ajax({
+                                    contentType: "application/json; charset=utf-8",
+                                    url: '@Url.Action("TotalPedido", "Tienda")',
+                                    async: false,
+                                    timeout: 3000,
+                                    type: 'POST',
+                                    data: '{"CardCode":"' + cardcode + '"}',
+                                    dataType: "json",
+                                    success: function (dataTotal) {
+                                        totalPedido = dataTotal.Context;
+                                    },
+                                    error: function () {
+                                        swal({
+                                            title: "Error",
+                                            text: "Error en la api: TotalPedido",
+                                            icon: "error",
+                                            button: true,
+                                            dangerMode: true,
+                                        })
+                                    }
+                                });
+                                if (data.Context >=0) {
+                                    $('#cargando').hide();
+                                    
+                                    swal({
+                                        title: "Carga de registros",
+                                        text: "Se han cargado los registros correctamente\nEl total de tu pedido es: " + formatNumber.new(totalPedido, "$ "),
+                                        icon: "success",
+                                        button: true,
+                                        dangerMode: true,
+                                    })
+                                    $('#btnProcesar').removeAttr("disabled");
+                                } else {
+                                    swal({
+                                        title: "Carga de registros",
+                                        text: "El Total de tu pedido es: " + formatNumber.new(totalPedido, "$ ") + "\n¡Tu pedido se pasa por: " + (data.Context*-1) + "!\nTu pedido pasará a proceso de autorización",
+                                        icon: "warning",
+                                        buttons: ["Cancelar", "Enviar Autorización"],
+                                    }).then((sendAuthorization) => {
+                                        //Enviar autorización a Rafa
+                                        if (sendAuthorization) {
+                                            //Se obtienen los registros que no pasaron por autorización
+                                            $.ajax({
+                                                contentType: "application/json; charset=utf-8",
+                                                url: '@Url.Action("getPedidosTiendasNoAuth", "Tienda")',
+                                                async: false,
+                                                timeout: 3000,
+                                                type: 'POST',
+                                                data: '{"CardCode":"' + cardcode + '"}',
+                                                dataType: "json",
+                                                success: function (data) {//Cuando obtuvo los datos que se cargaron
+                                                    let FromEmail = '@System.Configuration.ConfigurationManager.AppSettings["EmailSistemasFussion"]';
+                                                    //let ToEmail = 'moises_rodriguez@fussionweb.com';
+                                                    let ToEmail = '@System.Configuration.ConfigurationManager.AppSettings["EmailPedidos"]';
+                                                    let SubjectEmail = "Solicitud de Autorización de Pedido Tienda";
+                                                    let total = 0;
+                                                    let auth = 0;
+                                                    let html_code = "<div>";
+                                                    html_code += "<h4 style='font-family: arial, sans-serif;'>Tienda: " + $('#cmbTienda option:selected').text() + "</h4>";
+                                                    html_code += "<table style='font-family: arial, sans-serif; border-collapse: collapse; width: 50%;'>";
+                                                    html_code += "<thead>";
+                                                    html_code += "<tr style='border: 1px solid black; text-align: center; background-color: rgb(221, 75, 57); color:#FFFFFF'>";
+                                                    html_code += "<th>SKU</th>";
+                                                    html_code += "<th>Cantidad</th>";
+                                                    html_code += "<th>Precio</th>";
+                                                    html_code += "</tr>";
+                                                    html_code += "</thead>";
+                                                    html_code += "<tbody style='border: 1px solid black; border-collapse: collapse'>";
+                                                    $.each(data.Context, function (index, value) {
+                                                        html_code += "<tr style = 'border: 1px solid black'>";
+                                                        html_code += "<td style = 'border: 1px solid black'>" + value.SKU + "</td>";
+                                                        html_code += "<td style='text-align: center; border: 1px solid black'>" + value.Cantidad + "</td>";
+                                                        html_code += "<td style = 'border: 1px solid black'>" + formatNumber.new(value.precioTotal, "$ ") + "</td>";
+                                                        html_code += "</tr>";
+                                                        total += value.precioTotal;
+                                                        auth = value.auth;
+                                                    });
+                                                    html_code += "</tbody>";
+                                                    html_code += "</table>";
+                                                    html_code += "<h4 style='font-family: arial, sans-serif; text-align: left;'>TOTAL PEDIDO: " + formatNumber.new(total, "$ ") + "</h4>";
+                                                    html_code += "</div>";
+                                                    //Se envía la autorización
+                                                    $.ajax({
+                                                        contentType: "application/json; charset=utf-8",
+                                                        url: '@Url.Action("SendAuthorization", "Tienda")',
+                                                        async: false,
+                                                        timeout: 3000,
+                                                        type: 'POST',
+                                                        data: '{"ToEmail":"' + ToEmail + '","FromEmail":"' + FromEmail + '","SubjectEmail":"' + SubjectEmail + '","BodyEmail":"' + html_code + '", "RegistrosID": ' + auth + ', "Cliente":"' + cardcode + '", "precioTotal": ' + total + ', "Referencia":"' + referencia + '", "Comentarios":"' + comentarios + '"}',
+                                                        dataType: "json",
+                                                        success: function (data) {
+                                                            if (data.Context == 1)
+                                                                swal({
+                                                                    title: "Envío de autorización",
+                                                                    text: "Se ha enviado tu autorización",
+                                                                    icon: "success",
+                                                                    button: true,
+                                                                    dangerMode: true,
+                                                                }).then((fin) => {
+                                                                    $('#cargando').hide();
+                                                                    $('#btnProcesar').attr('disabled', true);
+                                                                    $('#excelfile').val("");
+                                                                    location.reload();
+                                                                });
+
+                                                        },
+                                                        error: function () {
+                                                            swal({
+                                                                title: "Error",
+                                                                text: "Error en la api: SendAuthorization",
+                                                                icon: "error",
+                                                                button: true,
+                                                                dangerMode: true,
+                                                            })
+                                                        }
+                                                    });
+                                                },
+                                                error: function () {
+                                                    swal({
+                                                        title: "Error",
+                                                        text: "Error en la api: getPedidosTiendasNoAuth",
+                                                        icon: "error",
+                                                        button: true,
+                                                        dangerMode: true,
+                                                    })
+                                                }
+                                            });
+                                        }
+                                        else
+                                        {
+                                            swal({
+                                                title: '¡Cancelado!',
+                                                text: 'Proceso cancelado',
+                                                icon: 'warning'
+                                            })
+                                            $("#exceltable tr").remove();
+                                        }
+                                        $('#cargando').hide();
+                                    });
+                                }
+                            },
+                            error: function () {
+                                swal({
+                                    title: "Error",
+                                    text: "Error en la api: validarPresupuesto",
+                                    icon: "error",
+                                    button: true,
+                                    dangerMode: true,
+                                })
+                            }
+                        });
+                    }
+                    $('#exceltable').show();
+                    if (xlsxflag) {
+                        /*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                        reader.readAsArrayBuffer($("#excelfile")[0].files[0]);
+                    }
+                    else {
+                        reader.readAsBinaryString($("#excelfile")[0].files[0]);
+                    }
+                }
+                else {
+                    swal({
+                        title: "HTML5 falla",
+                        text: "¡Lo sentimos, tu navegador no soporta HTML5!",
+                        icon: "error",
+                        button: true,
+                        dangerMode: true,
+                    })
+                }
+            }
+            else {
+                swal({
+                    title: "Archivo inválido",
+                    text: "¡Por favor selecciona un archivo de excel válido!",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+
+        }else
+            swal({
+                title: "Campos vacíos",
+                text: error,
+                icon: "error",
+                button: true,
+                dangerMode: true,
+            })
+        
+    }
+
+    function BindTableHeader(jsondata, tableid) {
+        /*Function used to get all column names from JSON and bind the html table header*/
+        var columnSet = [];
+        var headerTr$ = $('<tr/>');
+        for (var i = 0; i < jsondata.length; i++) {
+            var rowHash = jsondata[i];
+            for (var key in rowHash) {
+                if (rowHash.hasOwnProperty(key)) {
+                    if ($.inArray(key, columnSet) == -1) {
+                        /*Adding each unique column names to a variable array*/
+                        columnSet.push(key);
+                        headerTr$.append($('<th/>').html(key));
+                    }
+                }
+            }
+        }
+        $(tableid).append(headerTr$);
+        return columnSet;
+    }
+
+    function BindTable(jsondata, tableid) {
+        $("#exceltable tr").remove();
+        /*Function used to convert the JSON array to Html Table*/
+        var columns = BindTableHeader(jsondata, tableid);
+        /*Gets all the column headings of Excel*/
+        for (var i = 0; i < jsondata.length; i++) {
+            var row$ = $('<tr/>').attr("id", "tr-" + i);
+            for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                var cellValue = jsondata[i][columns[colIndex]];
+                if (cellValue == null)
+                    cellValue = "";
+                row$.append($('<td/>').html($.trim(cellValue)).attr("id", "td-" + i + "-" + colIndex));
+            }
+            $(tableid).append(row$);
+            llenaVariables(i);
+        }
+    }
+
+    function llenaVariables(i) {
+        var count0 = $('#td-' + i + '-0').text();
+        var count1 = $('#td-' + i + '-1').text();
+        //console.log(count0);
+        if(count1!=0)
+            insertRealTime(count0, count1);
+    };
+
+    function insertRealTime(count0, count1) {
+        let cardcode = $('#cmbTienda option:selected').val();
+        
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("AgregarArticulosPedidos", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"CardCode":"' + cardcode + '","SKU":"' + count0 + '","Cantidad":"' + count1 + '"}',
+            dataType: "json",
+            success: function (data) {
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: AgregarArticulosPedidos",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    }
+
+    function apiSap() {
+        let vCardCode = $('#cmbTienda option:selected').val();
+        let vReferencia = $('#txtReferencia').val();
+        let vComentario = $('#txtComentario').val();
+        $('#btnProcesar').attr('disabled', true);
+        $('#cargando').show();
+        $.post('@Url.Action("ejecutaSap", "Tienda")', {
+            CardCode: vCardCode,
+            Referencia: vReferencia,
+            Comentario: vComentario,
+            Auth: 0
+        },
+        function (data) {
+            $('#excelfile').val("");
+            if (data)
+            {
+                if (data.Context.substring(0, 1) == "X")
+                {
+                    swal({
+                        title: "Error de conexión",
+                        text: "Error: Problemas de Conexion. Intentelo de nuevo",
+                        icon: "error",
+                        button: true,
+                        dangerMode: true,
+                    })
+                }
+                if (data.Context.substring(0, 1) == "E") {
+                    swal({
+                        title: "Error",
+                        text: data.Context,
+                        icon: "error",
+                        button: true,
+                        dangerMode: true,
+                    })
+                }
+                if ((data.Context.substring(0, 1) != "X") && (data.Context.substring(0, 1) != "E"))
+                {
+                    swal({
+                        title: "Pedido SAP",
+                        text: "No. de Pedido SAP: " + data.Context,
+                        icon: "success",
+                        button: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            location.reload();
+                        }
+                    });
+                }
+            }
+            $('#cargando').hide();
+        });
+    }
+
+    //FORMATO DINERO
+    var formatNumber = {
+        separador: ",",
+        sepDecimal: '.',
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>

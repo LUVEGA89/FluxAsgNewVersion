@@ -1,0 +1,868 @@
+﻿@{
+    ViewBag.Title = "LlegadasSeguimiento";
+}
+
+<section class="content-header">
+    <h1>
+        Seguimiento
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Seguimiento</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Buscar</h3>
+                </div>
+                <div class="box-body">
+                    <!-- Date range -->
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Folio:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                                <input id="folio" type="text" class="form-control pull-right">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Del - Al:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="DelAl">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div id="FindDocuments" class="btn btn-success btn-block">
+                                <span class="fa fa-th-large"></span> Vista en edición
+                            </div>
+                            <div id="ShowDetails" class="btn btn-success btn-block">
+                                <span class="fa  fa-table"></span> Vista en detalles
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+
+    </div>
+    <div class="row" id="DetalleSeguimentoPrincipal" style="display:none;">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Seguimiento llegadas</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="form-group">
+                        <div onclick="DescargarArchivo()" class="btn btn-primary">
+                            <span class="fa fa-file-excel-o"></span>
+                            Descargar Archivo
+                        </div>
+                    </div>
+                    <table id="TableDetailsSeguimiento" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>STATUS</th>
+                                <th>ENVIO</th>
+                                <th>CONTENEDOR</th>
+                                <th>PROVEEDOR</th>
+                                <th>FORWARDER</th>
+                                <th>COMENTARIOS</th>
+                                <th>EMBARCADA</th>
+                                <th>LLEGA A PUERTO</th>
+                                <th>SALIDA DE PUERTO</th>
+                                <th>COSTO DE FLETE</th>
+                                <th>LLEGA A PANTACO</th>
+                                <th>SALIDA DE PANTACO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ContentDetails"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ContentLlegadas">
+        <div class="col-md-4 hidden">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-red">
+                    <div class="widget-user-image">
+                        @*<img src="../dist/img/user7-128x128.jpg" alt="User Avatar">*@
+                        <img class="img-circle" src="~/dist/img/Users.png" />
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">Folio: 5299</h3>
+                    <h5 class="widget-user-desc">Contenedor: TCNU5095730</h5>
+                    <h5 class="widget-user-desc">ZHEJIANG LONGYUO XINXIDI ELECTRONICS CO., LTD</h5>
+                </div>
+                <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                        <li><a href="#">Forwarder <span class="pull-right badge bg-blue">AIRMAR LAZARO</span></a></li>
+                        <li><a href="#">Flete <span class="pull-right badge bg-aqua">$ 2,932.50 USD</span></a></li>
+                        <li><a data-toggle="modal" onclick="ShowDatePicker()" data-target="#Fechas">Timeline</a></li>
+                        <li><a data-toggle="modal" data-target="#Comentarios">Comentarios <span class="pull-right badge bg-red">2</span></a></li>
+                        <li>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="fa fa-map-o"></span>
+                                </span>
+                                <select onchange="ActualizaEstado(folio)" class="form-control">
+                                    <option value="1">EN MAR</option>
+                                    <option value="16">EN PUERTO</option>
+                                    <option value="2">EN TREN</option>
+                                    <option value="4">EN PANTACO</option>
+                                    <option value="8">RECIBIDO</option>
+                                </select>
+
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.widget-user -->
+        </div>
+    </div>
+
+</section>
+<script>
+    $('#ShowDetails').click(function () {
+        console.log('Mostrar detalles')
+        var fol = $('#folio').val();
+        if (fol == null || fol == '')
+            fol = 0;
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esta seguro de buscar este rango de fechas',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $.post('@Url.Action("LlegadasDetalle", "Indicadores")', {
+                            Del: Del,
+                            Al: Al,
+                            Folio: fol
+                        }, function (data) {
+                            console.log(data)
+                            if (data != null && $.isArray(data.Context)) {
+                                /* Recorremos tu respuesta con each */
+                                $('#DetalleSeguimentoPrincipal').show();
+                                $("#ContentLlegadas").html('');
+
+                                var table = $('#TableDetailsSeguimiento').DataTable();
+                                table.destroy();
+
+                                $.each(data.Context, function (index, value) {
+                                    var AllComentarios = '';
+                                    $.each(value.Comentarios, function (index1, value2) {
+                                        AllComentarios = AllComentarios + value2.Detalle + '</br>';
+                                    });
+                                    var Embarcada = '';
+                                    if (moment(value.Embarcada).format('DD/MM/YYYY') != '01/01/0001')
+                                        Embarcada = moment(value.Embarcada).format('DD/MM/YYYY');
+
+                                    var LlegadaPuerto = '';
+                                    if (moment(value.LlegadaPuerto).format('DD/MM/YYYY') != '01/01/0001')
+                                        LlegadaPuerto = moment(value.LlegadaPuerto).format('DD/MM/YYYY');
+
+                                    var SalidaPuerto = '';
+                                    if (moment(value.SalidaPuerto).format('DD/MM/YYYY') != '01/01/0001')
+                                        SalidaPuerto = moment(value.SalidaPuerto).format('DD/MM/YYYY');
+
+                                    var LlegadaPatco = '';
+                                    if (moment(value.LlegadaPatco).format('DD/MM/YYYY') != '01/01/0001')
+                                        LlegadaPatco = moment(value.LlegadaPatco).format('DD/MM/YYYY');
+
+                                    var SalidaPatco = '';
+                                    if (moment(value.SalidaPatco).format('DD/MM/YYYY') != '01/01/0001')
+                                        SalidaPatco = moment(value.SalidaPatco).format('DD/MM/YYYY');
+                                    var Estado = '';
+                                    switch (value.Estado) {
+                                        case 1:
+                                            Estado = 'En Mar';
+                                            break;
+                                        case 2:
+                                            Estado = 'En Tren';
+                                            break;
+                                        case 4:
+                                            Estado = 'En Pantaco';
+                                            break;
+                                        case 8:
+                                            Estado = 'Recibido';
+                                            break;
+                                        case 16:
+                                            Estado = 'En puerto';
+                                            break;
+                                    }
+
+                                    $('#ContentDetails').append('<tr>\
+                                                                    <th>' + Estado + '</th>\
+                                                                    <th>'+ value.Identifier + '</th>\
+                                                                    <th>' + value.Contenedor + '</th>\
+                                                                    <th>' + value.Proveedor + '</th>\
+                                                                    <th>' + value.Forwarder + '</th>\
+                                                                    <th>' + AllComentarios + '</th>\
+                                                                    <th>' + Embarcada + '</th>\
+                                                                    <th>' + LlegadaPuerto + '</th>\
+                                                                    <th>' + SalidaPuerto + '</th>\
+                                                                    <th>' + value.CostoFlete + '</th>\
+                                                                    <th>' + LlegadaPatco + '</th>\
+                                                                    <th>' + SalidaPatco + '</th>\
+                                                                </tr>');
+
+                                });
+
+                                $('#TableDetailsSeguimiento').DataTable({
+                                    //order: [[4, "desc"]],
+                                    "paging": true,
+                                    "lengthChange": true,
+                                    "searching": true,
+                                    "ordering": true,
+                                    "info": true,
+                                    "autoWidth": true,
+                                    "language": {
+                                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                    }
+                                });
+
+                            } else {
+                                $.alert("No se encontro registros");
+                            }
+
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+
+    function ShowDatePicker() {
+        $('#Embarcada').datepicker();
+        $('#Llegapuerto').datepicker();
+        $('#Salidapuerto').datepicker();
+        $('#llegapatco').datepicker();
+        $('#salidapatco').datepicker();
+    }
+
+    function ShowDetailsFecha(folio) {
+        console.log(folio);
+        $.post('@Url.Action("SeguimientosFechas", "Indicadores")', {
+            Folio: folio
+        }, function (data) {
+            if (data != null) {
+
+                //$.each(data.Context, function (index, value) {
+                //    $("#ComprobanteDetalle").append('<tr><td>' + value.Sku + '</td><td>' + value.Stock + '</td><td>' + value.Anual + '</td><td>' + value.Porcentaje + '</td><td>' + value.Runto80 + '</td><td>' + value.Can3Meses + '</td><td>' + value.OkStock + '</td></tr>')
+                //});
+                console.log(data);
+                //var jsDate = moment(value.RegistradoEl).format('LLL');
+
+                $('#Embarcada').val(moment(data.Context.Embarcada).format('YYYY/MM/DD'));
+                $('#Llegapuerto').val(moment(data.Context.LlegadaPuerto).format('YYYY/MM/DD'));
+                $('#Salidapuerto').val(moment(data.Context.SalidaPuerto).format('YYYY/MM/DD'));
+                $('#llegapantaco').val(moment(data.Context.LlegadaPatco).format('YYYY/MM/DD'));
+                $('#salidapantaco').val(moment(data.Context.SalidaPatco).format('YYYY/MM/DD'));
+
+                $('#Embarcada').datepicker();
+                $('#Llegapuerto').datepicker();
+                $('#Salidapuerto').datepicker();
+                $('#llegapantaco').datepicker();
+                $('#salidapantaco').datepicker();
+                $('#FolioFechas').val(folio);
+
+            } else {
+                $.alert("No se encontro ningun registro");
+            }
+
+        });
+    }
+    //function ShowComentarios(folio) {
+    //    GetComentarios(folio)
+    //}
+
+    function GuardarComentario() {
+        console.log($('#FolioComentario').val() + ' ' + $('#AddMensaje').val());
+        var folio = $('#FolioComentario').val();
+        var msj = $('#AddMensaje').val();
+
+        $.post('@Url.Action("Comentario", "Indicadores")', {
+            Folio: folio,
+            Mensaje: msj
+        }, function (data) {
+            if (data != null) {
+
+                UpdateComentarios(folio);
+                $('#AddMensaje').val('');
+            } else {
+                $.alert("No se encontro ningun registro");
+            }
+
+        });
+    }
+
+    $('#btnAddMsg').click(function () {
+        console.log('si llega');
+
+    });
+    function UpdateComentarios(folio) {
+        $.post('@Url.Action("SeguimientosComentarios", "Indicadores")', {
+            Folio: folio
+        }, function (data) {
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#ContentComentarios").html('');
+
+                $.each(data.Context, function (index, value) {
+                    $("#ContentComentarios").append('<div class="item">\
+                                                        <p class="message">\
+                                                            <a href="#" class="name">\
+                                                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> ' + moment(value.RegistradoEl).format('L') + '</small>\
+                                                            </a>' + value.Detalle + '\
+                                                        </p>\
+                                                    </div>');
+                    //$("#ContentComentarios").append('<tr><td>' + value.Sku + '</td><td>' + value.Stock + '</td><td>' + value.Anual + '</td><td>' + value.Porcentaje + '</td><td>' + value.Runto80 + '</td><td>' + value.Can3Meses + '</td><td>' + value.OkStock + '</td></tr>')
+                });
+
+            } else {
+                $.alert("No se encontro ningun registro");
+            }
+
+        });
+    }
+
+    function GetComentarios(folio) {
+        $.post('@Url.Action("SeguimientosComentarios", "Indicadores")', {
+            Folio: folio
+        }, function (data) {
+            if (data != null && $.isArray(data.Context)) {
+
+                $("#ContentComentarios").html('');
+
+                $.each(data.Context, function (index, value) {
+                    $("#ContentComentarios").append('<div class="item">\
+                                                        <p class="message">\
+                                                            <a href="#" class="name">\
+                                                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> ' + moment(value.RegistradoEl).format('L') + '</small>\
+                                                            </a>' + value.Detalle + '\
+                                                        </p>\
+                                                    </div>');
+                    //$("#ContentComentarios").append('<tr><td>' + value.Sku + '</td><td>' + value.Stock + '</td><td>' + value.Anual + '</td><td>' + value.Porcentaje + '</td><td>' + value.Runto80 + '</td><td>' + value.Can3Meses + '</td><td>' + value.OkStock + '</td></tr>')
+                });
+                $('#FolioComentario').val(folio)
+
+            } else {
+                $.alert("No se encontro ningun registro");
+            }
+
+        });
+    }
+
+    $("#FindDocuments").click(function () {
+        GetDocumentos()
+    });
+
+    function ActualizaEstado(folio) {
+        var estado = $('#Combo' + folio).val();
+
+        console.log('actualizar folio ' + folio + ' Estado ' + estado)
+
+        $.post('@Url.Action("SeguimientosEstado", "Indicadores")', {
+            Folio: folio,
+            Estado: estado
+        }, function (data) {
+            if (data != null ) {
+                $.alert("Se actualizó el estado del documento con el folio: " + folio);
+            } else {
+                $.alert("No se encontro ningun registro");
+            }
+
+        });
+    }
+
+    function GetDocumentos() {
+        var fol = $('#folio').val();
+        if (fol == null || fol == '')
+            fol = 0;
+
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        console.log(Del + ' ' + Al);
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Esta seguro de buscar este rango de fechas',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $.post('@Url.Action("Llegadas", "Indicadores")', {
+                            Del: Del,
+                            Al: Al,
+                            Folio: fol
+                        }, function (data) {
+                            console.log(data)
+                            if (data != null && $.isArray(data.Context)) {
+                                /* Recorremos tu respuesta con each */
+                                $('#DetalleSeguimentoPrincipal').hide();
+                                $("#ContentLlegadas").html('');
+                                var color = '';
+                                var IniFila = '<div class="row">'
+                                var FinFila = '</div>'
+                                var fila = '';
+                                var i = 1;
+                                var j = 1;
+                                $.each(data.Context, function (index, value) {
+
+                                    var select ='';
+
+                                    switch(value.Estado){
+                                        case 1:
+                                            {
+                                                select = '<li>\
+                                                            <div class="input-group">\
+                                                                <span class="input-group-addon">\
+                                                                     <span class="fa fa-map-o"></span>\
+                                                                </span>\
+                                                                <select id="Combo' + value.Identifier + '" onchange="ActualizaEstado(' + value.Identifier + ')" class="form-control">\
+                                                                     <option value="1" selected>EN MAR</option>\
+                                                                     <option value="16">EN PUERTO</option>\
+                                                                     <option value="2">EN TREN</option>\
+                                                                     <option value="4">EN PANTACO</option>\
+                                                                     <option value="8">RECIBIDO</option>\
+                                                                 </select>\
+                                                              </div>\
+                                                           </li>';
+
+                                            }
+                                            break;
+                                        case 2:
+                                            {
+                                                select = '<li>\
+                                                            <div class="input-group">\
+                                                                <span class="input-group-addon">\
+                                                                     <span class="fa fa-map-o"></span>\
+                                                                </span>\
+                                                                <select id="Combo' + value.Identifier + '" onchange="ActualizaEstado(' + value.Identifier + ')" class="form-control">\
+                                                                     <option value="1" >EN MAR</option>\
+                                                                     <option value="16">EN PUERTO</option>\
+                                                                     <option value="2" selected>EN TREN</option>\
+                                                                     <option value="4">EN PANTACO</option>\
+                                                                     <option value="8">RECIBIDO</option>\
+                                                                 </select>\
+                                                              </div>\
+                                                           </li>';
+
+                                            }
+                                            break;
+                                        case 4:
+                                            {
+                                                select = '<li>\
+                                                            <div class="input-group">\
+                                                                <span class="input-group-addon">\
+                                                                     <span class="fa fa-map-o"></span>\
+                                                                </span>\
+                                                                <select id="Combo' + value.Identifier + '" onchange="ActualizaEstado(' + value.Identifier + ')" class="form-control">\
+                                                                     <option value="1">EN MAR</option>\
+                                                                     <option value="16">EN PUERTO</option>\
+                                                                     <option value="2">EN TREN</option>\
+                                                                     <option value="4"selected>EN PANTACO</option>\
+                                                                     <option value="8">RECIBIDO</option>\
+                                                                 </select>\
+                                                              </div>\
+                                                           </li>';
+
+                                            }
+                                            break;
+                                        case 8:
+                                            {
+                                                select = '<li>\
+                                                            <div class="input-group">\
+                                                                <span class="input-group-addon">\
+                                                                     <span class="fa fa-map-o"></span>\
+                                                                </span>\
+                                                                <select id="Combo' + value.Identifier + '" onchange="ActualizaEstado(' + value.Identifier + ')" class="form-control">\
+                                                                     <option value="1" >EN MAR</option>\
+                                                                     <option value="16">EN PUERTO</option>\
+                                                                     <option value="2">EN TREN</option>\
+                                                                     <option value="4">EN PANTACO</option>\
+                                                                     <option value="8" selected>RECIBIDO</option>\
+                                                                 </select>\
+                                                              </div>\
+                                                           </li>';
+
+                                            }
+                                            break;
+                                        case 16:
+                                            {
+                                                select = '<li>\
+                                                            <div class="input-group">\
+                                                                <span class="input-group-addon">\
+                                                                     <span class="fa fa-map-o"></span>\
+                                                                </span>\
+                                                                <select id="Combo' + value.Identifier + '" onchange="ActualizaEstado(' + value.Identifier + ')" class="form-control">\
+                                                                     <option value="1" >EN MAR</option>\
+                                                                     <option value="16" selected>EN PUERTO</option>\
+                                                                     <option value="2">EN TREN</option>\
+                                                                     <option value="4">EN PANTACO</option>\
+                                                                     <option value="8">RECIBIDO</option>\
+                                                                 </select>\
+                                                              </div>\
+                                                           </li>';
+
+                                            }
+                                            break;
+
+                                    }
+
+                                    if (j == 1) {
+                                        color = 'bg-gray';
+                                        j++;
+                                    }
+                                    else {
+                                        color = 'bg-info';
+                                        j--;
+                                    }
+                                    if (data.Context.length < 3) {
+                                        $("#ContentLlegadas").append('<div class="row"><div class="col-md-4">\
+                                                                    <!-- Widget: user widget style 1 -->\
+                                                                    <div class="box box-widget widget-user-2">\
+                                                                        <!-- Add the bg color to the header using any of the bg-* classes -->\
+                                                                        <div class="widget-user-header ' + color + '">\
+                                                                            <div class="widget-user-image">\
+                                                                                <img class="img-circle" src="/saprep/dist/img/Users.png" />\
+                                                                            </div>\
+                                                                            <!-- /.widget-user-image -->\
+                                                                            <h3 class="widget-user-username">Folio: ' + value.Identifier + '</h3>\
+                                                                            <h5 class="widget-user-desc">Contenedor: ' + value.Contenedor + '</h5>\
+                                                                            <h5 class="widget-user-desc">' + value.Proveedor + '</h5>\
+                                                                        </div>\
+                                                                        <div class="box-footer no-padding">\
+                                                                            <ul class="nav nav-stacked">\
+                                                                                <li><a href="#">Forwarder <span class="pull-right badge bg-blue">' + value.Forwarder + '</span></a></li>\
+                                                                                <li><a href="#">Flete <span class="pull-right badge bg-aqua">$ ' + value.CostoFlete + ' USD</span></a></li>\
+                                                                                <li><a data-toggle="modal" onclick="ShowDetailsFecha(' + value.Identifier + ')" data-target="#Fechas">Timeline</a></li>\
+                                                                                <li><a data-toggle="modal" onclick="GetComentarios(' + value.Identifier + ')"data-target="#Comentarios">Comentarios </a></li> ' + select + '\
+                                                                            </ul>\
+                                                                        </div>\
+                                                                    </div>\
+                                                                    <!-- /.widget-user -->\
+                                                                </div></div>');
+                                    }
+                                    if (i < 4) {
+                                        fila = fila + '<div class="col-md-4">\
+                                                                    <!-- Widget: user widget style 1 -->\
+                                                                    <div class="box box-widget widget-user-2">\
+                                                                        <!-- Add the bg color to the header using any of the bg-* classes -->\
+                                                                        <div class="widget-user-header ' + color + '">\
+                                                                            <div class="widget-user-image">\
+                                                                                <img class="img-circle" src="/saprep/dist/img/Users.png" />\
+                                                                            </div>\
+                                                                            <!-- /.widget-user-image -->\
+                                                                            <h3 class="widget-user-username">Folio: ' + value.Identifier + '</h3>\
+                                                                            <h5 class="widget-user-desc">Contenedor: ' + value.Contenedor + '</h5>\
+                                                                            <h5 class="widget-user-desc">' + value.Proveedor + '</h5>\
+                                                                        </div>\
+                                                                        <div class="box-footer no-padding">\
+                                                                            <ul class="nav nav-stacked">\
+                                                                                <li><a href="#">Forwarder <span class="pull-right badge bg-blue">' + value.Forwarder + '</span></a></li>\
+                                                                                <li><a href="#">Flete <span class="pull-right badge bg-aqua">$ ' + value.CostoFlete + ' USD</span></a></li>\
+                                                                                <li><a data-toggle="modal" onclick="ShowDetailsFecha(' + value.Identifier + ')" data-target="#Fechas">Timeline</a></li>\
+                                                                                <li><a data-toggle="modal" onclick="GetComentarios(' + value.Identifier + ')"data-target="#Comentarios">Comentarios </a></li>' + select + '\
+                                                                            </ul>\
+                                                                        </div>\
+                                                                    </div>\
+                                                                    <!-- /.widget-user -->\
+                                                                </div>';
+                                        if (i == 3) {
+                                            fila = IniFila + fila + FinFila;
+                                            $("#ContentLlegadas").append(fila);
+                                            fila = '';
+                                            i = 1;
+                                        } else {
+                                            i++;
+                                        }
+                                    }
+
+                                    //DatosArrayActual.push({ label: value.Codigo + ' ' + value.ActualPorcentPart.toFixed(2) + ' %', data: value.ActualPorcentPart.toFixed(2), color: color });
+
+                                });
+
+
+                            } else {
+                                $.alert("No se encontro registros");
+                            }
+
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    }
+
+    $('#DelAl').daterangepicker({
+
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                 "Enero",
+                 "Febrero",
+                 "Marzo",
+                 "Abril",
+                 "Mayo",
+                 "Junio",
+                 "Julio",
+                 "Agosto",
+                 "Septiembre",
+                 "Octubre",
+                 "Noviembre",
+                 "Deciembre"
+            ]
+        }
+
+    });
+
+
+
+</script>
+
+<div class="modal fade" id="Fechas" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <h3 class="box-title">Fechas</h3>
+                    </div>
+                    <div class="box-body">
+                        <!-- Date dd/mm/yyyy -->
+                        <div class="form-group">
+                            <label>Embarcada:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="Embarcada" data-date-format="yyyy/mm/dd" class="form-control pull-right">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <div class="form-group">
+                            <label>Llegada a puerto:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="Llegapuerto" data-date-format="yyyy/mm/dd" class="form-control">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <div class="form-group">
+                            <label>Salida a puerto:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="Salidapuerto" data-date-format="yyyy/mm/dd" class="form-control">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <div class="form-group">
+                            <label>Llegada a pantaco:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="llegapantaco" data-date-format="yyyy/mm/dd" class="form-control">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <div class="form-group">
+                            <label>Salida de pantaco:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="salidapantaco" data-date-format="yyyy/mm/dd" class="form-control">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="FolioFechas" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button id="btnSaveDates" type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#btnSaveDates').click(function () {
+
+        var embarcada = $('#Embarcada').val();
+        var llegapuerto = $('#Llegapuerto').val();
+        var salepuerto = $('#Salidapuerto').val();
+        var llegapantaco = $('#llegapantaco').val();
+        var salepantaco = $('#salidapantaco').val();
+        var folio = $('#FolioFechas').val();
+        console.log(folio + ' ' + embarcada + ' ' + llegapuerto + ' ' + salepuerto + ' ' + llegapantaco + ' ' + salepantaco);
+
+        $.post('@Url.Action("ActualizaFechas", "Indicadores")', {
+            Folio:folio,
+            Embarcada: embarcada,
+            LlegadaPuerto: llegapuerto,
+            SalidaPuerto: salepuerto,
+            LlegadaPantaco: llegapantaco,
+            SalidaPantaco: salepantaco
+        }, function (data) {
+            if (data != null ) {
+
+                $('#Embarcada').val(moment(data.Context.Embarcada).format('YYYY/MM/DD'));
+                $('#Llegapuerto').val(moment(data.Context.LlegadaPuerto).format('YYYY/MM/DD'));
+                $('#Salidapuerto').val(moment(data.Context.SalidaPuerto).format('YYYY/MM/DD'));
+                $('#llegapantaco').val(moment(data.Context.LlegadaPatco).format('YYYY/MM/DD'));
+                $('#salidapantaco').val(moment(data.Context.SalidaPatco).format('YYYY/MM/DD'));
+                $.alert('Las fechas han sido actualizadas');
+
+            } else {
+                $.alert("No se encontro ningun registro");
+            }
+
+        });
+    });
+</script>
+
+<div class="modal fade" id="Comentarios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <h3 class="box-title">Comentarios</h3>
+                    </div>
+                    <div class="box-body" id="ContentComentarios">
+                        <div class="item">
+                            <img src="dist/img/user3-128x128.jpg" alt="user image" class="offline">
+                            <p class="message">
+                                <a href="#" class="name">
+                                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
+                                    Alexander Pierce
+                                </a>
+                                I would like to meet you to discuss the latest news about
+                                the arrival of the new theme. They say it is going to be one the
+                                best themes on the market
+                            </p>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="input-group">
+                            <input type="hidden" id="FolioComentario" />
+                            <input class="form-control" id="AddMensaje" placeholder="Escriba un comentario.........">
+                            <div class="input-group-btn">
+                                <button type="button" id="btnAddMsg" onclick="GuardarComentario()" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    function DescargarArchivo(){
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Se decargara un archivo con la informacion',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $.post('@Url.Action("PostReportPartial", "Indicadores")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+
+                           // var response = JSON.parse(data);
+                            console.log(data)
+                            window.location = '../' + data.FileName;
+
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    }
+</script>

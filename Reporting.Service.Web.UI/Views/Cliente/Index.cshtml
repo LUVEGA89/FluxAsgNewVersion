@@ -1,0 +1,778 @@
+﻿@{
+    ViewBag.Title = "Clientes";
+}
+<head>
+    
+
+    <link href="styles/stepper.css" rel="stylesheet" type="text/css" />
+</head>
+<main>
+    <div class="container-fluid px-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-danger">
+
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Customers</h3>
+
+                        <button type="submit" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            New Customer
+                        </button>
+                    </div>
+                    <br />
+                    <div class="box-body">
+                        <div class="table table-responsive">
+                            <table class="table table-striped" id="table-clientes">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <td scope="col">Id</td>
+                                        <td scope="col">TAXID</td>
+                                        <td scope="col">NAME</td>
+                                        <td scope="col">COMERCIAL NAME</td>
+                                        <td scope="col">CONTACT PERSON</td>
+                                        <td scope="col">EMAIL BILLING</td>
+                                        <td scope="col">REF</td>
+                                        <td scope="col">ACTIONS</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="body-clientes"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Modal Form -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Customer Registration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- STEPPER -->
+                    <div class="container">
+                        <div class="accordion" id="accordionExample">
+                            <div class="steps">
+                                <progress id="progress" value=0 max=100></progress>
+                                <div class="step-item">
+                                    <button class="step-button text-center" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        1
+                                    </button>
+                                    <div class="step-title">
+                                        Customer Information
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <button class="step-button text-center collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        2
+                                    </button>
+                                    <div class="step-title">
+                                        Address
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <button class="step-button text-center collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        3
+                                    </button>
+                                    <div class="step-title">
+                                        Bank Information
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div id="headingOne">
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="hidden" name="id" id="id" />
+                                                        <input type="text" class="form-control text-uppercase" id="rfc" placeholder="TAXID" autocomplete="off">
+                                                        <label for="floatingInputRFC">TAXID</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="name" placeholder="Name" autocomplete="off">
+                                                        <label for="inputName">Name</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="ref" placeholder="REF" autocomplete="off">
+                                                        <label for="ref">REF</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-industry"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="razonSocial" placeholder="Commercial Name" autocomplete="off">
+                                                        <label for="inputSocialReason">Commercial Name</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div id="headingTwo">
+
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="calle" placeholder="Street" autocomplete="off">
+                                                        <label for="inputName">Street</label>
+                                                    </div>
+                                                    <span class="input-group-text">#</span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="numeroCalle" placeholder="Number" autocomplete="off">
+                                                        <label for="inputNumber">Number</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="colonia" placeholder="Neighborhood" autocomplete="off">
+                                                        <label for="inputColony">Neighborhood</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-map-pin"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="cp" placeholder="Postal Code" autocomplete="off">
+                                                        <label for="inputSocialReason">Postal Code</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-flag"></i></span>
+                                                    <div class="form-floating">
+                                                        <select class="form-select" id="cbx-paises" onchange="buildSelectState(this)" name="Service">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-city"></i></span>
+                                                    <div class="form-floating">
+                                                        <!--
+                                                        <input type="text" class="form-control text-uppercase" id="estado" placeholder="State" autocomplete="off">
+                                                        <label for="inputMunicipality">State</label>
+                                                        -->
+                                                        <select class="form-select" id="estado" name="Service">
+                                                            <option value="">State</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-city"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="municipio" placeholder="City" autocomplete="off">
+                                                        <label for="inputMunicipality">City</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div id="headingThree">
+
+                                </div>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-university"></i></span>
+                                                    <div class="form-floating">
+                                                        
+                                                        <input type="text" class="form-control text-uppercase" id="cbx-banco" name="bancos" placeholder="Bank" autocomplete="off">
+                                                        <label for="bancos">Bank</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-university"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="cuentaBanco" placeholder="Bank Account" autocomplete="off">
+                                                        <label for="cuentaBanco">Bank Account</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="titularCuenta" placeholder="Account Holder" autocomplete="off">
+                                                        <label for="titularCuenta">Account Holder</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-university"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="clabeInterbancaria" placeholder="Interbank Key" autocomplete="off">
+                                                        <label for="clabeInterbancaria">Swift Code</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="email-facturacion" placeholder="Interbank Key" autocomplete="off">
+                                                        <label for="email-facturacion">Email Billing</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="contact-person" placeholder="Contact Person" autocomplete="off">
+                                                        <label for="email-facturacion">Contact Person</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="direccion-cuenta-bancarias" placeholder="Interbank Key" autocomplete="off">
+                                                        <label for="direccion-cuenta-bancarias">Bank Account Address</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control text-uppercase" id="entrega" placeholder="Shipment" autocomplete="off">
+                                                        <label for="entrega">Shipment Address</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" onclick="insertOrUpdate(this);" class="btn btn-primary" id="btn-client-save">Save</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script type="text/javascript">
+
+    let globalCountryStatesOBJ = null;
+
+    $(document).ready(function () {
+        load();
+        $('#exampleModal').on('hidden.bs.modal', function (e) {
+            cleanFields();
+        });
+
+        const stepButtons = document.querySelectorAll('.step-button');
+        const progress = document.querySelector('#progress');
+
+        Array.from(stepButtons).forEach((button, index) => {
+            button.addEventListener('click', () => {
+                progress.setAttribute('value', index * 100 / (stepButtons.length - 1));//there are 3 buttons. 2 spaces.
+
+                stepButtons.forEach((item, secindex) => {
+                    if (index > secindex) {
+                        item.classList.add('done');
+                    }
+                    if (index < secindex) {
+                        item.classList.remove('done');
+                    }
+                })
+            })
+        })
+    });
+
+    function cleanFields() {
+        $('#rfc').val("");
+        $('#ref').val("");
+        $('#name').val("");
+        $('#razonSocial').val("");
+        $('#calle').val("");
+        $('#numeroCalle').val("");
+        $('#colonia').val("");
+        $('#cp').val("");
+        $('#municipio').val("");
+        $('#estado').val("");
+        $('#cbx-paises').val("");
+        $('#cbx-banco').val("");
+        $('#titularCuenta').val("");
+        $('#cuentaBanco').val("");
+        $('#clabeInterbancaria').val("");
+        $('#direccion-cuenta-bancarias').val("");
+        $('#btn-client-save').html("Save");
+        $('#email-facturacion').val("");
+        $('#contact-person').val("");
+        $('#entrega').val("");
+    }
+
+    function closeModalError() {
+        $('#modalError').modal('hide');
+    }
+
+    function load() {
+        
+        //$.ajax({
+        //    type: 'GET',
+        //    url:  '@Url.Action("ObtenerPaises", "Cliente")',
+        //    success: function (data) {
+        //        if (data != null) {
+        //            $("#cbx-paises").html('');
+        //            $("#cbx-paises").append('<option value="0">Country</option>');
+        //            $.each(data.Context, function (index, value) {
+        //                $("#cbx-paises").append('<option value="' + value.Identifier + '">' + value.Nombre + '</option>');
+        //            });
+        //      }
+        //    }
+        //});
+        
+        $.ajax({
+            type: 'GET',
+            url:  '@Url.Action("ObtenerClientes", "Cliente")',
+            success: function (data) {
+                if (data != null) {
+                    var table = $('#table-clientes').DataTable();
+                    table.destroy();
+
+                    $("#body-clientes").html('');
+                    console.log(JSON.stringify(data));
+                    $.each(data.Context, function (index, value) {
+                        $("#body-clientes").append(
+                            '<tr>\
+                                    <td> '+ value.Identifier + ' </td>\
+                                    <td> '+ value.Rfc + ' </td>\
+                                    <td> '+ value.Nombre + ' </td>\
+                                    <td> '+ value.Descripcion + ' </td>\
+                                    <td> '+ value.DatosBancarios.ContactPerson + ' </td>\
+                                    <td> '+ value.DatosBancarios.EmailFacturacion + ' </td>\
+                                    <td> '+ value.Ref + ' </td>\
+                                    <td class="text-center"><i class="fa-solid fa-pencil" onclick=edit('+ value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#exampleModal"></i> <i class="fa fa-trash" onclick=eliminar(' + value.Identifier + ');></i >\
+                                    </td >\
+                            </tr >');
+                    });
+
+                    $('#table-clientes').DataTable({
+                        "dom": "Bfrtip",
+                        "buttons": [
+                            "excel", "pdf"
+                        ],
+                        "pageLength": 10,
+                        "searching": true,
+                        "ordering": true,
+                        "autoWidth": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url:  'https://countriesnow.space/api/v0.1/countries/states',
+            success: function (response) {
+                if ( !response.error ) {
+                    globalCountryStatesOBJ = response.data;
+                    $("#cbx-paises").html('');
+                    $("#cbx-paises").append('<option value="">Country</option>');
+                    $.each(globalCountryStatesOBJ, function (index, value) {
+                        $("#cbx-paises").append('<option value="' + value.name + '">' + value.name + '</option>');
+                    });
+
+                }
+                
+            }
+        });
+    }
+
+    function insertOrUpdate(e) {
+        let action = $(e).html();
+        if (action == 'Update') {
+            console.log("Actualizando");
+            update();
+        } else {
+            console.log("Insertando");
+            insert();
+        }
+    }
+
+    function buildSelectState(e) {
+        let valCountry = $(e).val();
+        let index = searchIndexStatesByCountry(valCountry, globalCountryStatesOBJ);
+        buildSelectStates(index, globalCountryStatesOBJ);
+
+    }
+
+    function searchIndexStatesByCountry(country, arrCountryStates) {
+        let indexFound = "";
+        if (arrCountryStates.length > 0) {
+            $("#estado").html('');
+            
+            for (var i = 0; i < arrCountryStates.length; i++) {
+                if (arrCountryStates[i].name == country) {
+                    indexFound = i;
+                    //Sale del ciclo
+                    i = arrCountryStates.length;
+                }
+            }
+        }
+        return indexFound;
+    }
+
+    function buildSelectStates(index, arrCountryStates) {
+        $("estado").html('');
+        $("#estado").append('<option value="">State</option>');
+
+        let statesCountry = arrCountryStates[index].states;
+
+        $.each(statesCountry, function (index, value) {
+            $("#estado").append('<option value="' + value.name + '">' + value.name + '</option>');
+        });
+
+    }
+
+    function edit(id) {
+            $.ajax({
+                url:'@Url.Action("FindClient", "Cliente")',
+                type: "get", //send it through get method
+                data: {
+                    id: id,
+                },
+                success: function (response) {
+                    $('#btn-client-save').html("Update");
+                    if (response.Context != null) {
+                        $('#id').val(response.Context.Identifier);
+                        $('#rfc').val(response.Context.Rfc.trim());
+                        $('#name').val(response.Context.Nombre);
+                        $('#ref').val(response.Context.Ref);
+                        $('#razonSocial').val(response.Context.Descripcion);
+                        $('#entrega').val(response.Context.Entrega);
+                        $('#calle').val(response.Context.DireccionFacturacion.Calle);
+                        $('#numeroCalle').val(response.Context.DireccionFacturacion.NumeroCalle);
+                        $('#colonia').val(response.Context.DireccionFacturacion.Colonia);
+                        $('#cp').val(response.Context.DireccionFacturacion.Cp);
+                        $('#municipio').val(response.Context.DireccionFacturacion.CiudadMunicpio);
+                        $("#cbx-paises").val(response.Context.DireccionFacturacion.IdPais);
+                        $("#cbx-paises").trigger('change');
+                        $('#estado').val(response.Context.DireccionFacturacion.Estado);
+                        $('#cbx-banco').val(response.Context.DatosBancarios.IdBanco);
+                        $('#cuentaBanco').val(response.Context.DatosBancarios.CuentaBanco);
+                        $('#titularCuenta').val(response.Context.DatosBancarios.TitularCuenta);
+                        $('#clabeInterbancaria').val(response.Context.DatosBancarios.ClabeInterbancaria);
+                        $('#email-facturacion').val(response.Context.DatosBancarios.EmailFacturacion);
+                        $('#contact-person').val(response.Context.DatosBancarios.ContactPerson);
+                        $('#direccion-cuenta-bancarias').val(response.Context.DatosBancarios.DireccionCuentaBancaria);
+                        $('#entrega').val(response.Context.DatosBancarios.DireccionEnvio);
+                    }
+                },
+                error: function (xhr) {
+                    console.log(JSON.stringify(xhr));
+                }
+            })
+    }
+
+    function insert() {
+        //let id = $('#id').val();
+        let rfc = $('#rfc').val();
+        let nombre = $('#name').val();
+        let ref = $('#ref').val();
+        let razonSocial = $('#razonSocial').val();
+        let calle = $('#calle').val();
+        let calleNumero = $('#numeroCalle').val();
+        let colonia = $('#colonia').val();
+        let cp = $('#cp').val();
+        let municipio = $('#municipio').val();
+        let estado = $('#estado').val();
+        let idpais = $('#cbx-paises').val();
+        console.log(JSON.stringify(idpais))
+        let idBanco = $('#cbx-banco').val();
+        let titularCuenta = $('#titularCuenta').val();
+        let cuentaBanco = $('#cuentaBanco').val();
+        let clabeInterbancaria = $('#clabeInterbancaria').val();
+        let direccionCuentaBancaria = $('#direccion-cuenta-bancarias').val();
+
+        let contactPerson = $('#contact-person').val();
+        let emailFacturacion = $('#email-facturacion').val();
+        let direccionEnvio = $('#entrega').val();
+
+        let objDataClient = {
+            "TAXID": rfc,
+            "Name": nombre,
+            "Commercial Name": razonSocial,
+            "Street": calle,
+            "Number": calleNumero,
+            "Neighborhood": colonia,
+            "Postal Code": cp,
+            "City": municipio,
+            "State": estado,
+            "Country": idpais,
+            "Contact Person": contactPerson,
+            "Email Billing": emailFacturacion
+            //"Bank": idBanco,
+            //"Bank Account": cuentaBanco,
+            //"Account Holder": titularCuenta,
+            //"Swift Code": clabeInterbancaria,
+            //"Bank Account Address": direccionCuentaBancaria
+        };
+
+        let stringRequired = validateDataClient(objDataClient);
+
+        if (stringRequired != "") {
+            let stringMsgError = "<b>The following fields are required</b>:<br>";
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: stringMsgError + stringRequired
+            })
+            return;
+        } else {
+
+            $.ajax({
+                url: '@Url.Action("Insert", "Cliente")',
+                type: "POST", //send it through get method
+                data: {
+                    Rfc: rfc,
+                    Ref: ref,
+                    Nombre: nombre,
+                    Descripcion: razonSocial,
+                    DireccionFacturacion: {
+                        Calle: calle,
+                        NumeroCalle: calleNumero,
+                        Colonia: colonia,
+                        Cp: cp,
+                        CiudadMunicpio: municipio,
+                        Estado: estado,
+                        IdPais: idpais
+                    },
+                    DatosBancarios: {
+                        IdBanco: idBanco,
+                        TitularCuenta: titularCuenta,
+                        CuentaBanco: cuentaBanco,
+                        ClabeInterbancaria: clabeInterbancaria,
+                        DireccionCuentaBancaria: direccionCuentaBancaria,
+                        ContactPerson: contactPerson,
+                        EmailFacturacion: emailFacturacion,
+                        DireccionEnvio: direccionEnvio
+                    }
+                },
+                success: function (response) {
+                    if (response.Code == 200) {
+                        Swal.fire('The customer has successfully registered');
+                        load();
+                        CierraPopup();
+                    }
+                    else {
+                        console.log(JSON.stringify(response));
+                    }
+                },
+                error: function (xhr) {
+                    console.log(JSON.stringify(xhr));
+                }
+            })
+        }
+    }
+
+    function validateDataClient(dataClient) {
+        let stringRequiredFields = "";
+        for (const key in dataClient) {
+
+            if (dataClient[key] == "" || dataClient[key] == '0') {
+                stringRequiredFields += key + "<br>";
+            }
+
+            console.log(`${key}: ${dataClient[key]}`);
+        }
+        return stringRequiredFields;
+    }
+
+    function update() {
+        let id = $('#id').val();;
+        let rfc = $('#rfc').val().trim();
+        let nombre = $('#name').val();
+        let ref = $('#ref').val();
+        let razonSocial = $('#razonSocial').val();
+        let calle = $('#calle').val();
+        let calleNumero = $('#numeroCalle').val();
+        let colonia = $('#colonia').val();
+        let cp = $('#cp').val();
+        let municipio = $('#municipio').val();
+        let estado = $('#estado').val();
+        let idpais = $('#cbx-paises').val();
+        console.log(JSON.stringify(idpais))
+        let idBanco = $('#cbx-banco').val();
+        let titularCuenta = $('#titularCuenta').val();
+        let cuentaBanco = $('#cuentaBanco').val();
+        let clabeInterbancaria = $('#clabeInterbancaria').val();
+        let direccionCuentaBancaria = $('#direccion-cuenta-bancarias').val();
+        let contactPerson = $('#contact-person').val();
+        let emailFacturacion = $('#email-facturacion').val();
+        let direccionEnvio = $('#entrega').val();
+
+        var jsonBody = {
+            Identifier: id,
+            Rfc: rfc,
+            Ref: ref,
+            Nombre: nombre,
+            Descripcion: razonSocial,
+            DireccionFacturacion: {
+                Calle: calle,
+                NumeroCalle: calleNumero,
+                Colonia: colonia,
+                Cp: cp,
+                CiudadMunicpio: municipio,
+                Estado: estado,
+                IdPais: idpais
+            },
+            DatosBancarios: {
+                IdBanco: idBanco,
+                TitularCuenta: titularCuenta,
+                CuentaBanco: cuentaBanco,
+                ClabeInterbancaria: clabeInterbancaria,
+                DireccionCuentaBancaria: direccionCuentaBancaria,
+                ContactPerson: contactPerson,
+                EmailFacturacion: emailFacturacion,
+                DireccionEnvio: direccionEnvio
+            }
+        }
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Update", "Cliente")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: JSON.stringify(jsonBody),
+            dataType: "json",
+            success: function (data) {
+                if (data.Code == 200) {
+                    Swal.fire('The customer has successfully updated');
+                    CierraPopup();
+                    load();
+                }
+                else {
+                    console.log(JSON.stringify(response));
+                }
+            },
+            error: function (err) {
+                alert("Service error Client: Update Cliente");
+            }
+        });
+    }
+
+    function CierraPopup() {
+        /*
+        $("#exampleModal").modal('hide');//ocultamos el modal
+        $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+        $('.modal-backdrop').remove();//eliminamos el backdrop del modal
+        */
+        $('.btn-close').trigger('click');
+    }
+
+    function eliminar(id) {
+        $.ajax({
+                url:'@Url.Action("Eliminar", "Empresa")',
+                type: "get", //send it through get method
+                data: {
+                    id: id,
+                },
+            success: function (response) {
+                if (response.Code == 200) {
+                    load();
+                }
+                else {
+                    console.log(JSON.stringify(response));
+                }
+                },
+                error: function (xhr) {
+                    console.log(JSON.stringify(xhr));
+                }
+            })
+    }
+
+</script>

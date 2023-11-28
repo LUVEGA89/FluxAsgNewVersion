@@ -12,7 +12,7 @@
     <UseIISExpress>true</UseIISExpress>
     <ProjectView>ShowAllFiles</ProjectView>
     <NameOfLastUsedPublishProfile>E:\CLIENTES\FRANK\PROYECTOS\HAND CARRY\SIEFLUXGIT\FluxAsgNewVersion\Reporting.Service.Web.UI\Properties\PublishProfiles\SIE.pubxml</NameOfLastUsedPublishProfile>
-    <LastActiveSolutionConfig>Release|Any CPU</LastActiveSolutionConfig>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />

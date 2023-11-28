@@ -36,7 +36,7 @@
             <li class="header">FLUX - ASG</li>
             <li class="treeview">
                 <a href="#">
-                    <i class=""></i>
+                    <i class="fa fa-circle"></i>
                     <span>Quotation</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -46,43 +46,55 @@
                     <li><a href="@Url.Action("Index", "Cotizacion")"><i class="fa fa-circle"></i>Quotations</a></li>
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle"></i>
+                    <span>Mision</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Index", "Mision")"><i class="fa fa-circle"></i>Misions</a></li>
+                </ul>
+            </li>
             @*@foreach (var item in this.Model.Menu.modulos)
-                {
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="@item.Icon"></i>
-                            <span>@item.Nombre</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            @foreach (var item2 in item.vistas)
-                            {
-                                <li><a href="@Url.Action(item2.View,item2.Controller)"><i class="@item2.Icon"></i>@item2.Nombre</a></li>
+        {
+            <li class="treeview">
+                <a href="#">
+                    <i class="@item.Icon"></i>
+                    <span>@item.Nombre</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    @foreach (var item2 in item.vistas)
+                    {
+                        <li><a href="@Url.Action(item2.View,item2.Controller)"><i class="@item2.Icon"></i>@item2.Nombre</a></li>
 
-                            }
-                            <li class="treeview">
-                                @foreach (var item3 in item.submodulos)
+                    }
+                    <li class="treeview">
+                        @foreach (var item3 in item.submodulos)
+                        {
+                            <a href="#">
+                                <i class="@item3.Icon"></i>
+                                <span>@item3.Nombre</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                @foreach (var item4 in item3.vistas)
                                 {
-                                    <a href="#">
-                                        <i class="@item3.Icon"></i>
-                                        <span>@item3.Nombre</span>
-                                        <span class="pull-right-container">
-                                            <i class="fa fa-angle-left pull-right"></i>
-                                        </span>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        @foreach (var item4 in item3.vistas)
-                                        {
-                                            <li><a href="@Url.Action(item4.View, item4.Controller)"><i class="@item4.Icon"></i>@item4.Nombre</a></li>
-                                        }
-                                    </ul>
+                                    <li><a href="@Url.Action(item4.View, item4.Controller)"><i class="@item4.Icon"></i>@item4.Nombre</a></li>
                                 }
-                            </li>
-                        </ul>
+                            </ul>
+                        }
                     </li>
-                }*@
+                </ul>
+            </li>
+        }*@
         </ul>
     </section>
 </aside>

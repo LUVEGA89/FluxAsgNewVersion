@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "Boletin";
+}
+
+<section class="content-header">
+    <h1>
+        Subscritos al boletin
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Subscritos al boletin</a></li>
+        <li class="active">Tiendas</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Suscritos al boletin</h3>
+                    <div class="box-tools pull-right">
+                        <button id="BoletinDownload" type="button" class="btn btn-box-tool"><i class="fa fa-file-excel-o"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table id="Boletin" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tienda</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                </tr>
+                            </thead>
+                            <tbody id="Suscrito"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    InitModule();
+
+    function InitModule() {
+        ListaBoletin();
+    };
+
+    function ListaBoletin() {
+        $.post('@Url.Action("SuscritosBoletin", "Tienda")', function (data) {
+            console.log(data)
+            if (data != null && $.isArray(data.Context)) {
+                var table = $('#Boletin').DataTable();
+                table.destroy();
+                $("#Suscrito").html('');
+                $.each(data.Context, function (index, value) {
+
+                    $("#Suscrito").append('<tr>\
+                                                    <td>'+ value.Tienda + '</td>\
+                                                    <td>' + value.Nombre + '</td>\
+                                                    <td>' + value.Email + '</td>\
+                                                    <td>' + value.Telefono + '</td>\
+                                                </tr>');
+
+                });
+                $('#Boletin').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+            } else {
+                $.alert("Ocurrio un error al procesar la solicitud");
+            }
+        });
+    }
+
+    $("#BoletinDownload").click(function () {
+
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        //$('#ClientesRefresh').show();
+                        console.log("si")
+
+                        $.post('@Url.Action("ExcelBoletin", "Tienda")', function (data) {
+                            console.log(data)
+                            window.location.href = '@Url.Action("Download", "Tienda")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            //$('#ClientesRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+</script>

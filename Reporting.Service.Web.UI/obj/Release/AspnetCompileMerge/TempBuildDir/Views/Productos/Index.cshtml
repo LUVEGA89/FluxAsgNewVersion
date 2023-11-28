@@ -1,0 +1,598 @@
+﻿@{
+    ViewBag.Title = "Productos 8020";
+}
+
+<section class="content-header">
+    <h1>
+        Productos
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Ventas</a></li>
+        <li class="active">Productos</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="callout callout-info">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="DelAl">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div id="ShowDetails" class="btn btn-success btn-block">
+                                <span class="fa fa-exchange"></span> Obtener información
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-md-3">
+                        <div class="form-group">
+                            <div id="" class="btn btn-info btn-block">
+                                <span class="fa fa-file-excel-o"></span> Descargar
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <i class="fa ion ion-bag"></i>
+                            <h3 class="box-title">Productos en 8020</h3>
+                            <div class="box-tools pull-right">
+                                <button id="DownloadProductos8020" type="button" class="btn btn-box-tool"><i class="fa fa-download"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="Clientes" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Sku</th>
+                                                <th>Periodo Actual</th>
+                                                <th>Periodo anterior</th>
+                                                <th>Crecimiento</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DetalleClientes"></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="ClientesRefresh" style="display:none;" class="overlay">
+                            <i class="fa  fa-circle-o-notch fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <i class="fa fa-level-down"></i>
+                            <h3 class="box-title">Decremento de venta de articulos</h3>
+                            <div class="box-tools pull-right">
+                                <button id="DownloadProductosDecremento" type="button" class="btn btn-box-tool"><i class="fa fa-download"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="DecrementoArticulo" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Sku</th>
+                                                <th>Periodo actual</th>
+                                                <th>Monto actual</th>
+                                                <th>Periodo anterior</th>
+                                                <th>Monto anterior</th>
+                                                <th>Stock</th>
+                                                <th>Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DetalleDecrementoArticulo"></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="DecrementoArticuloRefresh" style="display:none;" class="overlay">
+                            <i class="fa  fa-circle-o-notch fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <i class="fa fa-level-down"></i>
+                            <h3 class="box-title">Decremento de venta por cliente</h3>
+                            <div class="box-tools pull-right">
+                                <button id="DownloadDecrementoCliente" type="button" class="btn btn-box-tool"><i class="fa fa-download"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="DecrementoCliente" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Cliente</th>
+                                                <th>Periodo Actual</th>
+                                                <th>Periodo anterior</th>
+                                                <th>Participación</th>
+                                                <th>Tipo</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DetalleDecrementoCliente"></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="DecrementoClienteRefresh" style="display:none;" class="overlay">
+                            <i class="fa  fa-circle-o-notch fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 hidden">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <i class="fa fa-cart-plus"></i>
+                            <h3 class="box-title">Venta Sku por piezas</h3>
+                            <div class="box-tools pull-right">
+                                <button id="DownloadPiezasSku" type="button" class="btn btn-box-tool"><i class="fa fa-download"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="PiezasSku" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Sku</th>
+                                                <th>Cantidad</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DetallePiezasSku"></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="PiezasSkuRefresh" style="display:none;" class="overlay">
+                            <i class="fa  fa-circle-o-notch fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row hidden" >
+                <div class="col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <i class="fa fa-male"></i>
+                            <h3 class="box-title">Venta por piezas (Clientes)</h3>
+                            <div class="box-tools pull-right">
+                                <button id="DownloadPiezasCliente" type="button" class="btn btn-box-tool"><i class="fa fa-download"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="PiezasCliente" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Sku</th>
+                                                <th>Cantidad</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DetallePiezasCliente"></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="PiezasClienteRefresh" style="display:none;" class="overlay">
+                            <i class="fa  fa-circle-o-notch fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    $("#ShowDetails").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        console.log(Del + ' ' + Al);
+        $.confirm({
+            title: '¡Confirmar!',
+            content: '!Esto podria tomar unos segundos¡',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#ClientesRefresh').show();
+                        $('#DecrementoArticuloRefresh').show();
+                        $('#DecrementoClienteRefresh').show();
+                        $('#PiezasSkuRefresh').show();
+                        $('#PiezasClienteRefresh').show();
+
+                        //Obtiene informacion de productos en 8020
+                        $.post('@Url.Action("ListaProductos", "Productos")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            if (data != null && $.isArray(data.Context)) {
+                                var table = $('#Clientes').DataTable();
+                                table.destroy();
+                                $("#DetalleClientes").html('');
+                                $.each(data.Context, function (index, value) {
+                                    $("#DetalleClientes").append("<tr>\
+                                                                    <td>" + value.Sku + "</td>\
+                                                                    <td>" + formatNumber.new(value.PeriodoActual.toFixed(2), "$") + "</td>\
+                                                                    <td>" + formatNumber.new(value.PeriodoAnterior.toFixed(2), "$") + "</td>\
+                                                                    <td>" + value.Crecimiento.toFixed(2) + "% </td>\
+                                                                  </tr>");
+                                });
+                                $('#Clientes').DataTable({
+                                    "paging": true,
+                                    "lengthChange": true,
+                                    "searching": true,
+                                    "ordering": true,
+                                    "info": true,
+                                    "autoWidth": true,
+                                    "language": {
+                                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                    }
+                                });
+                                $('#ClientesRefresh').hide();
+
+                            } else {
+                                $.alert("No se encontraron registros");
+                            }
+                        });
+
+                        //Obtiene informacion de decrementos
+                        $.post('@Url.Action("DecrementoArticulos", "Productos")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            if (data != null && $.isArray(data.Context)) {
+                                console.log(data)
+                                var table = $('#DecrementoArticulo').DataTable();
+                                table.destroy();
+                                $("#DetalleDecrementoArticulo").html('');
+                                $.each(data.Context, function (index, value) {
+                                    $("#DetalleDecrementoArticulo").append("<tr>\
+                                                                    <td>" + value.Sku + "</td>\
+                                                                    <td>" + formatNumber.new(value.PeriodoActual.toFixed(0), "") + "</td>\
+                                                                    <td>" + formatNumber.new(value.Monto.toFixed(2), "$") + "</td>\
+                                                                    <td>" + formatNumber.new(value.PeriodoAnterior.toFixed(0), "") + "</td>\
+                                                                    <td>" + formatNumber.new(value.MontoAnterior.toFixed(2), "$") + "</td>\
+                                                                    <td>" + formatNumber.new(value.Stock.toFixed(0), "") + "</td>\
+                                                                    <td>" + formatNumber.new(value.Estado, "") + "</td>\
+                                                                  </tr>");
+                                });
+                                $('#DecrementoArticulo').DataTable({
+                                    "paging": true,
+                                    "lengthChange": true,
+                                    "searching": true,
+                                    "ordering": true,
+                                    "info": true,
+                                    "autoWidth": true,
+                                    "language": {
+                                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                    }
+                                });
+                                $('#DecrementoArticuloRefresh').hide();
+
+                            } else {
+                                $.alert("No se encontraron registros");
+                            }
+                        });
+
+                        //Obtiene informacion de decrementos de clientes
+                        $.post('@Url.Action("DecrementoCliente", "Productos")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            if (data != null && $.isArray(data.Context)) {
+                                console.log(data)
+                                var table = $('#DecrementoCliente').DataTable();
+                                table.destroy();
+                                $("#DetalleDecrementoCliente").html('');
+                                $.each(data.Context, function (index, value) {
+                                    $("#DetalleDecrementoCliente").append("<tr>\
+                                                                    <td>" + value.Cliente + "</td>\
+                                                                    <td>" + formatNumber.new(value.PeriodoActual.toFixed(0), "") + "</td>\
+                                                                    <td>" + formatNumber.new(value.PeriodoAnterior.toFixed(0), "") + "</td>\
+                                                                    <td>" + formatNumber.new(value.Participacion.toFixed(2), "") + " %</td>\
+                                                                    <td>" + formatNumber.new(value.Estado, "") + "</td>\
+                                                                    <td>" + formatNumber.new(value.Tipo, "") + "</td>\
+                                                                  </tr>");
+                                });
+                                $('#DecrementoCliente').DataTable({
+                                    "paging": true,
+                                    "lengthChange": true,
+                                    "searching": true,
+                                    "ordering": true,
+                                    "info": true,
+                                    "autoWidth": true,
+                                    "language": {
+                                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                    }
+                                });
+                                $('#DecrementoClienteRefresh').hide();
+
+                            } else {
+                                $.alert("No se encontraron registros");
+                            }
+                        });
+
+                        
+
+
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+
+    $('#DelAl').daterangepicker({
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                 "Enero",
+                 "Febrero",
+                 "Marzo",
+                 "Abril",
+                 "Mayo",
+                 "Junio",
+                 "Julio",
+                 "Agosto",
+                 "Septiembre",
+                 "Octubre",
+                 "Noviembre",
+                 "Deciembre"
+            ]
+        }
+
+    });
+
+    $("#DownloadProductos8020").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#ClientesRefresh').show();
+                        $.post('@Url.Action("ExcelProductos", "Productos")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            console.log(data)
+                            //window.location = '../' + data.FileName;
+                            window.location.href = '@Url.Action("Download", "Clientes")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#ClientesRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+    $("#DownloadProductosDecremento").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#DecrementoArticuloRefresh').show();
+                        $.post('@Url.Action("ExcelDecrementoArticulos", "Productos")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            console.log(data)
+                            //window.location = '../' + data.FileName;
+                            window.location.href = '@Url.Action("Download", "Clientes")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#DecrementoArticuloRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+
+    $("#DownloadDecrementoCliente").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#DecrementoClienteRefresh').show();
+                        $.post('@Url.Action("ExcelDecrementoCliente", "Productos")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            console.log(data)
+                            //window.location = '../' + data.FileName;
+                            window.location.href = '@Url.Action("Download", "Clientes")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#DecrementoClienteRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+
+    
+    $("#DownloadPiezasSku").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#PiezasSkuRefresh').show();
+                        $.post('@Url.Action("ExcelPiezasPorSku", "Productos")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            console.log(data)
+                            //window.location = '../' + data.FileName;
+                            window.location.href = '@Url.Action("Download", "Clientes")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#PiezasSkuRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+    
+    $("#DownloadPiezasCliente").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        $.confirm({
+            title: '¡Confirmar!',
+            content: 'Decargar el archivo podria tomar algunos segundos.',
+            type: 'blue',
+            buttons: {
+                confirm: {
+                    text: 'Confirmar',
+                    action: function () {
+                        $('#PiezasClienteRefresh').show();
+                        $.post('@Url.Action("ExcelPiezasPorCliente", "Productos")', {
+                            Del: Del,
+                            Al: Al
+                        }, function (data) {
+                            console.log(data)
+                            //window.location = '../' + data.FileName;
+                            window.location.href = '@Url.Action("Download", "Clientes")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+                            $('#PiezasClienteRefresh').hide();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    action: function () {
+                        $.alert('El proceso ha sido cancelado')
+                    }
+                }
+            }
+        });
+    });
+
+</script>

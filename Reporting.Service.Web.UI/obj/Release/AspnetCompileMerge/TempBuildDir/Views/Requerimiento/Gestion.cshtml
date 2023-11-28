@@ -1,0 +1,634 @@
+﻿@{
+    /**/
+    ViewBag.Title = "Gestion";
+}
+
+<style>
+    .widget-user .box-footer {
+        padding-top: 100px !Important;
+    }
+
+
+    .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+        display: block;
+        width: 100%;
+        height: 250px;
+    }
+
+    .widget-user .widget-user-header {
+        padding: 21px;
+        height: 280px;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+    }
+
+    .carousel-caption {
+        position: absolute;
+        right: 0;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        color: #fff;
+        text-align: center;
+        bottom: 0;
+        left: 0;
+        z-index: 10;
+        background: rgba(0,0,0,0.4);
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Requerimiento</a></li>
+        <li class="active">Gestión</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger box-solid">
+                <div class="box-header">
+                    <h3 class="box-title">Historico de solicitudes asignadas</h3>
+                </div>
+                <div class="box-body">
+                    <div class="table table-responsive">
+                        <table class="table table-striped" id="table-solicitudes">
+                            <thead>
+                                <tr>
+                                    <td>Folio</td>
+                                    <td>Usuario</td>
+                                    <td>Area dirigido</td>
+                                    <td>Responsable</td>
+                                    <td>Requerimiento</td>
+                                    <td>Clasificación</td>
+                                    <td style="min-width: 150px !important;">Comentarios</td>
+                                    <td style="min-width: 100px !important;">Fecha Registro</td>
+                                    <td style="min-width: 100px !important;">Fecha Requerida</td>
+                                    <td style="min-width: 100px !important;">Fecha Compromiso</td>
+                                    <td>Estatus</td>
+                                    <td style="max-width:50px !important;">Adjuntos</td>
+                                </tr>
+                            </thead>
+                            <tbody id="body-solicitudes"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="overlay hide">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalArchivos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-file-text"></i>&nbsp;&nbsp;&nbsp;Editar Solicitud</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6 invoice-col">
+                            <address>
+                                <small id="set-Identifier"></small><br>
+                                <small id="set-usuario"></small><br>
+                                <small id="set-area"></small><br>
+                                <div class="form-group">
+                                    <small>Fecha Compromiso</small>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input id="fecha-compromiso" type="text" class="form-control pull-right">
+                                    </div>
+                                </div>                                
+                                    
+                            </address>
+                        </div>
+                        <div class="col-sm-6 invoice-col">
+                            <address>
+                                <small id="set-requerimiento"></small><br>
+                                <small id="set-clasificacion"></small><br>
+                                <small id="set-fechasolicitud"></small>
+
+                                <div class="form-group">
+                                    <small>Estatus</small>
+                                    <select id="selected-estatus" class="form-control"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button id="btn-editarsolicitud" type="button" onclick="actualizarDatosSolicitud()" class="btn btn-success pull-right">Actualizar</button>
+
+                                </div><br />
+
+                            </address>
+                        </div>                        
+
+                    </div>                    
+
+                    <div class="row">
+                        <div class="box box-widget widget-user">
+                            <div class="widget-user-image">
+                                <!--<img class="img-circle" src="../dist/img/boxed-bg.jpg" alt="User Avatar">-->
+
+
+                            </div>
+                            <div class="widget-user-header bg-blue">
+
+                                <div class="row" id="carrousel-dinamic">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <small style="color:red !important">*Nota: Archivos admitido (Imagen y archivo PDF) con un tamaño maximo de 2 MB por cada archivo</small>
+
+                    <form id="frm-addImagenes" name="frm-addImagenes" method="post" enctype="multipart/form-data">
+                        <input type="hidden" id="Identifier-requerimiento-solicitud" name="Identifier-requerimiento-solicitud">
+                        <input type="hidden" id="Identifier-requerimiento-email" name="Identifier-requerimiento-email">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div id="Content-1" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-1" name="Evidencia-1" noEvidencia="1" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="1" id="deletEvidence1" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                                <div id="Content-2" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-2" name="Evidencia-2" noEvidencia="2" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="2" id="deletEvidence2" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                                <div id="Content-3" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-3" name="Evidencia-3" noEvidencia="3" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="3" id="deletEvidence3" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                                <div id="Content-4" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-4" name="Evidencia-4" noEvidencia="4" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="4" id="deletEvidence4" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                                <div id="Content-5" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-5" name="Evidencia-5" noEvidencia="5" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="5" id="deletEvidence5" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                                <div id="Content-6" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-6" name="Evidencia-6" noEvidencia="6" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="6" id="deletEvidence6" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                                <div id="Content-7" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-7" name="Evidencia-7" noEvidencia="7" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="7" id="deletEvidence7" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                                <div id="Content-8" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-8" name="Evidencia-8" noEvidencia="8" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="8" id="deletEvidence8" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                                <div id="Content-9" class="row"><div class="col-md-10"><input class="btn btn-default btn-block btn-evidencia" id="Evidencia-9" name="Evidencia-9" noEvidencia="9" type="file" accept="image/x-png,image/jpeg,application/pdf"></div><div class="col-md-2"><div Noinput="9" id="deletEvidence9" class="btn btn-danger btn-block btn-evidencia-del">X</div></div></div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button id="btn-addevidencia" type="button" class="btn btn-success">Continuar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    initModule();
+
+    $(document).ready(function () {
+        $('#fecha-compromiso').datepicker({
+            autoclose: true,
+            format: "dd/mm/yyyy",
+            language: 'es',
+            todayHighlight: true,
+            locale: {
+                daysOfWeek: [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa"
+                ],
+                monthNames: [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Deciembre"
+                ]
+            }
+        });
+    });
+
+
+
+    $(document).on('change', 'input[type="file"]', function () {
+
+        var fileName = this.files[0].name;
+        var fileSize = this.files[0].size;
+
+        if (parseInt(fileSize) > 3000000) {
+            swal('Advertencia de tamaño de archivo', 'El archivo ' + fileName + ' no debe superar los 3MB', 'warning');
+            this.value = '';
+            this.files[0].name = '';
+        } else {
+            var ext = fileName.split('.').pop();
+            switch (ext) {
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'pdf': break;
+                default:
+                    swal('El archivo no tiene la extensión adecuada');
+                    this.value = ''; // reset del valor
+                    this.files[0].name = '';
+            }
+        }
+    });
+
+    function image(img) {
+        var src = img.src;
+        window.open(src);
+    }
+
+
+    $("#btn-addevidencia").prop("disabled", true);
+
+    function HideInputFile() {
+        for (var i = 2; i < 10; i++) {
+            var content = $("#Evidencia-" + i).val();
+            if (content == '') {
+                $("#Content-" + i).hide();
+                $("#Evidencia-" + i).val('');
+            }
+        }
+    }
+
+    $(".btn-evidencia-del").click(function () {
+        var current = $(this).attr("noinput");
+        $("#Evidencia-" + current).val('');
+        HideInputFile();
+    });
+
+    $(".btn-evidencia").change(function () {
+        HideInputFile();
+        var current = $(this).attr("noEvidencia");
+        var next = Number(current) + 1;
+
+        if (next > 1) {
+            //btn-addevidencia
+            $("#btn-addevidencia").prop("disabled", false);
+        }
+        else {
+            $("#btn-addevidencia").prop("disabled", true);
+        }
+        $("#Content-" + next).show();
+    });
+
+    initModule2();
+
+    function initModule2() {
+        $("#Evidencia-1").val('');
+        $("#Evidencia-2").val('');
+        $("#Evidencia-3").val('');
+        $("#Evidencia-4").val('');
+        $("#Evidencia-5").val('');
+        $("#Evidencia-6").val('');
+        $("#Evidencia-7").val('');
+        $("#Evidencia-8").val('');
+        $("#Evidencia-9").val('');
+
+        $("#Content-2").hide();
+        $("#Content-3").hide();
+        $("#Content-4").hide();
+        $("#Content-5").hide();
+        $("#Content-6").hide();
+        $("#Content-7").hide();
+        $("#Content-8").hide();
+        $("#Content-9").hide();
+    }
+
+    function initModule() {
+
+        getSolicitudes();
+        getEstatus();
+    }
+
+    window.onload = function () {
+        $('#overload').hide();
+    };
+
+    function getEstatus() {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("GetEstatus", "Requerimiento")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: null,
+            dataType: "json",
+            success: function (data) {
+                if (data.Context != null) {
+                    let selected = $('#selected-estatus');
+                    $.each(data.Context, function (index, value) {
+                        selected.append(
+                            "<option value=" + value.Identifier + ">" + value.Descripcion.toUpperCase() + "</option>");
+                    });
+                }
+            },
+        });
+    }
+
+    function getSolicitudes() {
+
+        let Usuario = localStorage.getItem('UserEmail');
+        let UsuarioRespnsable = localStorage.getItem('UserEmail');
+
+        $.post('@Url.Action("GetSolicitudesByUsuario", "Requerimiento")',
+        {
+            usuaario: Usuario
+        }, function (data) {
+            if (data.Context != null) {
+                var table = $('#table-solicitudes').DataTable();
+                table.destroy();
+                $("#body-solicitudes").html('');
+                $.each(data.Context, function (index, value) {
+                    $("#body-solicitudes").append('<tr>\
+                            <td>' + value.Identifier + '</td>\
+                            <td>' + value.RegistradorPor + '</td>\
+                            <td>' + value.Area.Nombre + '</td>\
+                            <td>' + value.Area.Email + '</td>\
+                            <td>' + value.Requerimiento.Descripcion.toUpperCase() + '</td>\
+                            <td>' + value.Concepto.Descripcion.toUpperCase() + '</td>\
+                            <td>' + value.Comentarios + '</td>\
+                            <td>' + moment(value.RegistradoEl).format("YYYY-MM-DD HH:mm:ss") + '</td>\
+                            <td>' + moment(value.FechaRequerida).format("YYYY-MM-DD") + '</td>\
+                            <td>' + moment(value.FechaCompromiso).format("YYYY-MM-DD") + '</td>\
+                            <td>' + value.EstatusDescripcion.toUpperCase() + '</td>\
+                            <td>\
+                                <div onclick="ShowArchivosAjuntos(' + value.Identifier + ')" data-target="#modalArchivos" data-toggle="modal" class="btn btn-block btn-default"><i class="fa fa-file-text"></i></div>\
+                            </td>\
+                        </tr>');
+                });
+
+                $('#table-solicitudes').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        "excel"
+                    ],
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": false,
+                    "info": true,
+                    "autoWidth": true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                    }
+                });
+
+            }
+            if (data.Message != 'Success') {
+                alert('Error generado ' + data.Message);
+            }
+        }).done(function (data) {
+        }).fail(function (data) {
+        }).always(function (data) {
+        });
+    }
+
+
+    function resetFormModal() {
+        $('#set-Identifier').text('');
+        $('#set-usuario').text('');
+        $('#set-area').text('');
+        $('#set-responsable').text('');
+        $('#set-requerimiento').text('');
+        $('#set-clasificacion').text('');
+        $('#set-fechasolicitud').text('');
+        $('#set-usuario').text('');
+        $("#carrousel-dinamic").html('');
+    }
+
+    function ShowArchivosAjuntos(identifier) {
+        resetFormModal();
+
+        $.post('@Url.Action("GetSolicitud", "Requerimiento")',
+        {
+            identifier: identifier
+        }, function (data) {
+            if (data.Context != null) {
+                $('#Identifier-requerimiento-solicitud').val(data.Context.Identifier);
+                //
+                $('#set-Identifier').text('Folio Solicitud: ' + data.Context.Identifier);
+                $('#set-usuario').text('Usuario: ' + data.Context.RegistradorPor);
+                $('#set-area').text('Area: ' + data.Context.Area.Nombre.toUpperCase());
+                $('#set-responsable').text('Responsable: ' + data.Context.Area.Email);
+                $('#set-requerimiento').text('Requerimiento: ' + data.Context.Requerimiento.Descripcion.toUpperCase());
+                $('#set-clasificacion').text('Clasificación: ' + data.Context.Concepto.Descripcion.toUpperCase());
+                $('#set-fechasolicitud').text('Fecha Solicitud: ' + moment(data.Context.RegistradoEl).format("YYYY-MM-DD HH:mm:ss"));
+                $('#selected-estatus').val(data.Context.Estatus);
+                $('#fecha-compromiso').val(moment(data.Context.FechaCompromiso).format("DD/MM/YYYY"));
+            }
+            if (data.Message != 'Success') {
+                alert('Error generado ' + data.Message);
+            }
+        }).done(function (data) {
+        }).fail(function (data) {
+        }).always(function (data) {
+        });
+
+        $.post('@Url.Action("GetSolicitudArchivo", "Requerimiento")',
+        {
+            identifier: identifier
+        }, function (data) {
+            if (data.Context != null) {
+
+                $("#carrousel-dinamic").html('');
+                var aux = 0;
+                var cabeceras = '';
+                var detalles = '';
+                //llenamos las cabeceras y los detalles..
+                if (data.Context.length <= 0) {
+                    cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="0" class="active"></li>';
+                    detalles = detalles + '<div class="item active"><img src="../dist/img/employee.jpg" /></div>';
+                    aux++;
+                }
+
+                else {
+                    $.each(data.Context, function (index, value) {
+                        let tipo = value.Tipo;
+
+                        if (aux == 0) {
+                            cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '" class="active"></li>';
+                        } else {
+                            cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '"></li>';
+                        }
+                        if (aux == 0) {
+                            if (tipo == 1) {
+                                detalles = detalles + '<div class="item active"><img onclick="image(this)" class="img-responsive center-block" style="width:auto;" src="data:image/png;base64,' + value.ArchivoBase64 + '" /> <div class="carousel-caption"><p>Usuario: ' + value.UserName + ' </p>   </div> </div > ';
+                            }
+                            else if (tipo == 2) {
+                                detalles = detalles + '<div class="item active"><iframe align="center" style="width:600px; height:600px; max-height:800px; max-width: 400px;" src="data:application/pdf;base64,' + value.ArchivoBase64 + '" /> <div class="carousel-caption"><p>Usuario: ' + value.UserName + ' </p>   </div> </div > ';
+                            }
+                        } else {
+                            if (tipo == 1) {
+                                detalles = detalles + '<div class="item"><img onclick="image(this)" class="img-responsive center-block" style="width:auto;" src="data:image/png;base64,' + value.ArchivoBase64 + '" /><div class="carousel-caption"><p> Usuario: ' + value.UserName + '</p> <br/> </div> </div>';
+                            }
+                            else if (tipo == 2) {
+                                detalles = detalles + '<div class="item"><iframe align="center" style="width:600px; height:600px; max-height:800px; max-width: 400px;" src="data:application/pdf;base64,' + value.ArchivoBase64 + '" /> <div class="carousel-caption"><p>Usuario: ' + value.UserName + ' </p>   </div> </div > ';
+                            }
+                        }
+                        aux++;
+                    });
+                }
+                //se dibuja el carrusel
+                $("#carrousel-dinamic").append(
+                    "<div class='col-md-12' >" +
+                        "<div id='carousel-generic1' class='carousel slide' data-ride='carousel' style='width:80%;margin-left:10%;'>" +
+                        "<ol id='contenedor-carousel-cabecera' class='carousel-indicators'>" +
+                        cabeceras +
+                    "<\/ol>" +
+                    "<div id='carousel-detalles' class='carousel-inner' role='listbox'>" +
+                    detalles +
+                    "<\/div>" +
+                        "<a class='left carousel-control' href='#carousel-generic1' role='button' data-slide='prev'>" +
+                        "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'><\/span>" +
+                        "<span class='sr-only'>Previous<\/span>" +
+                    "<\/a>" +
+                    "<a class='right carousel-control' href='#carousel-generic1' role='button' data-slide='next'>" +
+                    "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'><\/span>" +
+                    "<span class='sr-only'>Next<\/span>" +
+                    "<\/a>" +
+                    "<\/div>" +
+                    "<\/div>");
+            }
+            if (data.Message != 'Success') {
+                alert('Error generado ' + data.Message);
+            }
+        }).done(function (data) {
+        }).fail(function (data) {
+        }).always(function (data) {
+        });
+
+        let Usuario = localStorage.getItem('UserEmail');
+        $('#Identifier-requerimiento-email').val(Usuario);
+    }
+
+
+
+
+    $("#btn-addevidencia").click(function () {
+
+        let FolioSolicitud = $("#Identifier-requerimiento-solicitud").val();
+        let EmailSolicitud = $("#Identifier-requerimiento-email").val();
+
+        var formData = new FormData($("#frm-addImagenes")[0]);
+
+
+        $("#btn-addevidencia").attr("disabled", true);
+        $.ajax({
+            url: '@Url.Action("AddSolicitudArchivo", "Requerimiento")',
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data != null) {
+
+                    if (data.Context != null) {
+                        if (data.Context) {
+                            swal({
+                                title: 'OK',
+                                text: 'La evidencia se guardó correctamente.',
+                                icon: 'success'
+                            });
+                            initModule2();
+                            $('#verImagenes').modal('hide');
+                        }
+                        else {
+                            swal({
+                                title: 'Error',
+                                text: 'Ha fallado al guardar la evidencia.',
+                                icon: 'Error'
+                            });
+                        }
+                    }
+                    else {
+                        swal({
+                            title: 'Error!',
+                            text: 'Ocurrio un error al intentar guardar la evidencia. ' + data.Message,
+                            icon: 'Error'
+                        });
+                    }
+                }
+            }
+        });
+
+    });
+
+
+
+    function image(img) {
+        var src = img.src;
+        window.open(src);
+    }
+
+
+    function actualizarDatosSolicitud() {
+        let FechaCompromiso = $('#fecha-compromiso').val();
+        let SelectedEstatus = $('#selected-estatus').val();
+        let FolioSolicitud = $('#Identifier-requerimiento-solicitud').val();
+        let Email = $('#Identifier-requerimiento-email').val();
+
+        if (SelectedEstatus == '') {
+            swal("Alerta !", "Es obligatorio que el estatus seleccionado no este vacio", "warning");
+            return;
+        }
+
+        if (FechaCompromiso == '') {
+            swal("Alerta !", "Es obligatorio que la fecha compromiso no este vacio", "warning");
+            return;
+        }
+
+        if (FolioSolicitud == '') {
+            swal("Alerta !", "Es obligatorio que el folio de solicitud. no este vacio", "warning");
+            return;
+        }
+
+        if (Email == '') {
+            swal("Alerta !", "Es obligatorio datos del responsable para poder realizar la actualización y no este vacio", "warning");
+            return;
+        }
+
+        $.post('@Url.Action("ActualizarSolicitudRequerimiento", "Requerimiento")',
+        {
+            identifier: FolioSolicitud,
+            fechaCompromiso: FechaCompromiso,
+            estatus : SelectedEstatus,            
+            email: Email
+        }, function (data) {
+            if (data.Context != null) {
+                if (data.Context) {
+                    resetFormModal();
+                    swal("Exitoso.", "Se ha actualizado correctamente la solicitud.", "success");
+                }
+                else {
+                    swal("Alerta!", "No se actualizo la solicitud", "warning");
+                }
+
+            }
+            if (data.Message != 'Success') {
+                alert('Error generado ' + data.Message);
+            }
+        }).done(function (data) {
+        }).fail(function (data) {
+        }).always(function (data) {
+        });
+
+
+    }
+
+</script>
+

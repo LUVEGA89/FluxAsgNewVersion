@@ -1,6 +1,7 @@
 #Carpetas
 /.vs
 /bin
+/obj
 /Reporting.Service.Core/obj
 
 # Prerequisites

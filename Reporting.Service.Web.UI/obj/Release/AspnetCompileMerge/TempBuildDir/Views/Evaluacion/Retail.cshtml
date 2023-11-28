@@ -1,0 +1,366 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .progress-description, .info-box-text {
+        font-size: 11px !important;
+    }
+
+    .th-table {
+        background-color: #2bcd89;
+        color: white;
+        text-align: center;
+    }
+
+    .th-SKUS {
+        background-color: #166b5a;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Ventas Retail
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Reporte SAP</a></li>
+        <li class="active">Ventas Retail</li>
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="fa fa-money"></i>
+
+                    <h3 class="box-title">Retail</h3>
+                </div>
+                <div class="box-body">
+
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-light-blue"><i class="fa fa-dollar"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Monto Facturado</span>
+                                        <span class="info-box-number" id="total-monto-facturado"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-aqua"><i class="fa fa-dollar"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Monto NC - relacionados</span>
+                                        <span class="info-box-number" id="monto-nc-relacionados"></span>
+                                        <span class="info-box-text">Monto NC - otros</span>
+                                        <span class="info-box-number" id="monto-nc-otros"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-teal"><i class="fa fa-dollar"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Venta Real</span>
+                                        <span class="info-box-number" id="venta-real"></span>
+                                        <span class="info-box-text">Utilidad</span>
+                                        <span class="info-box-number" id="utilidad"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Ingrese el rango de fechas:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="RangoVentas">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="btnPagos" class="btn btn-default btn-block"><i class="fa fa-eye"></i> Mostrar detalles</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Contenido">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table id="FacturasCredito" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="th-table">Cliente</th>
+                                                <th class="th-table">Nombre</th>
+                                                <th class="th-table"><i class="glyphicon glyphicon-usd"></i> Total(<small>Año anterior</small>)</th>
+                                                <th class="th-table"><i class="glyphicon glyphicon-usd"></i> Total Facturado</th>
+                                                <th class="th-table"><i class="glyphicon glyphicon-usd"></i> Total NC</th>
+                                                <th class="th-table"><i class="glyphicon glyphicon-usd"></i> Venta</th>
+                                                <th class="th-table">Margen (<i class="fa fa-percent"></i>)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DetalleCredito"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="VentasRefresh" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-5x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL TABLA SKUS-->
+    <div class="modal fade" id="modalSKUS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" id="modalTam">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <h5 class="modal-title">Articulos</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="box-body" style="display: block;">
+                        <div class="table-responsive col-md-12">
+                            <table class="table table-bordered" id="tablaSKUS" style="width:100%">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="th-SKUS">SKU</th>
+                                        <th class="th-SKUS">Cantidad(<small>Año anterior</small>)</th>
+                                        <th class="th-SKUS">Total(<small>Año anterior</small>)</th>
+                                        <th class="th-SKUS">Cantidad</th>
+                                        <th class="th-SKUS"><i class="glyphicon glyphicon-usd"></i> Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodySKUS"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    //Configuración daterangepicker y datepicker
+    $('#RangoVentas').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+
+    });
+
+    $('#RangoVentas').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('#RangoVentas').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
+    });
+    //Fin configuración daterangepicker
+
+	$("#Contenido").hide();
+
+	$("#btnPagos").click(function () {
+        var drp = $('#RangoVentas').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        swal({
+            title: 'Confirmación',
+            text: "¡Esta seguro de buscar este rango de fechas!",
+            icon: 'info',
+            buttons: ["Cancelar", "Si, Seguro"],
+        }).then((result) => {
+            if (result) {
+                $('#VentasRefresh').show();
+                $.post('@Url.Action("GetTotalesRetail", "Evaluacion")', {
+                    Del: Del,
+                    Al: Al
+                }, function (data) {
+                    $("#total-monto-facturado").html("");
+					$("#monto-nc-relacionados").html("");
+					$("#monto-nc-otros").html("");
+					$("#venta-real").html("");
+					$("#utilidad").html("");
+                    if (data != null) {
+                        if ($.isArray(data.Context.Items)) {
+                            var VP = $('#FacturasCredito').DataTable();
+                            VP.destroy();
+                            $("#DetalleCredito").html('');
+
+                            $.each(data.Context.Items, function (index, value) {
+                                $("#DetalleCredito").append('<tr>\
+                                                        <td align="center"><a class="btn btn-lg" data-target="#modalSKUS" data-toggle="modal" data-id="' + value.Cliente + '" align="center"><i class="glyphicon glyphicon-list-alt"></i> ' + value.Cliente + '</a></td>\
+														<td>'+ value.Nombre +'</td>\
+                                                        <td align="center">' + formatNumber.new(value.TotalFacturaAA.toFixed(2), "$") + '</td>\
+														<td align="center">' + formatNumber.new(value.TotalFactura.toFixed(2), "$") + '</td>\
+														<td align="center">' + formatNumber.new(value.TotalNC.toFixed(2), "$") + '</td>\
+                                                        <td align="center">' + formatNumber.new(value.VentaPeriodo.toFixed(2), "$") + '</td>\
+														<td align="center">' + value.Utilidad.toFixed(2) + ' %</td>\
+                                                    </tr>');
+                            });
+
+							$("#total-monto-facturado").html(formatNumber.new(data.Context.MontoFacturado.toFixed(2), "$"));
+							$("#monto-nc-relacionados").html(formatNumber.new(data.Context.NCAplicadasFacturasPeriodo.toFixed(2), "$"));
+							$("#monto-nc-otros").html(formatNumber.new(data.Context.NCAplicadasFacturasOtroPeriodo.toFixed(2), "$"));
+							$("#venta-real").html(formatNumber.new(data.Context.VentaTotal.toFixed(2), "$"));
+							$("#utilidad").html(data.Context.Utilidad.toFixed(2) + " %");
+
+                            $('#FacturasCredito').DataTable({
+                                "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+                                dom: 'Bfrtip',
+                                stateSave: true,
+                                "buttons": ['excel'],
+                                "searching": true,
+                                "language": {
+                                    "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                                }
+                            });
+                        }
+
+						$("#Contenido").show();
+
+                    } else {
+                        swal({
+                            title: "Error no hay registros",
+                            text: "No se encontraron registros",
+                            icon: "error",
+                            button: true,
+                            dangerMode: true,
+                        })
+					}
+
+					$('#VentasRefresh').hide();
+                });
+            } else {
+                swal({
+                    title: '¡Cancelado!',
+                    text: 'Proceso cancelado',
+                    icon: 'warning'
+                })
+            }
+        })
+    });
+
+    //Modal SKUS
+    $('#modalSKUS').on('show.bs.modal', function (e) {
+        var drp = $('#RangoVentas').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+        var cliente = $(e.relatedTarget).data().id;
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("getArticulos", "Evaluacion")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"Cliente":"' + cliente + '", "Del":"' + Del + '", "Al":"' + Al + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data != null && $.isArray(data.Context)) {
+                    var VP = $('#tablaSKUS').DataTable();
+                    VP.destroy();
+                    $("#tbodySKUS").html('');
+
+                    $.each(data.Context, function (index, value) {
+                            
+                        $("#tbodySKUS").append(
+                            "<tr>\
+                                <td>" + value.Identifier + "</td>\
+                                <td>" + value.cantidadAA + "</td>\
+                                <td>" + formatNumber.new(value.TotalImporteAA.toFixed(2), "$") + "</td>\
+                                <td>" + value.cantidad + "</td>\
+                                <td>" + formatNumber.new(value.TotalImporte.toFixed(2), "$") + "</td></tr>");
+                    });
+
+                    $('#tablaSKUS').DataTable({
+                        dom: 'B',
+                        "buttons": ['excel'],
+                        "searching": false,
+                        "paging": false,
+                        "ordering":false,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+                        }
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: getArticulos",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+    });
+
+    //FORMATO DE DINERO
+    var formatNumber = {
+        separador: ",", // separador para los miles
+        sepDecimal: '.', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+</script>

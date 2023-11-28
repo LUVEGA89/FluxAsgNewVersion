@@ -1,0 +1,123 @@
+﻿@using Reporting.Service.Web.UI.Models
+@model ViaticosModel
+
+@{
+    ViewBag.Title = "ApruebaSolicitud";
+}
+
+@{
+    var solicitud = Model.DetalleSolicitud.First();
+}
+
+<section class="content-header">
+    <h1>
+        Aprobación
+        <small>Panel de control</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Aprobación</a></li>
+        <li class="active">Administración</li>
+    </ol>
+</section>
+<section class="content">
+    <section class="invoice">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-globe"></i> Solicitud #@solicitud.Sequence.
+                    <small class="pull-right">Fecha solicitud: @solicitud.FechaSolicitud.ToString("dd/MM/yyyy")</small>
+                </h2>
+            </div>
+        </div>
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                Requiere
+                <address>
+                    <strong>Nombre:</strong> @solicitud.Nombre<br>
+                    <strong>Email:</strong> @solicitud.Email<br>
+                    <strong>Departamento:</strong> @solicitud.CentroCosto<br>
+                    <strong>Sucursal:</strong> @solicitud.Sucursal <br>
+                </address>
+            </div>
+            <div class="col-sm-4 invoice-col">
+                Datos generales
+                <address>
+                    <strong>Fecha inicio:</strong> @solicitud.FechaInicio.ToString("dd/MM/yyyy") <br>
+                    <strong>Fecha fin:</strong> @solicitud.FechaFin.ToString("dd/MM/yyyy") <br>
+                    <strong>Centro de costos:</strong> @solicitud.FechaFin.ToString("dd/MM/yyyy") <br>
+                </address>
+            </div>
+            <div class="col-sm-4 invoice-col"></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No. Linea</th>
+                            <th>Centro de costo</th>
+                            <th>Sku</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DetalleSolicitud)
+                        {
+                            <tr>
+                                <td>@item.SequenceItem</td>
+                                <td>@item.CentroCosto</td>
+                                <td>@item.Sku_Producto</td>
+                                <td>@item.Monto.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <p class="lead"></p>
+            </div>
+            <div class="col-xs-6">
+                <p class="lead">Bitácora de actividades</p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Actividad</th>
+                                <th>Fecha</th>
+                                <th>Hora inicio</th>
+                                <th>Hora final</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DetalleActividad)
+                            {
+                            <tr>
+                                <td>@item.Actividad</td>
+                                <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
+                                <td>@item.HoraInicial</td>
+                                <td>@item.HoraFinal</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><br />
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <a href="@Url.Action("Aprobar", "Viaticos")?folio=@solicitud.Sequence" class="btn btn-success pull-right">
+                    <i class="fa fa-check-circle"></i> Aprobar
+                </a>
+                <a href="@Url.Action("Rechazar", "Viaticos")?folio=@solicitud.Sequence" class="btn btn-danger pull-right" style="margin-right: 5px;">
+                    <i class="fa fa-times-circle"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+
+</section>
+
+

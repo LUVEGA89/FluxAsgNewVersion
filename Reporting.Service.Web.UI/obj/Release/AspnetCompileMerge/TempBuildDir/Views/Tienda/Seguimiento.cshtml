@@ -1,0 +1,618 @@
+﻿
+@{
+    ViewBag.Title = "Seguimiento";
+}
+
+<style>
+    .th-pedidos {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+<section class="content-header">
+    <h1>
+        Seguimiento
+        <small>(Seguimiento de Pedidos)</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Business Intelligence</a></li>
+        <li class="active"> Seguimiento
+        <li class="active"> MCRC </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Tienda: <span id="idcliente"></span> - <span id="nomCliente"></span></h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-3">
+                        <label class="pull-right">Selecciona el rango de fechas:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="rangoFechas">
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="pull-right">Folio:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control pull-right" id="txtFolio">
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn pull-right btn-primary" id="btnSearch" onclick="obtenerPedidos()">
+                            Ver Seguimiento <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+                <div id="cargandoBusqueda" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--modal de detalles de la actividad-->
+    <div class="modal fade" name="modalDetalle" id="modal-showVerDetalles">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:forestgreen">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" style="color:azure;"><b>Detalles del pedido</b></h5>
+                </div>
+                <div class="modal-body">
+                    <form id="frm-Detalles" class="form-horizontal" enctype="multipart/form-data" method="post">
+                        <div class="box-body">
+                            <!--Detalles-->
+                            <div class="form-group" style="margin-top:10px">
+                                <label for="txt-Status" class="col-sm-2 control-label">Status: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="txt-Status" name="txt-Status" class="form-control" readonly="readonly" />
+                                </div>
+                            </div>
+                            <!--Manejo de carrucel de imagenes-->
+                            <label class="col-sm-2 control-label">Evidencias:</label>
+                            <div class="carruselEvidencias row" id="carrousel-dinamicEvidencias">
+                            </div>
+                            <!--fin de carrucel de imagenes-->
+                            <label class="col-sm-2 control-label">Ubicación: </label>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-5 pull-right">
+                            <div id="btn-actividadCancelComentario" class="btn btn-default btn-block"><i class="fa fa-spin"></i> Ok</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Pedidos-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Lista de Pedidos</h3>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive table-responsive-custom">
+                        <table class="table table-bordered" id="tablePed">
+                            <thead>
+                                <tr>
+                                    <th class="th-pedidos">Folio</th>
+                                    <th class="th-pedidos">Fecha Pedido</th>
+                                    <th class="th-pedidos">Entrega</th>
+                                    <th class="th-pedidos">Fecha surtido</th>
+                                    <th class="th-pedidos">Minutos en Surtido</th>
+                                    <th class="th-pedidos">Número Factura</th>
+                                    <th class="th-pedidos">Fecha Factura</th>
+                                    <th class="th-pedidos">Número de Guía</th>
+                                    <th class="th-pedidos">Ruta</th>
+                                    <th class="th-pedidos">Detalles</th>
+                                    <th class="th-pedidos">Fecha Salida</th>
+                                    <th class="th-pedidos">PDF</th>
+                                    <th class="th-pedidos">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyPedidos"></tbody>
+                        </table>
+                        <table class="table table-bordered" id="tablePed1">
+                            <thead>
+                                <tr>
+                                    <th class="th-pedidos">Cliente</th>
+                                    <th class="th-pedidos">Nombre Cliente</th>
+                                    <th class="th-pedidos">Folio</th>
+                                    <th class="th-pedidos">Fecha Pedido</th>
+                                    <th class="th-pedidos">Entrega</th>
+                                    <th class="th-pedidos">Fecha surtido</th>
+                                    <th class="th-pedidos">Minutos en Surtido</th>
+                                    <th class="th-pedidos">Número Factura</th>
+                                    <th class="th-pedidos">Fecha Factura</th>
+                                    <th class="th-pedidos">Número de Guía</th>
+                                    <th class="th-pedidos">Ruta</th>
+                                    <th class="th-pedidos">Detalles</th>
+                                    <th class="th-pedidos">Fecha Salida</th>
+                                    <th class="th-pedidos">PDF</th>
+                                    <th class="th-pedidos">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyPedidos1"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="cargandoTabla" style="display:none;" class="overlay">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    var PermiteVer;
+    var Cliente;
+    @if (User.IsInRole("Administrador") || User.IsInRole("Direccion") || User.IsInRole("AlmacenAdmin")) {
+        <text>
+            PermiteVer = true;
+        Cliente = "Admin";
+        $("#tablePed1").show();
+        $("#tablePed").hide();
+        </text>
+    } else if (User.IsInRole("Ventas") || User.IsInRole("Gerencia")) {
+        <text>
+            PermiteVer = true;
+        if(localStorage.getItem('UserEmail') == "eduardo_masso@fussionweb.com"){
+            Cliente = "Admin";
+        }else{
+            Cliente = "Ventas";
+        }
+
+        $("#tablePed1").show();
+        $("#tablePed").hide();
+        </text>
+    }
+    else {
+        <text>
+            PermiteVer = false;
+        $("#tablePed").show();
+        $("#tablePed1").hide();
+        </text>
+    }
+
+    if (localStorage.getItem('UserEmail') == "mario_hernandez@fussionweb.com") {
+        Cliente = "Admin";
+        PermiteVer = true;
+        $("#tablePed1").show();
+        $("#tablePed").hide();
+    }
+
+    initModule()
+
+    function initModule() {
+        //Cargar datos tienda
+        $.ajax({
+	        contentType: "application/json; charset=utf-8",
+	        url: '@Url.Action("obtenerTienda", "Tienda")',
+	        async: false,
+	        timeout: 3000,
+	        type: 'POST',
+	        data: '{ }',
+	        dataType: "json",
+            success: function (data) {
+                if (data.Context != null && data.Context.CardCode != null) {
+                    $('#idcliente').text(data.Context.CardCode);
+                    $('#nomCliente').text(data.Context.Nombre);
+                    PermiteVer = true;
+                } else {
+                    if(PermiteVer){
+                        $('#idcliente').text(Cliente);
+                        $('#nomCliente').text(Cliente);
+
+                    }
+                    else{
+                        swal({
+                            title: "Tienda no encontrada",
+                            text: "Se necesita iniciar sesión con usuario de tienda",
+                            icon: "error",
+                            button: true,
+                        });
+                    }
+                }
+	        },
+	        error: function () {
+
+	        }
+        });
+    }
+
+    $("#btn-actividadCancelComentario").click(function () {
+        $("#modal-showVerDetalles").modal('hide');
+    });
+
+    //Funcion para ver los detalles de la factura, evidencias y demas
+    function VerDetalles(ruta, folioFactura){
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("DetallesFactura", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"ruta":'+ruta+', "factura":'+folioFactura+' }',
+            dataType: "json",
+            success: function (data) {
+                if (data.Context != null) {
+                    console.log(JSON.stringify(data));
+                    //Aqui se mostrará el detalle abriremos el popup
+                    //y crearemos el carrusel dinamico
+                    //igual el mapa de ubicacion
+                    $("#carrousel-dinamicEvidencias").html('');
+                    var aux = 0;
+                    var cabeceras = '';
+                    var detalles = '';
+
+                    if(data.Context.DetalleRuta.length > 0){
+                        var pedido = data.Context.DetalleRuta[0].Pedido;
+                        console.log(pedido);
+
+                        $.each(data.Context.DetalleRuta[0].Evidencias, function (index, value) {
+                            if (aux == 0) {
+                                cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '" class="active"></li>';
+                            } else {
+                                cabeceras = cabeceras + '<li data-target="#carousel-generic1" data-slide-to="' + index + '"></li>';
+                            }
+                            if (aux == 0) {
+                                detalles = detalles + '<div class="item active"><img src="data:image/png;base64,' + value.Imagen + '" /></div>';
+                            } else {
+                                detalles = detalles + '<div class="item"><img src="data:image/png;base64,' + value.Imagen + '" /></div>';
+                            }
+                            aux++;
+                        });
+
+                        let status ="";
+                        if(data.Context.DetalleRuta[0].Status == 1){
+                            status = "En ruta";
+                        }else if(data.Context.DetalleRuta[0].Status == 2){
+                            status = "Entregado";
+                        }
+
+                        $("#txt-Status").val(status);
+
+                        $("#carrousel-dinamicEvidencias").append(
+                            "<div class='col-md-12' >"+
+                            "<div id='carousel-generic1' class='carousel slide' data-ride='carousel' style='width:60%;margin-left:20%;'>"+
+                                "<ol id='contenedor-carousel-cabecera' class='carousel-indicators'>"+
+                                     cabeceras +
+                                "<\/ol>"+
+                                "<div id='carousel-detalles' class='carousel-inner' role='listbox'>"+
+                                     detalles +
+                                "<\/div>"+
+                                    "<a class='left carousel-control' href='#carousel-generic1' role='button' data-slide='prev'>"+
+                                        "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'><\/span>"+
+                                        "<span class='sr-only'>Previous<\/span>"+
+                                    "<\/a>"+
+                                    "<a class='right carousel-control' href='#carousel-generic1' role='button' data-slide='next'>"+
+                                        "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'><\/span>"+
+                                        "<span class='sr-only'>Next<\/span>"+
+                                    "<\/a>"+
+                            "<\/div>"+
+                        "<\/div>");
+
+                        $("#modal-showVerDetalles").modal('show');
+                    }
+                    else{
+                        swal({
+                            title: "Sin detalles",
+                            text: "La factura no tiene detalles",
+                            icon: "warning",
+                            button: true,
+                        });
+                    }
+                } else {
+                    swal({
+                        title: "Sin detalles",
+                        text: "La factura no tiene detalles",
+                        icon: "warning",
+                        button: true,
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Ocurrio un error al intentar obtener los detalles de la factura.",
+                    icon: "error",
+                    button: true,
+                });
+            }
+        });
+
+    }
+
+    //Funcion para descargar el archivo que se le pasa como parametro
+    function descargar(folioFactura, fechaFactura) {
+        $('#cargandoTabla').show();
+        $('#cargandoBusqueda').show();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("ComprobarArchivo", "Tienda")',
+            async: false,
+            timeout: 3000,
+            type: 'POST',
+            data: '{"Factura":' + folioFactura + ', "Fecha":"' + fechaFactura + '"}',
+            dataType: "json",
+            success: function (data) {
+                if (data.Context == "Descargar") {
+                    window.location.href = '@Url.Action("Descargar", "Tienda")' + '?Factura=' + folioFactura + '&Fecha=' + fechaFactura;
+                    $('#cargandoTabla').hide();
+                    $('#cargandoBusqueda').hide();
+                } else {
+
+                    if (data.Context == "Proceso")
+                        swal({
+                            title: "Archivo en proceso",
+                            text: "Vuelva a intentarlo en 10 minutos",
+                            icon: "warning",
+                            button: true,
+                            dangerMode: true,
+                        })
+                    else
+                        swal({
+                            title: "Archivo no encontrado",
+                            text: "Error: el archivo que se busca no se encuentra en el servidor",
+                            icon: "error",
+                            button: true,
+                            dangerMode: true,
+                        })
+                    $('#cargandoTabla').hide();
+                    $('#cargandoBusqueda').hide();
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: "Error en la api: ComprobarArchivo",
+                    icon: "error",
+                    button: true,
+                    dangerMode: true,
+                })
+            }
+        });
+
+    };
+
+    function obtenerPedidos() {
+
+        var expEntero = "^([0-9])*$";
+        var cliente = $('#idcliente').text();
+        var folioPedido = 0;
+        var Error = ""
+        var FecIni = "0001/01/01";
+        var FecFin = "0001/01/01";
+        if (cliente == "") {
+            Error = "Solo las tiendas pueden realizar seguimiento de pedidos\nInicia sesión con una cuenta de tienda"
+        }
+        else {
+            if ($('#txtFolio').val() != "") {//Si no esta vacío el campo
+                folioPedido = $('#txtFolio').val();
+                if (!folioPedido.match(expEntero)) {
+                    Error = "El folio solo permite numeros";
+                }
+            }
+            if ($('#rangoFechas').val() == "" && folioPedido == 0) {//Campos vacíos
+                Error = "Se debe seleccionar un rango de fechas o escribir un folio de pedido para realizar un seguimiento"
+            } else {
+                if ($('#rangoFechas').val() != "") {//Si no esta vacío el campo
+                    var rango = $('#rangoFechas').data('daterangepicker');
+                    FecIni = rango.startDate.format('YYYY/MM/DD');
+                    FecFin = rango.endDate.format('YYYY/MM/DD');
+                }
+            }
+        }
+
+        if (Error == "") {
+            $('#cargandoTabla').show();
+            $('#cargandoBusqueda').show();
+            $.ajax({
+	            contentType: "application/json; charset=utf-8",
+	            url: '@Url.Action("ObtenerPedidos", "Tienda")',
+	            async: false,
+	            timeout: 3000,
+	            type: 'POST',
+                data: '{"Inicio":"' + FecIni + '", "Fin":"' + FecFin + '", "Folio":' + folioPedido + ', "Cliente":"' + cliente + '"}',
+	            dataType: "json",
+	            success: function (data) {
+	                if (data.Context != null) {
+	                    if(Cliente == 'Admin' || Cliente == 'Ventas'){
+	                        var table = $('#tablePed1').DataTable();
+	                        table.destroy();
+	                        $("#tbodyPedidos1").html('');
+	                    }else{
+	                        var table = $('#tablePed').DataTable();
+	                        table.destroy();
+	                        $("#tbodyPedidos").html('');
+	                    }
+
+	                    $.each(data.Context, function (index, value) {
+	                        var fechasurtido;
+	                        if (moment(value.fechaSurtido).format('L') == '01/01/2000') {
+	                            fechasurtido = 'Sin fecha de surtido';
+	                        }
+	                        else{
+	                            fechasurtido = moment(value.fechaSurtido).format('L');
+	                        }
+
+	                        if (moment(value.fechaSalida).format('L') == '12/31/1899') {
+	                            fechasalida = 'Sin fecha de salida';
+	                        }
+	                        else{
+	                            fechasalida = moment(value.fechaSalida).format('L');
+	                        }
+
+                            if (Cliente == 'Admin' || Cliente == 'Ventas') {
+	                            console.log(value.CardCode);
+	                            $("#tbodyPedidos1").append('<tr>\
+                                    <td align="center">' + value.CardCode + '</td>\
+                                    <td align="center">' + value.CardName + '</td>\
+									<td align="center">' + value.Identifier + '</td>\
+									<td align="center">' + moment(value.fecha).format("L") + '</td>\
+                                    <td align="center">' + value.folioEntrega + '</td>\
+									<td align="center">' + fechasurtido + '</td>\
+                                    <td align="center">' + value.Minutos + '</td>\
+									<td align="center">' + value.folioFactura + '</td>\
+									<td align="center">' + moment(value.fechaFactura).format("L") + '</td>\
+									<td align="center">' + value.numGuia + '</td>\
+									<td align="center">' + value.ruta + '</td>\
+                                    <td><a class="btn btn-lg" onclick="VerDetalles(' + value.idruta + ',' + value.folioFactura + ')" align="center"><i class="fa fa-eye" style="color: green;"></i></a></td>\
+									<td align="center">' + moment(value.fechaSalida).format("L") + '</td>\
+									<td><a class="btn btn-lg" onclick="descargar(' + value.folioFactura + ',\'' + moment(value.fechaFactura).format("L") + '\')" align="center"><i class="fa fa-file-pdf-o" style="color: red;"></i></a></td>\
+								    <td align="center">' + value.Status + '</td>\
+                                </tr>');
+	                        }
+	                        else{
+	                            $("#tbodyPedidos").append('<tr>\
+									<td align="center">' + value.Identifier + '</td>\
+									<td align="center">' + moment(value.fecha).format("L") + '</td>\
+									<td align="center">' + value.folioEntrega + '</td>\
+									<td align="center">' + fechasurtido + '</td>\
+                                    <td align="center">' + value.Minutos + '</td>\
+									<td align="center">' + value.folioFactura + '</td>\
+									<td align="center">' + moment(value.fechaFactura).format("L") + '</td>\
+									<td align="center">' + value.numGuia + '</td>\
+									<td align="center">' + value.ruta + '</td>\
+                                    <td><a class="btn btn-lg" onclick="VerDetalles(' + value.idruta + ',' + value.folioFactura + ')" align="center"><i class="fa fa-eye" style="color: green;"></i></a></td>\
+									<td align="center">' + moment(value.fechaSalida).format("L") + '</td>\
+									<td><a class="btn btn-lg" onclick="descargar(' + value.folioFactura + ',\'' + moment(value.fechaFactura).format("L") + '\')" align="center"><i class="fa fa-file-pdf-o" style="color: red;"></i></a></td>\
+								    <td align="center">' + value.Status + '</td>\
+                                </tr>');
+	                        }
+	                    });
+
+                        if (Cliente == 'Admin' || Cliente == 'Ventas') {
+	                        $('#tablePed1').DataTable({
+	                            "dom": "Bfrtip",
+	                            "buttons": [
+                                    "excel", "pdf"
+	                            ],
+	                            "paging": true,
+	                            "pageLength": 100,
+	                            "lengthChange": true,
+	                            "searching": true,
+	                            "ordering": true,
+	                            "info": true,
+	                            "autoWidth": true,
+	                            "language": {
+	                                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+	                            }
+	                        });
+	                    }else{
+	                        $('#tablePed').DataTable({
+	                            "dom": "Bfrtip",
+	                            "buttons": [
+                                    "excel", "pdf"
+	                            ],
+	                            "paging": true,
+	                            "pageLength": 100,
+	                            "lengthChange": true,
+	                            "searching": true,
+	                            "ordering": true,
+	                            "info": true,
+	                            "autoWidth": true,
+	                            "language": {
+	                                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
+	                            }
+	                        });
+	                    }
+	                } else {
+	                    swal({
+	                        title: "Error",
+	                        text: "Error en la API: ObtenerPedidos, " + data.Message,
+	                        icon: "error",
+	                        button: true,
+	                    })
+	                }
+	            },
+	            error: function (jqXHR, textStatus, errorThrown) {
+                    swal({
+                        title: "Error",
+                        text: "Error en la API: ObtenerPedidos",
+                        icon: "error",
+                        button: true,
+                    })
+	            }
+            });
+            $('#cargandoTabla').hide();
+            $('#cargandoBusqueda').hide();
+        } else {
+            swal({
+                title: "No se puede realizar la búsqueda",
+                text: Error,
+                icon: "error",
+                button: true,
+            })
+        }
+    }
+
+    //Configuración daterangepicker
+    $('#rangoFechas').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear',
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ]
+        }
+
+    });
+
+    //La forma en que despliega los datos en el input cuando da click en aplicar
+    $('#rangoFechas').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    //Borrar los datos del input cuando se da clic en limpiar
+    $('#rangoFechas').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
+    });
+
+</script>
+

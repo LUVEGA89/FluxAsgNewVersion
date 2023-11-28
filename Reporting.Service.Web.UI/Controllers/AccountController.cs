@@ -11,21 +11,24 @@ using Microsoft.Owin.Security;
 using Reporting.Service.Web.UI.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Reporting.Service.Core.Mobile.Seguridad;
+using Reporting.Service.Core.Common;
+using Reporting.Service.Core.Usuarios;
+using Resporting.Service.Core.Proveedor;
+using System.Security.Policy;
 
 namespace Reporting.Service.Web.UI.Controllers
 {
     [Authorize]
-    public class AccountController : JsonController
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-		ApplicationDbContext context;
-		public AccountController()
-        {
-			context = new ApplicationDbContext();
-		}
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController()
+        {
+        }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -37,9 +40,9 @@ namespace Reporting.Service.Web.UI.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -64,83 +67,6 @@ namespace Reporting.Service.Web.UI.Controllers
             return View();
         }
 
-        // POST: /Account/LoginMovile
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<JsonResult> LoginMovile(LoginViewModel model, string returnUrl)
-        {
-            try
-            {
-                var response = new ModelLoginApp();
-
-                if (!ModelState.IsValid)
-                {
-                    response.Login = false;
-                    response.Rol = "";
-                    return JsonResponse(response);// View(model);
-                }
-
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, change to shouldLockout: true
-                var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
-                switch (result)
-                {
-                    case SignInStatus.Success:
-                        response.Login = true;
-                        var user = User.Identity;
-                        var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                        
-                        SeguridadManager seguridad = new SeguridadManager();
-                        
-                        var Guid = seguridad.GetGuidApp(model.UserName);
-
-                        response.Guid = Guid;
-
-                        response.Rol = "";
-
-                        if (Guid == "")
-                        {
-                            return JsonResponse(response);
-                        }
-
-                        var s = UserManager.GetRoles(Guid);
-
-                        foreach (var item in s)
-                        {
-                            if (item.ToString() == "Administrador" || item.ToString() == "AlmacenAdmin")
-                            {
-                                response.Rol = "Administrador";
-                                break;
-                            }
-                            else
-                            {
-                                response.Rol = item.ToString();
-                            }
-                        }
-
-                        return JsonResponse(response);
-
-                    case SignInStatus.LockedOut:
-                        response.Login = false;
-                        response.Rol = "";
-                        return JsonResponse(response);
-                    case SignInStatus.RequiresVerification:
-                        response.Login = false;
-                        response.Rol = "";
-                        return JsonResponse(response);
-                    case SignInStatus.Failure:
-                    default:
-                        response.Login = false;
-                        response.Rol = "";
-                        return JsonResponse(response);
-                }
-            }
-            catch (Exception ex)
-            {
-                return JsonResponse(null, -1, $"{ex.Message} InnerException: {(ex.InnerException != null ? ex.InnerException.ToString() : "")}");
-            }
-        }
-
         //
         // POST: /Account/Login
         [HttpPost]
@@ -153,20 +79,31 @@ namespace Reporting.Service.Web.UI.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            // No cuenta los errores de inicio de sesión para el bloqueo de la cuenta
+            // Para permitir que los errores de contraseña desencadenen el bloqueo de la cuenta, cambie a shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index", "Cotizacion"); //RedirectToLocal(returnUrl);
+                    ProveedorManager manager = new ProveedorManager();
+                    var resulta = manager.GetRoleByUsuario(model.Email);
+                    if (resulta == "Proveedor")
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Cotizacion");
+                    }
+
+                //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
                     return View(model);
             }
         }
@@ -176,7 +113,7 @@ namespace Reporting.Service.Web.UI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
-            // Require that the user has already logged in via username/password or external login
+            // Requerir que el usuario haya iniciado sesión con nombre de usuario y contraseña o inicio de sesión externo
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
                 return View("Error");
@@ -196,11 +133,11 @@ namespace Reporting.Service.Web.UI.Controllers
                 return View(model);
             }
 
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
-            // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            // El código siguiente protege de los ataques por fuerza bruta a los códigos de dos factores. 
+            // Si un usuario introduce códigos incorrectos durante un intervalo especificado de tiempo, la cuenta del usuario 
+            // se bloqueará durante un período de tiempo especificado. 
+            // Puede configurar el bloqueo de la cuenta en IdentityConfig
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -209,42 +146,26 @@ namespace Reporting.Service.Web.UI.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", "Código no válido.");
                     return View(model);
             }
         }
-        public Boolean isAdminUser()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Administrador" || s[0].ToString() == "HumanResources")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
-            if (!isAdminUser())
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            return View();
+        }
 
-            ViewBag.Name = new SelectList(context.Roles
-		    							.ToList(), "Name", "Name");
-            
-			return View();
+
+        //
+        // GET: /Account/Register
+        [AllowAnonymous]
+        public ActionResult RegisterP()
+        {
+            return View();
         }
 
         //
@@ -252,34 +173,99 @@ namespace Reporting.Service.Web.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(Models.RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-				var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-				var result = await UserManager.CreateAsync(user, model.Password);
-				if (result.Succeeded)
-				{
-					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-					// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-					// Send an email with this link
-					// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-					// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-					//Assign Role to user Here   
-					await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
-					//Ends Here 
-					return RedirectToAction("Index", "Home");
-				}
-				ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
-										  .ToList(), "Name", "Name");
-				AddErrors(result);
-			}
+                    var result1 = UserManager.AddToRole(user.Id, "UsuarioNormal");
+                    if (result1.Succeeded)
+                    {
 
-			// If we got this far, something failed, redisplay form
-			return View(model);
-		}
+                    }
+
+                    // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Enviar correo electrónico con este vínculo
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+
+                    return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            return View(model);
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterP(RegisterProveedorViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                var user1 = await UserManager.FindByNameAsync(model.Email);
+                if (user1 != null)
+                {
+                    //throw new Exception($"Email:  {model.Email} Exists");
+                    ViewBag.ErrorMessageToDisplay = $"Email {model.Email} exists";
+                    //ModelState.AddModelError("Register Suppliers", $"Email:  {model.Email} exists");
+                    return View();
+                }
+
+
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    var result1 = UserManager.AddToRole(user.Id, "Proveedor");
+                    if (result1.Succeeded)
+                    {
+                        Proveedor item = new Proveedor();
+                        item.Nombre = model.Nombre;
+                        item.ApellidoPaterno = model.ApellidoPaterno;
+                        item.ApellidoMaterno = model.ApellidoMaterno;
+                        item.RegistradoPor = user.Id;
+                        ProveedorManager proveedorManager = new ProveedorManager();
+                        var res1 = proveedorManager.Add(item);
+                        if (res1)
+                        {
+                            var res2 = proveedorManager.AddProveedorUsuario(item.Identifier, user.Id);
+                            if (res2)
+                            {
+
+                            }
+                        }
+                    }
+
+                    // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Enviar correo electrónico con este vínculo
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+
+                    return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            return View(model);
+        }
+
+
 
         //
         // GET: /Account/ConfirmEmail
@@ -314,19 +300,19 @@ namespace Reporting.Service.Web.UI.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
+                    // No revelar que el usuario no existe o que no está confirmado
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
+                // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
+                // Enviar correo electrónico con este vínculo
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                // await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
-            // If we got this far, something failed, redisplay form
+            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return View(model);
         }
 
@@ -341,9 +327,9 @@ namespace Reporting.Service.Web.UI.Controllers
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword()
+        public ActionResult ResetPassword(string code)
         {
-            return View();
+            return code == null ? View("Error") : View();
         }
 
         //
@@ -357,16 +343,13 @@ namespace Reporting.Service.Web.UI.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByEmailAsync(model.Email);
+            var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
-                // Don't reveal that the user does not exist
+                // No revelar que el usuario no existe
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
-            string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-
-            var result = await UserManager.ResetPasswordAsync(user.Id, code, model.Password);
-            
+            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
@@ -390,7 +373,7 @@ namespace Reporting.Service.Web.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            // Request a redirect to the external login provider
+            // Solicitar redireccionamiento al proveedor de inicio de sesión externo
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
@@ -421,7 +404,7 @@ namespace Reporting.Service.Web.UI.Controllers
                 return View();
             }
 
-            // Generate the token and send it
+            // Generar el token y enviarlo
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
                 return View("Error");
@@ -440,7 +423,7 @@ namespace Reporting.Service.Web.UI.Controllers
                 return RedirectToAction("Login");
             }
 
-            // Sign in the user with this external login provider if the user already has a login
+            // Si el usuario ya tiene un inicio de sesión, iniciar sesión del usuario con este proveedor de inicio de sesión externo
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
@@ -452,7 +435,7 @@ namespace Reporting.Service.Web.UI.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
-                    // If the user does not have an account, then prompt the user to create an account
+                    // Si el usuario no tiene ninguna cuenta, solicitar que cree una
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
@@ -473,7 +456,7 @@ namespace Reporting.Service.Web.UI.Controllers
 
             if (ModelState.IsValid)
             {
-                // Get the information about the user from the external login provider
+                // Obtener datos del usuario del proveedor de inicio de sesión externo
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
@@ -495,15 +478,6 @@ namespace Reporting.Service.Web.UI.Controllers
 
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
-        }
-
-        //
-        // POST: /Account/LogOff
-        [HttpPost]
-        public bool LogOffMovile()
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return true;
         }
 
         //
@@ -543,20 +517,9 @@ namespace Reporting.Service.Web.UI.Controllers
 
             base.Dispose(disposing);
         }
-        
-        [AllowAnonymous]
-        [HttpGet]
-        public void CreateRole(string Role)
-        {
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            // first we create Admin rool
-            var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-            role.Name = Role;
-            roleManager.Create(role);
-        }
 
-        #region Helpers
-        // Used for XSRF protection when adding external logins
+        #region Aplicaciones auxiliares
+        // Se usa para la protección XSRF al agregar inicios de sesión externos
         private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager
@@ -581,7 +544,7 @@ namespace Reporting.Service.Web.UI.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Users");
+            return RedirectToAction("Index", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
@@ -613,5 +576,34 @@ namespace Reporting.Service.Web.UI.Controllers
             }
         }
         #endregion
+        #region UsuarioExiste   
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public JsonResult ObtenerUsuarioExiste(string Email)
+        {
+            try
+            {
+                int bandera;
+                UsuarioManager usuarioManager = new UsuarioManager();
+                var result = usuarioManager.GetUsuarioExiste(Email);
+                if (result)
+                {
+                    bandera = 1;
+                }
+                else
+                {
+                    bandera = 0;
+                }
+                return this.JsonResponse(bandera);
+            }
+            catch (Exception ex)
+            {
+                return this.JsonResponse(null, -1, ex.Message);
+            }
+        }
+        #endregion
+
     }
 }

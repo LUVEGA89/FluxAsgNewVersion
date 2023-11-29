@@ -6789,4 +6789,10 @@ button.close {
     border-top-width: 0;
     border-color: green !important;
 }
+
+table.dataTable thead {
+    background-color: #EBFDF3 !important;
+    color: #0C2626 !important;
+    font-weight: bold;
+}
 /*Estilos sistema anterior*/

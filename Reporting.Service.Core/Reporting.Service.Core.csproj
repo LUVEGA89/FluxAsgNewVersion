@@ -491,6 +491,10 @@
     <Compile Include="MetasCobranza\FacturaDetalle.cs" />
     <Compile Include="MetasCobranza\Meta.cs" />
     <Compile Include="MetasCobranza\MetasCobranzaManager.cs" />
+    <Compile Include="Mision\Mision.cs" />
+    <Compile Include="Mision\MisionCriteria.cs" />
+    <Compile Include="Mision\MisionManager.cs" />
+    <Compile Include="Mision\MisionReporte.cs" />
     <Compile Include="Mobile\Choferes\Chofer.cs" />
     <Compile Include="Mobile\Choferes\ChoferesCriteria.cs" />
     <Compile Include="Mobile\Choferes\ChoferesManager.cs" />

@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "Reporte";
+    ViewBag.Title = "Missions";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Flux - Asg</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Report - Missions</li>
+    </ol>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="input-group">
+                <div class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="DelAl">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div id="ShowReport" class="btn btn-success btn-block">
+                    <span class="fa fa-exchange"></span> Get information
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <table id="misions" class="display table table-striped">
+            <thead>
+                <tr>
+                    <td>QUOTE XERO</td>
+                    <td>INVOICE XERO</td>
+                    <td>START DATE</td>
+                    <td>END DATE</td>
+                    <td>CLIENT</td>
+                    <td>FLUX REFERENCE</td>
+                    <td>CLIENT REF</td>
+                    <td>COSTS</td>
+                    <td>TAXES</td>
+                    <td>TAXES + 10%</td>
+                    <td>WRAPPING / BAGS</td>
+                    <td>WRAPPING + 10%</td>
+                    <td>OBC's</td>
+                    <td>OBC FEE</td>
+                    <td>OBC COST</td>
+                    <td>EXTRA BAGGAGE</td>
+                    <td>EB + 10%</td>
+                    <td>EXTRA COSTS</td>
+                    <td>FINAL COST</td>
+                    <td>SUPPLIERS</td>
+                    <td>NOTE</td>
+                </tr>
+            </thead>
+            <tbody id="body-misions">
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function ($) {
+
+        $('#DelAl').daterangepicker({
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $("#ShowReport").click(function () {
+        var drp = $('#DelAl').data('daterangepicker');
+        var Del = drp.startDate.format('YYYY/MM/DD');
+        var Al = drp.endDate.format('YYYY/MM/DD');
+
+        var formatNumber = {
+            separador: ",", // separador para los miles
+            sepDecimal: '.', // separador para los decimales
+            formatear: function (num) {
+                num += '';
+                var splitStr = num.split('.');
+                var splitLeft = splitStr[0];
+                var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+                var regx = /(\d+)(\d{3})/;
+                while (regx.test(splitLeft)) {
+                    splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+                }
+                return this.simbol + splitLeft + splitRight;
+            },
+            new: function (num, simbol) {
+                this.simbol = simbol || '';
+                return this.formatear(num);
+            }
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetReportMissions", "Mision")',
+            data: {
+                Del: Del,
+                Al: Al
+            },
+            success: function (data) {
+                if (data != null) {
+
+                    var table = $('#misions').DataTable();
+                    table.destroy();
+                    $("#body-misions").html('');
+
+                    $.each(data.Context, function (index, value) {
+                        $("#body-misions").append(
+                            '<tr>\
+                                    <td>'+ value.QuoteXero + '</td>\
+                                    <td>'+ value.InvoiceXero + '</td>\
+                                    <td>'+ moment(value.StartDate).format('DD/MM/YYYY') + '</td>\
+                                    <td>'+ moment(value.EndDate).format('DD/MM/YYYY') + '</td>\
+                                    <td>'+ value.Client + '</td>\
+                                    <td>'+ value.FluxReference + '</td>\
+                                    <td>'+ value.ClientRef + '</td>\
+                                    <td>'+ formatNumber.new(value.Costs.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.Taxes.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.Taxes10.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.Wrapping.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.Wrapping10.toFixed(2), "$") + '</td>\
+                                    <td>'+ value.Obc + '</td>\
+                                    <td>'+ formatNumber.new(value.ObcFee.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.ObcCost.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.ExtraBaggage.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.EB10.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.ExtraCost.toFixed(2), "$") + '</td>\
+                                    <td>'+ formatNumber.new(value.FinalCost.toFixed(2), "$") + '</td>\
+                                    <td>'+ value.Proveedores + '</td>\
+                                    <td>  </td>\
+                            </tr >');
+                    });
+
+                    $('#misions').DataTable({
+                        "dom": "Bfrtip",
+                        "buttons": [
+                            "excel"
+                        ],
+                        "pageLength": 10,
+                        "searching": true,
+                        "ordering": true,
+                        "autoWidth": true
+                    });
+                }
+            }
+        });
+    });
+});
+</script>
+

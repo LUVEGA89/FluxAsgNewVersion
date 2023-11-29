@@ -261,6 +261,8 @@
     <Compile Include="Controllers\CarteraController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\CanalesController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\MisionController.cs" />
     <Compile Include="Controllers\CotizacionController.cs" />
     <Compile Include="Controllers\CompletarFacturacionRecibidaController.cs" />
     <Compile Include="Controllers\DisenioController.cs" />
@@ -1467,6 +1469,9 @@
     <Content Include="Views\AltaSAP\ReporteBitacora.cshtml" />
     <Content Include="Views\Requerimiento\Reporte.cshtml" />
     <Content Include="Views\Venta\DetalleAgentes.cshtml" />
+    <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Mision\Index.cshtml" />
+    <Content Include="Views\Mision\ReporteGeneral.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

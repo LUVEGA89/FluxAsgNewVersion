@@ -1,7 +1,6 @@
 #Carpetas
 /.vs
 /bin
-/obj
 /Reporting.Service.Core/obj
 
 # Prerequisites
@@ -29,6 +28,8 @@
 *.lo
 
 # Shared objects (inc. Windows DLLs)
+*.dll
+*.xml
 *.so
 *.so.*
 *.dylib

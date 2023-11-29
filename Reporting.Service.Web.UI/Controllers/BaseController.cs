@@ -1,8 +1,24 @@
-﻿using System.Web.Mvc;
+﻿using Reporting.Service.Web.UI.Models;
+using Reporting.Service.Core.CreditoCobranza;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Reporting.Service.Core.Quotation;
+using Reporting.Service.Core.Usuarios;
+using Reporting.Service.Core.Cliente;
+using Reporting.Service.Core.Servicio;
+using Reporting.Service.Core.TipoServicio;
+using Reporting.Service.Core.Disclaimers;
+using Microsoft.AspNet.Identity;
+using Resporting.Service.Core.Airport;
+using System.Security.Claims;
+using System.Globalization;
+using NPOI.Util;
 
 namespace Reporting.Service.Web.UI.Controllers
 {
-    [Authorize]
     public class BaseController : Controller
     {
         public BaseController()

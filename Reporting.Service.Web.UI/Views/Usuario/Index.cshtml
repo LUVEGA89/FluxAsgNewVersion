@@ -2,10 +2,37 @@
     ViewBag.Title = "Usuarios";
 }
 
+@section CustomStyles {
+    <!-- Estilos específicos para esta vista, incluyendo Bootstrap v5 -->
+    <script type="text/javascript" language="javascript" src="~/Scripts/new/jquery-3.6.0.js"></script>
+    <link href="~/Scripts/new/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/startbootstrap-sb-admin/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Scripts/new/css/dataTables.bootstrap5.min.css" />
+    <script src="~/Scripts/new/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/new/dataTables.bootstrap5.min.js"></script>
+    <link href="~/Scripts/new/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Scripts/new/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/new/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/new/buttons.bootstrap5.min.js"></script>
+    <script src="~/Scripts/new/jszip.min.js"></script>
+    <script src="~/Scripts/new/pdfmake.min.js"></script>
+    <script src="~/Scripts/new/vfs_fonts.js"></script>
+    <script src="~/Scripts/new/buttons.html5.min.js"></script>
+    <link href="~/Scripts/new/css/daterangepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/StylesStepper/stepper.css" />
+
+    <script src="~/Scripts/new/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Content/startbootstrap-sb-admin/js/scripts.js"></script>
+    <script src="~/Scripts/new/all.js" crossorigin="anonymous"></script>
+    <script src="~/Scripts/new/sweetalert2@11.js"></script>
+    <script src="~/Scripts/new/moment.min.js"></script>
+    <script src="~/Scripts/new/daterangepicker.min.js"></script>
+}
+
 <div class="container-fluid px-4">
     <h1 class="mt-4">Flux - Asg</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Usuarios</li>
+        <li class="breadcrumb-item active">Users</li>
     </ol>
     <div class="row">
         <div class="card mb-4">
@@ -41,8 +68,8 @@
 </div>
 
 <!-- Modal Usuario -->
-<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered modal-xl">
+<div class="modal modal-xl" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="userModalLabel">User Registration</h5>
@@ -57,11 +84,10 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                            <div class="form-floating">
+                            <div class="input-group">
                                 <input type="hidden" name="id" id="id" />
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                 <input class="form-control" id="email" type="text" placeholder="Email Adresss" autocomplete="off" />
-                                <label for="email">Email Address</label>
                             </div>
                         </div>
                     </div>
@@ -89,19 +115,17 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                            <div class="form-floating">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                 <input class="form-control" id="password" type="password" placeholder="Password" autocomplete="off" />
-                                <label for="password">Password</label>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                            <div class="form-floating">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                 <input class="form-control" id="confirmPassword" type="password" placeholder="Confirm Password" autocomplete="off" />
-                                <label for="confirmPassword">Confirm Password</label>
                             </div>
                         </div>
                     </div>
@@ -118,8 +142,8 @@
     </div><!-- modal-dialog -->
 </div><!-- modal -->
 <!-- Modal Edición de Usuario -->
-<div class="modal fade" id="userModalEdit" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered modal-xl">
+<div class="modal modal-xl" id="userModalEdit" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="userModalLabel">User Edit</h5>
@@ -129,11 +153,10 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                            <div class="form-floating">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                 <input type="hidden" name="id" id="id" />
                                 <input class="form-control" id="emailEdit" type="text" placeholder="Email Adresss" autocomplete="off" disabled />
-                                <label for="emailEdit">Email Address</label>
                             </div>
                         </div>
                     </div>
@@ -142,25 +165,21 @@
 
                     <div class="col-md-6">
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-user"></i></span>
-                            <div class="form-floating">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 <input type="hidden" name="id" id="idUser" />
-                                <input class="form-control" id="nameUser" type="text" placeholder="Email Adresss" autocomplete="off" />
-                                <label for="nameUser">Name</label>
+                                <input class="form-control" id="nameUser" type="text" placeholder="Name" autocomplete="off" />
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="input-group mb-3">
-                            <div class="form-floating">
-                                <input type="text" class="form-control text-uppercase" id="lastName" placeholder="Street" autocomplete="off">
-                                <label for="lastName">Last Name</label>
-                            </div>
-                            <span class="input-group-text">&nbsp;</span>
-                            <div class="form-floating">
-                                <input type="text" class="form-control text-uppercase" id="motherLastName" placeholder="Number" autocomplete="off">
-                                <label for="motherLastName">Mother Last Name</label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control text-uppercase" id="lastName" placeholder="Last Name" autocomplete="off">
+                                <span class="input-group-btn" style="width:0px;"></span>
+                                <input type="text" class="form-control text-uppercase" id="motherLastName" placeholder="Mother's Last Name" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -200,19 +219,17 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                            <div class="form-floating">
-                                <input class="form-control" id="passwordEdit" type="password" placeholder="Password" autocomplete="off" disabled />
-                                <label for="passwordEdit">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input class="form-control" id="passwordEdit" type="password" placeholder="Password" autocomplete="off" />
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                            <div class="form-floating">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                 <input class="form-control" id="confirmPasswordEdit" type="password" placeholder="Confirm Password" autocomplete="off" disabled />
-                                <label for="confirmPasswordEdit">Confirm Password</label>
                             </div>
                         </div>
                     </div>

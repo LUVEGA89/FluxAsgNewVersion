@@ -1922,10 +1922,10 @@ function SaveQuotation() {
                     text: error,
                     buttons: true,
                     dangerMode: true,
-                });
-
-                if (data.Code == -3)
-                    window.location.href = Url.Action("Login", "Account");
+                }).then((value) => {
+                        if (data.Code == -3)
+                            window.location.href = "@Url.Action("Login", "Account")";
+                    });
             }
         },
         error: function (error) {

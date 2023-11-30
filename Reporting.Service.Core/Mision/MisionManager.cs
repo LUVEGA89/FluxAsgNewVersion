@@ -43,7 +43,11 @@ namespace Reporting.Service.Core.Mision
                 NumberOfPackages = dr["NumeroBultos"] == DBNull.Value ? 0 : (decimal)dr["NumeroBultos"],
                 Weight = dr["Peso"] == DBNull.Value ? 0 : (decimal)dr["Peso"],
                 Description = dr["Descripcion"] == DBNull.Value ? "" : (string)dr["Descripcion"],
-                GrupoWhatsapp = dr["GrupoWhatsapp"] == DBNull.Value ? "" : (string)dr["GrupoWhatsapp"]
+                GrupoWhatsapp = dr["GrupoWhatsapp"] == DBNull.Value ? "" : (string)dr["GrupoWhatsapp"],
+                //Nuevos campos
+                CustomerPOC = dr["CustomerPOC"] == DBNull.Value ? "" : (string)dr["CustomerPOC"],
+                UpdateMailWA = dr["UpdateMailWA"] == DBNull.Value ? "" : (string)dr["UpdateMailWA"],
+                PassportsTickets = dr["PassportsTickets"] == DBNull.Value ? "" : (string)dr["PassportsTickets"]
             };
 
             switch (quotation.Service)
@@ -59,9 +63,12 @@ namespace Reporting.Service.Core.Mision
                     quotation.ObcEB = dr["EB"] == DBNull.Value ? 0.0m : (decimal)dr["EB"];
                     quotation.ObcSellPrice = dr["SellPrice"] == DBNull.Value ? 0.0m : (decimal)dr["SellPrice"];
                     quotation.ObcPickupDate = ((DateTime)dr["PickupDate"]);
+                    quotation.ObcPickupDateString = quotation.ObcPickupDate.ToString("MM/dd/yyyy hh:mm:ss tt");
                     //quotation.ObcCosts = ((decimal)dr["Costs"]).ToString();
                     quotation.ObcSchedule = (string)dr["Schedule"];
                     quotation.ObcDisclaimerEta = (DateTime)dr["Eta"];
+                    quotation.ObcDisclaimerEtaString = quotation.ObcDisclaimerEta.ToString("MM/dd/yyyy hh:mm:ss tt");
+                    quotation.Wrapping = dr["Wrapping"] == DBNull.Value ? 0.0m : (decimal)dr["Wrapping"];
 
                     quotation.CommentsTable = dr["ComentariosTabla"] == DBNull.Value ? "" : (string)dr["ComentariosTabla"];
                     quotation.CommentsCustom = dr["ComentariosCustom"] == DBNull.Value ? "" : (string)dr["ComentariosCustom"];
@@ -153,6 +160,9 @@ namespace Reporting.Service.Core.Mision
             this.Database.AddInParameter(command, "@Weight", DbType.Decimal, item.Weight);
             this.Database.AddInParameter(command, "@Description", DbType.String, item.Description);
             this.Database.AddInParameter(command, "@GrupoWhatsapp", DbType.String, item.GrupoWhatsapp);
+            this.Database.AddInParameter(command, "@CustomerPOC", DbType.String, item.CustomerPOC);
+            this.Database.AddInParameter(command, "@UpdateMailWA", DbType.String, item.UpdateMailWA);
+            this.Database.AddInParameter(command, "@PassportsTickets", DbType.String, item.PassportsTickets);
 
             switch (item.Service)
             {
@@ -178,6 +188,7 @@ namespace Reporting.Service.Core.Mision
                     this.Database.AddInParameter(command, "@CommentsHotel", DbType.String, item.CommentsHotel);
                     this.Database.AddInParameter(command, "@CommentsOther", DbType.String, item.CommentsOther);
                     this.Database.AddInParameter(command, "@CommentsPickup", DbType.String, item.CommentsPickup);
+                    this.Database.AddInParameter(command, "@Wrapping", DbType.Decimal, item.Wrapping);
                     break;
                 case 2://Charter
                     this.Database.AddInParameter(command, "@ServiceType", DbType.Int32, item.CharterServiceType);//door-door

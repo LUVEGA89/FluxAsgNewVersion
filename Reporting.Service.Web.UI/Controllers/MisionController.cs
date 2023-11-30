@@ -59,6 +59,9 @@ namespace Reporting.Service.Web.UI.Controllers
         [HttpGet]
         public JsonResult GetMissions()
         {
+            if (!Request.IsAuthenticated)
+                return this.JsonResponse(null, -3, "The session expired.");
+
             try
             {
                 MisionCriteria _criteria = new MisionCriteria();
@@ -164,7 +167,7 @@ namespace Reporting.Service.Web.UI.Controllers
             try
             {
                 mision.Empresa = new Core.Empresa.Empresa();
-                mision.Empresa.Identifier = 1;
+                //mision.Empresa.Identifier = 1;
                 mision.CreadaPor = User.Identity.GetUserId();
                 MisionManager manager = new MisionManager();
                 bool result;

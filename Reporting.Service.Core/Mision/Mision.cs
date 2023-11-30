@@ -35,6 +35,7 @@ namespace Reporting.Service.Core.Mision
         #region Servicio Obc
         public int ObcServiceType { get; set; }
         public DateTime ObcPickupDate { get; set; }
+        public string ObcPickupDateString { get; set; }
         public string ObcCosts { get; set; }
         public string ObcSchedule { get; set; }
         public string ObcHotel { get; set; }
@@ -45,7 +46,9 @@ namespace Reporting.Service.Core.Mision
         public decimal ObcEB { get; set; }
         public decimal ObcSellPrice { get; set; }
         public decimal ObcPickup { get; set; }
+        public decimal Wrapping { get; set; }
         public DateTime ObcDisclaimerEta { get; set; }
+        public string ObcDisclaimerEtaString { get; set; }
         #endregion
 
         #region Servicio Charter
@@ -83,6 +86,9 @@ namespace Reporting.Service.Core.Mision
         public string CommentsDelibery { get; set; }
         public string CommentsCustom { get; set; }
         public string CommentsOther { get; set; }
+        public string CustomerPOC { get; set; }
+        public string UpdateMailWA { get; set; }
+        public string PassportsTickets { get; set; }
     }
     public class QuotationDetails
     {

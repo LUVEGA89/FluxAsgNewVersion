@@ -101,89 +101,13 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h5 class="modal-title" id="exampleModalLabel">Quotation</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Mission</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-4 col-lg-3 order-md-last" id="summary">
-                            <h5 class="d-flex justify-content-between align-items-center mb-3" id="tittle-summary" style="color: red;"></h5>
-                            <ul class="list-group mb-3">
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted"># OBC</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-obc"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">DAY</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-day"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">OBC FEE</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-obc-fee"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">FLIGHTS</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-flights"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">HOTEL</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-hotel"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">PICKUP</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-pickup"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">DELIVERY</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-delibery"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">CUSTOMS</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-customs"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">OTHER</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-wrapping"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">PROFIT</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-profit"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">EB</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-EB"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <small class="text-muted">COST OF MISSION</small>
-                                    </div>
-                                    <span class="text-muted" id="sumary-cost"></span>
-                                </li>
-                            </ul>
-                        </div>
                         <div class="col-md-8 col-lg-9" id="form">
                             <form id="form-quotation" enctype="multipart/form-data" method="post" novalidate>
+                                <input type="hidden" id="HiddenIdCotizacion" name="HiddenIdCotizacion">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="input-group">
@@ -245,8 +169,33 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group">
+                                            <span class="input-group-addon">Update </span>
+                                            <select class="form-control" name="ObcUpdate" id="ObcUpdate">
+                                                <option value="0">Choose an option</option>
+                                                <option value="WhatsApp">WhatsApp</option>
+                                                <option value="Mail">Mail</option>
+                                                <option value="WhatsApp and Email">WhatsApp and Email</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Passports and Tickets </span>
+                                            <select class="form-control" name="ObcPassportsTickets" id="ObcPassportsTickets">
+                                                <option value="0">Choose an option</option>
+                                                <option value="WhatsApp">WhatsApp</option>
+                                                <option value="Mail">Mail</option>
+                                                <option value="WhatsApp and Email">WhatsApp and Email</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
                                             <span class="input-group-addon">
-                                                <i class="fa fa-box-open"></i>
+                                                Number of packages
                                             </span>
                                             <input type="text" class="form-control inputheight" id="NumberOfPackages" placeholder="number of packages" autocomplete="off">
                                         </div>
@@ -254,7 +203,7 @@
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-addon">
-                                                <i class="fa fa-weight-scale"></i>
+                                                Weight
                                             </span>
                                             <input type="text" class="form-control inputheight" id="Weight" placeholder="Weight" autocomplete="off">
                                         </div>
@@ -284,11 +233,22 @@
                                     </div>
                                 </div>
                                 <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+                                            <input type="text" class="form-control inputheight" id="customer-poc" placeholder="Customer POC" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
                                 <div id="div-obc">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom: -25px;">
                                             <div class="table table-responsive">
-                                                <table class="table table-bordered" id="Conceptos" name="Conceptos">
+                                                <table class="table table-striped" id="Conceptos" name="Conceptos">
                                                     <thead>
                                                         <tr>
                                                             <td># OBC</td>
@@ -305,11 +265,10 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="fa fa-message"></i></span>
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control inputheight" id="ComentariosTable" placeholder="Comments" autocomplete="off">
-                                                    <label for="floatingInputComents" class="labelfloat">Comments</label>
-                                                </div>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-comments"></i>
+                                                </span>
+                                                <input type="text" class="form-control inputheight" id="ComentariosTable" placeholder="Comments" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -317,18 +276,18 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-truck-pickup"></i></span>
-                                                <span class="input-group-text text-quotation">Pickup</span>
+                                                <span class="input-group-addon">
+                                                    Pickup
+                                                </span>
                                                 <input type="text" class="form-control" name="ObcPickup" id="ObcPickup" placeholder="Pickup" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="fa fa-message"></i></span>
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control inputheight" id="ComentariosPickup" placeholder="Comments" autocomplete="off">
-                                                    <label for="floatingInputComentsPickup" class="labelfloat">Comments</label>
-                                                </div>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-comments"></i>
+                                                </span>
+                                                <input type="text" class="form-control inputheight" id="ComentariosPickup" placeholder="Comments" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -336,18 +295,18 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-money-bill"></i></span>
-                                                <span class="input-group-text text-quotation">Customs</span>
+                                                <span class="input-group-addon">
+                                                    Customs
+                                                </span>
                                                 <input type="text" class="form-control" name="ObcCustoms" id="ObcCustoms" placeholder="Customs" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="fa fa-message"></i></span>
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control inputheight" id="ComentariosCustom" placeholder="Comments" autocomplete="off">
-                                                    <label for="floatingInputComentsCustom" class="labelfloat">Comments</label>
-                                                </div>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-comments"></i>
+                                                </span>
+                                                <input type="text" class="form-control inputheight" id="ComentariosCustom" placeholder="Comments" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -355,18 +314,18 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-hotel"></i></span>
-                                                <span class="input-group-text text-quotation">Hotel</span>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-solid fa-hotel"></i>
+                                                </span>
                                                 <input type="text" class="form-control" name="ObcHotel" id="ObcHotel" placeholder="Hotel" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="fa fa-message"></i></span>
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control inputheight" id="ComentariosHotel" placeholder="Comments" autocomplete="off">
-                                                    <label for="floatingInputComentsHotel" class="labelfloat">Comments</label>
-                                                </div>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-comments"></i>
+                                                </span>
+                                                <input type="text" class="form-control inputheight" id="ComentariosHotel" placeholder="Comments" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -374,18 +333,18 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-truck"></i></span>
-                                                <span class="input-group-text text-quotation">Delivery</span>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-solid fa-truck"></i>
+                                                </span>
                                                 <input type="text" class="form-control" name="ObcDelibery" id="ObcDelibery" placeholder="Delivery" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="fa fa-message"></i></span>
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control inputheight" id="ComentariosDelibery" placeholder="Comments" autocomplete="off">
-                                                    <label for="floatingInputComentsDelibery" class="labelfloat">Comments</label>
-                                                </div>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-comments"></i>
+                                                </span>
+                                                <input type="text" class="form-control inputheight" id="ComentariosDelibery" placeholder="Comments" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -393,18 +352,18 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-money-bill"></i></span>
-                                                <span class="input-group-text text-quotation">Other</span>
+                                                <span class="input-group-addon">
+                                                    Other
+                                                </span>
                                                 <input type="text" class="form-control" name="ObcOther" id="ObcOther" placeholder="Other" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="fa fa-message"></i></span>
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control inputheight" id="ComentariosOther" placeholder="Comments" autocomplete="off">
-                                                    <label for="floatingInputComentsOther" class="labelfloat">Comments</label>
-                                                </div>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-comments"></i>
+                                                </span>
+                                                <input type="text" class="form-control inputheight" id="ComentariosOther" placeholder="Comments" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -412,15 +371,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-money-bill"></i></span>
-                                                <span class="input-group-text text-quotation">Profit</span>
+                                                <span class="input-group-addon">
+                                                    Profit
+                                                </span>
                                                 <input type="text" class="form-control" name="ObcProfit" id="ObcProfit" placeholder="Profit" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-money-bill"></i></span>
-                                                <span class="input-group-text text-quotation">EB</span>
+                                                <span class="input-group-addon">
+                                                    EB
+                                                </span>
                                                 <input type="text" class="form-control" name="ObcEB" id="ObcEB" placeholder="EB" />
                                             </div>
                                         </div>
@@ -429,24 +390,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-money-bill"></i></span>
-                                                <span class="input-group-text text-quotation">Sell Price</span>
-                                                <input type="text" class="form-control" name="ObcSellPrice" id="ObcSellPrice" placeholder="Sell Price" disabled readonly />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-bell-concierge"></i></span>
-                                                <span class="input-group-text text-quotation">Service</span>
-                                                <div class="overflow-hidden flex-grow-1">
-                                                    <select class="form-select rounded-start-0" name="ObcServiceType" id="ObcServiceType">
-                                                        <option value="0">Choose a service</option>
-                                                        @foreach (var item in Model.tipoServicios)
-                                                        {
-                                                            <option value="@item.Identifier">@item.Nombre</option>
-                                                        }
-                                                    </select>
-                                                </div>
+                                                <span class="input-group-addon">
+                                                    Wrapping
+                                                </span>
+                                                <input type="text" class="form-control" name="ObcWrapping" id="ObcWrapping" placeholder="Wrapping" />
                                             </div>
                                         </div>
                                     </div>
@@ -454,16 +401,41 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-calendar"></i></span>
-                                                <span class="input-group-text text-quotation">Pickup</span>
+                                                <span class="input-group-addon">
+                                                    Sell Price
+                                                </span>
+                                                <input type="text" class="form-control" name="ObcSellPrice" id="ObcSellPrice" placeholder="Sell Price" disabled readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Service </span>
+                                                <select class="form-control" name="ObcServiceType" id="ObcServiceType">
+                                                    <option value="0">Choose a service</option>
+                                                    @foreach (var item in Model.tipoServicios)
+                                                    {
+                                                        <option value="@item.Identifier">@item.Nombre</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-solid fa-calendar"></i>
+                                                </span>
                                                 <input type="text" class="form-control" name="ObcPickupDate" id="ObcPickupDate" placeholder="Pickup date" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-calendar"></i></span>
-                                                <span class="input-group-text text-quotation">Eta</span>
-                                                <input class="form-control" id="ObcDisclaimerEta" name="ObcDisclaimerEta" />
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-solid fa-calendar"></i>
+                                                </span>
+                                                <input class="form-control" id="ObcDisclaimerEta" name="ObcDisclaimerEta" placeholder="Eta" />
                                             </div>
                                         </div>
                                     </div>
@@ -471,8 +443,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-file"></i></span>
-                                                <span class="input-group-text text-quotation">Schedule</span>
+                                                <span class="input-group-addon">
+                                                    Schedule
+                                                </span>
                                                 <textarea class="form-control" name="ObcSchedule" id="ObcSchedule" rows="4"></textarea>
                                             </div>
                                         </div>
@@ -481,18 +454,15 @@
                                 <div id="div-charter">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-bell-concierge"></i></span>
-                                                <span class="input-group-text text-quotation">Service</span>
-                                                <div class="overflow-hidden flex-grow-1">
-                                                    <select class="form-select rounded-start-0" name="CharterServiceType" id="CharterServiceType">
-                                                        <option value="0">Choose a service</option>
-                                                        @foreach (var item in Model.tipoServicios)
-                                                        {
-                                                            <option value="@item.Identifier">@item.Nombre</option>
-                                                        }
-                                                    </select>
-                                                </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Service </span>
+                                                <select class="form-control" name="CharterServiceType" id="CharterServiceType">
+                                                    <option value="0">Choose a service</option>
+                                                    @foreach (var item in Model.tipoServicios)
+                                                    {
+                                                        <option value="@item.Identifier">@item.Nombre</option>
+                                                    }
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -500,15 +470,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-dollar-sign"></i></span>
-                                                <span class="input-group-text text-quotation">Buy</span>
+                                                <span class="input-group-addon">
+                                                    Buy
+                                                </span>
                                                 <input type="text" class="form-control" name="CharterBuy" id="CharterBuy" placeholder="Buy" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Aircraft</span>
+                                                <span class="input-group-addon">
+                                                    Aircraft
+                                                </span>
                                                 <input type="text" class="form-control" name="CharterAircraft" id="CharterAircraft" placeholder="Aircraft" />
                                             </div>
                                         </div>
@@ -517,15 +489,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Positi...</span>
+                                                <span class="input-group-addon">
+                                                    Positioning
+                                                </span>
                                                 <input type="text" class="form-control" name="CharterPositioning" id="CharterPositioning" placeholder="Positioning" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Rute</span>
+                                                <span class="input-group-addon">
+                                                    Rute
+                                                </span>
                                                 <input type="text" class="form-control" name="CharterRute" id="CharterRute" placeholder="Rute" />
                                             </div>
                                         </div>
@@ -534,15 +508,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Living...</span>
+                                                <span class="input-group-addon">
+                                                    Living...
+                                                </span>
                                                 <input type="text" class="form-control" name="CharterLiveLeg" id="CharterLiveLeg" placeholder="Live leg" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Costs</span>
+                                                <span class="input-group-addon">
+                                                    Costs
+                                                </span>
                                                 <input type="text" class="form-control" name="CharterCosts" id="CharterCosts" placeholder="Costs" />
                                             </div>
                                         </div>
@@ -552,15 +528,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Buy</span>
+                                                <span class="input-group-addon">
+                                                    Buy
+                                                </span>
                                                 <input type="text" class="form-control" name="NfoBuy" id="NfoBuy" placeholder="Buy" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Option</span>
+                                                <span class="input-group-addon">
+                                                    Option
+                                                </span>
                                                 <input type="text" class="form-control" name="NfoOption" id="NfoOption" placeholder="Option" />
                                             </div>
                                         </div>
@@ -568,24 +546,22 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-bell-concierge"></i></span>
-                                                <span class="input-group-text text-quotation">Service</span>
-                                                <div class="overflow-hidden flex-grow-1">
-                                                    <select class="form-select rounded-start-0" name="NfoServiceType" id="NfoServiceType">
-                                                        <option value="0">Choose a service</option>
-                                                        @foreach (var item in Model.tipoServicios)
-                                                        {
-                                                            <option value="@item.Identifier">@item.Nombre</option>
-                                                        }
-                                                    </select>
-                                                </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Service </span>
+                                                <select class="form-control" name="NfoServiceType" id="NfoServiceType">
+                                                    <option value="0">Choose a service</option>
+                                                    @foreach (var item in Model.tipoServicios)
+                                                    {
+                                                        <option value="@item.Identifier">@item.Nombre</option>
+                                                    }
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Airline</span>
+                                                <span class="input-group-addon">
+                                                    Airline
+                                                </span>
                                                 <input type="text" class="form-control" name="NfoAirline" id="NfoAirline" placeholder="Airline" />
                                             </div>
                                         </div>
@@ -594,15 +570,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Rute</span>
+                                                <span class="input-group-addon">
+                                                    Rute
+                                                </span>
                                                 <input type="text" class="form-control" name="NfoRute" id="NfoRute" placeholder="Rute" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Costs</span>
+                                                <span class="input-group-addon">
+                                                    Costs
+                                                </span>
                                                 <input type="text" class="form-control" name="NfoCosts" id="NfoCosts" placeholder="Costs" />
                                             </div>
                                         </div>
@@ -612,15 +590,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Buy</span>
+                                                <span class="input-group-addon">
+                                                    Buy
+                                                </span>
                                                 <input type="text" class="form-control" name="HostshotBuy" id="HostshotBuy" placeholder="Buy" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Option</span>
+                                                <span class="input-group-addon">
+                                                    Option
+                                                </span>
                                                 <input type="text" class="form-control" name="HostshotOption" id="HostshotOption" placeholder="Option" />
                                             </div>
                                         </div>
@@ -629,15 +609,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Transit...</span>
+                                                <span class="input-group-addon">
+                                                    Transittime
+                                                </span>
                                                 <input type="text" class="form-control" name="HostshotTransitTime" id="HostshotTransitTime" placeholder="Transit time" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-text icon-quotation"><i class="fa fa-solid fa-plane"></i></span>
-                                                <span class="input-group-text text-quotation">Costs</span>
+                                                <span class="input-group-addon">
+                                                    Costs
+                                                </span>
                                                 <input type="text" class="form-control" name="HostshotCosts" id="HostshotCosts" placeholder="Costs" />
                                             </div>
                                         </div>
@@ -647,23 +629,77 @@
                                 <div id="div-disclaimers" class="row">
                                     <div class="col-md-12">
                                         <div class="input-group">
-                                            <span class="input-group-text icon-quotation"><i class="fa fa-file"></i></span>
-                                            <span class="input-group-text text-quotation">Disclaimers</span>
+                                            <span class="input-group-addon">
+                                                Disclaimers
+                                            </span>
                                             <textarea class="form-control" id="disclaimer-area" rows="3" disabled readonly></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="footer-buttons">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="quotationModal">Close</button>
-                                    <button type="submit" class="btn btn-primary" id="btnSave">Save changes</button>
+
                                 </div>
                             </form>
+                        </div>
+                        <div class="col-md-4 col-lg-3 order-md-last" id="summary">
+                            <h5 class="d-flex justify-content-between align-items-center mb-3" id="tittle-summary" style="color: red;"></h5>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted"># OBC</small>
+                                    <span class="text-muted pull-right" id="sumary-obc"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">DAY</small>
+                                    <span class="text-muted pull-right" id="sumary-day"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">OBC FEE</small>
+                                    <span class="text-muted pull-right" id="sumary-obc-fee"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">FLIGHTS</small>
+                                    <span class="text-muted pull-right" id="sumary-flights"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">HOTEL</small>
+                                    <span class="text-muted pull-right" id="sumary-hotel"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">PICKUP</small>
+                                    <span class="text-muted pull-right" id="sumary-pickup"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">DELIVERY</small>
+                                    <span class="text-muted pull-right" id="sumary-delibery"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">CUSTOMS</small>
+                                    <span class="text-muted pull-right" id="sumary-customs"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">OTHER</small>
+                                    <span class="text-muted pull-right" id="sumary-wrapping"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">PROFIT</small>
+                                    <span class="text-muted pull-right" id="sumary-profit"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">EB</small>
+                                    <span class="text-muted pull-right" id="sumary-EB"></span>
+                                </li>
+                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
+                                    <small class="text-muted">COST OF MISSION</small>
+                                    <span class="text-muted pull-right" id="sumary-cost"></span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="btnSave" onclick="SaveMission()">Save changes</button>
                 </div>
             </div>
         </div>
@@ -729,7 +765,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="footer-buttons">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="proveedoresModal">Close</button>
+                        <button type="button" class="btn" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -738,14 +774,14 @@
 </section>
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
 <script>
     RowNumber = 0;
     PadreId = null;
     IsUpdate = false;
     CotizacionId = 0;
 
-$(document).ready(function ($) {
+//$(document).ready(function ($) {
 //    $.noConflict();
 
     $('#ObcPickupDate, #ObcDisclaimerEta').daterangepicker({
@@ -759,7 +795,7 @@ $(document).ready(function ($) {
         }
     });
 
-    document.getElementById('form-quotation').addEventListener('submit', function (event) {
+    @*document.getElementById('form-quotation').addEventListener('submit', function (event) {
             event.preventDefault(); // Evita el envío del formulario por defecto
 
             var quotationDetails = [];
@@ -840,15 +876,15 @@ $(document).ready(function ($) {
                             RowNumber = RowNumber - 1;
                         }
 
-                        init(1);
+                        init();
                     },
                     data: quotation,
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json'
                 });
-        });
+        });*@
 
-        init(0);
+        init();
 
          Conceptos: [];
 
@@ -988,7 +1024,7 @@ $(document).ready(function ($) {
         }
     });
 
-    $("#ObcHotel, #ObcPickup, #ObcDelibery, #ObcCustoms, #ObcOther, #ObcProfit, #ObcEB, #Conceptos input").on("blur", function () {
+    $("#ObcHotel, #ObcPickup, #ObcDelibery, #ObcCustoms, #ObcOther, #ObcProfit, #ObcEB, #Conceptos input, #ObcWrapping").on("blur", function () {
         var total = 0;
         var tamTabla = $('#Conceptos input').length;
         var cont = 0;
@@ -1020,7 +1056,7 @@ $(document).ready(function ($) {
             cont = cont + 4;
         }
 
-        total = total + Number($("#ObcPickup").val()) + Number($("#ObcDelibery").val()) + Number($("#ObcOther").val()) + Number($("#ObcCustoms").val()) + Number($("#ObcEB").val()) + Number($("#ObcProfit").val());
+        total = total + Number($("#ObcPickup").val()) + Number($("#ObcDelibery").val()) + Number($("#ObcOther").val()) + Number($("#ObcCustoms").val()) + Number($("#ObcEB").val()) + Number($("#ObcProfit").val()) + Number($("#ObcWrapping").val());
 
         $("#ObcSellPrice").val(total);
 
@@ -1036,6 +1072,7 @@ $(document).ready(function ($) {
         $("#sumary-wrapping").text('$ ' + Number($("#ObcOther").val()));
         $("#sumary-profit").text('$ ' + Number($("#ObcProfit").val()));
         $("#sumary-EB").text('$ ' + Number($("#ObcEB").val()));
+        $("#sumary-obc-wrapping").text('$ ' + Number($("#ObcWrapping").val()));
         $("#sumary-cost").text('$ ' + total);
     });
 
@@ -1053,69 +1090,71 @@ $(document).ready(function ($) {
                                             <td><input type="text" class="form-control" id="ObcFee0" name="ObcFee0" aria-label="ObcFee0"></td>\
                                             <td><div class="input-group"><input type="text" class="form-control" id="Contenedor0" name="Contenedor0" aria-label="Contenedor0"><span class="input-group-btn"><button class="btn btn-success" type="button" onclick="AgregarDetalle()">+</button></span></div></td>\
                                         </tr >')
-        //Se crea la tabla de los conceptos
+            //Se crea la tabla de los conceptos
+
+            var inputs = document.querySelectorAll('#DetalleConceptos input');
+
+            inputs.forEach(function (input) {
+                input.addEventListener('blur', function () {
+                    Calculos();
+                });
+            });
+
+            var table = $('#quotation').DataTable();
+            table.destroy();
+            $("#body-quotations").html("");
 
         $.ajax({
             type: 'GET',
             url:  '@Url.Action("GetMissions", "Mision")',
             success: function (data) {
-                if (data != null) {
-                    //if (aux == 0) {
+                if (data.Code == 200) {
+                    if (data != null) {
 
-                    //}
-                    //else {
-                        var table = $('#quotation').DataTable();
+                        $.each(data.Context, function (index, value) {
 
-                        table.destroy();
-                    //}
+                            let status = "";
+                            let color = "";
+                            let edit = '<td class="text-center"><i class="fa fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 0 + ')" data-toggle="modal" data-target="#quotationModal"></i></td>';
+                            let proveedores = '<td class="text-center"><i class="fa fa-user" onclick=GetProveedores(' + value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#proveedoresModal"></i></td>';
+                            let aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="Completar(' + value.Identifier + ')" align="center"><i class="fa fa-check" style="color: green;"></i></a></td>';
 
-                    $("#body-quotations").html('');
-                    ////console.log(JSON.stringify(data.Context));
+                            switch (value.Status) {
+                                case 1:
+                                    status = "On Hold";
+                                    color = "yellow";
+                                    break;
+                                case 2:
+                                    status = "Active";
+                                    color = "orange";
+                                    break;
+                                case 3:
+                                    status = "Rejected";
+                                    color = "red";
+                                    break;
+                                case 4:
+                                    status = "Expired";
+                                    color = "gray";
+                                    break;
+                                case 5:
+                                    proveedores = "<td></td>";
+                                    aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="reporte(' + value.Identifier + ')" align="center"><i class="fa fa-file" style="color: green;"></i></a></td>';
+                                    edit = '<td class="text-center"><i class="fa fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 1 + ')" data-toggle="modal" data-target="#quotationModal"></i></td>';
+                                    status = "Done";
+                                    color = "green";
+                                    break;
+                                default:
+                                    status = "Undefined";
+                                    break;
+                            }
 
-                    $.each(data.Context, function (index, value) {
-
-                        let status = "";
-                        let color = "";
-                        let edit = '<td class="text-center"><i class="fa fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 0 +')" data-bs-toggle="modal" data-bs-target="#quotationModal"></i></td>';
-                        let proveedores = '<td class="text-center"><i class="fa fa-user" onclick=GetProveedores(' + value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#proveedoresModal"></i></td>';
-                        let aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="Completar(' + value.Identifier + ')" align="center"><i class="fa fa-check" style="color: green;"></i></a></td>';
-
-                        switch (value.Status) {
-                            case 1:
-                                status = "On Hold";
-                                color = "yellow";
-                                break;
-                            case 2:
-                                status = "Active";
-                                color = "orange";
-                                break;
-                            case 3:
-                                status = "Rejected";
-                                color = "red";
-                                break;
-                            case 4:
-                                status = "Expired";
-                                color = "gray";
-                                break;
-                            case 5:
-                                proveedores = "<td></td>";
-                                aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="reporte(' + value.Identifier + ')" align="center"><i class="fa fa-file" style="color: green;"></i></a></td>';
-                                edit = '<td class="text-center"><i class="fa fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 1 + ')" data-bs-toggle="modal" data-bs-target="#quotationModal"></i></td>';
-                                status = "Done";
-                                color = "green";
-                                break;
-                            default:
-                                status = "Undefined";
-                                break;
-                        }
-
-                        //if (value.ServiceObject.Nombre == "OBC") {
+                            //if (value.ServiceObject.Nombre == "OBC") {
 
 
                             //}
 
-                        $("#body-quotations").append(
-                            '<tr>\
+                            $("#body-quotations").append(
+                                '<tr>\
                                     <td> '+ value.Referencia + ' </td>\
                                     <td> '+ moment(value.RegistradaEl).format('DD/MM/YYYY') + ' </td>\
                                     <td> '+ value.Client + ' </td>\
@@ -1123,42 +1162,63 @@ $(document).ready(function ($) {
                                     <td> '+ value.Origin + ' </td>\
                                     <td> '+ value.Destination + ' </td>\
                                     <td> '+ value.ServiceObject.Nombre + ' </td>\
-                                    <td style="color:'+color+'"> '+ status + ' </td>\
-                                    '+ edit +'\
-                                    '+ proveedores +'\
-                                    '+ aceptar +'\
+                                    <td style="color:'+ color + '"> ' + status + ' </td>\
+                                    '+ edit + '\
+                                    '+ proveedores + '\
+                                    '+ aceptar + '\
                             </tr >');
+                        });
+
+                        //if (aux == 0) {
+                        //    $('#quotation').DataTable({
+                        //        "dom": "Bfrtip",
+                        //        "buttons": [
+                        //            "excel"
+                        //        ],
+                        //        "pageLength": 10,
+                        //        "searching": true,
+                        //        "ordering": true,
+                        //        "autoWidth": true
+                        //    });
+                        //}
+                        //else {
+                        $('#quotation').DataTable({
+                            "dom": "Bfrtip",
+                            "buttons": [
+                                "excel"
+                            ],
+                            "pageLength": 10,
+                            "searching": true,
+                            "ordering": true,
+                            "autoWidth": true
+                        });
+                        //}
+                    }
+                }
+                else {
+                    var error = "An error has occurred when trying to save the quote, please report it to the systems department.";
+
+                    if (data.Code == -2)
+                        error = data.Message;
+
+                    if (data.Code == -3)
+                        error = data.Message;
+
+                    swal({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error,
+                        dangerMode: true,
+                    }).then((value) => {
+                        if (data.Code == -3)
+                            window.location.href = "@Url.Action("Login", "Account")";
                     });
 
-                    //if (aux == 0) {
-                    //    $('#quotation').DataTable({
-                    //        "dom": "Bfrtip",
-                    //        "buttons": [
-                    //            "excel"
-                    //        ],
-                    //        "pageLength": 10,
-                    //        "searching": true,
-                    //        "ordering": true,
-                    //        "autoWidth": true
-                    //    });
-                    //}
-                    //else {
-                    $('#quotation').DataTable({
-                        "dom": "Bfrtip",
-                        "buttons": [
-                            "excel"
-                        ],
-                        "pageLength": 10,
-                        "searching": true,
-                        "ordering": true,
-                        "autoWidth": true
-                    });
-                    //}
                 }
             }
         });
     }
-});
+//});
     function Completar(id) {
         $.ajax({
             url:'@Url.Action("Completar", "Mision")',
@@ -1167,7 +1227,7 @@ $(document).ready(function ($) {
                 id: id,
             },
             success: function (response) {
-                init1(1);
+                init();
 
                 swal({
                     icon: 'success',
@@ -1214,8 +1274,9 @@ $(document).ready(function ($) {
     }
     function Edit(id, noAction) {
         $("#WhatsappGroup").text('');
-    IsUpdate = true;
+        IsUpdate = true;
         CotizacionId = id;
+
 
         if (noAction == 1) {
             $("#btnSave").hide();
@@ -1232,7 +1293,12 @@ $(document).ready(function ($) {
             },
             success: function (response) {
                 if (response.Context != null) {
+
+                    //Se abre el modal
+                    ModalEdit();
+
                     PadreId = 0;
+                    $("#HiddenIdCotizacion").val(id);
                     $('#cbx-cliente').val(response.Context.ClienteId);
                     $('#ClientRef').val(response.Context.ClientRef);
                     $('#Origin').val(response.Context.Origin);
@@ -1247,6 +1313,11 @@ $(document).ready(function ($) {
                     //console.log(JSON.stringify(response.Context.GrupoWhatsapp));
                     let x = response.Context.GrupoWhatsapp;
                     $("#WhatsappGroup").val(x);
+
+                    $('#customer-poc').val(response.Context.CustomerPOC);
+                    $('#ObcWrapping').val(response.Context.Wrapping);
+                    $('#ObcUpdate').val(response.Context.UpdateMailWA);
+                    $('#ObcPassportsTickets').val(response.Context.PassportsTickets);
 
                     switch ($('#cbx-service').val()) {
                         case '0':
@@ -1300,8 +1371,11 @@ $(document).ready(function ($) {
                             $('#ObcProfit').val(response.Context.ObcProfit);
                             $('#ObcSellPrice').val(response.Context.ObcSellPrice);
                             $('#ObcServiceType').val(response.Context.ObcServiceType);
-                            $('#ObcPickupDate').val(moment(response.Context.ObcPickupDate).format('MM/DD/YYYY h:mm:ss a'));
-                            $('#ObcDisclaimerEta').val(moment(response.Context.ObcDisclaimerEta).format('MM/DD/YYYY h:mm:ss a'));
+                            //var prueba = luxon.DateTime.fromISO(response.Context.ObcPickupDateString).toFormat('MM/DD/YYYY h:mm:ss a');
+                            $('#ObcPickupDate').val(response.Context.ObcPickupDateString);
+                            //$('#ObcPickupDate').val(moment(response.Context.ObcPickupDate).format('MM/DD/YYYY h:mm:ss a'));
+                            //$('#ObcDisclaimerEta').val(moment(response.Context.ObcDisclaimerEtaString).format('MM/DD/YYYY h:mm:ss a'));
+                            $('#ObcDisclaimerEta').val(response.Context.ObcDisclaimerEtaString);
                             $('#ObcSchedule').val(response.Context.ObcSchedule);
                             $('#ObcEB').val(response.Context.ObcEB);
 
@@ -1332,10 +1406,6 @@ $(document).ready(function ($) {
                             $('#HostshotCosts').val(response.Context.HostshotCosts);
                             break;
                     }
-
-                    //Se abre el modal
-                    ModalEdit();
-
                 }
             },
             error: function (xhr) {
@@ -1521,110 +1591,6 @@ $(document).ready(function ($) {
             }
         });
     }
-    function init1(aux) {
-            while (RowNumber > 0) {
-                EliminarDetalle();
-            }
-            //Se crea la tabla de los conceptos
-            $("#DetalleConceptos").html('');
-
-            $("#DetalleConceptos").append('<tr>\
-                                            <td><div class="input-group"><span class="input-group-btn"><button class="btn btn-danger" type="button" onclick="EliminarDetalle()">-</button></span><input type="text" class="form-control" id="NumObc0"  name="NumObc0" aria-label="NumObc0"></div></td>\
-                                            <td><input type="text" class="form-control" id="Day0" name="Day0" aria-label="Day0"></td>\
-                                            <td><input type="text" class="form-control" id="ObcFee0" name="ObcFee0" aria-label="ObcFee0"></td>\
-                                            <td><div class="input-group"><input type="text" class="form-control" id="Contenedor0" name="Contenedor0" aria-label="Contenedor0"><span class="input-group-btn"><button class="btn btn-success" type="button" onclick="AgregarDetalle()">+</button></span></div></td>\
-                                        </tr >')
-        //Se crea la tabla de los conceptos
-
-        $.ajax({
-            type: 'GET',
-            url:  '@Url.Action("GetMissions", "Mision")',
-            success: function (data) {
-                if (data != null) {
-                    //if (aux == 0) {
-
-                    //}
-                    //else {
-                    var table = $('#quotation').DataTable();
-
-                    table.destroy();
-                    //}
-
-                    $("#body-quotations").html('');
-                    //console.log(JSON.stringify(data.Context));
-
-                    $.each(data.Context, function (index, value) {
-
-                        let status = "";
-                        let color = "";
-                        let edit = '<td class="text-center"><i class="fa fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 0 +')" data-bs-toggle="modal" data-bs-target="#quotationModal"></i></td>';
-                        let proveedores = '<td class="text-center"><i class="fa fa-user" onclick=GetProveedores(' + value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#proveedoresModal"></i></td>';
-                        let aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="Completar(' + value.Identifier + ')" align="center"><i class="fa fa-check" style="color: green;"></i></a></td>';
-
-                        switch (value.Status) {
-                            case 1:
-                                status = "On Hold";
-                                color = "yellow";
-                                break;
-                            case 2:
-                                status = "Active";
-                                color = "orange";
-                                break;
-                            case 3:
-                                status = "Rejected";
-                                color = "red";
-                                break;
-                            case 4:
-                                status = "Expired";
-                                color = "gray";
-                                break;
-                            case 5:
-                                proveedores = "<td></td>";
-                                aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="reporte(' + value.Identifier + ')" align="center"><i class="fa fa-file" style="color: green;"></i></a></td>';
-                                edit = '<td class="text-center"><i class="fa fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 1 + ')" data-bs-toggle="modal" data-bs-target="#quotationModal"></i></td>';
-                                status = "Done";
-                                color = "green";
-                                break;
-                            default:
-                                status = "Undefined";
-                                break;
-                        }
-
-                        //if (value.ServiceObject.Nombre == "OBC") {
-
-
-                            //}
-
-                        $("#body-quotations").append(
-                            '<tr>\
-                                    <td> '+ value.Referencia + ' </td>\
-                                    <td> '+ moment(value.RegistradaEl).format('DD/MM/YYYY') + ' </td>\
-                                    <td> '+ value.Client + ' </td>\
-                                    <td> '+ value.ClientRef + ' </td>\
-                                    <td> '+ value.Origin + ' </td>\
-                                    <td> '+ value.Destination + ' </td>\
-                                    <td> '+ value.ServiceObject.Nombre + ' </td>\
-                                    <td style="color:'+color+'"> '+ status + ' </td>\
-                                    '+ edit +'\
-                                    '+ proveedores +'\
-                                    '+ aceptar +'\
-                            </tr >');
-                    });
-
-                    $('#quotation').DataTable({
-                        "dom": "Bfrtip",
-                        "buttons": [
-                            "excel"
-                        ],
-                        "pageLength": 10,
-                        "searching": true,
-                        "ordering": true,
-                        "autoWidth": true
-                    });
-                }
-            }
-        });
-    }
     function reporte(id){
         $.ajax({
             contentType: "application/json; charset=utf-8",
@@ -1668,6 +1634,110 @@ $(document).ready(function ($) {
             backdrop: false,
             show: true
         });
+    }
+
+    function SaveMission() {
+        var quotationDetails = [];
+        var quotation;
+
+        switch ($("#cbx-service").val()) {
+            case '0':
+                swal({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Select a service'
+                });
+
+                return;
+                break;
+            case '1':
+
+                var tamTabla = $('#Conceptos input').length;
+                var cont = 0;
+                for (var i = 0; i < (tamTabla / 4); i++) {
+                    quotationDetails.push({
+                        "Obc": $('#Conceptos').find('td input').eq(cont).val(),
+                        "Day": $('#Conceptos').find('td input').eq(cont + 1).val(),
+                        "ObcFee": $('#Conceptos').find('td input').eq(cont + 2).val(),
+                        "Flights": $('#Conceptos').find('td input').eq(cont + 3).val()
+                    });
+                    cont = cont + 4;
+                }
+
+                var ObcPickupDate;
+                var ObcDisclaimerEta;
+
+                if (($("#ObcPickupDate").val()).length <= 16) {
+                    ObcPickupDate = moment($("#ObcPickupDate").val()).format();
+                }
+                else{
+                    ObcPickupDate = $("#ObcPickupDate").val();
+                }
+
+                if (($("#ObcDisclaimerEta").val()).length <= 16) {
+                    ObcDisclaimerEta = moment($("#ObcDisclaimerEta").val()).format();
+                }
+                else {
+                    ObcDisclaimerEta = $("#ObcDisclaimerEta").val();
+                }
+
+                
+
+                //console.log($("#WhatsappGroup").val());
+
+                //quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "CommentsHotel": "' + $("#ComentariosHotel").val() + '", "CommentsPickup": "' + $("#ComentariosPickup").val() + '", "CommentsDelibery": "' + $("#ComentariosDelibery").val() + '", "CommentsCustom": "' + $("#ComentariosCustom").val() + '", "CommentsOther": "' + $("#ComentariosOther").val() + '", "CommentsTable": "' + $("#ComentariosTable").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '",  "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + CotizacionId + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "ObcServiceType": "' + $("#ObcServiceType").val() + '", "ObcDelibery": "' + $("#ObcDelibery").val() + '", "ObcPickupDate": "' + ObcPickupDate + '", "ObcPickup": "' + $("#ObcPickup").val() + '", "ObcHotel": "' + $("#ObcHotel").val() + '", "ObcCustoms": "' + $("#ObcCustoms").val() + '", "ObcOther": "' + $("#ObcOther").val() + '", "ObcProfit": "' + $("#ObcProfit").val() + '", "ObcEB": "' + $("#ObcEB").val() + '", "ObcSellPrice": "' + $("#ObcSellPrice").val() + '", "ObcSchedule": "' + $("#ObcSchedule").val() + '", "ObcDisclaimerEta": "' + ObcDisclaimerEta + '", "quotationDetails": ' + JSON.stringify(quotationDetails) + '}';
+                quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "CommentsHotel": "' + $("#ComentariosHotel").val() + '", "CommentsPickup": "' + $("#ComentariosPickup").val() + '", "CommentsDelibery": "' + $("#ComentariosDelibery").val() + '", "CommentsCustom": "' + $("#ComentariosCustom").val() + '", "CommentsOther": "' + $("#ComentariosOther").val() + '", "CommentsTable": "' + $("#ComentariosTable").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '",  "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + $("#HiddenIdCotizacion").val() + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "ObcServiceType": "' + $("#ObcServiceType").val() + '", "ObcDelibery": "' + $("#ObcDelibery").val() + '", "ObcPickupDate": "' + ObcPickupDate + '", "ObcPickup": "' + $("#ObcPickup").val() + '", "ObcHotel": "' + $("#ObcHotel").val() + '", "ObcCustoms": "' + $("#ObcCustoms").val() + '", "ObcOther": "' + $("#ObcOther").val() + '", "ObcProfit": "' + $("#ObcProfit").val() + '", "ObcEB": "' + $("#ObcEB").val() + '", "ObcSellPrice": "' + $("#ObcSellPrice").val() + '", "ObcSchedule": "' + $("#ObcSchedule").val() + '", "ObcDisclaimerEta": "' + ObcDisclaimerEta + '", "Wrapping": "' + $("#ObcWrapping").val() + '", "CustomerPOC": "' + $("#customer-poc").val() + '", "UpdateMailWA": "' + $("#ObcUpdate").val() + '","PassportsTickets": "' + $("#ObcPassportsTickets").val() + '","quotationDetails": ' + JSON.stringify(quotationDetails) + '}';
+
+                break;
+            case '2':
+                quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '", "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + $("#HiddenIdCotizacion").val() + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "CharterServiceType": "' + $("#CharterServiceType").val() + '", "CharterBuy": "' + $("#CharterBuy").val() + '", "CharterAircraft": "' + $("#CharterAircraft").val() + '", "CharterPositioning": "' + $("#CharterPositioning").val() + '", "CharterRute": "' + $("#CharterRute").val() + '", "CharterLiveLeg": "' + $("#CharterLiveLeg").val() + '", "CharterCosts": "' + $("#CharterCosts").val() + '"}';
+
+                break;
+            case '3':
+                quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '", "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + $("#HiddenIdCotizacion").val() + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "NfoBuy": "' + $("#NfoBuy").val() + '", "NfoOption": "' + $("#NfoOption").val() + '", "NfoServiceType": "' + $("#NfoServiceType").val() + '", "NfoAirline": "' + $("#NfoAirline").val() + '", "NfoRute": "' + $("#NfoRute").val() + '", "NfoCosts": "' + $("#NfoCosts").val() + '"}';
+
+                break;
+            case '4':
+                quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '", "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + $("#HiddenIdCotizacion").val() + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "HostshotBuy": "' + $("#HostshotBuy").val() + '", "HostshotOption": "' + $("#HostshotOption").val() + '", "HostshotTransitTime": "' + $("#HostshotTransitTime").val() + '", "HostshotCosts": "' + $("#HostshotCosts").val() + '"}';
+
+                break;
+        }
+
+        $.ajax(
+    {
+        url: '@Url.Action("Update", "Mision")',
+        type: "POST",
+        success: function (data) {
+            if (data.Context != null) {
+                $('#quotationModal').hide();
+                $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+                $('.modal-backdrop').remove();
+                $("#DetalleConceptos").html('');
+
+                swal({
+                    icon: 'success',
+                    title: 'The mision was update successfully.'
+                })
+            }
+            else {
+                swal({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error has occurred when trying to update the mision, please report it to the systems department.'
+                });
+            }
+
+            while(RowNumber > 0){
+                EliminarDetalle();
+                RowNumber = RowNumber - 1;
+            }
+
+            init();
+        },
+        data: quotation,
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json'
+    });
     }
 </script>
 

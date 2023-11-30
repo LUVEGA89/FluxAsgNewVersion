@@ -4,6 +4,33 @@
     ViewBag.Title = "Empresa";
 }
 
+@section CustomStyles {
+    <!-- Estilos específicos para esta vista, incluyendo Bootstrap v5 -->
+        <script type="text/javascript" language="javascript" src="~/Scripts/new/jquery-3.6.0.js"></script>
+        <link href="~/Scripts/new/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/Content/startbootstrap-sb-admin/css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/Scripts/new/css/dataTables.bootstrap5.min.css" />
+        <script src="~/Scripts/new/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/new/dataTables.bootstrap5.min.js"></script>
+        <link href="~/Scripts/new/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+        <link href="~/Scripts/new/css/buttons.dataTables.min.css" rel="stylesheet" />
+        <script src="~/Scripts/new/dataTables.buttons.min.js"></script>
+        <script src="~/Scripts/new/buttons.bootstrap5.min.js"></script>
+        <script src="~/Scripts/new/jszip.min.js"></script>
+        <script src="~/Scripts/new/pdfmake.min.js"></script>
+        <script src="~/Scripts/new/vfs_fonts.js"></script>
+        <script src="~/Scripts/new/buttons.html5.min.js"></script>
+        <link href="~/Scripts/new/css/daterangepicker.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/StylesStepper/stepper.css" />
+
+        <script src="~/Scripts/new/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="~/Content/startbootstrap-sb-admin/js/scripts.js"></script>
+        <script src="~/Scripts/new/all.js" crossorigin="anonymous"></script>
+        <script src="~/Scripts/new/sweetalert2@11.js"></script>
+        <script src="~/Scripts/new/moment.min.js"></script>
+        <script src="~/Scripts/new/daterangepicker.min.js"></script>
+}
+
 <div class="container-fluid px-4">
     <h1 class="mt-4">Companies</h1>
     <ol class="breadcrumb mb-4">
@@ -46,8 +73,8 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="modalEmpresa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog  modal-dialog-centered modal-lg">
+        <div class="modal modal-xl" id="modalEmpresa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Company Registration</h5>
@@ -62,20 +89,17 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fa fa-building"></i></span>
-                                    <div class="form-floating">
-                                        <input type="hidden" name="id" id="id" />
-                                        <input class="form-control" id="nombre" type="text" placeholder="Nombre" autocomplete="off" />
-                                        <label for="inputFirstName">Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                                        <input class="form-control" id="nombre" type="text" placeholder="Name" autocomplete="off" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fa fa-building"></i></span>
-                                    <div class="form-floating">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-building"></i></span>
                                         <input class="form-control" id="razonSocial" type="text" placeholder="Commercial Name" autocomplete="off" />
-                                        <label for="inputLastName">Commercial Name</label>
                                     </div>
                                 </div>
                             </div>
@@ -86,10 +110,9 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-                                    <div class="form-floating">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                         <input class="form-control" id="entrega" type="text" placeholder="Shipment Address" autocomplete="off" />
-                                        <label for="inputEmail">Shipment Address</label>
                                     </div>
                                 </div>
                             </div>

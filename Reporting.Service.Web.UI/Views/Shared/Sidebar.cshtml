@@ -36,33 +36,81 @@
             <li class="header">FLUX - ASG</li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-circle"></i>
+                    <i class="fa fa-cart-plus"></i>
                     <span>Quotation</span>
                     <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
+                        @*<i class="fa fa-angle-left pull-right"></i>*@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="@Url.Action("Index", "Cotizacion")"><i class="fa fa-circle"></i>Quotations</a></li>
+                    <li><a href="@Url.Action("Index", "Cotizacion")"><i class="fa fa-cart-plus"></i>Quotations</a></li>
                 </ul>
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-circle"></i>
+                    <i class="fa fa-money"></i>
                     <span>Mision</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="@Url.Action("Index", "Mision")"><i class="fa fa-circle"></i>Misions</a></li>
+                    <li><a href="@Url.Action("Index", "Mision")"><i class="fa fa-money"></i>Misions</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-address-book"></i>
+                    <span>Roles</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Index","Roles")"><i class="fa fa-circle"></i>Roles</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-cog"></i>
+                    <span>Empresas</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Index","Empresa")"><i class="fa fa-circle"></i>Empresas</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>Users</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Index","Usuario")"><i class="fa fa-circle"></i>Users</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>Customers</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Index","Cliente")"><i class="fa fa-circle"></i>Customers</a></li>
                 </ul>
             </li>
 
-            <li><a href="@Url.Action("Index","Roles")"><i class="fa fa-circle"></i>Roles</a></li>
-            <li><a href="@Url.Action("Index","Empresa")"><i class="fa fa-circle"></i>Empresas</a></li>
-            <li><a href="@Url.Action("Index","Usuario")"><i class="fa fa-circle"></i>Users</a></li>
-            <li><a href="@Url.Action("Index","Cliente")"><i class="fa fa-circle"></i>Customers</a></li>
+            
+            
+            
+            
 
             @*@foreach (var item in this.Model.Menu.modulos)
         {

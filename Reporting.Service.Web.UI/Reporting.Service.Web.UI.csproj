@@ -259,9 +259,11 @@
     <Compile Include="Controllers\BitacoraController.cs" />
     <Compile Include="Controllers\BuzonController.cs" />
     <Compile Include="Controllers\CarteraController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\CanalesController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\MisionController.cs" />
     <Compile Include="Controllers\CotizacionController.cs" />
     <Compile Include="Controllers\CompletarFacturacionRecibidaController.cs" />
@@ -302,10 +304,12 @@
     <Compile Include="Controllers\RequerimientoController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AlmacenController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TarimasController.cs" />
     <Compile Include="Controllers\TiendaController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\AdminProjectosController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VentaController.cs" />
     <Compile Include="Controllers\ViaticosController.cs" />
     <Compile Include="Formatos\FacturaMassrivCf33.cs">
@@ -1472,6 +1476,12 @@
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Mision\Index.cshtml" />
     <Content Include="Views\Mision\ReporteGeneral.cshtml" />
+    <Content Include="Views\Cliente\Index.cshtml" />
+    <Content Include="Views\Empresa\Index.cshtml" />
+    <Content Include="Views\Empresa\Register.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\Register.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

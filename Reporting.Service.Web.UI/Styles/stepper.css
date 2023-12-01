@@ -1,4 +1,4 @@
-.steps {
+﻿.steps {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,7 +50,3 @@
     #progress::-webkit-progress-bar {
         background-color: #b1b1b1;
     }
-
-.input-group-addon {
-    background-color: #e9ecef
-}

@@ -28,9 +28,9 @@
 .skin-red-light .main-header .navbar .sidebar-toggle {
   color: #fff;
 }
-.skin-red-light .main-header .navbar .sidebar-toggle:hover {
-  background-color: #d73925;
-}
+    .skin-red-light .main-header .navbar .sidebar-toggle:hover {
+        background-color: #0C2626;
+    }
 @media (max-width: 767px) {
   .skin-red-light .main-header .navbar .dropdown-menu li.divider {
     background-color: rgba(255, 255, 255, 0.1);
@@ -38,9 +38,9 @@
   .skin-red-light .main-header .navbar .dropdown-menu li a {
     color: #fff;
   }
-  .skin-red-light .main-header .navbar .dropdown-menu li a:hover {
-    background: #d73925;
-  }
+    .skin-red-light .main-header .navbar .dropdown-menu li a:hover {
+        background: #0C2626;
+    }
 }
 .skin-red-light .main-header .logo {
   background-color: #dd4b39;

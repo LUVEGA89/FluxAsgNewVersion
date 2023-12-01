@@ -2273,11 +2273,11 @@ a:focus {
   background-color: #dd4b39;
   border-color: #d73925;
 }
-.btn-danger:hover,
-.btn-danger:active,
-.btn-danger.hover {
-  background-color: #d73925;
-}
+    .btn-danger:hover,
+    .btn-danger:active,
+    .btn-danger.hover {
+        background-color: #0C2626;
+    }
 .btn-warning {
   background-color: #f39c12;
   border-color: #e08e0b;

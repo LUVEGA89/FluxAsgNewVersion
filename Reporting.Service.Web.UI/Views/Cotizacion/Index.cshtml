@@ -1254,7 +1254,7 @@ function AgregarDetalle() {
                                 <td><input type="text" class="form-control" id="NumObc'+ RowNumber + '"  name="NumObc' + RowNumber + '" aria-label="NumObc' + RowNumber + '"></td>\
                                 <td><input type="text" class="form-control" id="Day'+ RowNumber + '" name="Day' + RowNumber + '" aria-label="Day' + RowNumber + '"></td>\
                                 <td><input type="text" class="form-control" id="ObcFee'+ RowNumber + '" name="ObcFee' + RowNumber + '" aria-label="ObcFee' + RowNumber + '"></td>\
-                                <td><div class="input-group"><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"></div></td>\
+                                <td><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"></td>\
                             </tr >');
 
     var inputs = document.querySelectorAll('#DetalleConceptos input');
@@ -2601,7 +2601,7 @@ function ClonarMismoServicio(id) {//tendra padre la cotizacion
                                     <td><input type="text" class="form-control" id="NumObc'+ RowNumber + '"  name="NumObc' + RowNumber + '" aria-label="NumObc' + RowNumber + '"  value="' + response.Context.QuotationDetails[i].Obc + '"></td>\
                                     <td><input type="text" class="form-control" id="Day'+ RowNumber + '" name="Day' + RowNumber + '" aria-label="Day' + RowNumber + '"  value="' + response.Context.QuotationDetails[i].Day + '"></td>\
                                     <td><input type="text" class="form-control" id="ObcFee'+ RowNumber + '" name="ObcFee' + RowNumber + '" aria-label="ObcFee' + RowNumber + '" value="' + response.Context.QuotationDetails[i].ObcFee + '"></td>\
-                                    <td><div class="input-group"><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"  value="' + response.Context.QuotationDetails[i].Flights + '"></div></td>\
+                                    <td><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"  value="' + response.Context.QuotationDetails[i].Flights + '"></td>\
                                 </tr >');
                             }
 

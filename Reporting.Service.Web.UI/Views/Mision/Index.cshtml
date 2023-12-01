@@ -3,15 +3,34 @@
     ViewBag.Title = "Index";
     ViewBag.Title = "Missions";
 }
+@section CustomStyles {
+    <!-- Estilos específicos para esta vista, incluyendo Bootstrap v5 -->
+    <script type="text/javascript" language="javascript" src="~/Scripts/new/jquery-3.6.0.js"></script>
+    <link href="~/Scripts/new/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/startbootstrap-sb-admin/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Scripts/new/css/dataTables.bootstrap5.min.css" />
+    <script src="~/Scripts/new/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/new/dataTables.bootstrap5.min.js"></script>
+    <link href="~/Scripts/new/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Scripts/new/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/new/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/new/buttons.bootstrap5.min.js"></script>
+    <script src="~/Scripts/new/jszip.min.js"></script>
+    <script src="~/Scripts/new/pdfmake.min.js"></script>
+    <script src="~/Scripts/new/vfs_fonts.js"></script>
+    <script src="~/Scripts/new/buttons.html5.min.js"></script>
+    <link href="~/Scripts/new/css/daterangepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/StylesStepper/stepper.css" />
+    @Scripts.Render("~/bundles/modernizr")
 
+    <script src="~/Scripts/new/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Content/startbootstrap-sb-admin/js/scripts.js"></script>
+    <script src="~/Scripts/new/all.js" crossorigin="anonymous"></script>
+    <script src="~/Scripts/new/sweetalert2@11.js"></script>
+    <script src="~/Scripts/new/moment.min.js"></script>
+    <script src="~/Scripts/new/daterangepicker.min.js"></script>
+}
 <style>
-    .th-contenedores {
-        text-align: center;
-        background-color: #EBFDF3 !important;
-        color: #0C2626 !important;
-        font-weight: bold;
-    }
-
     .text-quotation {
         min-width: 90px;
     }
@@ -36,78 +55,140 @@
         margin-top: -10px !important;
     }
 </style>
-<section class="content-header">
-    <h1>
-        Missions
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Missions </a></li>
-        <li class="active"> Missions </li>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Flux - Asg</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Missions</li>
     </ol>
-</section>
-<section class="content">
     <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="box box-success">
-                <div class="box-header with-border">
-                    <i class="fa fa-money-bill"></i>
-                    <h3 class="box-title">Missions</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <div class="table table-responsive">
-                        <table id="quotation" class="display table table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <td class="th-contenedores">Reference</td>
-                                    <td class="th-contenedores">Date</td>
-                                    <td class="th-contenedores">Customer Name</td>
-                                    <td class="th-contenedores">Custom Ref</td>
-                                    <td class="th-contenedores">From</td>
-                                    <td class="th-contenedores">To</td>
-                                    <td class="th-contenedores">Service</td>
-                                    <td class="th-contenedores">Status</td>
-                                    <td class="th-contenedores">Actions</td>
-                                    <td class="th-contenedores">Suppliers</td>
-                                    <td class="th-contenedores">Completar</td>
-                                </tr>
-                            </thead>
-                            <tbody id="body-quotations">
-                            </tbody>
-                            <tfoot>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-                <div class="box-footer">
-
-                </div>
-                <div id="DetallesWait" style="display:none;" class="overlay">
-                    <i class="fa fa-refresh fa-spin"></i>
-                </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Registered Missions
+                @*<button type="submit" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#quotationModal">
+                        New Quotation
+                    </button>*@
+            </div>
+            <div class="card-body">
+                <table id="quotation" class="display table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <td>Reference</td>
+                            <td>Date</td>
+                            <td>Customer Name</td>
+                            <td>Custom Ref</td>
+                            <td>From</td>
+                            <td>To</td>
+                            <td>Service</td>
+                            <td>Status</td>
+                            <td>Actions</td>
+                            <td>Suppliers</td>
+                            <td>Completar</td>
+                        </tr>
+                    </thead>
+                    <tbody id="body-quotations">
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>
-
     <!-- Modal -->
-    <div class="modal fade" id="quotationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" style="width:90%">
+    <div class="modal" id="quotationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="width:110%">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h5 class="modal-title" id="exampleModalLabel">Mission</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Quotation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="quotationModal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-md-4 col-lg-3 order-md-last" id="summary">
+                            <h5 class="d-flex justify-content-between align-items-center mb-3" id="tittle-summary" style="color: red;"></h5>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted"># OBC</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-obc"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">DAY</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-day"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">OBC FEE</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-obc-fee"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">FLIGHTS</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-flights"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">HOTEL</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-hotel"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">PICKUP</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-pickup"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">DELIVERY</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-delibery"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">CUSTOMS</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-customs"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">OTHER</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-wrapping"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">PROFIT</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-profit"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">EB</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-EB"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">Wrapping</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-obc-wrapping"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm" style="border: 1px solid #119900 !important;">
+                                    <div>
+                                        <small class="text-muted">COST OF MISSION</small>
+                                    </div>
+                                    <span class="text-muted" id="sumary-cost"></span>
+                                </li>
+                            </ul>
+                        </div>
                         <div class="col-md-8 col-lg-9" id="form">
                             <form id="form-quotation" enctype="multipart/form-data" method="post" novalidate>
-                                <input type="hidden" id="HiddenIdCotizacion" name="HiddenIdCotizacion">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="input-group">
@@ -124,7 +205,7 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Customer </span>
-                                                <select class="form-control" id="cbx-cliente" name="Client">
+                                                <select class="form-control" id="cbx-cliente" name="Client" required>
                                                     <option value="0">Choose a client</option>
                                                     @foreach (var item in Model.clientes)
                                                     {
@@ -165,13 +246,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br>
+                                <br />
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-addon">Update </span>
-                                            <select class="form-control" name="ObcUpdate" id="ObcUpdate">
-                                                <option value="0">Choose an option</option>
+                                            <select class="form-control" name="ObcUpdate" id="ObcUpdate" required>
+                                                <option value="">Choose an option</option>
                                                 <option value="WhatsApp">WhatsApp</option>
                                                 <option value="Mail">Mail</option>
                                                 <option value="WhatsApp and Email">WhatsApp and Email</option>
@@ -181,8 +263,8 @@
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-addon">Passports and Tickets </span>
-                                            <select class="form-control" name="ObcPassportsTickets" id="ObcPassportsTickets">
-                                                <option value="0">Choose an option</option>
+                                            <select class="form-control" name="ObcPassportsTickets" id="ObcPassportsTickets" required>
+                                                <option value="">Choose an option</option>
                                                 <option value="WhatsApp">WhatsApp</option>
                                                 <option value="Mail">Mail</option>
                                                 <option value="WhatsApp and Email">WhatsApp and Email</option>
@@ -190,12 +272,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br />
+                                <br>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-addon">
-                                                Number of packages
+                                                num. packages
                                             </span>
                                             <input type="text" class="form-control inputheight" id="NumberOfPackages" placeholder="number of packages" autocomplete="off">
                                         </div>
@@ -203,7 +286,7 @@
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-addon">
-                                                Weight
+                                                <i class="fa fa-weight-scale"></i>
                                             </span>
                                             <input type="text" class="form-control inputheight" id="Weight" placeholder="Weight" autocomplete="off">
                                         </div>
@@ -220,18 +303,21 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Service </span>
-                                            <select class="form-control" id="cbx-service" name="Service">
-                                                <option value="0">Choose a service</option>
-                                                @foreach (var item in Model.servicios)
-                                                {
-                                                    <option value="@item.Identifier">@item.Nombre</option>
-                                                }
-                                            </select>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Service </span>
+                                                <select class="form-control" id="cbx-service" name="Service" required>
+                                                    <option value="0">Choose a service</option>
+                                                    @foreach (var item in Model.servicios)
+                                                    {
+                                                        <option value="@item.Identifier">@item.Nombre</option>
+                                                    }
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <br>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -243,10 +329,11 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <br>
                                 <div id="div-obc">
                                     <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom: -25px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="table table-responsive">
                                                 <table class="table table-striped" id="Conceptos" name="Conceptos">
                                                     <thead>
@@ -266,7 +353,7 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa fa-comments"></i>
+                                                    <i class="fa fa-message"></i>
                                                 </span>
                                                 <input type="text" class="form-control inputheight" id="ComentariosTable" placeholder="Comments" autocomplete="off">
                                             </div>
@@ -277,7 +364,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    Pickup
+                                                    <i class="fa fa-solid fa-truck-pickup"></i>
                                                 </span>
                                                 <input type="text" class="form-control" name="ObcPickup" id="ObcPickup" placeholder="Pickup" />
                                             </div>
@@ -285,7 +372,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa fa-comments"></i>
+                                                    <i class="fa fa-message"></i>
                                                 </span>
                                                 <input type="text" class="form-control inputheight" id="ComentariosPickup" placeholder="Comments" autocomplete="off">
                                             </div>
@@ -304,7 +391,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa fa-comments"></i>
+                                                    <i class="fa fa-message"></i>
                                                 </span>
                                                 <input type="text" class="form-control inputheight" id="ComentariosCustom" placeholder="Comments" autocomplete="off">
                                             </div>
@@ -323,7 +410,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa fa-comments"></i>
+                                                    <i class="fa fa-message"></i>
                                                 </span>
                                                 <input type="text" class="form-control inputheight" id="ComentariosHotel" placeholder="Comments" autocomplete="off">
                                             </div>
@@ -342,7 +429,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa fa-comments"></i>
+                                                    <i class="fa fa-message"></i>
                                                 </span>
                                                 <input type="text" class="form-control inputheight" id="ComentariosDelibery" placeholder="Comments" autocomplete="off">
                                             </div>
@@ -361,7 +448,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    <i class="fa fa-comments"></i>
+                                                    <i class="fa fa-message"></i>
                                                 </span>
                                                 <input type="text" class="form-control inputheight" id="ComentariosOther" placeholder="Comments" autocomplete="off">
                                             </div>
@@ -387,8 +474,9 @@
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     Wrapping
@@ -398,6 +486,7 @@
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group">
@@ -409,10 +498,10 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-                                                <span class="input-group-addon">Service </span>
-                                                <select class="form-control" name="ObcServiceType" id="ObcServiceType">
+                                                <span class="input-group-addon"><i class="fa fa-bell-concierge"></i></span>
+                                                <select class="form-control" name="ObcServiceType" id="ObcServiceType" required>
                                                     <option value="0">Choose a service</option>
-                                                    @foreach (var item in Model.tipoServicios)
+                                                    @foreach (var item in Model.servicios)
                                                     {
                                                         <option value="@item.Identifier">@item.Nombre</option>
                                                     }
@@ -435,7 +524,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-solid fa-calendar"></i>
                                                 </span>
-                                                <input class="form-control" id="ObcDisclaimerEta" name="ObcDisclaimerEta" placeholder="Eta" />
+                                                <input class="form-control" id="ObcDisclaimerEta" name="ObcDisclaimerEta" placeholder="Eta date" />
                                             </div>
                                         </div>
                                     </div>
@@ -456,7 +545,7 @@
                                         <div class="col-md-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Service </span>
-                                                <select class="form-control" name="CharterServiceType" id="CharterServiceType">
+                                                <select class="form-control" name="CharterServiceType" id="CharterServiceType" required>
                                                     <option value="0">Choose a service</option>
                                                     @foreach (var item in Model.tipoServicios)
                                                     {
@@ -490,7 +579,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    Positioning
+                                                    Positi...
                                                 </span>
                                                 <input type="text" class="form-control" name="CharterPositioning" id="CharterPositioning" placeholder="Positioning" />
                                             </div>
@@ -548,7 +637,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Service </span>
-                                                <select class="form-control" name="NfoServiceType" id="NfoServiceType">
+                                                <select class="form-control" name="NfoServiceType" id="NfoServiceType" required>
                                                     <option value="0">Choose a service</option>
                                                     @foreach (var item in Model.tipoServicios)
                                                     {
@@ -599,7 +688,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    Option
+                                                    Options
                                                 </span>
                                                 <input type="text" class="form-control" name="HostshotOption" id="HostshotOption" placeholder="Option" />
                                             </div>
@@ -610,7 +699,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
-                                                    Transittime
+                                                    Transit...
                                                 </span>
                                                 <input type="text" class="form-control" name="HostshotTransitTime" id="HostshotTransitTime" placeholder="Transit time" />
                                             </div>
@@ -642,63 +731,10 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-4 col-lg-3 order-md-last" id="summary">
-                            <h5 class="d-flex justify-content-between align-items-center mb-3" id="tittle-summary" style="color: red;"></h5>
-                            <ul class="list-group mb-3">
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted"># OBC</small>
-                                    <span class="text-muted pull-right" id="sumary-obc"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">DAY</small>
-                                    <span class="text-muted pull-right" id="sumary-day"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">OBC FEE</small>
-                                    <span class="text-muted pull-right" id="sumary-obc-fee"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">FLIGHTS</small>
-                                    <span class="text-muted pull-right" id="sumary-flights"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">HOTEL</small>
-                                    <span class="text-muted pull-right" id="sumary-hotel"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">PICKUP</small>
-                                    <span class="text-muted pull-right" id="sumary-pickup"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">DELIVERY</small>
-                                    <span class="text-muted pull-right" id="sumary-delibery"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">CUSTOMS</small>
-                                    <span class="text-muted pull-right" id="sumary-customs"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">OTHER</small>
-                                    <span class="text-muted pull-right" id="sumary-wrapping"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">PROFIT</small>
-                                    <span class="text-muted pull-right" id="sumary-profit"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">EB</small>
-                                    <span class="text-muted pull-right" id="sumary-EB"></span>
-                                </li>
-                                <li class="list-group-item lh-sm" style="border: 1px solid #119900 !important;">
-                                    <small class="text-muted">COST OF MISSION</small>
-                                    <span class="text-muted pull-right" id="sumary-cost"></span>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnCerrarModal" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="quotationModal">Close</button>
                     <button type="submit" class="btn btn-primary" id="btnSave" onclick="SaveMission()">Save changes</button>
                 </div>
             </div>
@@ -706,20 +742,18 @@
     </div>
 
     <!-- Modal Proveedores -->
-    <div class="modal fade" id="proveedoresModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal modal-lg" id="proveedoresModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                     <h5 class="modal-title" id="exampleModalLabel">Suppliers</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="proveedoresModal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
                             <h6>Assigned Suppliers</h6>
-                            <div class="box box-success">
+                            <div class="box box-info">
                                 <div class="box-body">
                                     <div class="table table-responsive">
                                         <table class="table table-bordered cell-border compact stripe" data-page-length='20' id="TableProveedor">
@@ -741,7 +775,7 @@
                         </div>
                         <div class="col-md-6">
                             <h6>Available Suppliers</h6>
-                            <div class="box box-success">
+                            <div class="box box-info">
                                 <div class="box-body">
                                     <div class="table table-responsive">
                                         <table class="table table-bordered cell-border compact stripe" data-page-length='20' id="TableProveedor2">
@@ -765,21 +799,27 @@
                 </div>
                 <div class="modal-footer">
                     <div class="footer-buttons">
-                        <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="proveedoresModal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
 
-
-<script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+</div>
 <script>
     RowNumber = 0;
     PadreId = null;
     IsUpdate = false;
     CotizacionId = 0;
+
+    var inputs = document.querySelectorAll('#Conceptos input');
+
+    inputs.forEach(function (input) {
+        input.addEventListener('blur', function () {
+            Calculos();
+        });
+    });
 
 //$(document).ready(function ($) {
 //    $.noConflict();
@@ -795,18 +835,19 @@
         }
     });
 
-    @*document.getElementById('form-quotation').addEventListener('submit', function (event) {
-            event.preventDefault(); // Evita el envío del formulario por defecto
+    function SaveMission() {
 
             var quotationDetails = [];
             var quotation;
 
             switch ($("#cbx-service").val()) {
                 case '0':
-                    swal({
+                    Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Select a service'
+                        text: 'Select a service',
+                        showConfirmButton: false,
+                        timer: 1500
                     });
 
                     return;
@@ -830,7 +871,7 @@
 
                     //console.log($("#WhatsappGroup").val());
 
-                    quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "CommentsHotel": "' + $("#ComentariosHotel").val() + '", "CommentsPickup": "' + $("#ComentariosPickup").val() + '", "CommentsDelibery": "' + $("#ComentariosDelibery").val() + '", "CommentsCustom": "' + $("#ComentariosCustom").val() + '", "CommentsOther": "' + $("#ComentariosOther").val() + '", "CommentsTable": "' + $("#ComentariosTable").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '",  "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + CotizacionId + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "ObcServiceType": "' + $("#ObcServiceType").val() + '", "ObcDelibery": "' + $("#ObcDelibery").val() + '", "ObcPickupDate": "' + ObcPickupDate + '", "ObcPickup": "' + $("#ObcPickup").val() + '", "ObcHotel": "' + $("#ObcHotel").val() + '", "ObcCustoms": "' + $("#ObcCustoms").val() + '", "ObcOther": "' + $("#ObcOther").val() + '", "ObcProfit": "' + $("#ObcProfit").val() + '", "ObcEB": "' + $("#ObcEB").val() + '", "ObcSellPrice": "' + $("#ObcSellPrice").val() + '", "ObcSchedule": "' + $("#ObcSchedule").val() + '", "ObcDisclaimerEta": "' + ObcDisclaimerEta + '", "quotationDetails": ' + JSON.stringify(quotationDetails) + '}';
+                    quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "CommentsHotel": "' + $("#ComentariosHotel").val() + '", "CommentsPickup": "' + $("#ComentariosPickup").val() + '", "CommentsDelibery": "' + $("#ComentariosDelibery").val() + '", "CommentsCustom": "' + $("#ComentariosCustom").val() + '", "CommentsOther": "' + $("#ComentariosOther").val() + '", "CommentsTable": "' + $("#ComentariosTable").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '",  "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + CotizacionId + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "ObcServiceType": "' + $("#ObcServiceType").val() + '", "ObcDelibery": "' + $("#ObcDelibery").val() + '", "ObcPickupDate": "' + ObcPickupDate + '", "ObcPickup": "' + $("#ObcPickup").val() + '", "ObcHotel": "' + $("#ObcHotel").val() + '", "ObcCustoms": "' + $("#ObcCustoms").val() + '", "ObcOther": "' + $("#ObcOther").val() + '", "ObcProfit": "' + $("#ObcProfit").val() + '", "ObcEB": "' + $("#ObcEB").val() + '", "ObcSellPrice": "' + $("#ObcSellPrice").val() + '", "ObcSchedule": "' + $("#ObcSchedule").val() + '", "ObcDisclaimerEta": "' + ObcDisclaimerEta + '", "Wrapping": "' + $("#ObcWrapping").val() + '", "CustomerPOC": "' + $("#customer-poc").val() + '", "UpdateMailWA": "' + $("#ObcUpdate").val() + '","PassportsTickets": "' + $("#ObcPassportsTickets").val() + '", "quotationDetails": ' + JSON.stringify(quotationDetails) + '}';
 
                     break;
                 case '2':
@@ -854,17 +895,20 @@
                     success: function (data) {
                         if (data.Context != null) {
                             $('#quotationModal').hide();
-                            $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
-                            $('.modal-backdrop').remove();
+                            //$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+                            //$('.modal-backdrop').remove();
                             $("#DetalleConceptos").html('');
+                            $("#btnCerrarModal").trigger("click");
 
-                            swal({
+                            Swal.fire({
                                 icon: 'success',
-                                title: 'The mision was update successfully.'
+                                title: 'The mision was update successfully.',
+                                showConfirmButton: false,
+                                timer: 1500
                             })
                         }
                         else {
-                            swal({
+                            Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
                                 text: 'An error has occurred when trying to update the mision, please report it to the systems department.'
@@ -876,15 +920,15 @@
                             RowNumber = RowNumber - 1;
                         }
 
-                        init();
+                        init(1);
                     },
                     data: quotation,
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json'
                 });
-        });*@
+        }
 
-        init();
+        init(0);
 
          Conceptos: [];
 
@@ -1024,7 +1068,148 @@
         }
     });
 
-    $("#ObcHotel, #ObcPickup, #ObcDelibery, #ObcCustoms, #ObcOther, #ObcProfit, #ObcEB, #Conceptos input, #ObcWrapping").on("blur", function () {
+    $("#ObcHotel, #ObcPickup, #ObcDelibery, #ObcCustoms, #ObcOther, #ObcProfit, #ObcEB, #ObcWrapping, #Conceptos input").on("blur", function () {
+        Calculos();
+    });
+
+
+        function init(aux) {
+            while (RowNumber > 0) {
+                EliminarDetalle();
+            }
+            //Se crea la tabla de los conceptos
+            $("#DetalleConceptos").html('');
+
+            $("#DetalleConceptos").append('<tr>\
+                                            <td><div class="input-group"><span class="input-group-text"><button class="btn btn-danger" type="button" onclick="EliminarDetalle()">-</button></span><input type="text" class="form-control" id="NumObc0"  name="NumObc0" aria-label="NumObc0"></div></td>\
+                                            <td><input type="text" class="form-control" id="Day0" name="Day0" aria-label="Day0"></td>\
+                                            <td><input type="text" class="form-control" id="ObcFee0" name="ObcFee0" aria-label="ObcFee0"></td>\
+                                            <td><div class="input-group"><input type="text" class="form-control" id="Contenedor0" name="Contenedor0" aria-label="Contenedor0"><span class="input-group-text"><button class="btn btn-success" type="button" onclick="AgregarDetalle()">+</button></span></div></td>\
+                                        </tr >')
+            //Se crea la tabla de los conceptos
+
+            var inputs = document.querySelectorAll('#DetalleConceptos input');
+
+            inputs.forEach(function (input) {
+                input.addEventListener('blur', function () {
+                    Calculos();
+                });
+            });
+
+        $.ajax({
+            type: 'GET',
+            url:  '@Url.Action("GetMissions", "Mision")',
+            success: function (data) {
+                if (data.Code == 200) {
+                    //if (aux == 0) {
+
+                    //}
+                    //else {
+                        var table = $('#quotation').DataTable();
+
+                        table.destroy();
+                    //}
+
+                    $("#body-quotations").html('');
+                    ////console.log(JSON.stringify(data.Context));
+
+                    $.each(data.Context, function (index, value) {
+
+                        let status = "";
+                        let color = "";
+                        let edit = '<td class="text-center"><i class="fa-solid fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 0 +')" data-bs-toggle="modal" data-bs-target="#quotationModal"></i></td>';
+                        let proveedores = '<td class="text-center"><i class="fa-solid fa-person" onclick=GetProveedores(' + value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#proveedoresModal"></i></td>';
+                        let aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="Completar(' + value.Identifier + ')" align="center"><i class="fa fa-check" style="color: green;"></i></a></td>';
+
+                        switch (value.Status) {
+                            case 1:
+                                status = "On Hold";
+                                color = "yellow";
+                                break;
+                            case 2:
+                                status = "Active";
+                                color = "orange";
+                                break;
+                            case 3:
+                                status = "Rejected";
+                                color = "red";
+                                break;
+                            case 4:
+                                status = "Expired";
+                                color = "gray";
+                                break;
+                            case 5:
+                                proveedores = "<td></td>";
+                                aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="reporte(' + value.Identifier + ')" align="center"><i class="fa fa-file" style="color: green;"></i></a></td>';
+                                edit = '<td class="text-center"><i class="fa-solid fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 1 + ')" data-bs-toggle="modal" data-bs-target="#quotationModal"></i></td>';
+                                status = "Done";
+                                color = "green";
+                                break;
+                            default:
+                                status = "Undefined";
+                                break;
+                        }
+
+                        //if (value.ServiceObject.Nombre == "OBC") {
+
+
+                            //}
+
+                        $("#body-quotations").append(
+                            '<tr>\
+                                    <td> '+ value.Referencia + ' </td>\
+                                    <td> '+ moment(value.RegistradaEl).format('DD/MM/YYYY') + ' </td>\
+                                    <td> '+ value.Client + ' </td>\
+                                    <td> '+ value.ClientRef + ' </td>\
+                                    <td> '+ value.Origin + ' </td>\
+                                    <td> '+ value.Destination + ' </td>\
+                                    <td> '+ value.ServiceObject.Nombre + ' </td>\
+                                    <td style="color:'+color+'"> '+ status + ' </td>\
+                                    '+ edit +'\
+                                    '+ proveedores +'\
+                                    '+ aceptar +'\
+                            </tr >');
+                    });
+
+
+                    $('#quotation').DataTable({
+                        "dom": "Bfrtip",
+                        "buttons": [
+                            "excel"
+                        ],
+                        "pageLength": 10,
+                        "searching": true,
+                        "ordering": true,
+                        "autoWidth": true
+                    });
+                    //}
+                }
+                else {
+                    var error = "An error has occurred when trying to save the quote, please report it to the systems department.";
+
+                    if (data.Code == -2)
+                        error = data.Message;
+
+                    if (data.Code == -3)
+                        error = data.Message;
+
+                    swal({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error,
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((value) => {
+                            if (data.Code == -3)
+                                window.location.href = "@Url.Action("Login", "Account")";
+                        });
+                }
+            }
+        });
+    }
+//});
+
+    function Calculos() {
         var total = 0;
         var tamTabla = $('#Conceptos input').length;
         var cont = 0;
@@ -1056,169 +1241,51 @@
             cont = cont + 4;
         }
 
-        total = total + Number($("#ObcPickup").val()) + Number($("#ObcDelibery").val()) + Number($("#ObcOther").val()) + Number($("#ObcCustoms").val()) + Number($("#ObcEB").val()) + Number($("#ObcProfit").val()) + Number($("#ObcWrapping").val());
+        total = total + Number($("#ObcPickup").val()) + Number($("#ObcDelibery").val()) + Number($("#ObcOther").val()) + Number($("#ObcCustoms").val()) + Number($("#ObcProfit").val()) + Number($("#ObcWrapping").val());
 
         $("#ObcSellPrice").val(total);
 
         $("#tittle-summary").text('Summary ' + $("#Origin").val() + ' -------> ' + $("#Destination").val());
         $("#sumary-obc").text(ObcT);
         $("#sumary-day").text(DayT);
-        $("#sumary-obc-fee").text('$ ' + ObcFeeSuma);
-        $("#sumary-flights").text('$ ' + FlightsSuma);
-        $("#sumary-hotel").text('$ ' + (Obc * $("#ObcHotel").val()));
-        $("#sumary-pickup").text('$ ' + Number($("#ObcPickup").val()));
-        $("#sumary-delibery").text('$ ' + Number($("#ObcDelibery").val()));
-        $("#sumary-customs").text('$ ' + Number($("#ObcCustoms").val()));
-        $("#sumary-wrapping").text('$ ' + Number($("#ObcOther").val()));
-        $("#sumary-profit").text('$ ' + Number($("#ObcProfit").val()));
-        $("#sumary-EB").text('$ ' + Number($("#ObcEB").val()));
-        $("#sumary-obc-wrapping").text('$ ' + Number($("#ObcWrapping").val()));
-        $("#sumary-cost").text('$ ' + total);
-    });
-
-
-        function init(aux) {
-            while (RowNumber > 0) {
-                EliminarDetalle();
-            }
-            //Se crea la tabla de los conceptos
-            $("#DetalleConceptos").html('');
-
-            $("#DetalleConceptos").append('<tr>\
-                                            <td><div class="input-group"><span class="input-group-btn"><button class="btn btn-danger" type="button" onclick="EliminarDetalle()">-</button></span><input type="text" class="form-control" id="NumObc0"  name="NumObc0" aria-label="NumObc0"></div></td>\
-                                            <td><input type="text" class="form-control" id="Day0" name="Day0" aria-label="Day0"></td>\
-                                            <td><input type="text" class="form-control" id="ObcFee0" name="ObcFee0" aria-label="ObcFee0"></td>\
-                                            <td><div class="input-group"><input type="text" class="form-control" id="Contenedor0" name="Contenedor0" aria-label="Contenedor0"><span class="input-group-btn"><button class="btn btn-success" type="button" onclick="AgregarDetalle()">+</button></span></div></td>\
-                                        </tr >')
-            //Se crea la tabla de los conceptos
-
-            var inputs = document.querySelectorAll('#DetalleConceptos input');
-
-            inputs.forEach(function (input) {
-                input.addEventListener('blur', function () {
-                    Calculos();
-                });
-            });
-
-            var table = $('#quotation').DataTable();
-            table.destroy();
-            $("#body-quotations").html("");
-
-        $.ajax({
-            type: 'GET',
-            url:  '@Url.Action("GetMissions", "Mision")',
-            success: function (data) {
-                if (data.Code == 200) {
-                    if (data != null) {
-
-                        $.each(data.Context, function (index, value) {
-
-                            let status = "";
-                            let color = "";
-                            let edit = '<td class="text-center"><i class="fa fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 0 + ')" data-toggle="modal" data-target="#quotationModal"></i></td>';
-                            let proveedores = '<td class="text-center"><i class="fa fa-user" onclick=GetProveedores(' + value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#proveedoresModal"></i></td>';
-                            let aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="Completar(' + value.Identifier + ')" align="center"><i class="fa fa-check" style="color: green;"></i></a></td>';
-
-                            switch (value.Status) {
-                                case 1:
-                                    status = "On Hold";
-                                    color = "yellow";
-                                    break;
-                                case 2:
-                                    status = "Active";
-                                    color = "orange";
-                                    break;
-                                case 3:
-                                    status = "Rejected";
-                                    color = "red";
-                                    break;
-                                case 4:
-                                    status = "Expired";
-                                    color = "gray";
-                                    break;
-                                case 5:
-                                    proveedores = "<td></td>";
-                                    aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="reporte(' + value.Identifier + ')" align="center"><i class="fa fa-file" style="color: green;"></i></a></td>';
-                                    edit = '<td class="text-center"><i class="fa fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 1 + ')" data-toggle="modal" data-target="#quotationModal"></i></td>';
-                                    status = "Done";
-                                    color = "green";
-                                    break;
-                                default:
-                                    status = "Undefined";
-                                    break;
-                            }
-
-                            //if (value.ServiceObject.Nombre == "OBC") {
-
-
-                            //}
-
-                            $("#body-quotations").append(
-                                '<tr>\
-                                    <td> '+ value.Referencia + ' </td>\
-                                    <td> '+ moment(value.RegistradaEl).format('DD/MM/YYYY') + ' </td>\
-                                    <td> '+ value.Client + ' </td>\
-                                    <td> '+ value.ClientRef + ' </td>\
-                                    <td> '+ value.Origin + ' </td>\
-                                    <td> '+ value.Destination + ' </td>\
-                                    <td> '+ value.ServiceObject.Nombre + ' </td>\
-                                    <td style="color:'+ color + '"> ' + status + ' </td>\
-                                    '+ edit + '\
-                                    '+ proveedores + '\
-                                    '+ aceptar + '\
-                            </tr >');
-                        });
-
-                        //if (aux == 0) {
-                        //    $('#quotation').DataTable({
-                        //        "dom": "Bfrtip",
-                        //        "buttons": [
-                        //            "excel"
-                        //        ],
-                        //        "pageLength": 10,
-                        //        "searching": true,
-                        //        "ordering": true,
-                        //        "autoWidth": true
-                        //    });
-                        //}
-                        //else {
-                        $('#quotation').DataTable({
-                            "dom": "Bfrtip",
-                            "buttons": [
-                                "excel"
-                            ],
-                            "pageLength": 10,
-                            "searching": true,
-                            "ordering": true,
-                            "autoWidth": true
-                        });
-                        //}
-                    }
-                }
-                else {
-                    var error = "An error has occurred when trying to save the quote, please report it to the systems department.";
-
-                    if (data.Code == -2)
-                        error = data.Message;
-
-                    if (data.Code == -3)
-                        error = data.Message;
-
-                    swal({
-                        icon: 'error',
-                        title: 'Error',
-                        text: error,
-                        dangerMode: true,
-                    }).then((value) => {
-                        if (data.Code == -3)
-                            window.location.href = "@Url.Action("Login", "Account")";
-                    });
-
-                }
-            }
-        });
+        $("#sumary-obc-fee").text(ObcFeeSuma.toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
+        $("#sumary-flights").text(FlightsSuma.toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
+        $("#sumary-hotel").text((ObcT * $("#ObcHotel").val()).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
+        $("#sumary-pickup").text(Number($("#ObcPickup").val()).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
+        $("#sumary-delibery").text(Number($("#ObcDelibery").val()).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
+        $("#sumary-customs").text(Number($("#ObcCustoms").val()).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
+        $("#sumary-wrapping").text(Number($("#ObcOther").val()).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
+        $("#sumary-profit").text(Number($("#ObcProfit").val()).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
+        $("#sumary-cost").text(total.toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }));
     }
-//});
+
     function Completar(id) {
         $.ajax({
             url:'@Url.Action("Completar", "Mision")',
@@ -1227,16 +1294,18 @@
                 id: id,
             },
             success: function (response) {
-                init();
+                init1(1);
 
-                swal({
+                Swal.fire({
                     icon: 'success',
-                    title: 'The mission was successfully complete.'
+                    title: 'The mission was successfully complete.',
+                    showConfirmButton: false,
+                    timer: 1500
                 });
             },
             error: function (xhr) {
                 ////console.log(JSON.stringify(xhr));
-                swal({
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'An error has occurred when trying to approve the quote, please report it to the systems department.'
@@ -1253,10 +1322,12 @@
             RowNumber = RowNumber - 1;
         }
         else {
-            swal({
+            Swal.fire({
                 icon: 'warning',
                 title: 'Oops...',
-                text: 'it is not possible to delete more rows'
+                text: 'it is not possible to delete more rows',
+                showConfirmButton: false,
+                timer: 2500
             });
         }
 
@@ -1269,14 +1340,22 @@
                                     <td><input type="text" class="form-control" id="NumObc'+ RowNumber + '"  name="NumObc' + RowNumber + '" aria-label="NumObc' + RowNumber + '"></td>\
                                     <td><input type="text" class="form-control" id="Day'+ RowNumber + '" name="Day' + RowNumber + '" aria-label="Day' + RowNumber + '"></td>\
                                     <td><input type="text" class="form-control" id="ObcFee'+ RowNumber + '" name="ObcFee' + RowNumber + '" aria-label="ObcFee' + RowNumber + '"></td>\
-                                    <td><div class="input-group"><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"></div></td>\
+                                    <td><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"></td>\
                                 </tr >');
     }
+
+    function MissionModal() {
+
+        $('#quotationModal').modal({
+            backdrop: false,
+            show: true
+        });
+    }
+
     function Edit(id, noAction) {
         $("#WhatsappGroup").text('');
-        IsUpdate = true;
+    IsUpdate = true;
         CotizacionId = id;
-
 
         if (noAction == 1) {
             $("#btnSave").hide();
@@ -1293,12 +1372,7 @@
             },
             success: function (response) {
                 if (response.Context != null) {
-
-                    //Se abre el modal
-                    ModalEdit();
-
                     PadreId = 0;
-                    $("#HiddenIdCotizacion").val(id);
                     $('#cbx-cliente').val(response.Context.ClienteId);
                     $('#ClientRef').val(response.Context.ClientRef);
                     $('#Origin').val(response.Context.Origin);
@@ -1351,7 +1425,7 @@
                                         <td><input type="text" class="form-control" id="NumObc'+ RowNumber + '"  name="NumObc' + RowNumber + '" aria-label="NumObc' + RowNumber + '"  value="' + response.Context.QuotationDetails[i].Obc + '"></td>\
                                         <td><input type="text" class="form-control" id="Day'+ RowNumber + '" name="Day' + RowNumber + '" aria-label="Day' + RowNumber + '"  value="' + response.Context.QuotationDetails[i].Day + '"></td>\
                                         <td><input type="text" class="form-control" id="ObcFee'+ RowNumber + '" name="ObcFee' + RowNumber + '" aria-label="ObcFee' + RowNumber + '" value="' + response.Context.QuotationDetails[i].ObcFee + '"></td>\
-                                        <td><div class="input-group"><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"  value="' + response.Context.QuotationDetails[i].Flights + '"></div></td>\
+                                        <td><input type="text" class="form-control" id="Contenedor'+ RowNumber + '" name="Contenedor' + RowNumber + '" aria-label="Contenedor' + RowNumber + '"  value="' + response.Context.QuotationDetails[i].Flights + '"></td>\
                                     </tr >');
                             }
 
@@ -1371,11 +1445,8 @@
                             $('#ObcProfit').val(response.Context.ObcProfit);
                             $('#ObcSellPrice').val(response.Context.ObcSellPrice);
                             $('#ObcServiceType').val(response.Context.ObcServiceType);
-                            //var prueba = luxon.DateTime.fromISO(response.Context.ObcPickupDateString).toFormat('MM/DD/YYYY h:mm:ss a');
-                            $('#ObcPickupDate').val(response.Context.ObcPickupDateString);
-                            //$('#ObcPickupDate').val(moment(response.Context.ObcPickupDate).format('MM/DD/YYYY h:mm:ss a'));
-                            //$('#ObcDisclaimerEta').val(moment(response.Context.ObcDisclaimerEtaString).format('MM/DD/YYYY h:mm:ss a'));
-                            $('#ObcDisclaimerEta').val(response.Context.ObcDisclaimerEtaString);
+                            $('#ObcPickupDate').val(moment(response.Context.ObcPickupDate).format('MM/DD/YYYY h:mm:ss a'));
+                            $('#ObcDisclaimerEta').val(moment(response.Context.ObcDisclaimerEta).format('MM/DD/YYYY h:mm:ss a'));
                             $('#ObcSchedule').val(response.Context.ObcSchedule);
                             $('#ObcEB').val(response.Context.ObcEB);
 
@@ -1401,16 +1472,20 @@
                             break;
                         case '4':
                             $('#HostshotBuy').val(response.Context.HostshotBuy);
+                            $('#HostshotBuy').val(response.Context.HostshotBuy);
                             $('#HostshotOption').val(response.Context.HostshotOption);
                             $('#HostshotTransitTime').val(response.Context.HostshotTransitTime);
                             $('#HostshotCosts').val(response.Context.HostshotCosts);
                             break;
                     }
+
+                    //MissionModal();
+
                 }
             },
             error: function (xhr) {
                 ////console.log(JSON.stringify(xhr));
-                swal({
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'An error has occurred when trying to get the quote, please report it to the systems department.'
@@ -1432,7 +1507,7 @@
             success: function (response) {
                 if (response.Code == -1) {
                     let mensaje = response.Message
-                    swal({
+                    Swal.fire({
                         icon: 'error',
                         title: 'Error',
                         text: mensaje
@@ -1443,7 +1518,7 @@
                 }
             },
             error: function (xhr) {
-                swal({
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'An error has occurred when trying to add the provider, please report it to the systems department.'
@@ -1463,7 +1538,7 @@
             success: function (response) {
                 if (response.Code == -1) {
                     let mensaje = response.Message;
-                    swal({
+                    Swal.fire({
                         icon: 'error',
                         title: 'Error',
                         text: mensaje
@@ -1475,7 +1550,7 @@
                 }
             },
             error: function (xhr) {
-                swal({
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'An error has occurred when trying to add the provider, please report it to the systems department.'
@@ -1484,8 +1559,6 @@
         });
     }
     function GetProveedores(id) {
-
-        ModalProveedor();
 
         $.ajax({
             url:'@Url.Action("FindProvidersMision", "Mision")',
@@ -1530,7 +1603,7 @@
             },
             error: function (xhr) {
                 ////console.log(JSON.stringify(xhr));
-                swal({
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'An error has occurred when trying to get the providers, please report it to the systems department.'
@@ -1583,11 +1656,115 @@
             },
             error: function (xhr) {
                 //console.log(JSON.stringify(xhr));
-                swal({
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'An error has occurred when trying to get the providers, please report it to the systems department.'
                 });
+            }
+        });
+    }
+    function init1(aux) {
+            while (RowNumber > 0) {
+                EliminarDetalle();
+            }
+            //Se crea la tabla de los conceptos
+            $("#DetalleConceptos").html('');
+
+            $("#DetalleConceptos").append('<tr>\
+                                            <td><div class="input-group"><span class="input-group-text"><button class="btn btn-danger" type="button" onclick="EliminarDetalle()">-</button></span><input type="text" class="form-control" id="NumObc0"  name="NumObc0" aria-label="NumObc0"></div></td>\
+                                            <td><input type="text" class="form-control" id="Day0" name="Day0" aria-label="Day0"></td>\
+                                            <td><input type="text" class="form-control" id="ObcFee0" name="ObcFee0" aria-label="ObcFee0"></td>\
+                                            <td><div class="input-group"><input type="text" class="form-control" id="Contenedor0" name="Contenedor0" aria-label="Contenedor0"><span class="input-group-text"><button class="btn btn-success" type="button" onclick="AgregarDetalle()">+</button></span></div></td>\
+                                        </tr >')
+        //Se crea la tabla de los conceptos
+
+        $.ajax({
+            type: 'GET',
+            url:  '@Url.Action("GetMissions", "Mision")',
+            success: function (data) {
+                if (data != null) {
+                    //if (aux == 0) {
+
+                    //}
+                    //else {
+                    var table = $('#quotation').DataTable();
+
+                    table.destroy();
+                    //}
+
+                    $("#body-quotations").html('');
+                    //console.log(JSON.stringify(data.Context));
+
+                    $.each(data.Context, function (index, value) {
+
+                        let status = "";
+                        let color = "";
+                        let edit = '<td class="text-center"><i class="fa-solid fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 0 +')" data-bs-toggle="modal" data-bs-target="#quotationModal"></i></td>';
+                        let proveedores = '<td class="text-center"><i class="fa-solid fa-person" onclick=GetProveedores(' + value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#proveedoresModal"></i></td>';
+                        let aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="Completar(' + value.Identifier + ')" align="center"><i class="fa fa-check" style="color: green;"></i></a></td>';
+
+                        switch (value.Status) {
+                            case 1:
+                                status = "On Hold";
+                                color = "yellow";
+                                break;
+                            case 2:
+                                status = "Active";
+                                color = "orange";
+                                break;
+                            case 3:
+                                status = "Rejected";
+                                color = "red";
+                                break;
+                            case 4:
+                                status = "Expired";
+                                color = "gray";
+                                break;
+                            case 5:
+                                proveedores = "<td></td>";
+                                aceptar = '<td style="text-align: center; "><a class="btn btn-xs" onclick="reporte(' + value.Identifier + ')" align="center"><i class="fa fa-file" style="color: green;"></i></a></td>';
+                                edit = '<td class="text-center"><i class="fa-solid fa-pencil" onclick="Edit(' + value.Identifier + ', ' + 1 + ')" data-bs-toggle="modal" data-bs-target="#quotationModal"></i></td>';
+                                status = "Done";
+                                color = "green";
+                                break;
+                            default:
+                                status = "Undefined";
+                                break;
+                        }
+
+                        //if (value.ServiceObject.Nombre == "OBC") {
+
+
+                            //}
+
+                        $("#body-quotations").append(
+                            '<tr>\
+                                    <td> '+ value.Referencia + ' </td>\
+                                    <td> '+ moment(value.RegistradaEl).format('DD/MM/YYYY') + ' </td>\
+                                    <td> '+ value.Client + ' </td>\
+                                    <td> '+ value.ClientRef + ' </td>\
+                                    <td> '+ value.Origin + ' </td>\
+                                    <td> '+ value.Destination + ' </td>\
+                                    <td> '+ value.ServiceObject.Nombre + ' </td>\
+                                    <td style="color:'+color+'"> '+ status + ' </td>\
+                                    '+ edit +'\
+                                    '+ proveedores +'\
+                                    '+ aceptar +'\
+                            </tr >');
+                    });
+
+                    $('#quotation').DataTable({
+                        "dom": "Bfrtip",
+                        "buttons": [
+                            "excel"
+                        ],
+                        "pageLength": 10,
+                        "searching": true,
+                        "ordering": true,
+                        "autoWidth": true
+                    });
+                }
             }
         });
     }
@@ -1606,138 +1783,6 @@
 				swal("Ha ocurrido un error: " + JSON.stringify(data));
 			}
         });
-    }
-    function ModalEdit() {
-        PadreId = null;
-        PadreId = null;
-        CotizacionId = null;
-        IsUpdate = false;
-
-        while (RowNumber > 0) {
-            EliminarDetalle();
-        }
-
-        $("#quotationModal input").val("");
-        $("#quotationModal textarea").val("");
-        $("#quotationModal select").val("0");
-        $('#cbx-service').prop('disabled', false);
-        $("#cbx-service").trigger("change");
-
-        $('#quotationModal').modal({
-            backdrop: false,
-            show: true
-        });
-    }
-
-    function ModalProveedor() {
-        $('#proveedoresModal').modal({
-            backdrop: false,
-            show: true
-        });
-    }
-
-    function SaveMission() {
-        var quotationDetails = [];
-        var quotation;
-
-        switch ($("#cbx-service").val()) {
-            case '0':
-                swal({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Select a service'
-                });
-
-                return;
-                break;
-            case '1':
-
-                var tamTabla = $('#Conceptos input').length;
-                var cont = 0;
-                for (var i = 0; i < (tamTabla / 4); i++) {
-                    quotationDetails.push({
-                        "Obc": $('#Conceptos').find('td input').eq(cont).val(),
-                        "Day": $('#Conceptos').find('td input').eq(cont + 1).val(),
-                        "ObcFee": $('#Conceptos').find('td input').eq(cont + 2).val(),
-                        "Flights": $('#Conceptos').find('td input').eq(cont + 3).val()
-                    });
-                    cont = cont + 4;
-                }
-
-                var ObcPickupDate;
-                var ObcDisclaimerEta;
-
-                if (($("#ObcPickupDate").val()).length <= 16) {
-                    ObcPickupDate = moment($("#ObcPickupDate").val()).format();
-                }
-                else{
-                    ObcPickupDate = $("#ObcPickupDate").val();
-                }
-
-                if (($("#ObcDisclaimerEta").val()).length <= 16) {
-                    ObcDisclaimerEta = moment($("#ObcDisclaimerEta").val()).format();
-                }
-                else {
-                    ObcDisclaimerEta = $("#ObcDisclaimerEta").val();
-                }
-
-                
-
-                //console.log($("#WhatsappGroup").val());
-
-                //quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "CommentsHotel": "' + $("#ComentariosHotel").val() + '", "CommentsPickup": "' + $("#ComentariosPickup").val() + '", "CommentsDelibery": "' + $("#ComentariosDelibery").val() + '", "CommentsCustom": "' + $("#ComentariosCustom").val() + '", "CommentsOther": "' + $("#ComentariosOther").val() + '", "CommentsTable": "' + $("#ComentariosTable").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '",  "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + CotizacionId + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "ObcServiceType": "' + $("#ObcServiceType").val() + '", "ObcDelibery": "' + $("#ObcDelibery").val() + '", "ObcPickupDate": "' + ObcPickupDate + '", "ObcPickup": "' + $("#ObcPickup").val() + '", "ObcHotel": "' + $("#ObcHotel").val() + '", "ObcCustoms": "' + $("#ObcCustoms").val() + '", "ObcOther": "' + $("#ObcOther").val() + '", "ObcProfit": "' + $("#ObcProfit").val() + '", "ObcEB": "' + $("#ObcEB").val() + '", "ObcSellPrice": "' + $("#ObcSellPrice").val() + '", "ObcSchedule": "' + $("#ObcSchedule").val() + '", "ObcDisclaimerEta": "' + ObcDisclaimerEta + '", "quotationDetails": ' + JSON.stringify(quotationDetails) + '}';
-                quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "CommentsHotel": "' + $("#ComentariosHotel").val() + '", "CommentsPickup": "' + $("#ComentariosPickup").val() + '", "CommentsDelibery": "' + $("#ComentariosDelibery").val() + '", "CommentsCustom": "' + $("#ComentariosCustom").val() + '", "CommentsOther": "' + $("#ComentariosOther").val() + '", "CommentsTable": "' + $("#ComentariosTable").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '",  "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + $("#HiddenIdCotizacion").val() + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "ObcServiceType": "' + $("#ObcServiceType").val() + '", "ObcDelibery": "' + $("#ObcDelibery").val() + '", "ObcPickupDate": "' + ObcPickupDate + '", "ObcPickup": "' + $("#ObcPickup").val() + '", "ObcHotel": "' + $("#ObcHotel").val() + '", "ObcCustoms": "' + $("#ObcCustoms").val() + '", "ObcOther": "' + $("#ObcOther").val() + '", "ObcProfit": "' + $("#ObcProfit").val() + '", "ObcEB": "' + $("#ObcEB").val() + '", "ObcSellPrice": "' + $("#ObcSellPrice").val() + '", "ObcSchedule": "' + $("#ObcSchedule").val() + '", "ObcDisclaimerEta": "' + ObcDisclaimerEta + '", "Wrapping": "' + $("#ObcWrapping").val() + '", "CustomerPOC": "' + $("#customer-poc").val() + '", "UpdateMailWA": "' + $("#ObcUpdate").val() + '","PassportsTickets": "' + $("#ObcPassportsTickets").val() + '","quotationDetails": ' + JSON.stringify(quotationDetails) + '}';
-
-                break;
-            case '2':
-                quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '", "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + $("#HiddenIdCotizacion").val() + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "CharterServiceType": "' + $("#CharterServiceType").val() + '", "CharterBuy": "' + $("#CharterBuy").val() + '", "CharterAircraft": "' + $("#CharterAircraft").val() + '", "CharterPositioning": "' + $("#CharterPositioning").val() + '", "CharterRute": "' + $("#CharterRute").val() + '", "CharterLiveLeg": "' + $("#CharterLiveLeg").val() + '", "CharterCosts": "' + $("#CharterCosts").val() + '"}';
-
-                break;
-            case '3':
-                quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '", "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + $("#HiddenIdCotizacion").val() + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "NfoBuy": "' + $("#NfoBuy").val() + '", "NfoOption": "' + $("#NfoOption").val() + '", "NfoServiceType": "' + $("#NfoServiceType").val() + '", "NfoAirline": "' + $("#NfoAirline").val() + '", "NfoRute": "' + $("#NfoRute").val() + '", "NfoCosts": "' + $("#NfoCosts").val() + '"}';
-
-                break;
-            case '4':
-                quotation = '{ "GrupoWhatsapp": "' + $("#WhatsappGroup").val() + '", "Description": "' + $("#Description").val() + '", "Weight": "' + $("#Weight").val() + '", "NumberOfPackages": "' + $("#NumberOfPackages").val() + '", "ClientRef": "' + $("#ClientRef").val() + '", "Identifier": "' + $("#HiddenIdCotizacion").val() + '", "IsUpdate": "' + IsUpdate + '", "PadreId": "' + PadreId + '", "Client": "' + $("#cbx-cliente").val() + '", "Origin": "' + $("#Origin").val() + '", "Destination": "' + $("#Destination").val() + '", "Service": "' + $("#cbx-service").val() + '", "HostshotBuy": "' + $("#HostshotBuy").val() + '", "HostshotOption": "' + $("#HostshotOption").val() + '", "HostshotTransitTime": "' + $("#HostshotTransitTime").val() + '", "HostshotCosts": "' + $("#HostshotCosts").val() + '"}';
-
-                break;
-        }
-
-        $.ajax(
-    {
-        url: '@Url.Action("Update", "Mision")',
-        type: "POST",
-        success: function (data) {
-            if (data.Context != null) {
-                $('#quotationModal').hide();
-                $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
-                $('.modal-backdrop').remove();
-                $("#DetalleConceptos").html('');
-
-                swal({
-                    icon: 'success',
-                    title: 'The mision was update successfully.'
-                })
-            }
-            else {
-                swal({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error has occurred when trying to update the mision, please report it to the systems department.'
-                });
-            }
-
-            while(RowNumber > 0){
-                EliminarDetalle();
-                RowNumber = RowNumber - 1;
-            }
-
-            init();
-        },
-        data: quotation,
-        contentType: "application/json; charset=utf-8",
-        dataType: 'json'
-    });
     }
 </script>
 

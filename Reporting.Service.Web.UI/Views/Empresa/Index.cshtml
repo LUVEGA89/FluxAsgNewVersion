@@ -6,29 +6,34 @@
 
 @section CustomStyles {
     <!-- Estilos específicos para esta vista, incluyendo Bootstrap v5 -->
-        <script type="text/javascript" language="javascript" src="~/Scripts/new/jquery-3.6.0.js"></script>
-        <link href="~/Scripts/new/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="~/Content/startbootstrap-sb-admin/css/styles.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/Scripts/new/css/dataTables.bootstrap5.min.css" />
-        <script src="~/Scripts/new/jquery.dataTables.min.js"></script>
-        <script src="~/Scripts/new/dataTables.bootstrap5.min.js"></script>
-        <link href="~/Scripts/new/css/buttons.bootstrap5.min.css" rel="stylesheet" />
-        <link href="~/Scripts/new/css/buttons.dataTables.min.css" rel="stylesheet" />
-        <script src="~/Scripts/new/dataTables.buttons.min.js"></script>
-        <script src="~/Scripts/new/buttons.bootstrap5.min.js"></script>
-        <script src="~/Scripts/new/jszip.min.js"></script>
-        <script src="~/Scripts/new/pdfmake.min.js"></script>
-        <script src="~/Scripts/new/vfs_fonts.js"></script>
-        <script src="~/Scripts/new/buttons.html5.min.js"></script>
-        <link href="~/Scripts/new/css/daterangepicker.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/StylesStepper/stepper.css" />
+    <!--
+    <script type="text/javascript" language="javascript" src="~/Scripts/new/jquery-3.6.0.js"></script>
+    <link href="~/Scripts/new/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/startbootstrap-sb-admin/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Scripts/new/css/dataTables.bootstrap5.min.css" />
+    <script src="~/Scripts/new/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/new/dataTables.bootstrap5.min.js"></script>
+    <link href="~/Scripts/new/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/Scripts/new/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/new/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/new/buttons.bootstrap5.min.js"></script>
+    <script src="~/Scripts/new/jszip.min.js"></script>
+    <script src="~/Scripts/new/pdfmake.min.js"></script>
+    <script src="~/Scripts/new/vfs_fonts.js"></script>
+    <script src="~/Scripts/new/buttons.html5.min.js"></script>
+    <link href="~/Scripts/new/css/daterangepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/StylesStepper/stepper.css" />
 
-        <script src="~/Scripts/new/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="~/Content/startbootstrap-sb-admin/js/scripts.js"></script>
-        <script src="~/Scripts/new/all.js" crossorigin="anonymous"></script>
-        <script src="~/Scripts/new/sweetalert2@11.js"></script>
-        <script src="~/Scripts/new/moment.min.js"></script>
-        <script src="~/Scripts/new/daterangepicker.min.js"></script>
+    <script src="~/Scripts/new/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Content/startbootstrap-sb-admin/js/scripts.js"></script>
+    <script src="~/Scripts/new/all.js" crossorigin="anonymous"></script>
+    <script src="~/Scripts/new/sweetalert2@11.js"></script>
+    <script src="~/Scripts/new/moment.min.js"></script>
+    <script src="~/Scripts/new/daterangepicker.min.js"></script>
+    -->
+
+    <link rel="stylesheet" href="~/StylesStepper/stepper.css" />
+    <script src="~/Scripts/new/sweetalert2@11.js"></script>
 }
 
 <div class="container-fluid px-4">
@@ -37,100 +42,114 @@
         <li class="breadcrumb-item active">Companies List</li>
     </ol>
     <div class="row">
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Company register's
-                <!--
-                <button type="submit" class="btn btn-primary float-end"
-                        onclick="window.location.href = '@Url.Action("Register", "Empresa")';">
-                    Nueva Empresa
-                </button>
-                    -->
-                <button type="submit" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modalEmpresa">
-                    New Company
-                </button>
+        <div class="col-md-12 col-sm-12 col-xs-12">
 
+            <div class="box-header with-border">
+                <i class="fa fa-database"></i>
+
+                <h3 class="box-title">Companies</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
             </div>
-            <div class="card-body">
-                <table id="example" class="table table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <td>IDENTIFIER</td>
-                            <td>NAME</td>
-                            <td>COMMERCIAL NAME</td>
-                            <td>SHIPMENT ADDRESS</td>
-                            <td>STATE</td>
-                            <td>ACTIONS</td>
-                        </tr>
-                    </thead>
-                    <tbody id="body-empresa">
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal modal-xl" id="modalEmpresa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Company Registration</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
                     </div>
-                    <div class="modal-body">
-                        <div class="row mb-3">
-                            <div class="">
-                                <div class="alert alert-danger" role="alert" id="alert-required" style="display:none"></div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="input-group mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-building"></i></span>
-                                        <input class="form-control" id="nombre" type="text" placeholder="Name" autocomplete="off" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-building"></i></span>
-                                        <input class="form-control" id="razonSocial" type="text" placeholder="Commercial Name" autocomplete="off" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--<div class="form-floating mb-3">
-                            <label for="inputEmail">Address</label>
-                        </div>-->
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="input-group mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                        <input class="form-control" id="entrega" type="text" placeholder="Shipment Address" autocomplete="off" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Cancel
+                    <div class="col-md-6" style="text-align: right;">
+                        <button onclick="CompanyModal()" id="openCompanyModal" class="btn btn-success">
+                            New Company
                         </button>
-                        <button type="submit" onclick="insertOrUpdate(this);" id="btn-company-save" class="btn btn-primary">Save</button>
                     </div>
-
+                </div>
+                <br>
+                <div class="table table-responsive">
+                    <table id="companyTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td>IDENTIFIER</td>
+                                <td>NAME</td>
+                                <td>COMMERCIAL NAME</td>
+                                <td>SHIPMENT ADDRESS</td>
+                                <td>STATE</td>
+                                <td>ACTIONS</td>
+                            </tr>
+                        </thead>
+                        <tbody id="body-empresa"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalEmpresa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:90%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Company</h5>
+                    <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="">
+                            <div class="alert alert-danger" role="alert" id="alert-required" style="display:none"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group"> 
+                                    <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                                    <input class="form-control" id="nombre" type="text" placeholder="Name" autocomplete="off" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                                    <input class="form-control" id="razonSocial" type="text" placeholder="Commercial Name" autocomplete="off" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <!--<div class="form-floating mb-3">
+                        <label for="inputEmail">Address</label>
+                    </div>-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                    <input class="form-control" id="entrega" type="text" placeholder="Shipment Address" autocomplete="off" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" onclick="insertOrUpdate(this);" id="btn-company-save" class="btn btn-primary">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/javascript">
@@ -170,7 +189,7 @@
                                     <td> '+ value.RazonSocial + ' </td>\
                                     <td> '+ value.Entrega + ' </td>\
                                     <td> '+ value.Estatus + ' </td>\
-                                    <td class="text-center"><i class="fa-solid fa-pencil" onclick=edit('+ value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#modalEmpresa"></i> <i class="fa fa-trash" onclick=eliminar(' + value.Identifier + ');></i >\
+                                    <td class="text-center"><i class="fa fa-pencil" onclick=edit('+ value.Identifier + ');  data-bs-toggle="modal" data-bs-target="#modalEmpresa"></i> <i class="fa fa-trash" onclick=eliminar(' + value.Identifier + ');></i >\
                                     </td >\
                             </tr >');
                     });
@@ -193,6 +212,13 @@
         });
         }
 
+    function CompanyModal() {
+        $('#modalEmpresa').modal({
+            backdrop: false,
+            show: true
+        });
+    }
+
     function insertOrUpdate(e) {
         let action = $(e).html();
         if (action == 'Update') {
@@ -205,6 +231,7 @@
     }
 
     function edit(id) {
+        CompanyModal();
             $.ajax({
                 url:'@Url.Action("Edit", "Empresa")',
                 type: "get", //send it through get method

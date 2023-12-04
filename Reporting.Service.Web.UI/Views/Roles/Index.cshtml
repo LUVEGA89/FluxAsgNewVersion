@@ -3,6 +3,11 @@
     ViewBag.Title = "catalogo de Roles";
 }
 
+@section CustomStyles {
+    <link rel="stylesheet" href="~/StylesStepper/stepper.css" />
+    <script src="~/Scripts/new/sweetalert2@11.js"></script>
+}
+
 
 <div class="container-fluid px-4">
     <h1 class="mt-4">Flux - Asg</h1>
@@ -10,28 +15,45 @@
         <li class="breadcrumb-item active">Roles</li>
     </ol>
     <div class="row">
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Roles registrados
-                <button type="submit" class="btn btn-primary float-end" onclick="window.location.href = '@Url.Action("Register", "Roles" )';">
-                    Nuevo Rol
-                </button>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+            <div class="box-header with-border">
+                <i class="fa fa-database"></i>
+
+                <h3 class="box-title">Roles</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
             </div>
-            <div class="card-body">
-                <table id="example" class="display table table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <td>Identificador</td>
-                            <td>Nombre</td>
-                            <td>Acciones</td>
-                        </tr>
-                    </thead>
-                    <tbody id="body-roles">
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6" style="text-align: right;">
+                        <button type="submit" class="btn btn-primary float-end" onclick="window.location.href = '@Url.Action("Register", "Roles" )';">
+                            New Rol
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <div class="table table-responsive">
+                    <table id="example" class="display table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <td>Identificador</td>
+                                <td>Nombre</td>
+                                <td>Acciones</td>
+                            </tr>
+                        </thead>
+                        <tbody id="body-roles">
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -60,7 +82,7 @@
                             '<tr>\
                                     <td> '+ value.Identifier + ' </td>\
                                     <td> '+ value.Nombre + ' </td>\
-                                    <td class="text-center"><i class="fa-solid fa-pencil">Editar</i></td>\
+                                    <td class="text-center"><i class="fa fa-pencil">Editar</i></td>\
                             </tr >');
                     });
 

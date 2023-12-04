@@ -4,29 +4,7 @@
 
 @section CustomStyles {
     <!-- Estilos específicos para esta vista, incluyendo Bootstrap v5 -->
-    <script type="text/javascript" language="javascript" src="~/Scripts/new/jquery-3.6.0.js"></script>
-    <link href="~/Scripts/new/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/startbootstrap-sb-admin/css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/Scripts/new/css/dataTables.bootstrap5.min.css" />
-    <script src="~/Scripts/new/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/new/dataTables.bootstrap5.min.js"></script>
-    <link href="~/Scripts/new/css/buttons.bootstrap5.min.css" rel="stylesheet" />
-    <link href="~/Scripts/new/css/buttons.dataTables.min.css" rel="stylesheet" />
-    <script src="~/Scripts/new/dataTables.buttons.min.js"></script>
-    <script src="~/Scripts/new/buttons.bootstrap5.min.js"></script>
-    <script src="~/Scripts/new/jszip.min.js"></script>
-    <script src="~/Scripts/new/pdfmake.min.js"></script>
-    <script src="~/Scripts/new/vfs_fonts.js"></script>
-    <script src="~/Scripts/new/buttons.html5.min.js"></script>
-    <link href="~/Scripts/new/css/daterangepicker.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/StylesStepper/stepper.css" />
-
-    <script src="~/Scripts/new/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="~/Content/startbootstrap-sb-admin/js/scripts.js"></script>
-    <script src="~/Scripts/new/all.js" crossorigin="anonymous"></script>
     <script src="~/Scripts/new/sweetalert2@11.js"></script>
-    <script src="~/Scripts/new/moment.min.js"></script>
-    <script src="~/Scripts/new/daterangepicker.min.js"></script>
 }
 
 <div class="container-fluid px-4">
@@ -35,147 +13,168 @@
         <li class="breadcrumb-item active">Users</li>
     </ol>
     <div class="row">
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Users
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <i class="fa fa-database"></i>
 
-                <button type="submit" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#userModal">
-                    New User
-                </button>
-            </div>
-            <div class="card-body">
-                <table id="Usuarios" class="display table table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <td>Email Address</td>
-                            <td>Role</td>
-                            <td>Date Created</td>
-                            <td>Company</td>
-                            <td>Status</td>
-                            <td>Editar</td>
-                        </tr>
-                    </thead>
-                    <tbody id="body-usuarios">
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </div>
+                    <h3 class="box-title">Users</h3>
 
-</div>
-
-<!-- Modal Usuario -->
-<div class="modal modal-xl" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userModalLabel">User Registration</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="">
-                        <div class="alert alert-danger" role="alert" id="alert-required" style="display:none"></div>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <div class="input-group mb-3">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6" style="text-align: right;">
+                            <button onclick="UserCreateModal()" id="openUserModal" class="btn btn-success">
+                                New User
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="table table-responsive">
+                        <table id="quotation" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td>Email Address</td>
+                                    <td>Role</td>
+                                    <td>Date Created</td>
+                                    <td>Company</td>
+                                    <td>Status</td>
+                                    <td>Editar</td>
+                                </tr>
+                            </thead>
+                            <tbody id="body-usuarios"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Usuario -->
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog modal-lg" style="width:90%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">User</h5>
+                    <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="">
+                            <div class="alert alert-danger" role="alert" id="alert-required" style="display:none"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="input-group">
-                                <input type="hidden" name="id" id="id" />
-                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
                                 <input class="form-control" id="email" type="text" placeholder="Email Adresss" autocomplete="off" />
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-industry"></i></span>
-                            <div class="form-floating">
-                                <select class="form-select rounded-start-0" id="cbx-company" name="empresas">
-                                </select>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-industry"></i></span>
+                                    <select class="form-control rounded-start-0" id="cbx-company" name="empresas">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-user"></i></span>
+                                    <select class="form-control rounded-start-0" id="cbx-roles" name="roles">
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-user"></i></span>
-                            <div class="form-floating">
-                                <select class="form-select rounded-start-0" id="cbx-roles" name="roles">
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-lock"></i>
+                                </span>
                                 <input class="form-control" id="password" type="password" placeholder="Password" autocomplete="off" />
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
+
+                        <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-lock"></i>
+                                </span>
                                 <input class="form-control" id="confirmPassword" type="password" placeholder="Confirm Password" autocomplete="off" />
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" onclick="insertUser(this);" class="btn btn-primary" id="btn-user-save">Save</button>
-            </div>
-        </div><!-- modal-content -->
-    </div><!-- modal-dialog -->
-</div><!-- modal -->
-<!-- Modal Edición de Usuario -->
-<div class="modal modal-xl" id="userModalEdit" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userModalLabel">User Edit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <div class="input-group mb-3">
+                    <br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="insertUser(this);" class="btn btn-primary" id="btn-user-save">Save</button>
+                </div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
+    <!-- Modal Edición de Usuario -->
+    <div class="modal fade" id="userModalEdit" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:90%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">User Edit</h5>
+                    <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
                                 <input type="hidden" name="id" id="id" />
                                 <input class="form-control" id="emailEdit" type="text" placeholder="Email Adresss" autocomplete="off" disabled />
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-3">
+                    <br>
 
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </span>
                                 <input type="hidden" name="id" id="idUser" />
                                 <input class="form-control" id="nameUser" type="text" placeholder="Name" autocomplete="off" />
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <input type="text" class="form-control text-uppercase" id="lastName" placeholder="Last Name" autocomplete="off">
                                 <span class="input-group-btn" style="width:0px;"></span>
@@ -183,68 +182,75 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-user"></i></span>
-                            <div class="form-floating">
-                                <select class="form-select rounded-start-0" id="cbx-roles-edit" name="roles">
-                                </select>
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <select class="form-control rounded-start-0" id="cbx-roles-edit" name="roles">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-user"></i></span>
+                                    <select class="form-control rounded-start-0" id="cbx-status" name="status">
+                                        <option value="1">ACTIVE</option>
+                                        <option value="0">INACTIVE</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fa fa-user"></i></span>
-                            <div class="form-floating">
-                                <select class="form-select rounded-start-0" id="cbx-status" name="status">
-                                    <option value="1">ACTIVE</option>
-                                    <option value="0">INACTIVE</option>
-                                </select>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+
+                                <input class="form-check-input" style="margin-left:10px" type="checkbox" value="" id="checkUpdatePassword">
+                                <label class="form-check-label" style="margin-left:10px" for="checkUpdatePassword">
+                                    Update Password
+                                </label>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkUpdatePassword">
-                            <label class="form-check-label" for="checkUpdatePassword">
-                                Update Password
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
+
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                 <input class="form-control" id="passwordEdit" type="password" placeholder="Password" autocomplete="off" />
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                <input class="form-control" id="confirmPasswordEdit" type="password" placeholder="Confirm Password" autocomplete="off" disabled />
+                                <input class="form-control" id="confirmPasswordEdit" type="password" placeholder="Confirm Password" autocomplete="off" disabled /> 
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" onclick="updateUser(this);" class="btn btn-primary" id="btn-user-save">Save</button>
-            </div>
-        </div><!-- modal-content -->
-    </div><!-- modal-dialog -->
-</div><!-- modal -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="updateUser(this);" class="btn btn-primary" id="btn-user-save">Save</button>
+                </div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
+
+</div>
+
+
 
 
 <script type="text/javascript">
@@ -269,6 +275,21 @@
 
     });
 
+        //Modal Creación de Usuarios
+    function UserCreateModal() {
+        $('#userModal').modal({
+            backdrop: false,
+            show: true
+        });
+    }
+
+    function OpenUserEditModal() {
+        $('#userModalEdit').modal({
+            backdrop: false,
+            show: true
+        });
+    }
+
     function GetUsers() {
         $.post('@Url.Action("GetAllUsers", "Usuario")', function (data) {
             if (data.Context != null && $.isArray(data.Context)) {
@@ -283,7 +304,7 @@
                                     <td> '+ value.FechaCreacion + ' </td>\
                                     <td> '+ value.Empresa + ' </td>\
                                     <td> '+ value.Estado + ' </td>\
-                                    <td class="text-center"><i class="fa-solid fa-pencil" onclick=Edit("'+ value.Identifier + '");  data-bs-toggle="modal" data-bs-target="#userModalEdit"></i>\
+                                    <td class="text-center"><i class="fa fa-pencil" onclick=Edit("'+ value.Identifier + '");  data-bs-toggle="modal" data-bs-target="#userModalEdit"></i>\
                                 </tr >');
                 });
 
@@ -345,6 +366,9 @@
     }
 
     function Edit(id) {
+
+        OpenUserEditModal();
+
         IsUpdate = true;
         User = id;
         $.ajax({
